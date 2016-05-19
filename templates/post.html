@@ -1,8 +1,24 @@
-<div class="info">
-    Posted on $date$
-    $if(author)$
-        by $author$
+<div class="mdl-grid portfolio-max-width">
+  <div class="mdl-cell mdl-cell--12-col mdl-card mdl-shadow--4dp">
+    <div class="mdl-card__title">
+      <h2 class="mdl-card__title-text">$title$</h2>
+    </div>
+    $if(image)$
+    <div class="mdl-card__media">
+      <img class="article-image" src="$image$" border="0" alt="">
+    </div>
     $endif$
+    <div class="mdl-card__supporting-text">
+      <strong>Written on: </strong> $date$
+      $if(author)$<strong>by</strong> $author$ $endif$
+      $if(tags)$<br><strong>Tags: </strong> $tags$ $endif$
+    </div>
+    <div class="mdl-grid portfolio-copy">
+      <div class="mdl-cell mdl-cell--12-col mdl-card__supporting-text no-padding">
+        <p>
+          $body$
+        </p>
+      </div>
+    </div>
+  </div>
 </div>
-
-$body$

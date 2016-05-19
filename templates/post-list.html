@@ -1,7 +1,18 @@
-<ul>
-    $for(posts)$
-        <li>
-            <a href="$url$">$title$</a> - $date$
-        </li>
-    $endfor$
-</ul>
+<div class="mdl-grid portfolio-max-width">
+  $for(posts)$
+  <div class="mdl-cell mdl-card mdl-shadow--4dp portfolio-card">
+    <div class="mdl-card__media">
+      $if(image)$<img class="article-image" src="$image$" border="0" alt="">$endif$
+    </div>
+    <div class="mdl-card__title">
+      <h2 class="mdl-card__title-text">$title$ - $date$</h2>
+    </div>
+    <div class="mdl-card__supporting-text">
+      $summary$
+    </div>
+    <div class="mdl-card__actions mdl-card--border">
+      <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect mdl-button--accent" href="$url$">Read more</a>
+    </div>
+  </div>
+  $endfor$
+</div>

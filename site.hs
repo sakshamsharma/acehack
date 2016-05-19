@@ -20,9 +20,10 @@ main = hakyll $ do
              route assetsRoute
              compile copyFileCompiler
 
-       match (fromList ["about.md", "contact.md"]) $ do
+       match (fromList ["about.md"]) $ do
              route   $ setExtension "html"
              compile $ pandocCompiler
+                     >>= loadAndApplyTemplate "templates/about.html"    postCtx
                      >>= loadAndApplyTemplate "templates/default.html" defaultContext
                      >>= relativizeUrls
 
