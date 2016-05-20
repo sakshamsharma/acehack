@@ -29,10 +29,26 @@
 }
 
 .portfolio-logo {
-    /* background: url(/images/logo.png) 50% no-repeat; */
-    height: 70%;
-    /* width: 500px; */
+    background: url(/images/logo.png) no-repeat 50%;
+    height: 150px;
+    width: 500px;
     margin: auto auto 10px;
+    background-size: contain;
+}
+
+@media only screen and (max-width: 600px) {
+    .portfolio-logo-row {
+        min-height: 150px;
+    }
+
+    .portfolio-logo {
+        background: url(/images/logo.png) no-repeat 50%;
+        height: 100px;
+        width: 300px;
+        margin: 5px;
+        padding: 0;
+        background-size: contain;
+    }
 }
 
 .is-compact .portfolio-logo {
