@@ -1,5 +1,6 @@
 ---
 title: About
+name: About
 image: /images/me2.jpg
 ---
 

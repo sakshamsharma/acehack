@@ -23,7 +23,7 @@ main = hakyll $ do
        match (fromList ["about.md", "contact.md"]) $ do
              route   $ setExtension "html"
              compile $ pandocCompiler
-                     >>= loadAndApplyTemplate "templates/about.html"    postCtx
+                     >>= loadAndApplyTemplate "templates/content.html" postCtx
                      >>= loadAndApplyTemplate "templates/default.html" defaultContext
                      >>= relativizeUrls
 
@@ -59,6 +59,7 @@ main = hakyll $ do
 
                             getResourceBody
                                 >>= applyAsTemplate indexCtx
+                                >>= loadAndApplyTemplate "templates/content.html" indexCtx
                                 >>= loadAndApplyTemplate "templates/default.html" indexCtx
                                 >>= relativizeUrls
 
