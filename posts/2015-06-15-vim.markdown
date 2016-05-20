@@ -2,6 +2,9 @@
 title: Kickstart to Vim
 technical: true
 summary: A beyond-the-vimtutor tutorial
+tags: vim, tutorial
+author: Saksham Sharma
+image: https://lh3.googleusercontent.com/proxy/EgKIRLyLAOs_lBk3ti1e86-2stvN9RgrGX7HKRHjAYoBvcEpV1TXLmBtG2h-t6UPOuGav4jGp0OSm0U6TB-HCPoLYoZTcXPxTg=w426-h312
 ---
 
 Vim is one of the two widely known text-based Text Editor cum IDEs, the other one being, ahem, Emacs.

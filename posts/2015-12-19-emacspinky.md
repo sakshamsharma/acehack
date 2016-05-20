@@ -2,6 +2,8 @@
 title: Dealing with the Emacs finger strain
 technical: true
 summary: How I got about with the excessive stress on my fingers due to Emacs
+tags: emacs, technical, short
+author: Saksham Sharma
 -----
 
 This is something every Emacs user would relate to. Keeping the left control pressed half of the time is quite a habit for most users. After all, it's the 'C' !

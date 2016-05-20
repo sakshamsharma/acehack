@@ -1,8 +1,9 @@
+<center>$if(extra)$ <h4>$extra$</h4><br> $endif$</center>
 <div class="mdl-grid portfolio-max-width">
   $for(posts)$
   <div class="mdl-cell mdl-card mdl-shadow--4dp portfolio-card">
     <div class="mdl-card__media">
-      $if(image)$<img class="article-image" src="$image$" border="0" alt="">$endif$
+      $if(image)$<img class="article-image" src="$image$" border="0" alt="" style="max-height: 100px;">$endif$
     </div>
     <div class="mdl-card__title">
       <h2 class="mdl-card__title-text">$title$</h2>
