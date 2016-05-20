@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "A Coding Primer"
+title: A Coding Primer
 date: 2016-04-29 23:50:21 +530
 author: Saksham Sharma
 website: http://acehack.org
