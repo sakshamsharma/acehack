@@ -12,7 +12,7 @@
 </center>
 
 <script>
-   var tagList = {};
+ var postMap = {};
 </script>
 
 <div class="mdl-grid portfolio-max-width">
@@ -39,13 +39,7 @@
      var tag_raw = $if(tags)$ "$tags$" $else$ "" $endif$;
      var key = "$title$";
      var tags = tag_raw.replace(/[\s,]+/g, ',').split(',');
-     for(var i=0; i<tags.length; i++) {
-       if(tagList[tags[i]]) {
-         tagList[tags[i]].push(key);
-       } else {
-         tagList[tags[i]] = [key];
-       }
-     }
+     postMap[key] = tags;
     </script>
     
     <div class="mdl-card__actions mdl-card--border">
@@ -62,16 +56,6 @@
  var postCount = posts.length;
  var basicClass = "mdl-cell mdl-card mdl-shadow--4dp portfolio-card post-item"
 
- // Check if that post item had this tag
- var verifier = function(str, tag) {
-   if(tagList[tag]) {
-     for(var i=0;i<tagList[tag].length; i++) {
-       if(tagList[tag][i] == str) return true;
-     }
-   }
-   return false;
- }
-
  // The search box
  var sbox = document.getElementById('sample3');
  sbox.onkeyup = function(e) {
@@ -80,7 +64,9 @@
    // if yes, let it display
    // otherwise, that item will be invisible
    for(var i=0; i<postCount; i++) {
-     if(!verifier(posts[i].id, sbox.value) && sbox.value.trim() != "") {
+
+     var list = postMap[posts[i].id].join('');
+     if(list.indexOf(sbox.value) == -1 && sbox.value.trim() != "") {
        posts[i].className = basicClass + " inactive";
      } else {
        posts[i].className = basicClass;
