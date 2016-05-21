@@ -2,7 +2,8 @@
 title: Dealing with the Emacs finger strain
 technical: true
 summary: How I got about with the excessive stress on my fingers due to Emacs
-tags: emacs, technical, short
+tags: emacs, short
+category: technical
 author: Saksham Sharma
 image: http://cachestocaches.com/media/photologue/photos/cache/emacs-tag_display.png
 -----

@@ -2,7 +2,8 @@
 title: Mini Gentoo installation log
 technical: true
 summary: Super condensed installation experience
-tags: gentoo, technical, install
+tags: gentoo, install
+category: technical
 author: Saksham Sharma
 ------
 
