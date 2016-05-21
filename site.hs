@@ -22,6 +22,10 @@ main = hakyll $ do
              route assetsRoute
              compile copyFileCompiler
 
+       match "404.md" $ do
+             route idRoute
+             compile copyFileCompiler
+
        match (fromList ["about.md", "contact.md"]) $ do
              route   $ setExtension "html"
              compile $ pandocCompiler
@@ -64,7 +68,7 @@ main = hakyll $ do
            posts <- recentFirst =<< loadAll pattern
            let ctx = constField "title" title
                  `mappend` constField "extra" title
-                 `mappend` tagsField "tags" tags
+                 `mappend` field "tagList" (\_ -> renderTagCloud 70 140 tags)
                  `mappend` listField "posts" postCtx (return posts)
                  `mappend` defaultContext
 
