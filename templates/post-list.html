@@ -11,22 +11,16 @@
 </center>
 
 <script>
- var sbox = document.getElementById('sample3');
- sbox.onkeypress = function(e) {
-   var event = e || window.event;
-   var charCode = event.which || event.keyCode;
-
-   if ( charCode == '13' ) {
-     window.location.href = '/tags/' + sbox.value + '.html';
-   }
- }
+   var tagList = {};
 </script>
 
 <div class="mdl-grid portfolio-max-width">
   $for(posts)$
-  <div class="mdl-cell mdl-card mdl-shadow--4dp portfolio-card">
+  <div class="mdl-cell mdl-card mdl-shadow--4dp portfolio-card post-item" id="$title$">
     <div class="mdl-card__media">
-      $if(image)$<img class="article-image" src="$image$" border="0" alt="" style="max-height: 100px;">$endif$
+      $if(image)$
+      <img class="article-image" src="$image$" border="0" alt="" style="max-height: 100px;">
+      $endif$
     </div>
     <div class="mdl-card__title">
       <h2 class="mdl-card__title-text">$title$</h2>
@@ -38,9 +32,60 @@
       $date$ $if(author)$<strong>by</strong> $author$ $endif$
       $if(tags)$<br><strong>Tags: </strong> $tags$ $endif$
     </div>
+
+    <script>
+     // Update JS with needed info
+     var tag_raw = $if(tags)$ "$tags$" $else$ "" $endif$;
+     var key = "$title$";
+     var tags = tag_raw.replace(/[\s,]+/g, ',').split(',');
+     for(var i=0; i<tags.length; i++) {
+       if(tagList[tags[i]]) {
+         tagList[tags[i]].push(key);
+       } else {
+         tagList[tags[i]] = [key];
+       }
+     }
+    </script>
+    
     <div class="mdl-card__actions mdl-card--border">
       <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect mdl-button--accent" href="$url$">Read more</a>
     </div>
   </div>
   $endfor$
 </div>
+
+<script>
+
+ // The complete search functionality for tags
+ var posts = document.getElementsByClassName('post-item');
+ var postCount = posts.length;
+ var basicClass = "mdl-cell mdl-card mdl-shadow--4dp portfolio-card post-item"
+
+ // Check if that post item had this tag
+ var verifier = function(str, tag) {
+   if(tagList[tag]) {
+     for(var i=0;i<tagList[tag].length; i++) {
+       if(tagList[tag][i] == str) return true;
+     }
+   }
+   return false;
+ }
+
+ // The search box
+ var sbox = document.getElementById('sample3');
+ sbox.onkeyup = function(e) {
+
+   // See if the search string is there in the tags of some item
+   // if yes, let it display
+   // otherwise, that item will be invisible
+   for(var i=0; i<postCount; i++) {
+     if(!verifier(posts[i].id, sbox.value) && sbox.value.trim() != "") {
+       posts[i].className = basicClass + " inactive";
+     } else {
+       posts[i].className = basicClass;
+     }
+   }
+
+ }
+ 
+</script>

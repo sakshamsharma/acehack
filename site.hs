@@ -10,15 +10,15 @@ import           Hakyll.Web.Tags
 main :: IO ()
 main = hakyll $ do
 
-       match "assets/js/*" $ do
+       match "assets/js/**" $ do
              route assetsRoute
              compile copyFileCompiler
      
-       match "assets/css/*" $ do
+       match "assets/css/**" $ do
              route assetsRoute
              compile compressCssCompiler
 
-       match "assets/images/*" $ do
+       match "assets/images/**" $ do
              route assetsRoute
              compile copyFileCompiler
 
@@ -33,8 +33,8 @@ main = hakyll $ do
                      >>= loadAndApplyTemplate "templates/default.html" defaultContext
                      >>= relativizeUrls
 
-       tags <- buildTags "posts/*" (fromCapture "tags/*.html")
-       match "posts/*" $ do
+       tags <- buildTags "posts/**" (fromCapture "tags/*.html")
+       match "posts/**" $ do
              route $ setExtension "html"
              compile $ do
                let postCtxTagged =
@@ -48,7 +48,7 @@ main = hakyll $ do
        create ["archive.html"] $ do
               route idRoute
               compile $ do
-                      posts <- recentFirst =<< loadAll "posts/*"
+                      posts <- recentFirst =<< loadAll "posts/**"
                       let archiveCtx =
                             tagsField "tags" tags `mappend`
                             listField "posts" postCtx (return posts) `mappend`
@@ -81,7 +81,7 @@ main = hakyll $ do
        match "index.html" $ do
              route idRoute
              compile $ do
-                     posts <- recentFirst =<< loadAll "posts/*"
+                     posts <- recentFirst =<< loadAll "posts/**"
                      let indexCtx =
                              listField "posts" postCtx (return posts) `mappend`
                              constField "title" "Home"                `mappend`

@@ -5,6 +5,7 @@ poem: true
 summary: The roads still diverge in the woods..
 author: Saksham Sharma
 tags: musings, poem
+image: http://swh.schoolworkhelper.netdna-cdn.com/wp-content/uploads/2011/05/Robert-Frost-The-Road-Not-Taken.jpg?085e4f
 -------
 
 Of broken roads and trodden paths,  

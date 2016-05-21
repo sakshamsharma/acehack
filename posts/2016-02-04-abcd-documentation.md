@@ -3,6 +3,7 @@ title: abcd-esolang Documentation
 summary: Documentation for my esolang written for Chaos'16
 tags: technical, abcd
 author: Saksham Sharma
+image: /images/articles/abcd-esolang.png
 ----
 
 abcd is an esoteric language. In other words, it is a language deliberately made obfuscated and confusing.

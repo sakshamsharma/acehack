@@ -183,3 +183,6 @@ footer {
     background-size: cover;
 }
 
+.inactive {
+    display: none;
+}
