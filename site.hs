@@ -45,12 +45,11 @@ main = hakyll $ do
               route idRoute
               compile $ do
                       posts <- recentFirst =<< loadAll "posts/*"
-                      tagList <- renderTagList tags
                       let archiveCtx =
                             tagsField "tags" tags `mappend`
                             listField "posts" postCtx (return posts) `mappend`
                             constField "title" "Archives"            `mappend`
-                            constField "tagList" tagList             `mappend`
+                            field "tagList" (\_ -> renderTagCloud 70 140 tags) `mappend`
                             defaultContext
 
                       makeItem ""
