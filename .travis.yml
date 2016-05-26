@@ -1,17 +1,23 @@
-sudo: required
-services:
-- docker
-before_install:
-- echo "Override default before_install"
-install:
-- echo "Override default install"
-before_script:
-- echo "Override default before_script"
-script: bash ./build.sh
+language: haskell
 branches:
   only:
-  - master
+    - master 
+cache:
+  directories:
+  - $HOME/.stack
+before_install:
+  - echo "override before_install"
+install:
+  - wget https://github.com/commercialhaskell/stack/releases/download/v1.0.0/stack-1.0.0-linux-x86_64.tar.gz -O stack.gz
+  - tar xvf stack.gz
+  - chmod +x stack-1.0.0-linux-x86_64/stack
+  - stack-1.0.0-linux-x86_64/stack setup
+  - stack-1.0.0-linux-x86_64/stack build
+before_script:
+  - echo "override before_script"
+script:
+  - bash ./build.sh
 env:
   global:
   - COMMIT_AUTHOR_EMAIL="saksham0808@gmail.com"
-  - ENCRYPTION_LABEL="e81a3a1fc839"
+  - ENCRYPTED_LABEL="e81a3a1fc839"
