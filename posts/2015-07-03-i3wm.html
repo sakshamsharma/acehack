@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="A portfolio template that uses Material Design Lite.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <title>AceHack - Hopping over to i3wm</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.grey-pink.min.css" />
+    <link rel="stylesheet" href="../css/styles.css" />
+    <link rel="stylesheet" href="../css/footer.css" />
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+  </head>
+  <body>
+
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+        <header class="mdl-layout__header mdl-layout__header--scroll portfolio-header">
+            <div class="mdl-layout__header-row portfolio-logo-row">
+              <span class="mdl-layout__title">
+                <a href="../">
+                  <div class="portfolio-logo"></div>
+                </a>
+                <span class="mdl-layout__title">The blog of Saksham Sharma</span>
+              </span>
+            </div>
+            <div class="mdl-layout__header-row portfolio-navigation-row mdl-layout--large-screen-only">
+                <nav class="mdl-navigation mdl-typography--body-1-force-preferred-font">
+                    <a class="mdl-navigation__link mynav" href="../index.html">Home</a>
+                    <a class="mdl-navigation__link mynav" href="../archive.html">Blog</a>
+                    <a class="mdl-navigation__link mynav" href="../about.html">About</a>
+                </nav>
+            </div>
+        </header>
+        <div class="mdl-layout__drawer mdl-layout--small-screen-only">
+            <nav class="mdl-navigation mdl-typography--body-1-force-preferred-font">
+                <a class="mdl-navigation__link mynav" href="../index.html">Home</a>
+                <a class="mdl-navigation__link mynav" href="../archive.html">Blog</a>
+                <a class="mdl-navigation__link mynav" href="../about.html">About</a>
+            </nav>
+        </div>
+        <main class="mdl-layout__content">
+          <div class="mdl-grid">
+  <div class="mdl-cell mdl-cell--3-col"></div>
+  <div class="mdl-cell mdl-cell--6-col mdl-cell--4-cell-phonemdl-card mdl-shadow--4dp">
+    <div class="mdl-card__title">
+      <h1 class="mdl-card__title-text" style="font-size: 2.5em;">Hopping over to i3wm</h1>
+    </div>
+    
+    <div class="mdl-card__media">
+      <img class="article-image" src="http://1.bp.blogspot.com/-ct6UCoHkZ88/UvyxlY-zYZI/AAAAAAAAFgw/GKqd1DY2nAg/s1600/i3wm.png" border="0" alt>
+    </div>
+    
+    <div class="mdl-card__supporting-text">
+      <strong>Written on: </strong> July  3, 2015
+      <strong>by</strong> Saksham Sharma 
+      <br><strong>Tags: </strong> <a href="../tags/i3wm.html">i3wm</a>, <a href="../tags/tilingWM.html">tilingWM</a> <br>
+    </div>
+    <div class="mdl-grid portfolio-copy" style="max-width: 95%;">
+      <div class="mdl-cell mdl-cell--12-col mdl-cell--4-col-phone mdl-card__supporting-text no-padding">
+        <p>
+          <p>i3 Window Manager is one of the more popular tiling Window Managers for Linux. It’s radically different from the commonplace Window Managers you come across (example: The Window Managers of GNOME, KDE etc. To name them: Compiz, Kwin etc), and is likely to be a huge leap for anyone.</p>
+<p>First things first, why on earth would you want to use i3? You’ve probably never even heard of it. Here:</p>
+<ol style="list-style-type: decimal">
+<li>No mouse needed ! Yes. You can live without the mouse, open applications, move windows, resize them, everything without touching the contraption named mouse.</li>
+<li>Blazing fast. Even if you have an old PC, which tries really hard to make GNOME/Unity run at a snail’s pace, i3 would be super fast. It even beats XFCE etc there IMO.</li>
+<li>Uses every single pixel of your screen. There won’t be a single pixel wasted on your screen with i3. Windows span the complete screen, you have a very minimal but hugely customizable status bar, and the window boundaries are the minimum one can live with.</li>
+<li>Lets you work with a large number of workspaces seamlessly. You can have any number of workspaces, it doesn’t take forever to go from 1 to 0 (just a single keypress), and allows windows marks.</li>
+<li>Out-of-the-box support for multiple monitors, and exceptionally easy to use.</li>
+<li>My personal favorite: It is <em>Made for Multitasking</em>. Windows arrange automatically, occupying the maximum space possible, never overlap, and keep you focussed on work all the time.</li>
+</ol>
+<p>Convinced? No? I’ll post some screenshots soon. Yes? Great! Let’s go ahead:</p>
+<h3 id="installation">Installation</h3>
+<p>Arch:</p>
+<pre><code>sudo pacman -S i3 dmenu</code></pre>
+<p>Arch (individual):</p>
+<pre><code>sudo pacman -S i3-wm i3status i3lock dmenu</code></pre>
+<p>Debain/Ubuntu (a simple <code>sudo apt-get install i3</code> would install an old version):</p>
+<pre><code>echo &quot;deb http://debian.sur5r.net/i3/ $(lsb_release -c -s) universe&quot; &gt;&gt; /etc/apt/sources.list
+sudo apt-get update
+sudo apt-get --allow-unauthenticated install sur5r-keyring
+sudo apt-get update
+sudo apt-get install i3</code></pre>
+<h3 id="first-start-read-this-before-you-open-i3">First start (read this before you open i3)</h3>
+<p>If you use GNOME/any other Desktop Environment, just log out and while logging in, select i3 from the available Desktop sessions. For people using <code>startx</code> like me, add <code>exec i3</code> to it replacing any previous commands you used till now.</p>
+<p>i3 loads with a black desktop background, and a small bar at the bottom. It should want your choice of the preferred ‘mod key’. Personally I use the Windows/Super key, but some people prefer the Alt key. It’s your choice. Though I would want to point out that choosing the Alt key would render some other shortcuts (like going back and forward in browser/file manager) useless. I’ll call your choice as the ‘Mod’ button.</p>
+<p>Can’t do anything? Stuck? Here’s something to cheer you up. Press ‘Mod+Return’. A terminal! Yay! What about launching other applications? Press ‘Mod+d’. See that bar up there? Type the name of the application you want, and it’ll keep on filtering the list. Couldn’t be more simple. Want to close an application? The default goes ‘Mod+Shift+Q’. Moving to workspace ‘n’ (n is a number) is as simple as ‘Mod+n’ and moving the currently selected Window there goes by ‘Mod+Shift+n’. Play around for a while.</p>
+<h3 id="again-why">Again, WHY ??</h3>
+<p>If you find yourself asking ‘Why would I use such tricky shortcuts? Why not a simple Alt+F4’ ? Simple, that makes your hand stretch out and breaks the flow. Trust me, once you get used to it, you won’t want to go back. I once went back to GNOME, and set Mod+Shift+Q and Mod+Return there too ! Anyway, if you feel it’s not for you (and you <em>are</em> interested in productivity, stick around for 2-3 hours, i3 <em>does</em> take quite some time to get used to).</p>
+<h3 id="tiling">Tiling</h3>
+<p>You must have noticed by now how new windows push the previous windows to the left and take up an equal amount of space. That’s changeable. Open 2 terminals, and then do ‘Mod+W’. This hides all the windows behind the one which was selected. Tabbed behaviour. You can move between windows with ‘Mod+Left/Right’ or ‘Mod+j/;’ (note that its not hjkl as in Vi here, its jkl; as used by typists. There’s a way to change it. More on this later).</p>
+<p>Now try ‘Mod+e’. Toggling the stacking. Press it multiple times. Now you’ll need to use Up/Down with Mod to move between windows too. You can perhaps see how easy it is to handle multiple tasks in the same screen this way.</p>
+<p>This is a fairly involved thing to master, and the i3 User Guide does a fine job explaining it <a href="https://i3wm.org/docs/userguide.html">here</a>. Do read it! (oh, and come back here for more :P ).</p>
+<p>Resizing a window is done by entering the resize mode with ‘Mod+r’. Now use Up/Down/Left/Right/j/k/l/; to change size as required. Outside the resize mode, these buttons would move your focus onto different windows.</p>
+<p>Before I forget, you log out of i3 with ‘Mod+Shift+E’ by default.</p>
+<h3 id="configuration">Configuration</h3>
+<p>i3wm allows a lot of freedom in terms of customization. The configuration file is $HOME/.i3/config . Along with i3 lies a file named ‘i3status’ which keeps the configuration for the bottom bar you see below. You can use conky for that too (and its awesome), but for now let’s not dwell on the bottom bar. The configuration file uses simple keywords to handle things.</p>
+<ul>
+<li><p><code>exec &lt;command&gt;</code> would run that command every time i3 starts up. Example: <code>exec --no-startup-id nm-applet &amp;</code>.</p></li>
+<li><p><code>bindsym &lt;keyboard_shortcut&gt; &lt;command&gt;</code> as expected, binds a keyboard shortcut. Example <code>bindsym $mod+F1 exec google-chrome-stable</code></p></li>
+<li><p><code>set $&lt;name&gt; &lt;value&gt;</code> sets the value for variables. Example <code>set $mod Mod4</code></p></li>
+</ul>
+<p>There are a couple of other keywords which aren’t used as often. For now, these should get you up and running with ease.</p>
+<p>Of note, you don’t have to log out and log in to see your changes take effect. ‘Mod+Shift+C’ reloads the configuration, ‘Mod+Shift+R’ restarts i3 in place.</p>
+<p>To try out a little customization, try changing the default motion keys from ‘jkl;’ to ‘hjkl’ (Vim users rejoice :P ). Its simple, really.</p>
+<p>Didn’t get it? Change:</p>
+<pre><code>bindsym $mod+k focus left</code></pre>
+<p>to:</p>
+<pre><code>bindsym $mod+h focus left</code></pre>
+<p>Here ‘$mod’ is a variable which is declared at the top to be Mod4 (in my case, Mod4 is the Super key, Mod1 is the Alt key).</p>
+<p>To be continued..</p>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+            <footer class="mdl-mini-footer">
+                <div class="mdl-mini-footer__left-section">
+                  <div class="mdl-logo">
+                    <h5 style="color: #bbbbbb; margin: 0; padding: 0;">AceHack</h5>
+                    <p style="color: #aaaaaa; margin: 0; margin-top: 5px; padding: 0;">The blog of Saksham Sharma</p>
+                    <p style="color: #aaaaaa; margin: 0; margin-top: 5px; padding: 0;">Hosted on Github <a href="https://github.com/sakshamsharma/sakshamsharma.github.io" target="_blank">here</a><p>
+                  </div>
+                </div>
+                <div class="mdl-mini-footer__middle-section">
+                  <div class="mdl-logo">
+                    <a href="https://github.com/sakshamsharma" target="_blank">sakshamsharma</a>@github<br>
+                    <a href="mailto:saksham@acehack.org" target="_blank">saksham@acehack.com</a>
+                  </div>
+                </div>
+                <div class="mdl-mini-footer__right-section">
+                  <div class="mdl-logo">Proudly generated by Hakyll</div>
+                </div>
+            </footer>
+        </main>
+    </div>
+    <script src="https://code.getmdl.io/1.1.3/material.min.js"></script>
+    <script>
+     var links = document.getElementsByClassName('mynav');
+     for(i=0;i<links.length;i++) {
+       var tmp = links[i].href;
+       if (tmp.substring(tmp.lastIndexOf('/')) == document.location.pathname) {
+         links[i].className += " is-active"
+       }
+     }
+    </script>
+  </body>
+</html>

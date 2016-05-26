@@ -1,0 +1,785 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="A portfolio template that uses Material Design Lite.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <title>AceHack - abcd-esolang Documentation</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.grey-pink.min.css" />
+    <link rel="stylesheet" href="../css/styles.css" />
+    <link rel="stylesheet" href="../css/footer.css" />
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+  </head>
+  <body>
+
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+        <header class="mdl-layout__header mdl-layout__header--scroll portfolio-header">
+            <div class="mdl-layout__header-row portfolio-logo-row">
+              <span class="mdl-layout__title">
+                <a href="../">
+                  <div class="portfolio-logo"></div>
+                </a>
+                <span class="mdl-layout__title">The blog of Saksham Sharma</span>
+              </span>
+            </div>
+            <div class="mdl-layout__header-row portfolio-navigation-row mdl-layout--large-screen-only">
+                <nav class="mdl-navigation mdl-typography--body-1-force-preferred-font">
+                    <a class="mdl-navigation__link mynav" href="../index.html">Home</a>
+                    <a class="mdl-navigation__link mynav" href="../archive.html">Blog</a>
+                    <a class="mdl-navigation__link mynav" href="../about.html">About</a>
+                </nav>
+            </div>
+        </header>
+        <div class="mdl-layout__drawer mdl-layout--small-screen-only">
+            <nav class="mdl-navigation mdl-typography--body-1-force-preferred-font">
+                <a class="mdl-navigation__link mynav" href="../index.html">Home</a>
+                <a class="mdl-navigation__link mynav" href="../archive.html">Blog</a>
+                <a class="mdl-navigation__link mynav" href="../about.html">About</a>
+            </nav>
+        </div>
+        <main class="mdl-layout__content">
+          <div class="mdl-grid">
+  <div class="mdl-cell mdl-cell--3-col"></div>
+  <div class="mdl-cell mdl-cell--6-col mdl-cell--4-cell-phonemdl-card mdl-shadow--4dp">
+    <div class="mdl-card__title">
+      <h1 class="mdl-card__title-text" style="font-size: 2.5em;">abcd-esolang Documentation</h1>
+    </div>
+    
+    <div class="mdl-card__media">
+      <img class="article-image" src="../images/articles/abcd-esolang.png" border="0" alt>
+    </div>
+    
+    <div class="mdl-card__supporting-text">
+      <strong>Written on: </strong> February  4, 2016
+      <strong>by</strong> Saksham Sharma 
+      <br><strong>Tags: </strong> <a href="../tags/abcd.html">abcd</a>, <a href="../tags/esolang.html">esolang</a>, <a href="../tags/techkriti.html">techkriti</a>, <a href="../tags/chaos.html">chaos</a>, <a href="../tags/programming%20language.html">programming language</a> <br>
+    </div>
+    <div class="mdl-grid portfolio-copy" style="max-width: 95%;">
+      <div class="mdl-cell mdl-cell--12-col mdl-cell--4-col-phone mdl-card__supporting-text no-padding">
+        <p>
+          <p>abcd is an esoteric language. In other words, it is a language deliberately made obfuscated and confusing. Trivial tasks too might be quite tough to accomplish while programming in this language. That is the point of the competition.</p>
+<p>In Chaos ’16, you will be attempting to write computer programs to accomplish certain tasks using this language. These tasks would range from simple ones, to some really tricky ones.</p>
+<h1 id="description">Description</h1>
+<p>Cutting to the chase, <strong>abcd</strong> is based off another similar language which had some shortcomings, and needed some fixes to be able to work properly.</p>
+<p>Programming in this language requires you to manage values, memory and execution control flow effectively between a very restricted amount of variables you have. The execution is to a good extent very similar to how computer programs are run by CPUs in computers.</p>
+<p>You will have 53 instructions which will give the program instructions. These will be the alphabets <em>a-z</em>, <em>A-Z</em>, and the character <em>?</em>. So your program will basically look like a long gibberish string of alphabets. They will manipulate 3 regular memory values (integers), and one which is basically a tuple of 2 integers. We call these integer values as <em>Registers</em>, as is done for CPUs.</p>
+<p>In addition, you will have an array of integers of size 1024 which can be used to store values outside the registers.</p>
+<p>You can only do operations on the values inside registers. You will be able to retrieve values from the memory and put it inside the registers, and vice-verse.</p>
+<h3 id="register1-and-register2">Register1 and Register2</h3>
+<p>These are general purpose registers used to provide arguments to operations. For example if you need to add 2 integers, you will need to store them in these registers.</p>
+<h3 id="register3---the-result-register">Register3 - The result register</h3>
+<p>This is the result register. This will store the result of instructions if any. For example in the above mentioned sum exercise, the result would be stored in this register.</p>
+<p>The two registers available as a tuple are meant for specialized operations. They are modelled as follows: Register4[2], where Register4[0] is the memory pointer, and Register4[1] is the position pointer.</p>
+<h3 id="the-memory-pointer">The memory pointer</h3>
+<p>One of them lets you write integer values to memory locations, and also to retrieve values from it. You can store intermediate results in the memory using this. For example, if this register stores the value 0 right now and you call the instruction to write the value of Register3 to memory, it will write that value to Memory[0].</p>
+<h3 id="the-position-pointer">The position pointer</h3>
+<p>The other lets you jump to the position in the program corresponding to the integer stored in it. For example, if that register stores 0, you can jump to the 0th location of the program, that is, to the beginning. This is useful for looping statements.</p>
+<p>You will also have a <em>?</em> instruction which will let you stop the program if the complete input has been read. This will be useful when you need to read an arbitrary amount of input.</p>
+<p>There will be a Mode bit. This will be either 0 or 1. You have instructions to add or subtract some values to Register4[Mode]. This will come in handy if you need to modify the memory or the position pointer.</p>
+<h1 id="sample-programs">Sample programs</h1>
+<h3 id="hello-world">Hello World!</h3>
+<pre><code>cccCISccccCIScccCIYx
+SGSHaaCLgDLihhhDLDLgggDL
+TTGaaCL
+SGccbbbCLDLgggDLjggggDLSHDL
+TTGaaaCL</code></pre>
+<h3 id="print-the-character-b">Print the character ‘b’</h3>
+<pre><code>ebbCL</code></pre>
+<h3 id="print-the-number-98">Print the number 98</h3>
+<pre><code>ebbCM</code></pre>
+<h1 id="the-implementation-and-the-instructions">The implementation and the instructions</h1>
+<p>Here’s the javascript code of the interpreter for more clarity. Note: All these cases are separated by ‘break;’ statements in the actual code.</p>
+<pre><code>    case &quot;a&quot;:
+      Register1 += 1;
+      
+    case &quot;b&quot;:
+      Register1 -= 1;
+      
+    case &quot;c&quot;:
+      Register1 += 10;
+      
+    case &quot;d&quot;:
+      Register1 -= 10;
+      
+    case &quot;e&quot;:
+      Register1 += 100;
+
+    case &quot;f&quot;:
+      Register1 -= 100;
+      
+    case &quot;g&quot;:
+      Register2 += 1;
+      
+    case &quot;h&quot;:
+      Register2 -= 1;
+      
+    case &quot;i&quot;:
+      Register2 += 10;
+      
+    case &quot;j&quot;:
+      Register2 -= 10;
+      
+    case &quot;k&quot;:
+      Register2 += 100;
+      
+    case &quot;l&quot;:
+      Register2 -= 100;
+      
+    case &quot;m&quot;:
+      Register3 = !Register1;
+      
+    case &quot;n&quot;:
+      Register3 = !Register2;
+      
+    case &quot;o&quot;:
+      Register3 = Register1 &amp; Register2;
+      
+    case &quot;p&quot;:
+      Register3 = Register1 | Register2;
+      
+    case &quot;q&quot;:
+      Register3 = Register1 ^ Register2;
+      
+    case &quot;r&quot;:
+      Register3 = Register1 + Register2;
+      
+    case &quot;s&quot;:
+      Register3 = Register1 - Register2;
+      
+    case &quot;t&quot;:
+      Register3 = Register1 * Register2;
+      
+    case &quot;u&quot;:
+      Register3 = Register1 / Register2;
+      
+    case &quot;v&quot;:
+      Register3 = Register1 % Register2;
+      
+    case &quot;w&quot;:
+      Register3 = Register1 ^ Register2;
+      
+    case &quot;x&quot;:
+      Register1 = 0;
+      
+    case &quot;y&quot;:
+      Register2 = 0;
+      
+    case &quot;z&quot;:
+      Register3 = 0;
+      
+    case &quot;A&quot;:
+      Register2 = Register1;
+      
+    case &quot;B&quot;:
+      Register1 = Register2;
+      
+    case &quot;C&quot;:
+      Register3 = Register1;
+      
+    case &quot;D&quot;:
+      Register3 = Register2;
+      
+    case &quot;E&quot;:
+      Register1 = Register3;
+      
+    case &quot;F&quot;:
+      Register2 = Register3;
+      
+    case &quot;G&quot;:
+      Register1 = Memory[Register4[0]];
+      
+    case &quot;H&quot;:
+      Register2 = Memory[Register4[0]];
+      
+    case &quot;I&quot;:
+      Memory[Register4[0]] = Register3;
+      
+    case &quot;J&quot;:
+      Read the next character from input.
+      Store it in register1
+      
+    case &quot;K&quot;:
+      Read next character from input.
+      Store it in register2
+      
+    case &quot;L&quot;:
+      Basically printing the value of Register3 as a character.
+      So 97 would print as 'a'.
+      
+    case &quot;M&quot;:
+      Printing value of Register3 as an integer.
+      97 would print '97'
+      
+    case &quot;N&quot;:
+      if(Register1 === Register2) Position = Register4[1]-1;
+      
+    case &quot;O&quot;:
+      if(Register1 !== Register2) Position = Register4[1]-1;
+      
+    case &quot;P&quot;:
+      if(Register1 &gt;= Register2) Position = Register4[1]-1;
+      
+    case &quot;Q&quot;:
+      if(Register1 &lt;= Register2) Position = Register4[1]-1;
+      
+    case &quot;R&quot;:
+      if(Register3) Position = Register4[1]-1;
+      
+    case &quot;S&quot;:
+      Register4[Mode] += 1;
+      
+    case &quot;T&quot;:
+      Register4[Mode] -= 1;
+      
+    case &quot;U&quot;:
+      Register4[Mode] += 10;
+      
+    case &quot;V&quot;:
+      Register4[Mode] -= 10;
+      
+    case &quot;W&quot;:
+      Register4[Mode] += 100;
+      
+    case &quot;X&quot;:
+      Register4[Mode] -= 100;
+      
+    case &quot;Y&quot;:
+      Register4[Mode] = 0;
+      
+    case &quot;Z&quot;:
+      Mode = (Mode+1)%2;
+      
+    case &quot;?&quot;:
+      if(readInput &gt;= input.length + 1)
+        finished=1;
+</code></pre>
+<h1 id="tips">Tips</h1>
+<ul>
+<li>Characters which are not recognized are ignored. Use this to keep your code readable. You can use spaces and newline to have that effect.</li>
+</ul>
+<h1 id="ascii-table">ASCII Table</h1>
+<p>You’ll <strong>NEED</strong> this:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="left">DEC</th>
+<th align="left">Symbol</th>
+<th align="left">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">32</td>
+<td align="left"></td>
+<td align="left">Space</td>
+</tr>
+<tr class="even">
+<td align="left">33</td>
+<td align="left">!</td>
+<td align="left">Exclamation mark</td>
+</tr>
+<tr class="odd">
+<td align="left">34</td>
+<td align="left">&quot;</td>
+<td align="left">Double quotes (or speech marks)</td>
+</tr>
+<tr class="even">
+<td align="left">35</td>
+<td align="left">#</td>
+<td align="left">Number</td>
+</tr>
+<tr class="odd">
+<td align="left">36</td>
+<td align="left">$</td>
+<td align="left">Dollar</td>
+</tr>
+<tr class="even">
+<td align="left">37</td>
+<td align="left">%</td>
+<td align="left">Procenttecken</td>
+</tr>
+<tr class="odd">
+<td align="left">38</td>
+<td align="left">&amp;</td>
+<td align="left">Ampersand</td>
+</tr>
+<tr class="even">
+<td align="left">39</td>
+<td align="left">’</td>
+<td align="left">Single quote</td>
+</tr>
+<tr class="odd">
+<td align="left">40</td>
+<td align="left">(</td>
+<td align="left">Open parenthesis (or open bracket)</td>
+</tr>
+<tr class="even">
+<td align="left">41</td>
+<td align="left">)</td>
+<td align="left">Close parenthesis (or close bracket)</td>
+</tr>
+<tr class="odd">
+<td align="left">42</td>
+<td align="left">*</td>
+<td align="left">Asterisk</td>
+</tr>
+<tr class="even">
+<td align="left">43</td>
+<td align="left">+</td>
+<td align="left">Plus</td>
+</tr>
+<tr class="odd">
+<td align="left">44</td>
+<td align="left">,</td>
+<td align="left">Comma</td>
+</tr>
+<tr class="even">
+<td align="left">45</td>
+<td align="left">-</td>
+<td align="left">Hyphen</td>
+</tr>
+<tr class="odd">
+<td align="left">46</td>
+<td align="left">.</td>
+<td align="left">Period, dot or full stop</td>
+</tr>
+<tr class="even">
+<td align="left">47</td>
+<td align="left">/</td>
+<td align="left">Slash or divide</td>
+</tr>
+<tr class="odd">
+<td align="left">48</td>
+<td align="left">0</td>
+<td align="left">Zero</td>
+</tr>
+<tr class="even">
+<td align="left">49</td>
+<td align="left">1</td>
+<td align="left">One</td>
+</tr>
+<tr class="odd">
+<td align="left">50</td>
+<td align="left">2</td>
+<td align="left">Two</td>
+</tr>
+<tr class="even">
+<td align="left">51</td>
+<td align="left">3</td>
+<td align="left">Three</td>
+</tr>
+<tr class="odd">
+<td align="left">52</td>
+<td align="left">4</td>
+<td align="left">Four</td>
+</tr>
+<tr class="even">
+<td align="left">53</td>
+<td align="left">5</td>
+<td align="left">Five</td>
+</tr>
+<tr class="odd">
+<td align="left">54</td>
+<td align="left">6</td>
+<td align="left">Six</td>
+</tr>
+<tr class="even">
+<td align="left">55</td>
+<td align="left">7</td>
+<td align="left">Seven</td>
+</tr>
+<tr class="odd">
+<td align="left">56</td>
+<td align="left">8</td>
+<td align="left">Eight</td>
+</tr>
+<tr class="even">
+<td align="left">57</td>
+<td align="left">9</td>
+<td align="left">Nine</td>
+</tr>
+<tr class="odd">
+<td align="left">58</td>
+<td align="left">:</td>
+<td align="left">Colon</td>
+</tr>
+<tr class="even">
+<td align="left">59</td>
+<td align="left">;</td>
+<td align="left">Semicolon</td>
+</tr>
+<tr class="odd">
+<td align="left">60</td>
+<td align="left">&lt;</td>
+<td align="left">Less than (or open angled bracket)</td>
+</tr>
+<tr class="even">
+<td align="left">61</td>
+<td align="left">=</td>
+<td align="left">Equals</td>
+</tr>
+<tr class="odd">
+<td align="left">62</td>
+<td align="left">&gt;</td>
+<td align="left">Greater than (or close angled bracket)</td>
+</tr>
+<tr class="even">
+<td align="left">63</td>
+<td align="left">?</td>
+<td align="left">Question mark</td>
+</tr>
+<tr class="odd">
+<td align="left">64</td>
+<td align="left">@</td>
+<td align="left">At symbol</td>
+</tr>
+<tr class="even">
+<td align="left">65</td>
+<td align="left">A</td>
+<td align="left">Uppercase A</td>
+</tr>
+<tr class="odd">
+<td align="left">66</td>
+<td align="left">B</td>
+<td align="left">Uppercase B</td>
+</tr>
+<tr class="even">
+<td align="left">67</td>
+<td align="left">C</td>
+<td align="left">Uppercase C</td>
+</tr>
+<tr class="odd">
+<td align="left">68</td>
+<td align="left">D</td>
+<td align="left">Uppercase D</td>
+</tr>
+<tr class="even">
+<td align="left">69</td>
+<td align="left">E</td>
+<td align="left">Uppercase E</td>
+</tr>
+<tr class="odd">
+<td align="left">70</td>
+<td align="left">F</td>
+<td align="left">Uppercase F</td>
+</tr>
+<tr class="even">
+<td align="left">71</td>
+<td align="left">G</td>
+<td align="left">Uppercase G</td>
+</tr>
+<tr class="odd">
+<td align="left">72</td>
+<td align="left">H</td>
+<td align="left">Uppercase H</td>
+</tr>
+<tr class="even">
+<td align="left">73</td>
+<td align="left">I</td>
+<td align="left">Uppercase I</td>
+</tr>
+<tr class="odd">
+<td align="left">74</td>
+<td align="left">J</td>
+<td align="left">Uppercase J</td>
+</tr>
+<tr class="even">
+<td align="left">75</td>
+<td align="left">K</td>
+<td align="left">Uppercase K</td>
+</tr>
+<tr class="odd">
+<td align="left">76</td>
+<td align="left">L</td>
+<td align="left">Uppercase L</td>
+</tr>
+<tr class="even">
+<td align="left">77</td>
+<td align="left">M</td>
+<td align="left">Uppercase M</td>
+</tr>
+<tr class="odd">
+<td align="left">78</td>
+<td align="left">N</td>
+<td align="left">Uppercase N</td>
+</tr>
+<tr class="even">
+<td align="left">79</td>
+<td align="left">O</td>
+<td align="left">Uppercase O</td>
+</tr>
+<tr class="odd">
+<td align="left">80</td>
+<td align="left">P</td>
+<td align="left">Uppercase P</td>
+</tr>
+<tr class="even">
+<td align="left">81</td>
+<td align="left">Q</td>
+<td align="left">Uppercase Q</td>
+</tr>
+<tr class="odd">
+<td align="left">82</td>
+<td align="left">R</td>
+<td align="left">Uppercase R</td>
+</tr>
+<tr class="even">
+<td align="left">83</td>
+<td align="left">S</td>
+<td align="left">Uppercase S</td>
+</tr>
+<tr class="odd">
+<td align="left">84</td>
+<td align="left">T</td>
+<td align="left">Uppercase T</td>
+</tr>
+<tr class="even">
+<td align="left">85</td>
+<td align="left">U</td>
+<td align="left">Uppercase U</td>
+</tr>
+<tr class="odd">
+<td align="left">86</td>
+<td align="left">V</td>
+<td align="left">Uppercase V</td>
+</tr>
+<tr class="even">
+<td align="left">87</td>
+<td align="left">W</td>
+<td align="left">Uppercase W</td>
+</tr>
+<tr class="odd">
+<td align="left">88</td>
+<td align="left">X</td>
+<td align="left">Uppercase X</td>
+</tr>
+<tr class="even">
+<td align="left">89</td>
+<td align="left">Y</td>
+<td align="left">Uppercase Y</td>
+</tr>
+<tr class="odd">
+<td align="left">90</td>
+<td align="left">Z</td>
+<td align="left">Uppercase Z</td>
+</tr>
+<tr class="even">
+<td align="left">91</td>
+<td align="left">[ | Opening bracket | | 92 |   | Backslash | | 93 | ]</td>
+<td align="left">Closing bracket</td>
+</tr>
+<tr class="odd">
+<td align="left">94</td>
+<td align="left">^</td>
+<td align="left">Caret - circumflex</td>
+</tr>
+<tr class="even">
+<td align="left">95</td>
+<td align="left">_</td>
+<td align="left">Underscore</td>
+</tr>
+<tr class="odd">
+<td align="left">96</td>
+<td align="left">`</td>
+<td align="left">Grave accent</td>
+</tr>
+<tr class="even">
+<td align="left">97</td>
+<td align="left">a</td>
+<td align="left">Lowercase a</td>
+</tr>
+<tr class="odd">
+<td align="left">98</td>
+<td align="left">b</td>
+<td align="left">Lowercase b</td>
+</tr>
+<tr class="even">
+<td align="left">99</td>
+<td align="left">c</td>
+<td align="left">Lowercase c</td>
+</tr>
+<tr class="odd">
+<td align="left">100</td>
+<td align="left">d</td>
+<td align="left">Lowercase d</td>
+</tr>
+<tr class="even">
+<td align="left">101</td>
+<td align="left">e</td>
+<td align="left">Lowercase e</td>
+</tr>
+<tr class="odd">
+<td align="left">102</td>
+<td align="left">f</td>
+<td align="left">Lowercase f</td>
+</tr>
+<tr class="even">
+<td align="left">103</td>
+<td align="left">g</td>
+<td align="left">Lowercase g</td>
+</tr>
+<tr class="odd">
+<td align="left">104</td>
+<td align="left">h</td>
+<td align="left">Lowercase h</td>
+</tr>
+<tr class="even">
+<td align="left">105</td>
+<td align="left">i</td>
+<td align="left">Lowercase i</td>
+</tr>
+<tr class="odd">
+<td align="left">106</td>
+<td align="left">j</td>
+<td align="left">Lowercase j</td>
+</tr>
+<tr class="even">
+<td align="left">107</td>
+<td align="left">k</td>
+<td align="left">Lowercase k</td>
+</tr>
+<tr class="odd">
+<td align="left">108</td>
+<td align="left">l</td>
+<td align="left">Lowercase l</td>
+</tr>
+<tr class="even">
+<td align="left">109</td>
+<td align="left">m</td>
+<td align="left">Lowercase m</td>
+</tr>
+<tr class="odd">
+<td align="left">110</td>
+<td align="left">n</td>
+<td align="left">Lowercase n</td>
+</tr>
+<tr class="even">
+<td align="left">111</td>
+<td align="left">o</td>
+<td align="left">Lowercase o</td>
+</tr>
+<tr class="odd">
+<td align="left">112</td>
+<td align="left">p</td>
+<td align="left">Lowercase p</td>
+</tr>
+<tr class="even">
+<td align="left">113</td>
+<td align="left">q</td>
+<td align="left">Lowercase q</td>
+</tr>
+<tr class="odd">
+<td align="left">114</td>
+<td align="left">r</td>
+<td align="left">Lowercase r</td>
+</tr>
+<tr class="even">
+<td align="left">115</td>
+<td align="left">s</td>
+<td align="left">Lowercase s</td>
+</tr>
+<tr class="odd">
+<td align="left">116</td>
+<td align="left">t</td>
+<td align="left">Lowercase t</td>
+</tr>
+<tr class="even">
+<td align="left">117</td>
+<td align="left">u</td>
+<td align="left">Lowercase u</td>
+</tr>
+<tr class="odd">
+<td align="left">118</td>
+<td align="left">v</td>
+<td align="left">Lowercase v</td>
+</tr>
+<tr class="even">
+<td align="left">119</td>
+<td align="left">w</td>
+<td align="left">Lowercase w</td>
+</tr>
+<tr class="odd">
+<td align="left">120</td>
+<td align="left">x</td>
+<td align="left">Lowercase x</td>
+</tr>
+<tr class="even">
+<td align="left">121</td>
+<td align="left">y</td>
+<td align="left">Lowercase y</td>
+</tr>
+<tr class="odd">
+<td align="left">122</td>
+<td align="left">z</td>
+<td align="left">Lowercase z</td>
+</tr>
+<tr class="even">
+<td align="left">123</td>
+<td align="left">{</td>
+<td align="left">Opening brace</td>
+</tr>
+<tr class="odd">
+<td align="left">124</td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr class="even">
+<td align="left">125</td>
+<td align="left">}</td>
+<td align="left">Closing brace</td>
+</tr>
+<tr class="odd">
+<td align="left">126</td>
+<td align="left">~</td>
+<td align="left">Equivalency sign - tilde</td>
+</tr>
+<tr class="even">
+<td align="left">127</td>
+<td align="left"></td>
+<td align="left">Delete</td>
+</tr>
+</tbody>
+</table>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+            <footer class="mdl-mini-footer">
+                <div class="mdl-mini-footer__left-section">
+                  <div class="mdl-logo">
+                    <h5 style="color: #bbbbbb; margin: 0; padding: 0;">AceHack</h5>
+                    <p style="color: #aaaaaa; margin: 0; margin-top: 5px; padding: 0;">The blog of Saksham Sharma</p>
+                    <p style="color: #aaaaaa; margin: 0; margin-top: 5px; padding: 0;">Hosted on Github <a href="https://github.com/sakshamsharma/sakshamsharma.github.io" target="_blank">here</a><p>
+                  </div>
+                </div>
+                <div class="mdl-mini-footer__middle-section">
+                  <div class="mdl-logo">
+                    <a href="https://github.com/sakshamsharma" target="_blank">sakshamsharma</a>@github<br>
+                    <a href="mailto:saksham@acehack.org" target="_blank">saksham@acehack.com</a>
+                  </div>
+                </div>
+                <div class="mdl-mini-footer__right-section">
+                  <div class="mdl-logo">Proudly generated by Hakyll</div>
+                </div>
+            </footer>
+        </main>
+    </div>
+    <script src="https://code.getmdl.io/1.1.3/material.min.js"></script>
+    <script>
+     var links = document.getElementsByClassName('mynav');
+     for(i=0;i<links.length;i++) {
+       var tmp = links[i].href;
+       if (tmp.substring(tmp.lastIndexOf('/')) == document.location.pathname) {
+         links[i].className += " is-active"
+       }
+     }
+    </script>
+  </body>
+</html>

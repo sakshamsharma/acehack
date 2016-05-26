@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="A portfolio template that uses Material Design Lite.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <title>AceHack - NVIDIA with Bumblebee and improving Battery Backup</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.grey-pink.min.css" />
+    <link rel="stylesheet" href="../css/styles.css" />
+    <link rel="stylesheet" href="../css/footer.css" />
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+  </head>
+  <body>
+
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+        <header class="mdl-layout__header mdl-layout__header--scroll portfolio-header">
+            <div class="mdl-layout__header-row portfolio-logo-row">
+              <span class="mdl-layout__title">
+                <a href="../">
+                  <div class="portfolio-logo"></div>
+                </a>
+                <span class="mdl-layout__title">The blog of Saksham Sharma</span>
+              </span>
+            </div>
+            <div class="mdl-layout__header-row portfolio-navigation-row mdl-layout--large-screen-only">
+                <nav class="mdl-navigation mdl-typography--body-1-force-preferred-font">
+                    <a class="mdl-navigation__link mynav" href="../index.html">Home</a>
+                    <a class="mdl-navigation__link mynav" href="../archive.html">Blog</a>
+                    <a class="mdl-navigation__link mynav" href="../about.html">About</a>
+                </nav>
+            </div>
+        </header>
+        <div class="mdl-layout__drawer mdl-layout--small-screen-only">
+            <nav class="mdl-navigation mdl-typography--body-1-force-preferred-font">
+                <a class="mdl-navigation__link mynav" href="../index.html">Home</a>
+                <a class="mdl-navigation__link mynav" href="../archive.html">Blog</a>
+                <a class="mdl-navigation__link mynav" href="../about.html">About</a>
+            </nav>
+        </div>
+        <main class="mdl-layout__content">
+          <div class="mdl-grid">
+  <div class="mdl-cell mdl-cell--3-col"></div>
+  <div class="mdl-cell mdl-cell--6-col mdl-cell--4-cell-phonemdl-card mdl-shadow--4dp">
+    <div class="mdl-card__title">
+      <h1 class="mdl-card__title-text" style="font-size: 2.5em;">NVIDIA with Bumblebee and improving Battery Backup</h1>
+    </div>
+    
+    <div class="mdl-card__supporting-text">
+      <strong>Written on: </strong> November 25, 2015
+      <strong>by</strong> Saksham Sharma 
+      <br><strong>Tags: </strong> <a href="../tags/nvidia.html">nvidia</a>, <a href="../tags/bumblebee.html">bumblebee</a>, <a href="../tags/battery.html">battery</a> <br>
+    </div>
+    <div class="mdl-grid portfolio-copy" style="max-width: 95%;">
+      <div class="mdl-cell mdl-cell--12-col mdl-cell--4-col-phone mdl-card__supporting-text no-padding">
+        <p>
+          <p>The issue of Graphic cards and Battery Life has been a sticky one for me, and I believe most other laptop users too. The battery backup under Linux is simply awful. For instance, I can get ~5 hours on my Laptop using Windows. Linux lands me at max 1.5-2 hours under similar usage. I believe most Linux users would have similar experiences.</p>
+<p>Here’s some of the things I did which have helped increase the battery backup by a large amount in my case:</p>
+<h2 id="get-your-graphics-card-straight">Get your graphics card straight</h2>
+<p>This is one of the biggest reasons on Linux for low battery backup. So what happens is, if your laptop has a dedicated graphics card, its going to stay on no matter whether its being used or not, no matter whether you’re reading a PDF or watching a movie. Even if your laptop is using the default fallback graphics most of the time, Intel HD graphics as they’re called in Windows; even then the dedicated graphics card stays on.</p>
+<p>One straightforward way to fix this is to disable the graphics card entirely in the systems settings of your laptop accesible during bootup. That’s not a pretty idea, I can almost see some frowns on this.</p>
+<p>Of course we have a better way, its Linux :) . I’ll be mentioning about NVIDIA only, as that’s the one I’m using. There’s a project called Bumblebee for NVIDIA cards on Linux which handles the job of graphics switching. You can install bumblebee, and it’ll happily make the integrated graphics the default, and start the dedicated one only when needed. Here’s how I’ve got Bumbleebee to work for me in the past</p>
+<ul>
+<li><p>If you’re on Arch Linux, do exactly what this says: <a href="https://wiki.archlinux.org/index.php/Bumblebee">You guessed it right, ArchWiki</a>. Try to do these steps when you haven’t installed your Graphics drivers yet. If you have them already, then remove them first. I always install the proprietary NVIDIA drivers, so I cannot comment about Nouveau, but given ArchWiki’s reputation, it should be easy too.</p></li>
+<li><p>For Gentoo I found information very hard to find. Gentoo Wiki is literally clueless about Bumblebee. I stumbled upon this really good link here: <a href="http://blog.fkmclane.net/nvidia-optimus-gentoo" class="uri">http://blog.fkmclane.net/nvidia-optimus-gentoo</a>. Again, proprietary drivers work for me.</p></li>
+</ul>
+<p>Once you have Bumblebee done (remember to add your user to the bumblebee group), try restarting and running <code>glxspheres64</code> with and without <code>optirun</code> prefixed. You should see the difference.</p>
+<p>This step is of quite some significance. Now your Graphic card won’t be put to work unless it’s told to, by the <code>optirun</code> or <code>primusrun</code> commands. That also means that if you play games on Steam, they won’t use the Graphics card. A fix for that is as follows. Right click on the game in your Steam Library and go to properties. Click on ‘set launch options’ and put this there: <code>optirun %command% -nojoy</code>. This should do the trick.</p>
+<h2 id="powertop">Powertop</h2>
+<p><a href="https://wiki.archlinux.org/index.php/Powertop">Powertop</a> is a great nifty tool to monitor your power usage. But importantly here, you can actually use it to fix your battery life. * sudo pacman -S powertop * sudo emerge –ask powertop * sudo apt-get install powertop</p>
+<p>Fire it up (it requires sudo), have a look at the current stats. See if some program is causing more wakeups than it should (more the number of wakeups, more the power consumtion). Look at your CPU idle stats. If they’re too high, you should perhaps consider setting up a <a href="https://wiki.archlinux.org/index.php/CPU_frequency_scaling">CPU governor</a>.</p>
+<p>The interesting part, look at the ‘Device Stats’ tab. Here you’d see what hardware is consuming battery. You’d see things like Bluetooth, and your graphics card. I personally disable my Bluetooth completely using this script at startup <a href="https://github.com/sakshamsharma/my-configs/blob/master/.myscripts/blueoff" class="uri">https://github.com/sakshamsharma/my-configs/blob/master/.myscripts/blueoff</a>. It might not work for you, but you get the point. About the Graphics card still being at 100%, that’s because of one last trick up Powertop’s sleeve.</p>
+<p>Shift to the tunables tab, and mark every ‘bad’ tunable to ‘good’ unless you have a problem with anyone of those. I’ve never hard one, but then everyone uses their laptop differently. Once you’ve done this, you should finally see your graphics card at 0% in the Device Stats, unless you’re using it.</p>
+<p>I often like to open powertop and see the battery discharge rate in Watts. Try doing it a few times to see how your usage affects the consumption.</p>
+<p>Concluding this section, you can use <code>sudo powertop --auto-tune</code> to make all the tunables to good. I made a small systemd service to run this command at every boot by enabling it.</p>
+<p>These tips are just a drop in the ocean, there is a plethora of information on the Arch Wiki about power management. But anyhow, with these 2 tricks (and a userspace CPU governor), I now get about 3.5 hours of battery reading PDFs etc (when I don’t open new webpages on my Browser, that is). Good enough for Library visits during Exam days :)</p>
+<p>Feel free to comment whether these tips improved your laptop’s battery backup or not.</p>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+            <footer class="mdl-mini-footer">
+                <div class="mdl-mini-footer__left-section">
+                  <div class="mdl-logo">
+                    <h5 style="color: #bbbbbb; margin: 0; padding: 0;">AceHack</h5>
+                    <p style="color: #aaaaaa; margin: 0; margin-top: 5px; padding: 0;">The blog of Saksham Sharma</p>
+                    <p style="color: #aaaaaa; margin: 0; margin-top: 5px; padding: 0;">Hosted on Github <a href="https://github.com/sakshamsharma/sakshamsharma.github.io" target="_blank">here</a><p>
+                  </div>
+                </div>
+                <div class="mdl-mini-footer__middle-section">
+                  <div class="mdl-logo">
+                    <a href="https://github.com/sakshamsharma" target="_blank">sakshamsharma</a>@github<br>
+                    <a href="mailto:saksham@acehack.org" target="_blank">saksham@acehack.com</a>
+                  </div>
+                </div>
+                <div class="mdl-mini-footer__right-section">
+                  <div class="mdl-logo">Proudly generated by Hakyll</div>
+                </div>
+            </footer>
+        </main>
+    </div>
+    <script src="https://code.getmdl.io/1.1.3/material.min.js"></script>
+    <script>
+     var links = document.getElementsByClassName('mynav');
+     for(i=0;i<links.length;i++) {
+       var tmp = links[i].href;
+       if (tmp.substring(tmp.lastIndexOf('/')) == document.location.pathname) {
+         links[i].className += " is-active"
+       }
+     }
+    </script>
+  </body>
+</html>

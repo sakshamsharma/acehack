@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="A portfolio template that uses Material Design Lite.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <title>AceHack - Shifting away from GNOME</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.grey-pink.min.css" />
+    <link rel="stylesheet" href="../css/styles.css" />
+    <link rel="stylesheet" href="../css/footer.css" />
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+  </head>
+  <body>
+
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+        <header class="mdl-layout__header mdl-layout__header--scroll portfolio-header">
+            <div class="mdl-layout__header-row portfolio-logo-row">
+              <span class="mdl-layout__title">
+                <a href="../">
+                  <div class="portfolio-logo"></div>
+                </a>
+                <span class="mdl-layout__title">The blog of Saksham Sharma</span>
+              </span>
+            </div>
+            <div class="mdl-layout__header-row portfolio-navigation-row mdl-layout--large-screen-only">
+                <nav class="mdl-navigation mdl-typography--body-1-force-preferred-font">
+                    <a class="mdl-navigation__link mynav" href="../index.html">Home</a>
+                    <a class="mdl-navigation__link mynav" href="../archive.html">Blog</a>
+                    <a class="mdl-navigation__link mynav" href="../about.html">About</a>
+                </nav>
+            </div>
+        </header>
+        <div class="mdl-layout__drawer mdl-layout--small-screen-only">
+            <nav class="mdl-navigation mdl-typography--body-1-force-preferred-font">
+                <a class="mdl-navigation__link mynav" href="../index.html">Home</a>
+                <a class="mdl-navigation__link mynav" href="../archive.html">Blog</a>
+                <a class="mdl-navigation__link mynav" href="../about.html">About</a>
+            </nav>
+        </div>
+        <main class="mdl-layout__content">
+          <div class="mdl-grid">
+  <div class="mdl-cell mdl-cell--3-col"></div>
+  <div class="mdl-cell mdl-cell--6-col mdl-cell--4-cell-phonemdl-card mdl-shadow--4dp">
+    <div class="mdl-card__title">
+      <h1 class="mdl-card__title-text" style="font-size: 2.5em;">Shifting away from GNOME</h1>
+    </div>
+    
+    <div class="mdl-card__supporting-text">
+      <strong>Written on: </strong> July  6, 2015
+      <strong>by</strong> Saksham Sharma 
+      <br><strong>Tags: </strong> <a href="../tags/gnome.html">gnome</a> <br>
+    </div>
+    <div class="mdl-grid portfolio-copy" style="max-width: 95%;">
+      <div class="mdl-cell mdl-cell--12-col mdl-cell--4-col-phone mdl-card__supporting-text no-padding">
+        <p>
+          <p>Let me get it straight, I love the GNOME project and DE. It’s great looking, has great support, very stable, and includes almost all the basic essestials. It’s great for high-performance PCs. Then why ‘shifting away’ you ask? Here’s why I shifted:</p>
+<ul>
+<li><p>It’s slow. Slow to boot up, and slow to use (it still depends heavily on mouse usage, which is slow). Mind you, I have a i7 4710HQ with 8GB RAM.</p></li>
+<li><p>It’s over-cluttered. I’m sure it looks great because of that, but that’s not a programmer loves.</p></li>
+<li><p>I’m a Linux enthusiast and installing GNOME on my Arch basically defeates the purpose of installing Arch in the first place, which was to use a self-built system.</p></li>
+<li><p>Even keeping a single GNOME package means having to install countless dependencies with it.</p></li>
+</ul>
+<p>I left GNOME about 5-6 months back. Came back to it after 4 months. Left it again 3 months ago, and systematically pushed all its dependencies away from my laptop.</p>
+<h3 id="gnome-shell">GNOME Shell</h3>
+<p>Yes it looks great and all, but it simply isn’t for a pure keyboard user. So I shifted to i3, in my opinion the best Window Manager for programmers atleast. Read more about it here: <a href="http://acehack.org/technical?aname=i3">Hopping over to i3wm</a></p>
+<h3 id="nautilus">Nautilus</h3>
+<p>I still miss it sometimes, but it was exceptionally slow to start on the first launch, and yes, it required quite a few dependencies. I initially used Nemo file manager which is the best looking one I found (of course not better than Nautilus). For people who use i3, or people who don’t want it to manage their desktop because feh or some other package is doing that for them, alias nemo with this <code>nemo --no-desktop</code></p>
+<h3 id="gnome-screenshot">GNOME Screenshot</h3>
+<p>Yes it is awesome. But here’s the alternative I use: <a href="http://screengrab.doomer.org/">screengrab</a>. Many more are listed at <a href="https://wiki.archlinux.org/index.php/Taking_a_screenshot">arch wiki</a></p>
+<h3 id="gnome-terminal">GNOME Terminal</h3>
+<p>This stuck around for the longest time. It allows for easy configuration, and is great overall. But everything has to go. One of the main reasons for removing it was the menu bar at the top. When you keep 6 terminals open on a single screen at a time (courtesy i3wm, yes that’s possible and practical), you want to keep as much space as possible for the Terminal and no space for the extras. So here is the solution, urxvt (or rxvt-unicode). I configured it to look exactly like my GNOME Terminal, and its much faster, lighter, cleaner, and with no 1000 dependencies. If you want, have a look at my .Xresources <a href="https://github.com/sakshamsharma/my-rc-files/blob/master/.Xresources">here</a> or read about urxvt in my upcoming article here on acehack. I hope this article helps some of you go ahead and take that leap. It’s not <em>that</em> dark and murky world without GNOME, you’ll come to love it too.</p>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+            <footer class="mdl-mini-footer">
+                <div class="mdl-mini-footer__left-section">
+                  <div class="mdl-logo">
+                    <h5 style="color: #bbbbbb; margin: 0; padding: 0;">AceHack</h5>
+                    <p style="color: #aaaaaa; margin: 0; margin-top: 5px; padding: 0;">The blog of Saksham Sharma</p>
+                    <p style="color: #aaaaaa; margin: 0; margin-top: 5px; padding: 0;">Hosted on Github <a href="https://github.com/sakshamsharma/sakshamsharma.github.io" target="_blank">here</a><p>
+                  </div>
+                </div>
+                <div class="mdl-mini-footer__middle-section">
+                  <div class="mdl-logo">
+                    <a href="https://github.com/sakshamsharma" target="_blank">sakshamsharma</a>@github<br>
+                    <a href="mailto:saksham@acehack.org" target="_blank">saksham@acehack.com</a>
+                  </div>
+                </div>
+                <div class="mdl-mini-footer__right-section">
+                  <div class="mdl-logo">Proudly generated by Hakyll</div>
+                </div>
+            </footer>
+        </main>
+    </div>
+    <script src="https://code.getmdl.io/1.1.3/material.min.js"></script>
+    <script>
+     var links = document.getElementsByClassName('mynav');
+     for(i=0;i<links.length;i++) {
+       var tmp = links[i].href;
+       if (tmp.substring(tmp.lastIndexOf('/')) == document.location.pathname) {
+         links[i].className += " is-active"
+       }
+     }
+    </script>
+  </body>
+</html>

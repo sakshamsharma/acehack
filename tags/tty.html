@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="A portfolio template that uses Material Design Lite.">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <title>AceHack - Posts tagged "tty"</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.grey-pink.min.css" />
+    <link rel="stylesheet" href="../css/styles.css" />
+    <link rel="stylesheet" href="../css/footer.css" />
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+  </head>
+  <body>
+
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+        <header class="mdl-layout__header mdl-layout__header--scroll portfolio-header">
+            <div class="mdl-layout__header-row portfolio-logo-row">
+              <span class="mdl-layout__title">
+                <a href="../">
+                  <div class="portfolio-logo"></div>
+                </a>
+                <span class="mdl-layout__title">The blog of Saksham Sharma</span>
+              </span>
+            </div>
+            <div class="mdl-layout__header-row portfolio-navigation-row mdl-layout--large-screen-only">
+                <nav class="mdl-navigation mdl-typography--body-1-force-preferred-font">
+                    <a class="mdl-navigation__link mynav" href="../index.html">Home</a>
+                    <a class="mdl-navigation__link mynav" href="../archive.html">Blog</a>
+                    <a class="mdl-navigation__link mynav" href="../about.html">About</a>
+                </nav>
+            </div>
+        </header>
+        <div class="mdl-layout__drawer mdl-layout--small-screen-only">
+            <nav class="mdl-navigation mdl-typography--body-1-force-preferred-font">
+                <a class="mdl-navigation__link mynav" href="../index.html">Home</a>
+                <a class="mdl-navigation__link mynav" href="../archive.html">Blog</a>
+                <a class="mdl-navigation__link mynav" href="../about.html">About</a>
+            </nav>
+        </div>
+        <main class="mdl-layout__content">
+          <center> <h4 style="margin-bottom: 0;">Posts tagged "tty"</h4><br> </center>
+<center> <h6 style="margin-top: 10px;"><a style="font-size: 76%" href="../categories/musings.html">musings</a> <a style="font-size: 70%" href="../categories/poems.html">poems</a> <a style="font-size: 133%" href="../categories/technical.html">technical</a> <a style="font-size: 70%" href="../categories/tutorial.html">tutorial</a></h6><br> </center>
+
+<center style="margin: 0;">
+  <label class="mdl-button mdl-js-button mdl-button--icon" for="expando1">
+    <i class="material-icons">search</i>
+  </label>
+  <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+    <input class="mdl-textfield__input" type="text" id="sample3">
+    <label class="mdl-textfield__label" for="sample3">Search for tags</label>
+  </div>
+</center>
+
+<script>
+ var postMap = {};
+</script>
+
+<div class="mdl-grid portfolio-max-width">
+  
+  <div class="mdl-cell mdl-card mdl-shadow--4dp portfolio-card post-item" id="TTY Tricks in Linux">
+    <div class="mdl-card__media">
+      
+    </div>
+    <div class="mdl-card__title">
+      <h2 class="mdl-card__title-text">TTY Tricks in Linux</h2>
+    </div>
+    <div class="mdl-card__supporting-text">
+      Life in the terminal
+    </div>
+    <div class="mdl-card__supporting-text">
+      July  1, 2015 <strong>by</strong> Saksham Sharma 
+      <br><strong>Tags: </strong> tty, short 
+    </div>
+
+    <script>
+     // Update JS with needed info
+     var tag_raw =  "tty, short" ;
+     var key = "TTY Tricks in Linux";
+     var tags = tag_raw.replace(/[\s,]+/g, ',').split(',');
+     postMap[key] = tags;
+    </script>
+    
+    <div class="mdl-card__actions mdl-card--border">
+      <a class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect mdl-button--accent" href="../posts/2015-07-01-tty.html">Read more</a>
+    </div>
+  </div>
+  
+</div>
+
+<script>
+
+ // The complete search functionality for tags
+ var posts = document.getElementsByClassName('post-item');
+ var postCount = posts.length;
+ var basicClass = "mdl-cell mdl-card mdl-shadow--4dp portfolio-card post-item"
+
+ // The search box
+ var sbox = document.getElementById('sample3');
+ sbox.onkeyup = function(e) {
+
+   // See if the search string is there in the tags of some item
+   // if yes, let it display
+   // otherwise, that item will be invisible
+   for(var i=0; i<postCount; i++) {
+
+     var list = postMap[posts[i].id].join('');
+     if(list.indexOf(sbox.value) == -1 && sbox.value.trim() != "") {
+       posts[i].className = basicClass + " inactive";
+     } else {
+       posts[i].className = basicClass;
+     }
+   }
+
+ }
+ 
+</script>
+
+            <footer class="mdl-mini-footer">
+                <div class="mdl-mini-footer__left-section">
+                  <div class="mdl-logo">
+                    <h5 style="color: #bbbbbb; margin: 0; padding: 0;">AceHack</h5>
+                    <p style="color: #aaaaaa; margin: 0; margin-top: 5px; padding: 0;">The blog of Saksham Sharma</p>
+                    <p style="color: #aaaaaa; margin: 0; margin-top: 5px; padding: 0;">Hosted on Github <a href="https://github.com/sakshamsharma/sakshamsharma.github.io" target="_blank">here</a><p>
+                  </div>
+                </div>
+                <div class="mdl-mini-footer__middle-section">
+                  <div class="mdl-logo">
+                    <a href="https://github.com/sakshamsharma" target="_blank">sakshamsharma</a>@github<br>
+                    <a href="mailto:saksham@acehack.org" target="_blank">saksham@acehack.com</a>
+                  </div>
+                </div>
+                <div class="mdl-mini-footer__right-section">
+                  <div class="mdl-logo">Proudly generated by Hakyll</div>
+                </div>
+            </footer>
+        </main>
+    </div>
+    <script src="https://code.getmdl.io/1.1.3/material.min.js"></script>
+    <script>
+     var links = document.getElementsByClassName('mynav');
+     for(i=0;i<links.length;i++) {
+       var tmp = links[i].href;
+       if (tmp.substring(tmp.lastIndexOf('/')) == document.location.pathname) {
+         links[i].className += " is-active"
+       }
+     }
+    </script>
+  </body>
+</html>
