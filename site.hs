@@ -23,7 +23,7 @@ main = hakyll $ do
              route assetsRoute
              compile copyFileCompiler
 
-       match "404.md" $ do
+       match (fromList ["404.md", "CNAME"]) $ do
              route idRoute
              compile copyFileCompiler
 
