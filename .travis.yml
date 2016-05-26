@@ -1,0 +1,17 @@
+sudo: required
+services:
+- docker
+before_install:
+- echo "Override default before_install"
+install:
+- echo "Override default install"
+before_script:
+- echo "Override default before_script"
+script: bash ./build.sh
+branches:
+  only:
+  - master
+env:
+  global:
+  - COMMIT_AUTHOR_EMAIL="saksham0808@gmail.com"
+  - ENCRYPTION_LABEL="e81a3a1fc839"
