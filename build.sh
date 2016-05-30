@@ -12,4 +12,4 @@ chmod 600 deploy_key
 eval `ssh-agent -s`
 ssh-add deploy_key
 
-./deploy.sh
+GIT_DEPLOY_REPO="git@github.com:sakshamsharma/acehack.git" && ./deploy.sh
