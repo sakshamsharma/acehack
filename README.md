@@ -1,6 +1,8 @@
 AceHack
 =======
 
+[![Build Status](https://travis-ci.org/sakshamsharma/acehack.svg?branch=master)](https://travis-ci.org/sakshamsharma/acehack)
+
 Source code for my static blog cum website generated using Hakyll (Haskell flavored Jekyll ;) ).
 
 Has a nice search feature for blog posts, and implements tags and categories as well.
