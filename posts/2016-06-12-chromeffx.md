@@ -28,6 +28,10 @@ Not a new thing, but yes, Firefox uses lower RAM than Chrome *consistently*. For
 <img src="/images/articles/ram-plot.png" style="width: 95%; height: auto;"></img>
 
 > Don't laugh at the plot :P
+>
+> Also, the higher one is Chrome, although it's not apparent.
+>
+> Bad gnuplot skills ^
 
 ### Power
 I measured the power output of my laptop's battery while doing various actions on both browsers, and Firefox again demonstrates much lower usage. Really good for people who keep running out of battery and complain they cannot figure out the reason (Yes, I'm also talking about myself). Firefox, good job there!
@@ -60,6 +64,8 @@ Things done to ensure a clean test environment:
 * The battery level (95%) and the battery usage rate (power) were same before the start in both cases.
 * All plugins (except ad-blocker) were disabled in both browsers prior to the start of the experiment.
 * The browsers used were the publicly available binaries, not custom compiled.
+* Both browsers did not use dedicated GPU for any purpose (nvidia module was not loaded).
+* Yes, both browsers had the same volume set on system as well as Youtube.
 
 **NOTE** I left ad-blocker running in both the browsers since Ads would just introduce variability and delays in video starts.
 
@@ -69,7 +75,7 @@ Here are the links used for the experiment:
 * [Instant Crush](https://www.youtube.com/watch?v=a5uQMwRMHcs)
 * [The Scientist](https://www.youtube.com/watch?v=RB-RcX5DS5A)
 
-The experiments were conducted on a Lenovo Y50-70 with a 4 cell battery (and dismal) battery, 8 GB RAM, and an i7 4705HQ Processor.
+The experiments were conducted on a Lenovo Y50-70 with a 4 cell (and dismal) battery, 8 GB RAM, and an i7 4705HQ Processor.
 
 ## Scripts used
 
