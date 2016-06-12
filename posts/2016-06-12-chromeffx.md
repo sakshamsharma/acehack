@@ -25,14 +25,14 @@ Chrome was always know to be a RAM hog, but it also seems to have a huge lot mor
 ### RAM
 Not a new thing, but yes, Firefox uses lower RAM than Chrome *consistently*. For description of the actions during the course of the benchmark, look at the next section.
 
-<img src="/images/articles/ram-plot.png"></img>
+<img src="/images/articles/ram-plot.png" style="width: 95%; height: auto;"></img>
 
 > Don't laugh at the plot :P
 
 ### Power
 I measured the power output of my laptop's battery while doing various actions on both browsers, and Firefox again demonstrates much lower usage. Really good for people who keep running out of battery and complain they cannot figure out the reason (Yes, I'm also talking about myself). Firefox, good job there!
 
-<img src="/images/articles/power-plot.png"></img>
+<img src="/images/articles/power-plot.png" style="width: 95%; height: auto;"></img>
 
 ## The experiment
 I designed a casual benchmark for testing the browsers' resource usage.
