@@ -113,8 +113,24 @@ main = hakyll $ do
 
        match "templates/*" $ compile templateBodyCompiler
 
+       create ["sitemap.xml"] $ do
+              route   idRoute
+              compile $ do
+                posts <- recentFirst =<< loadAll "posts/**"
+                let sitemapCtx =
+                        listField "posts" postCtx (return posts)   `mappend`
+                        defaultContext
+                makeItem ""
+                 >>= loadAndApplyTemplate "templates/sitemap.xml" sitemapCtx
+                 >>= cleanIndexHtmls
 
 --------------------------------------------------------------------------------
+cleanIndexHtmls :: Item String -> Compiler (Item String)
+cleanIndexHtmls = return . fmap (replaceAll pattern replacement)
+    where
+      pattern = "/index.html"
+replacement = const "/"
+
 postCtx :: Context String
 postCtx = dateField "date" "%B %e, %Y" `mappend`
           defaultContext
