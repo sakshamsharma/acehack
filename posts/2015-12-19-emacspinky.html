@@ -7,7 +7,7 @@
     <meta name="description" content="The blog of Saksham Sharma">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
     <title>AceHack - Dealing with the Emacs finger strain</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,large&amp;lang=en">
     <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.grey-pink.min.css" />
     <link rel="stylesheet" href="../css/styles.css" />
     <link rel="stylesheet" href="../css/footer.css" />
@@ -43,7 +43,8 @@
         </nav>
       </div>
       <main class="mdl-layout__content">
-      <div class="mdl-grid">
+        <div class="con-body">
+          <div class="mdl-grid">
   <div class="mdl-cell mdl-cell--3-col"></div>
   <div class="mdl-cell mdl-cell--6-col mdl-cell--4-cell-phonemdl-card mdl-shadow--4dp">
     <div class="mdl-card__title">
@@ -61,7 +62,7 @@
     </div>
     <div class="mdl-grid portfolio-copy" style="max-width: 95%;">
       <div class="mdl-cell mdl-cell--12-col mdl-cell--4-col-phone mdl-card__supporting-text no-padding">
-        <p>
+        <div class="con-body">
           <p>This is something every Emacs user would relate to. Keeping the left control pressed half of the time is quite a habit for most users. After all, it’s the ‘C’ !</p>
 <p>I had just shifted from Vim, and my hands hurt A LOT after even slight usage of Emacs. Not one to give up (or shift to the evil-mode, which might’ve been a good option too), I went ahead and looked for some details online.</p>
 <p>What I found is that the pain is mostly because the ‘pinky finger’ isn’t meant to take up that much of a strain for such long intervals. Okay. Also, I came across quite a few solutions for it, most of which weren’t very conventional or pleasing to the mind.</p>
@@ -95,7 +96,7 @@ add mod1 = Alt_R Meta_R</code></pre>
 <p>This should get you going. Now either logout-login, or run <code>xmodmap ~/.Xmodmap</code> to get this into effect.</p>
 <p><strong>NOTE</strong> Remember, everytime you connect a new keyboard, you’d have to run the command again, whether it’s the setxkbmap command or the xmodmap command.</p>
 <p>I hope this helps some of you. I personally have been using the second one since more than a month. Has worked out really well. Takes a bit of getting used to, but in the end it’s really worth it.</p>
-        </p>
+        </div>
         <div class="fb-like" data-share="true" data-width="450" data-show-faces="true">
         </div>
         <div class="fb-comments" data-href="http://www.acehack.org/posts/2015-12-19-emacspinky.html" data-numposts="20" data-width="100%">
@@ -107,6 +108,7 @@ add mod1 = Alt_R Meta_R</code></pre>
 
 </div>
 
+        </div>
       <footer class="mdl-mini-footer">
         <div class="mdl-mini-footer__left-section">
           <div class="mdl-logo">

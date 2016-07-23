@@ -7,7 +7,7 @@
     <meta name="description" content="The blog of Saksham Sharma">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
     <title>AceHack - TTY Tricks in Linux</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,large&amp;lang=en">
     <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.grey-pink.min.css" />
     <link rel="stylesheet" href="../css/styles.css" />
     <link rel="stylesheet" href="../css/footer.css" />
@@ -43,7 +43,8 @@
         </nav>
       </div>
       <main class="mdl-layout__content">
-      <div class="mdl-grid">
+        <div class="con-body">
+          <div class="mdl-grid">
   <div class="mdl-cell mdl-cell--3-col"></div>
   <div class="mdl-cell mdl-cell--6-col mdl-cell--4-cell-phonemdl-card mdl-shadow--4dp">
     <div class="mdl-card__title">
@@ -57,7 +58,7 @@
     </div>
     <div class="mdl-grid portfolio-copy" style="max-width: 95%;">
       <div class="mdl-cell mdl-cell--12-col mdl-cell--4-col-phone mdl-card__supporting-text no-padding">
-        <p>
+        <div class="con-body">
           <p>I learnt some new things out of curiosity today, regarding working with multiple TTYs. Thought I’d write them down.</p>
 <p>Firstly, multiple TTYs, why would you need them? I for once use them to keep processes running independent of my X session, things like my Wifi Hotspot, things whose output I keep on needing to inspect at times, but don’t want it to hang around inside my X session, incase I close it.</p>
 <p>Also, when experimenting with different Desktop Environments, its actually very useful, because I can have processes running (even Music, thanks MPlayer) and yet close my X session.</p>
@@ -72,7 +73,7 @@
 <h3 id="using-tmux-or-screen">Using TMUX or Screen</h3>
 <p>Well, you can also have a TMUX or a Screen session running in another TTY, and send over the command you want to run there by sending it via TMUX/Screen.</p>
 <p>This is it, try out having multiple TTYs if you ever get the need. And keep these tips in mind.</p>
-        </p>
+        </div>
         <div class="fb-like" data-share="true" data-width="450" data-show-faces="true">
         </div>
         <div class="fb-comments" data-href="http://www.acehack.org/posts/2015-07-01-tty.html" data-numposts="20" data-width="100%">
@@ -84,6 +85,7 @@
 
 </div>
 
+        </div>
       <footer class="mdl-mini-footer">
         <div class="mdl-mini-footer__left-section">
           <div class="mdl-logo">

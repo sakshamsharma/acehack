@@ -7,7 +7,7 @@
     <meta name="description" content="The blog of Saksham Sharma">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
     <title>AceHack - i3 to XMonad - How and why</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,large&amp;lang=en">
     <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.grey-pink.min.css" />
     <link rel="stylesheet" href="../css/styles.css" />
     <link rel="stylesheet" href="../css/footer.css" />
@@ -43,7 +43,8 @@
         </nav>
       </div>
       <main class="mdl-layout__content">
-      <div class="mdl-grid">
+        <div class="con-body">
+          <div class="mdl-grid">
   <div class="mdl-cell mdl-cell--3-col"></div>
   <div class="mdl-cell mdl-cell--6-col mdl-cell--4-cell-phonemdl-card mdl-shadow--4dp">
     <div class="mdl-card__title">
@@ -61,7 +62,7 @@
     </div>
     <div class="mdl-grid portfolio-copy" style="max-width: 95%;">
       <div class="mdl-cell mdl-cell--12-col mdl-cell--4-col-phone mdl-card__supporting-text no-padding">
-        <p>
+        <div class="con-body">
           <p>Never thought I’d see this day, but I actually found a new Tiling Window Manager for my Linux system, I went past i3wm for once just to experiment, and don’t see myself coming back any soon. So yeah, XMonad it is.</p>
 <p>Never heard of it? Very probable. If 1-10% of the PC users are capable of using a Linux system properly, out of those about 1-10% are capable of using i3wm; then out of the remaining few, I guess again only 1-10% would gain anything from using XMonad, for if you want to be able to make XMonad better than i3wm, you need to <em>Code</em>, and I mean actual code. Not just scribbling in a plaintext file with some default keywords you google or read on the i3wm website. What’s more daunting is that this isn’t Python code, its Haskell, probably one of the most tough languages to code in for average people.</p>
 <p>Still here? Good news, no more scaring! I’ll jump to the reasons why you should try out XMonad:</p>
@@ -101,7 +102,7 @@ myModMask     = mod4Mask -- Win key or Super_L
 myBorderWidth = 3</code></pre>
 <p>Well I haven’t explained much about the configs, and I know it. I cannot help it, as it mostly involves Haskell (and that means people already comfortable with Haskell would find it pretty easy). I’ll follow up about various configuration options in XMonad in another set of articles here at AceHack. I leave you to explore XMonad if interested.</p>
 <p>Oh and I almost forgot, here’s the link to my <a href="https://github.com/sakshamsharma/my-configs/tree/master/.xmonad">xmonad.hs</a>. , and it’s pretty tweaked. Note that I put almost all my main code in files inside the folder lib. You can import them with their names as I have done in my xmonad.hs. <em>warning</em>, many of the keybindings have been changed to those of i3wm so as not to break my muscle reflexes developed from using i3wm for almost 8 months. Ha, i3wm is still one of my favs, and it’s keybindings certainly are the best.</p>
-        </p>
+        </div>
         <div class="fb-like" data-share="true" data-width="450" data-show-faces="true">
         </div>
         <div class="fb-comments" data-href="http://www.acehack.org/posts/2015-09-19-i3.html" data-numposts="20" data-width="100%">
@@ -113,6 +114,7 @@ myBorderWidth = 3</code></pre>
 
 </div>
 
+        </div>
       <footer class="mdl-mini-footer">
         <div class="mdl-mini-footer__left-section">
           <div class="mdl-logo">

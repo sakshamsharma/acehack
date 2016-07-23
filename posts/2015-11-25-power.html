@@ -7,7 +7,7 @@
     <meta name="description" content="The blog of Saksham Sharma">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
     <title>AceHack - NVIDIA with Bumblebee and improving Battery Backup</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,large&amp;lang=en">
     <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.grey-pink.min.css" />
     <link rel="stylesheet" href="../css/styles.css" />
     <link rel="stylesheet" href="../css/footer.css" />
@@ -43,7 +43,8 @@
         </nav>
       </div>
       <main class="mdl-layout__content">
-      <div class="mdl-grid">
+        <div class="con-body">
+          <div class="mdl-grid">
   <div class="mdl-cell mdl-cell--3-col"></div>
   <div class="mdl-cell mdl-cell--6-col mdl-cell--4-cell-phonemdl-card mdl-shadow--4dp">
     <div class="mdl-card__title">
@@ -57,7 +58,7 @@
     </div>
     <div class="mdl-grid portfolio-copy" style="max-width: 95%;">
       <div class="mdl-cell mdl-cell--12-col mdl-cell--4-col-phone mdl-card__supporting-text no-padding">
-        <p>
+        <div class="con-body">
           <p>The issue of Graphic cards and Battery Life has been a sticky one for me, and I believe most other laptop users too. The battery backup under Linux is simply awful. For instance, I can get ~5 hours on my Laptop using Windows. Linux lands me at max 1.5-2 hours under similar usage. I believe most Linux users would have similar experiences.</p>
 <p>Here’s some of the things I did which have helped increase the battery backup by a large amount in my case:</p>
 <h2 id="get-your-graphics-card-straight">Get your graphics card straight</h2>
@@ -79,7 +80,7 @@
 <p>Concluding this section, you can use <code>sudo powertop --auto-tune</code> to make all the tunables to good. I made a small systemd service to run this command at every boot by enabling it.</p>
 <p>These tips are just a drop in the ocean, there is a plethora of information on the Arch Wiki about power management. But anyhow, with these 2 tricks (and a userspace CPU governor), I now get about 3.5 hours of battery reading PDFs etc (when I don’t open new webpages on my Browser, that is). Good enough for Library visits during Exam days :)</p>
 <p>Feel free to comment whether these tips improved your laptop’s battery backup or not.</p>
-        </p>
+        </div>
         <div class="fb-like" data-share="true" data-width="450" data-show-faces="true">
         </div>
         <div class="fb-comments" data-href="http://www.acehack.org/posts/2015-11-25-power.html" data-numposts="20" data-width="100%">
@@ -91,6 +92,7 @@
 
 </div>
 
+        </div>
       <footer class="mdl-mini-footer">
         <div class="mdl-mini-footer__left-section">
           <div class="mdl-logo">

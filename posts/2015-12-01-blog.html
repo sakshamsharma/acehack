@@ -7,7 +7,7 @@
     <meta name="description" content="The blog of Saksham Sharma">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
     <title>AceHack - The story of my blog v3</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,large&amp;lang=en">
     <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.grey-pink.min.css" />
     <link rel="stylesheet" href="../css/styles.css" />
     <link rel="stylesheet" href="../css/footer.css" />
@@ -43,7 +43,8 @@
         </nav>
       </div>
       <main class="mdl-layout__content">
-      <div class="mdl-grid">
+        <div class="con-body">
+          <div class="mdl-grid">
   <div class="mdl-cell mdl-cell--3-col"></div>
   <div class="mdl-cell mdl-cell--6-col mdl-cell--4-cell-phonemdl-card mdl-shadow--4dp">
     <div class="mdl-card__title">
@@ -57,7 +58,7 @@
     </div>
     <div class="mdl-grid portfolio-copy" style="max-width: 95%;">
       <div class="mdl-cell mdl-cell--12-col mdl-cell--4-col-phone mdl-card__supporting-text no-padding">
-        <p>
+        <div class="con-body">
           <p><em>My third blog</em> Continuing on my <em>change your blog every semester</em> schedule, I finally have my 3rd blog ready in 3 semesters.</p>
 <p>Well, why? I’d simply answer by saying its fun. And besides, I try out something entirely new every time, so its always a good learning experience. Here’s how this blog came to be:</p>
 <ul>
@@ -74,7 +75,7 @@
 <p>The next step was of hosting, and Continous Integration. I chose to host it on Github (not much of a choice really, Github is the best choice IMO for this). For CI, I chose CircleCI over TravisCI purely on the basis of a blogger’s opinion that Circle is better than Travis for Hakyll. Being naive with both, I chose Circle. Took some time to figure out, but in the end turned out to be great. I just push to my repository now, and get a built and deployed website in around one and a half minute. Awesome!</p>
 <p>Lastly, https! So Github doesn’t allow SSL certificates for custom domain names either. I went with Cloudflare, a custom nameserver. That doesn’t solve the problem completely, but its almost good enough. So now, the client’s connection to the nameserver is encrypted, but the nameserver’s connection to Github isn’t. Well I feel that’s decent. This took quite some time to get working (I got stuck in endless acehack.org-www.acehack.org redirect loops while trying to make the final domain name the top level one. I finally compromised and let it be www.acehack.org).</p>
 <p>So, here’s how this blog came about. See you 6 months later! :)</p>
-        </p>
+        </div>
         <div class="fb-like" data-share="true" data-width="450" data-show-faces="true">
         </div>
         <div class="fb-comments" data-href="http://www.acehack.org/posts/2015-12-01-blog.html" data-numposts="20" data-width="100%">
@@ -86,6 +87,7 @@
 
 </div>
 
+        </div>
       <footer class="mdl-mini-footer">
         <div class="mdl-mini-footer__left-section">
           <div class="mdl-logo">

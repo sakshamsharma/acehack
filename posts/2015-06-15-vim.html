@@ -7,7 +7,7 @@
     <meta name="description" content="The blog of Saksham Sharma">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
     <title>AceHack - Kickstart to Vim</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,large&amp;lang=en">
     <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.grey-pink.min.css" />
     <link rel="stylesheet" href="../css/styles.css" />
     <link rel="stylesheet" href="../css/footer.css" />
@@ -43,7 +43,8 @@
         </nav>
       </div>
       <main class="mdl-layout__content">
-      <div class="mdl-grid">
+        <div class="con-body">
+          <div class="mdl-grid">
   <div class="mdl-cell mdl-cell--3-col"></div>
   <div class="mdl-cell mdl-cell--6-col mdl-cell--4-cell-phonemdl-card mdl-shadow--4dp">
     <div class="mdl-card__title">
@@ -61,7 +62,7 @@
     </div>
     <div class="mdl-grid portfolio-copy" style="max-width: 95%;">
       <div class="mdl-cell mdl-cell--12-col mdl-cell--4-col-phone mdl-card__supporting-text no-padding">
-        <p>
+        <div class="con-body">
           <p>Vim is one of the two widely known text-based Text Editor cum IDEs, the other one being, ahem, Emacs. For people new to Vim, it might have be a big leap, it is markedely different from the usual text editors, it being modal (implying that the same keys do differnt things in different modes. Don’t worry, modes are awesome.)</p>
 <p>Some cool things to know about Vim:</p>
 <ol style="list-style-type: decimal">
@@ -141,7 +142,7 @@ filetype plugin indent on</code></pre>
 <h3 id="the-stuff">The :! stuff</h3>
 <p>One of the coolest things about Vim which modern editors cannot do, it to be able to run terminal commands right inside the editor. So say, you want to compile and run your C++ code from within Vim, and don’t want to exit, I’ll show you how to do that. Well modern editors can do this, but the fact that you can integrate these commands and actions into your keybindings, and plugins, and scripts etc etc, that makes this functionality a lot of fun. Try typing this: <code>:!echo &quot;Yo hey! Vim is cool!&quot;</code>. See? Now try <code>:!date</code>. I use this to compile my LaTeX documents on the fly: <code>nmap &lt;F5&gt; :w !pdflatex %&lt;return&gt;</code>. A simple tap on F5, and the editor on the right refreshes the document preview. Neat, ain’t it? The possibilities with this are endless. You can write complete functions and scripts using this, to accomplish common tasks.</p>
 <p>I’ll add more info here as and when I get time.</p>
-        </p>
+        </div>
         <div class="fb-like" data-share="true" data-width="450" data-show-faces="true">
         </div>
         <div class="fb-comments" data-href="http://www.acehack.org/posts/2015-06-15-vim.html" data-numposts="20" data-width="100%">
@@ -153,6 +154,7 @@ filetype plugin indent on</code></pre>
 
 </div>
 
+        </div>
       <footer class="mdl-mini-footer">
         <div class="mdl-mini-footer__left-section">
           <div class="mdl-logo">

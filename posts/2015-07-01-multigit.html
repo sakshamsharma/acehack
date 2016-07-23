@@ -7,7 +7,7 @@
     <meta name="description" content="The blog of Saksham Sharma">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
     <title>AceHack - Multiple Git repos in a single directory</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,large&amp;lang=en">
     <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.grey-pink.min.css" />
     <link rel="stylesheet" href="../css/styles.css" />
     <link rel="stylesheet" href="../css/footer.css" />
@@ -43,7 +43,8 @@
         </nav>
       </div>
       <main class="mdl-layout__content">
-      <div class="mdl-grid">
+        <div class="con-body">
+          <div class="mdl-grid">
   <div class="mdl-cell mdl-cell--3-col"></div>
   <div class="mdl-cell mdl-cell--6-col mdl-cell--4-cell-phonemdl-card mdl-shadow--4dp">
     <div class="mdl-card__title">
@@ -61,7 +62,7 @@
     </div>
     <div class="mdl-grid portfolio-copy" style="max-width: 95%;">
       <div class="mdl-cell mdl-cell--12-col mdl-cell--4-col-phone mdl-card__supporting-text no-padding">
-        <p>
+        <div class="con-body">
           <p>There might be a case when you want 2 different Git repositories in a single directory. The most logical situation which comes to mind is keeping 2 repositories in your home-folder, one to perhaps keep your configuration files, and another to keep your custom scripts.</p>
 <p>Seems out-of-bounds right? Not really. It so happens that Git offers a ‘git-dir’ flag to all its commands which tells where the Git files for that repository are stored. Here’s how to put it to some real use.</p>
 <ol style="list-style-type: decimal">
@@ -77,7 +78,7 @@ alias scgit='git --git-dir=.scgit'</code></pre>
 <p>Note that this won’t work if you try these commands from any of their children folders. You’ll have to give the –git-dir flag manually in that case.</p>
 <p>Another thing to keep in mind is that you would have trouble keeping 2 separate ‘.gitignores’. Hopefully the 2 repositories would be able to share a single one.</p>
 <p>For another powerful functionality in Git, look at <a href="http://git-scm.com/docs/git-submodule">submodules</a>. Some other day perhaps.</p>
-        </p>
+        </div>
         <div class="fb-like" data-share="true" data-width="450" data-show-faces="true">
         </div>
         <div class="fb-comments" data-href="http://www.acehack.org/posts/2015-07-01-multigit.html" data-numposts="20" data-width="100%">
@@ -89,6 +90,7 @@ alias scgit='git --git-dir=.scgit'</code></pre>
 
 </div>
 
+        </div>
       <footer class="mdl-mini-footer">
         <div class="mdl-mini-footer__left-section">
           <div class="mdl-logo">

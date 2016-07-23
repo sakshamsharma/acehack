@@ -7,7 +7,7 @@
     <meta name="description" content="The blog of Saksham Sharma">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
     <title>AceHack - Hopping over to i3wm</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,large&amp;lang=en">
     <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.grey-pink.min.css" />
     <link rel="stylesheet" href="../css/styles.css" />
     <link rel="stylesheet" href="../css/footer.css" />
@@ -43,7 +43,8 @@
         </nav>
       </div>
       <main class="mdl-layout__content">
-      <div class="mdl-grid">
+        <div class="con-body">
+          <div class="mdl-grid">
   <div class="mdl-cell mdl-cell--3-col"></div>
   <div class="mdl-cell mdl-cell--6-col mdl-cell--4-cell-phonemdl-card mdl-shadow--4dp">
     <div class="mdl-card__title">
@@ -61,7 +62,7 @@
     </div>
     <div class="mdl-grid portfolio-copy" style="max-width: 95%;">
       <div class="mdl-cell mdl-cell--12-col mdl-cell--4-col-phone mdl-card__supporting-text no-padding">
-        <p>
+        <div class="con-body">
           <p>i3 Window Manager is one of the more popular tiling Window Managers for Linux. It’s radically different from the commonplace Window Managers you come across (example: The Window Managers of GNOME, KDE etc. To name them: Compiz, Kwin etc), and is likely to be a huge leap for anyone.</p>
 <p>First things first, why on earth would you want to use i3? You’ve probably never even heard of it. Here:</p>
 <ol style="list-style-type: decimal">
@@ -112,7 +113,7 @@ sudo apt-get install i3</code></pre>
 <pre><code>bindsym $mod+h focus left</code></pre>
 <p>Here ‘$mod’ is a variable which is declared at the top to be Mod4 (in my case, Mod4 is the Super key, Mod1 is the Alt key).</p>
 <p>To be continued..</p>
-        </p>
+        </div>
         <div class="fb-like" data-share="true" data-width="450" data-show-faces="true">
         </div>
         <div class="fb-comments" data-href="http://www.acehack.org/posts/2015-07-03-i3wm.html" data-numposts="20" data-width="100%">
@@ -124,6 +125,7 @@ sudo apt-get install i3</code></pre>
 
 </div>
 
+        </div>
       <footer class="mdl-mini-footer">
         <div class="mdl-mini-footer__left-section">
           <div class="mdl-logo">
