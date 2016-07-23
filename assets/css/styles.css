@@ -202,3 +202,11 @@ a:hover {
 a:active {
     text-decoration: underline;
 }
+
+.con-body p {
+    font-size: 17px !important;
+}
+
+.con-body li {
+    font-size: 17px !important;
+}
