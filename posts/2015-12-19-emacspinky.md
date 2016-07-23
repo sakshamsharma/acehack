@@ -5,7 +5,7 @@ summary: How I got about with the excessive stress on my fingers due to Emacs
 tags: emacs, short
 category: technical
 author: Saksham Sharma
-image: http://cachestocaches.com/media/photologue/photos/cache/emacs-tag_display.png
+image: /images/articles/emacs.jpg
 -----
 
 This is something every Emacs user would relate to. Keeping the left control pressed half of the time is quite a habit for most users. After all, it's the 'C' !
