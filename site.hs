@@ -14,7 +14,7 @@ main = hakyll $ do
        match "assets/js/**" $ do
              route assetsRoute
              compile copyFileCompiler
-     
+
        match "assets/css/**" $ do
              route assetsRoute
              compile compressCssCompiler
@@ -47,6 +47,13 @@ main = hakyll $ do
                      >>= loadAndApplyTemplate "templates/post.html"    postCtxTagged
                      >>= loadAndApplyTemplate "templates/default.html" postCtxTagged
                      >>= relativizeUrls
+
+       match "projects/**" $ do
+         route projectRoute
+         compile $ do
+           pandocCompiler
+             >>= loadAndApplyTemplate "templates/hacker.html" defaultContext
+             >>= relativizeUrls
 
        create ["archive.html"] $ do
               route idRoute
@@ -90,7 +97,7 @@ main = hakyll $ do
                      `mappend` field "tagList" (\_ -> renderTagCloud 70 140 categories)
                      `mappend` listField "posts" postCtx (return posts)
                      `mappend` defaultContext
-    
+
                makeItem ""
                    >>= loadAndApplyTemplate "templates/post-list.html" ctx
                    >>= loadAndApplyTemplate "templates/default.html" ctx
@@ -137,6 +144,12 @@ postCtx = dateField "date" "%B %e, %Y" `mappend`
 
 assetsRoute :: Routes
 assetsRoute = customRoute $ (\x -> x :: String) . drop 7 . toFilePath
+
+projectRoute :: Routes
+projectRoute =
+  idRoute `composeRoutes`
+  (customRoute $ (++ "/index") . takeWhile (/= '.') . drop 9 . toFilePath ) `composeRoutes`
+  setExtension "html"
 
 -- | Add support for adding category directly to the metadata
 -- | Helps avoid changing paths of posts while migrating from old blog
