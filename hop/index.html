@@ -30,6 +30,7 @@
       <section id="main_content">
         <h1 id="http-over-protocol-hop">HTTP-Over-Protocol (HOP)</h1>
 <h1 id="introduction">Introduction</h1>
+<p>A friend once told me that his university has an HTTP(S)-only proxy, and thus he is unable to SSH to hosts outside. 5 hours of intensive coding later using code borrowed from my course assignment, here’s <strong>HOP</strong>.</p>
 <p><strong>HOP</strong> is a tool meant to tunnel any sort of traffic over a standard HTTP channel.</p>
 <p>Useful for scenarios where there’s a proxy filtering all traffic except standard HTTP(S) traffic.</p>
 <h1 id="working">Working</h1>
@@ -59,10 +60,14 @@
 <p>In case of SSH, the target-port would be 22. Now once these 2 are running, to SSH you would run the following:</p>
 <pre><code>ssh &lt;target-machine-username&gt;@localhost -p &lt;client-hop-port&gt;</code></pre>
 <p><em>Note</em>: The keyword server tells <em>hop</em> which side of the connection has to be over HTTP.</p>
+<h1 id="contributing">Contributing</h1>
+<p>Pull Requests are more than welcome! :smile:</p>
+<p>I’ve put down a list of possible ideas if you would like to contribute.</p>
 <h1 id="bugs">Bugs</h1>
 <ul>
 <li>Currently uses a 100ms sleep after every send/receive cycle to allow for synchonizations.</li>
 <li>HTTP Responses may come before HTTP Requests. Let me know if you know of some proxy which blocks such responses.</li>
+<li>Some SSH connections break after a while, with a noticed extra connection being opened by SSH itself (on the client side). Suspected SSH attempting to create a replacement connection and killing the original connection. See issue #1</li>
 </ul>
 <h1 id="planned-features">Planned features</h1>
 <ul>
