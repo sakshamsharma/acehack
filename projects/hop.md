@@ -9,6 +9,8 @@ HTTP-Over-Protocol (HOP)
 ========================
 
 # Introduction
+A friend once told me that his university has an HTTP(S)-only proxy, and thus he is unable to SSH to hosts outside. 5 hours of intensive coding later using code borrowed from my course assignment, here's **HOP**.
+
 **HOP** is a tool meant to tunnel any sort of traffic over a standard HTTP channel.
 
 Useful for scenarios where there's a proxy filtering all traffic except standard HTTP(S) traffic.
@@ -63,9 +65,15 @@ ssh <target-machine-username>@localhost -p <client-hop-port>
 
 *Note*: The keyword server tells *hop* which side of the connection has to be over HTTP.
 
+# Contributing
+Pull Requests are more than welcome! :smile:
+
+I've put down a list of possible ideas if you would like to contribute.
+
 # Bugs
 * Currently uses a 100ms sleep after every send/receive cycle to allow for synchonizations.
 * HTTP Responses may come before HTTP Requests. Let me know if you know of some proxy which blocks such responses.
+* Some SSH connections break after a while, with a noticed extra connection being opened by SSH itself (on the client side). Suspected SSH attempting to create a replacement connection and killing the original connection. See issue #1
 
 # Planned features
 * Better and adaptive buffering
