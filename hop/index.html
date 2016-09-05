@@ -29,10 +29,15 @@
     <div class="container">
       <section id="main_content">
         <h1 id="http-over-protocol-hop">HTTP-Over-Protocol (HOP)</h1>
+<pre><code>  _   _  ___  ____
+ | | | |/ _ \|  _ \
+ | |_| | | | | |_) |
+ |  _  | |_| |  __/
+ |_| |_|\___/|_|</code></pre>
 <h1 id="introduction">Introduction</h1>
 <p>A friend once told me that his university has an HTTP(S)-only proxy, and thus he is unable to SSH to hosts outside. 5 hours of intensive coding later using code borrowed from my course assignment, here’s <strong>HOP</strong>.</p>
 <p><strong>HOP</strong> is a tool meant to tunnel any sort of traffic over a standard HTTP channel.</p>
-<p>Useful for scenarios where there’s a proxy filtering all traffic except standard HTTP(S) traffic.</p>
+<p>Useful for scenarios where there’s a proxy filtering all traffic except standard HTTP(S) traffic. Unlike other tools which either require you to be behind a proxy which let’s you pass arbitrary traffic (possibly after an initial CONNECT request), or tools which work only for SSH, this imposes no such restrictions.</p>
 <h1 id="working">Working</h1>
 <p>Assuming you want to use SSH to connect to a remote machine where you don’t have root privileges.</p>
 <p>There will be 7 entities:</p>
