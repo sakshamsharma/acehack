@@ -29,11 +29,11 @@
     <div class="container">
       <section id="main_content">
         <h1 id="http-over-protocol-hop">HTTP-Over-Protocol (HOP)</h1>
-<pre><code>  _   _  ___  ____
- | | | |/ _ \|  _ \
+<pre><code>  _   _  ___  ____  
+ | | | |/ _ \|  _ \ 
  | |_| | | | | |_) |
- |  _  | |_| |  __/
- |_| |_|\___/|_|</code></pre>
+ |  _  | |_| |  __/ 
+ |_| |_|\___/|_|    </code></pre>
 <h1 id="introduction">Introduction</h1>
 <p>A friend once told me that his university has an HTTP(S)-only proxy, and thus he is unable to SSH to hosts outside. 5 hours of intensive coding later using code borrowed from my course assignment, here’s <strong>HOP</strong>.</p>
 <p><strong>HOP</strong> is a tool meant to tunnel any sort of traffic over a standard HTTP channel.</p>
@@ -68,21 +68,33 @@
 <h1 id="contributing">Contributing</h1>
 <p>Pull Requests are more than welcome! :smile:</p>
 <p>I’ve put down a list of possible ideas if you would like to contribute.</p>
-<h1 id="bugs">Bugs</h1>
-<ul>
-<li>Currently uses a 100ms sleep after every send/receive cycle to allow for synchonizations.</li>
-<li>HTTP Responses may come before HTTP Requests. Let me know if you know of some proxy which blocks such responses.</li>
-<li>Some SSH connections break after a while, with a noticed extra connection being opened by SSH itself (on the client side). Suspected SSH attempting to create a replacement connection and killing the original connection. See issue #1</li>
-</ul>
 <h1 id="planned-features">Planned features</h1>
 <ul>
 <li>Better and adaptive buffering</li>
 <li>Better CLI flags interface</li>
+<li>Optional encrypting of data</li>
 <li>Parsing of .ssh/config file for hosts</li>
 <li>Web interface for remote server admin</li>
 <li>Web interface for local host</li>
 <li>Daemon mode for certain configs</li>
 </ul>
+<h1 id="bugs">Bugs</h1>
+<ul>
+<li>Currently uses a 100ms sleep after every send/receive cycle to bypass some memory error (not yet eliminated).</li>
+<li>HTTP Responses may come before HTTP Requests. Let me know if you know of some proxy which blocks such responses.</li>
+<li>Logger seems to be non-thread-safe, despite locking. Leads to memory errors, and thus disabled for now.</li>
+<li>See issue #1. Some transfers have missing content.</li>
+</ul>
+<h1 id="testing">Testing</h1>
+<pre><code>make
+./hop 8081 localhost 8091 SERVER
+./hop 8083 localhost 8081
+python -c 'print(&quot;\n&quot;.join([ str(i) for i in range(1000000, 2000000)]))' &gt;! ff1
+python -c 'print(&quot;\n&quot;.join([ str(i) for i in range(2000000, 3000000)]))' &gt;! ff2
+nc -l 8091 &lt; ff1 &gt;! oo1
+nc localhost 8083 &lt; ff2 &gt;! oo2
+wc -l oo*</code></pre>
+<p>This should say that both files contain a million lines. Any less would mean some data loss.</p>
       </section>
     </div>
 
