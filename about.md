@@ -4,7 +4,7 @@ name: About
 image: /images/me2.jpg
 ---
 
-I'm Saksham Sharma as is obvious. A sophomore armed with a Laptop; Tall, Lanky and over-energetic punjabi guy, that's me.
+I'm Saksham Sharma as is obvious. A pre-final year undergrad armed with a Laptop; Tall, Lanky and over-energetic punjabi guy, that's me.
 
 I used to be a super studious guy till class 12, and cleared my JEE (yes, THE exam in India), with national ranks of 10 and 138 in Mains and Advanced respectively, though I would've loved the opposite pair. Anyhow, that landed me at IIT Kanpur, a decision I'll never regret.
 
