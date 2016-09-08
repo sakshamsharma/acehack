@@ -80,10 +80,8 @@
 </ul>
 <h1 id="bugs">Bugs</h1>
 <ul>
-<li>Currently uses a 100ms sleep after every send/receive cycle to bypass some memory error (not yet eliminated).</li>
 <li>HTTP Responses may come before HTTP Requests. Let me know if you know of some proxy which blocks such responses.</li>
-<li>Logger seems to be non-thread-safe, despite locking. Leads to memory errors, and thus disabled for now.</li>
-<li>See issue #1. Some transfers have missing content.</li>
+<li>Logger seems to be non-thread-safe, despite locking. Suspected for memory errors, and thus disabled for now.</li>
 </ul>
 <h1 id="testing">Testing</h1>
 <pre><code>make

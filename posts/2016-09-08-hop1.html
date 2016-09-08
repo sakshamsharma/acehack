@@ -100,7 +100,8 @@
 <p><strong>HOP</strong> simply wraps all the data in HTTP packets, and buffers them accordingly.</p>
 <p>Another even more complicated scenario would be if you have an external utility server, and need to access another server’s resources from behind a proxy. In this case, <em>hop</em> will still run on your external server, but instead of using <code>localhost</code> in the second command (Usage section), use the hostname of the target machine which has the host.</p>
 <h1 id="current-state">Current state</h1>
-<p>After the initial release (when I started receiving stars on Github), I found a bug which caused data drops, and thus broke the tunneled SSH connections. Around 10-15 hours later, and multiple rewrites later (which made the code much more readable too), the bug still exists, but does not seem to occur too often. There had been plenty of memory corruption errors as well, which have been fixed now. I can use <code>hop</code> to SSH to machines over HTTP quite reliably now.</p>
+<p>After the initial release (when I started receiving stars on Github), I found a bug which caused data drops, and thus broke the tunneled SSH connections. Around 10 hours later, and multiple rewrites later (which made the code much more readable too), the bug finally stands fixed. The bug was due to me using 2 different threads to read and write to the same 2 sockets. I realized this while writing an article on bidirectional nature of sockets.</p>
+<p>There had been plenty of memory corruption errors as well, which have been fixed now. I can use <code>hop</code> to SSH to machines over HTTP, or transfer files using <code>nc</code> reliably now.</p>
 <h1 id="lessons">Lessons</h1>
 <ul>
 <li>It is often quite hard to figure out parts which can be abstracted out in a program on the first rewrite. I actually leart a lot during the rewrites of the code.</li>
@@ -111,6 +112,7 @@
 <li>Avoid C/C++ if you can :smile: If you cannot, atleast avoid memory corruption errors.</li>
 <li>Think before you begin writing. Think of all the corner cases, and all the errors you want to handle.</li>
 <li>Don’t leave things which you assume will never happen, and thus you don’t handle them. If there’s something like that, put an assert on it. Will save a ton of a time later.</li>
+<li>Remember, sockets are not synced nicely across threads.</li>
 </ul>
         </div>
         <div class="fb-like" data-share="true" data-width="450" data-show-faces="true">
