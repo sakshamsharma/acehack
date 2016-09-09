@@ -15,3 +15,5 @@ I love coding in any form, and Linux, anything about it. You *should* look at [m
 As for writing, I used to love reading literature when I was a kid. Writing took a back seat after a stage, but doesn't mean I don't love to scribble.
 
 Go ahead and give some stuff here a read. Come back for more :)
+
+Ping me via [email](mailto:saksham@acehack.org) or on IRC, where I hangout as `acehack` or `saksham` on `freenode`.
