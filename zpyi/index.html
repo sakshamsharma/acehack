@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+
+    <link rel="stylesheet" type="text/css" href="../css/stylesheet.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="../css/github-dark.css" media="screen">
+    <link rel="stylesheet" type="text/css" href="../css/print.css" media="print">
+
+    <title>Zpyi by Saksham Sharma</title>
+  </head>
+
+  <body>
+
+    <header>
+      <div class="container">
+        <h1>Zpyi</h1>
+        <h2>The power of python in your Zsh - Easy python scripting in shell</h2>
+
+        <section id="downloads">
+          <a href="https://github.com/sakshamsharma/zpyi/zipball/master" class="btn">Download as .zip</a>
+          <a href="https://github.com/sakshamsharma/zpyi/tarball/master" class="btn">Download as .tar.gz</a>
+          <a href="https://github.com/sakshamsharma/zpyi" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
+        </section>
+      </div>
+    </header>
+
+    <div class="container">
+      <section id="main_content">
+        <h1 id="zpyi">zpyi</h1>
+<p>zpyi makes your shell smarter, in more ways than one. It’s no magic, it’s python.</p>
+<pre><code>                    _
+                   (_)
+ ____ _ __   _   _  _
+|_  /| '_ \ | | | || |
+ / / | |_) || |_| || |
+/___|| .__/  \__, ||_|
+     | |      __/ |
+     |_|     |___/</code></pre>
+<p>Your shell now falls back to python if some command couldn’t be handled by zsh. So you can now do <code>2+3</code> directly in your shell. Well, something much more complex than that too.</p>
+<p>Of course, you would not want to break any existing functionality provided by Zsh. This prompted the need to use <code>'2**107'</code> instead of <code>2**107</code> to evaluate 2 to the exponent of 107. Otherwise there would have been conflicts with the wildcard syntax of Zsh.</p>
+<p>You can assume that anything written at the start of a shell command, within single or double quotes would be interpreted as a python script.</p>
+<h1 id="examples">Examples</h1>
+<p>Here are some cool things you can now do. Note that all the code blocks below are to be run in the shell itself! No need to write python scripts to do small one-time stuff. And all this stays in your shell history! No need to store your small scripts too.</p>
+<h4 id="cool-one-liners">Cool One liners</h4>
+<ul>
+<li><code>'2**107'</code></li>
+<li><code>'sqrt(10)'</code></li>
+<li><code>'&quot;user&quot;.upper()'</code></li>
+<li><p>Multiline code!</p>
+<pre><code>'
+a = 1
+b = 2**107
+c = a + b
+print (c*2)
+'</code></pre></li>
+</ul>
+<h4 id="use-shell-commands-and-env-vars-inside-python-code">Use shell commands and env vars inside python code</h4>
+<ul>
+<li><code>&quot;print ('$(whoami)'.upper())&quot;</code></li>
+<li><code>export myname=&quot;me&quot;; &quot;print ('$myname is nice')&quot;</code></li>
+</ul>
+<h4 id="pass-stuff-to-python-script-using-stdin">Pass stuff to python script using stdin</h4>
+<pre><code>cat /etc/passwd | '
+lines = sys.stdin.readlines()
+
+for line in lines:
+    print line.upper()
+'</code></pre>
+<h4 id="stdin-and-stdout-redirection">Stdin and Stdout redirection</h4>
+<ul>
+<li><code>'print (input().upper())' &lt; infile &gt; outfile</code></li>
+<li><code>echo &quot;what, my name is shady&quot; | 'print (input().upper())'</code></li>
+</ul>
+<h4 id="command-line-parameters">Command line parameters</h4>
+<p>Yes, they work too, using either the <code>sys.argv</code> or <code>argv</code> to refer to the 1 based indexing. There is also an array named <code>args</code> which has the args in 0 based indexing</p>
+<ul>
+<li><code>'print (str(int(sys.argv[1]) + int(sys.argv[2])))' 2 3</code> returns 5</li>
+<li><code>'print (str(int(args[0]) + int(args[1])))' 2 3</code> returns 5 too</li>
+</ul>
+<h4 id="imports">Imports!</h4>
+<p>The modules <code>math</code>, <code>sys</code> and <code>os</code> are already imported!</p>
+<p>In addition, you can define an environment variable to use any custom imports, thanks to <span class="citation">@orf</span> for the PR on this!</p>
+<pre><code># This is a shell command, run in your shell
+export ZPYI_IMPORTS=requests
+
+# This is the python line you run
+&quot;get('http://google.com')&quot;</code></pre>
+<p>So now you don’t need to run <code>python -c 'print(sqrt(2**10))' &gt; outputfile</code>, only to remember that it won’t work because <code>math</code> is not imported while using <code>python -c</code>.</p>
+<h4 id="write-cool-shell-scripts">Write cool shell scripts</h4>
+<p>Here’s a simple zsh script to be run via <code>zsh script.sh</code>. Just that now you don’t need to do complicated string parsing in shell, when you have python for that.</p>
+<pre><code>source ~/.zshrc
+myname=$(whoami)
+&quot;print ('${myname}'.upper())&quot;</code></pre>
+<h1 id="installing">Installing?</h1>
+<p>The installation script is concise enough:</p>
+<pre><code>cd ~
+git clone https://github.com/sakshamsharma/zpyi ~/.zpyi
+echo &quot;source ~/.zpyi/zpyi.zsh&quot; &gt;&gt; ~/.zshrc</code></pre>
+<p>If you feel lazy, this works too:</p>
+<pre><code>curl https://raw.githubusercontent.com/sakshamsharma/zpyi/master/install_script.sh | bash</code></pre>
+<p>Or if you make use of <a href="https://github.com/zsh-users/antigen">antigen</a> (which is probably a good idea):</p>
+<pre><code>antigen bundle https://github.com/sakshamsharma/zpyi zpyi.zsh</code></pre>
+<h1 id="todo">TODO</h1>
+<ul>
+<li>Add support for querying for missing packages</li>
+</ul>
+      </section>
+    </div>
+
+  </body>
+</html>
