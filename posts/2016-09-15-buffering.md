@@ -80,12 +80,29 @@ $$
 Wastage\ ratio = \frac{Wastage}{N} = (\frac{hs_r}{B} \times \frac{B+s_r}{DB-h}) + \frac{s_r - B}{B}
 $$
 
+This whole discussion assumed that old packets are considered useless. So our source should either find a way to not send packets for a while, or it should be robust enough to be able to tolerate some fractions of losses.
+
+For Video streaming, one can envision a scenario where the source sends packets frame by frame, with the gap (the one we considered the loss) as a small fraction less than the frame gap in the desired frame rate.
+
+#### Non-jerky data loss
+Now what if it is surely a video stream, but we don't want jerks in the data? (We're still okay with losses). In that case, almost the whole analysis is the same as above, with the exception that now the oldest packet reaching the other side will not have been sent so late. The sending buffer will randomly drop packets with a probability of $1 - \frac{B}{h+k} \times \frac{k}{S}$. In the end, these packets will be sent over to the other side, but they will include packets close to the start of the blue region (above figure) too. So, the inequality for `k` will now be:
+
+$$
+delay\ of\ max\ delayed\ byte = 2\times\frac{h+k}{B} \leq D\\
+\Rightarrow k \leq {\frac{DB}{2} - h}
+$$
+
+Of course, this will worsen our possible wastage ratio at a particular reading speed, since we increased the constraint on the delay.
+
 ### Losses are NOT allowed
 
-Using the above section's results, we can actually get a solution such that the wastage is 0.
+Using the above section's results (The jerky data loss), we can actually get a solution such that the wastage is 0 (for the case when data is transmitted jerkily).
 
 We need to slow down the sender quite a bit though:
 
 $$s_r = B - \frac{2h}{D}$$
 
 So if it is possible to slow down the sender this much (or simply read slowly, helpful in cases when you're basically sending bytes written by a human, or sending a file), we know how fast we can afford to read. Of course, we could have solved this taking delay as 0 right from the start, but that would deprive us of the observations in the previous section :smile:
+
+## Conclusion
+Already having spent quite a bit on this article (and now wanting to go back to my other ideas related to networks), I'll leave this post here, unfinished. There can be quite a few conclusions from this, which would possibly have been written down in some paper or the other for sure. But I believe being so nascent in this field, trying out things on your own has its own charm! Will probably work some more on this if I get time.
