@@ -3,6 +3,7 @@ title: Buffering packets in a network with a variable source
 musing: true
 summary: Solving a self-posed problem :)
 tags: algorithm, networks
+image: /images/articles/drawing1.png
 category: musings
 author: Saksham Sharma
 ------
