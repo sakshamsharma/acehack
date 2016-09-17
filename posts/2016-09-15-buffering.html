@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <!-- The start of the flag is: flag{we@allKn0wTh@t -->
+  <!-- The start of the flag is: flag{we@allKn0wTh@t -->
+  <!-- The start of the flag is: flag{we@allKn0wTh@t -->
+  <!-- The start of the flag is: flag{we@allKn0wTh@t -->
+  <!-- The start of the flag is: flag{we@allKn0wTh@t -->
+  <!-- The start of the flag is: flag{we@allKn0wTh@t -->
+  <!-- The start of the flag is: flag{we@allKn0wTh@t -->
+  <!-- The start of the flag is: flag{we@allKn0wTh@t -->
+  <!-- The start of the flag is: flag{we@allKn0wTh@t -->
+  <!-- The start of the flag is: flag{we@allKn0wTh@t -->
+  <!-- The start of the flag is: flag{we@allKn0wTh@t -->
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="The blog of Saksham Sharma">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <title>AceHack - Buffering packets in a network with a variable source</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,large&amp;lang=en">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.grey-pink.min.css" />
+    <link rel="stylesheet" href="../css/styles.css" />
+    <link rel="stylesheet" href="../css/footer.css" />
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="../js/fb.js"></script>
+  </head>
+  <body>
+
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+      <header class="mdl-layout__header mdl-layout__header--scroll portfolio-header">
+        <div class="mdl-layout__header-row portfolio-logo-row">
+          <span class="mdl-layout__title">
+            <a href="../">
+              <div class="portfolio-logo"></div>
+            </a>
+            <span class="mdl-layout__title">The blog of Saksham Sharma</span>
+          </span>
+        </div>
+        <div class="mdl-layout__header-row portfolio-navigation-row mdl-layout--large-screen-only">
+          <nav class="mdl-navigation mdl-typography--body-1-force-preferred-font">
+            <a class="mdl-navigation__link mynav" href="../index.html">Home</a>
+            <a class="mdl-navigation__link mynav" href="../archive.html">Blog</a>
+            <a class="mdl-navigation__link mynav" href="../about.html">About</a>
+          </nav>
+        </div>
+      </header>
+      <div class="mdl-layout__drawer mdl-layout--small-screen-only">
+        <nav class="mdl-navigation mdl-typography--body-1-force-preferred-font">
+          <a class="mdl-navigation__link mynav" href="../index.html">Home</a>
+          <a class="mdl-navigation__link mynav" href="../archive.html">Blog</a>
+          <a class="mdl-navigation__link mynav" href="../about.html">About</a>
+        </nav>
+      </div>
+      <main class="mdl-layout__content">
+        <div class="con-body">
+          <div class="mdl-grid">
+  <div class="mdl-cell mdl-cell--3-col"></div>
+  <div class="mdl-cell mdl-cell--6-col mdl-cell--4-cell-phonemdl-card mdl-shadow--4dp">
+    <div class="mdl-card__title">
+      <h1 class="mdl-card__title-text" style="font-size: 2.5em;">Buffering packets in a network with a variable source</h1>
+    </div>
+    
+    <div class="mdl-card__supporting-text">
+      <strong>Written on: </strong> September 15, 2016
+      <strong>by</strong> Saksham Sharma 
+      <br><strong>Tags: </strong> <a href="../tags/algorithm.html">algorithm</a>, <a href="../tags/networks.html">networks</a> <br>
+    </div>
+    <div class="mdl-grid portfolio-copy" style="max-width: 95%;">
+      <div class="mdl-cell mdl-cell--12-col mdl-cell--4-col-phone mdl-card__supporting-text no-padding">
+        <div class="con-body">
+          <script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+<script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+<p>As a natural extension my project <a href="https://github.com/sakshamsharma/HTTP-Over-Protocol">hop</a>, I decided to try and optimize it’s buffering technique. Here is the problem formalized a bit:</p>
+<ul>
+<li>A source which is capable of writing bytes at the rate of <code>S bytes/sec</code>.</li>
+<li>A network channel which can carry bytes at a bandwidth or rate of <code>B bytes/sec</code>. <code>B</code> is almost always slower than <code>S</code>.</li>
+<li>You can choose to read the data from the source slower than it can write, but that will cause delays.</li>
+<li>Maximum delay for any byte is bounded by the value <code>D</code>.</li>
+<li>To send <code>k</code> bytes in an IP packet, you need to attach a header of size <code>h</code>.</li>
+<li><code>h</code> does not depend on <code>k</code>, but <code>k</code> is limited to the size of an IP packet minus <code>h</code>. Thus, <code>k</code> can be expected to be around 65000 bytes at max.</li>
+<li>An IP packet is received as an atomic entity. So <code>k</code> chunked bytes will be received at the same time.</li>
+</ul>
+<p>I tried to find an optimal solution for this, or a related problem. It turns out that this problem doesn’t even present a solution, and modifying the problem seems to help provide a workable problem. For the following section, I will assume that there is an added condition to the problem:</p>
+<ul>
+<li>You can afford to lose bytes at some rate.</li>
+</ul>
+<p>With this information, I set on to try find something interesting in this problem (and end up using the found solution for another problem).</p>
+<p><strong>Note</strong>: Although assumed that the source can write at the speed of <code>S bytes/sec</code>, this will be considered only as an upper limit.</p>
+<h3 id="losses-are-allowed">Losses are allowed</h3>
+<p>Here we are assuming (for the sake of keeping the problem well-defined) that the receiver does not mind random byte losses.</p>
+<p>We first note a few key ideas regarding the optimal solution here:</p>
+<ul>
+<li>It is wasteful to not be using the network channel at any point of time. Better read and keep some bytes ready beforehand</li>
+<li>Sending too large chunks would increase delay</li>
+<li>Sending small chunks would cause the packet header size overhead to become significant</li>
+</ul>
+<h4 id="async-reading">Async reading</h4>
+<p>We have 2 client side processes/threads. One of them handles reading from the input source, while the other handles writing to the network socket. For sake of convenience, we will now assume <span class="math inline"><em>s</em><sub><em>r</em></sub></span> to be the speed of reading from the source asynchonously.</p>
+<p>In the given scenario, this would follow:</p>
+<ul>
+<li>The last read <code>k</code> bytes take <span class="math inline">$\frac{h+h}{B}$</span> time to be sent.</li>
+<li>Meanwhile, the reader accumulates <code>k</code> bytes to be sent once the above send is done.</li>
+<li>While reading at the rate <span class="math inline"><em>s</em><sub><em>r</em></sub></span>, this takes <span class="math inline">$\frac{k}{s_r}$</span> time.</li>
+<li>The remaining bytes written by the source during the time of send are lost.</li>
+<li>This loss time is <span class="math inline">$\frac{h+k}{B} - \frac{k}{s}$</span>.</li>
+<li>These newly read bytes are sent once the previous send is finished.</li>
+</ul>
+<p>Now we have the condition that any packet which reaches the receiver should not be too old (at max <code>D</code> seconds old). In that case, it is favorable to send only the packets read just before the next send (the most latest packets, since they are more valuable than the old ones). The figure describes this (green is reading from source, blue is sending over network):</p>
+<div class="figure">
+<img src="../images/articles/drawing1.png" />
+
+</div>
+<p>Now note that we are trying to minimize the losses, while keeping the delay in check. Total loss is <span class="math inline"><em>N</em>/<em>k</em></span> times the loss per <code>k</code> bytes, where <code>N</code> is the total amount of data to be sent (just an asymptotic constant for this case). We try find an expression for the total loss. Here, wasted means bytes which were not read, and thus never sent.</p>
+<p><br /><span class="math display">$$
+wasted\ time\ per\ k\ bytes = \frac{h+k}{B} - \frac{k}{s_r}\\
+wasted\ bytes\ per\ k\ bytes\ sent = (\frac{h+k}{B} - \frac{k}{s_r})\times s_r\\
+total\ wastage\ in\ N\ bytes = (\frac{h+k}{B} - \frac{k}{s_r})\times s_r \times \frac{N}{k} \leq D
+$$</span><br /></p>
+<p>Also <br /><span class="math display">$$
+delay\ of\ max\ delayed\ byte = \frac{h+k}{B} + \frac{k}{s_r} \leq D\\
+\Rightarrow k \leq {D - \frac{h}{B}} \times \frac{Bs_r}{B+s_r}
+$$</span><br /></p>
+<p>Using the constraint on <code>k</code>, we get:</p>
+<p><br /><span class="math display">$$
+Wastage\ ratio = \frac{Wastage}{N} = (\frac{hs_r}{B} \times \frac{B+s_r}{DB-h}) + \frac{s_r - B}{B}
+$$</span><br /></p>
+<p>This whole discussion assumed that old packets are considered useless. So our source should either find a way to not send packets for a while, or it should be robust enough to be able to tolerate some fractions of losses.</p>
+<p>For Video streaming, one can envision a scenario where the source sends packets frame by frame, with the gap (the one we considered the loss) as a small fraction less than the frame gap in the desired frame rate.</p>
+<h4 id="non-jerky-data-loss">Non-jerky data loss</h4>
+<p>Now what if it is surely a video stream, but we don’t want jerks in the data? (We’re still okay with losses). In that case, almost the whole analysis is the same as above, with the exception that now the oldest packet reaching the other side will not have been sent so late. The sending buffer will randomly drop packets with a probability of <span class="math inline">$1 - \frac{B}{h+k} \times \frac{k}{S}$</span>. In the end, these packets will be sent over to the other side, but they will include packets close to the start of the blue region (above figure) too. So, the inequality for <code>k</code> will now be:</p>
+<p><br /><span class="math display">$$
+delay\ of\ max\ delayed\ byte = 2\times\frac{h+k}{B} \leq D\\
+\Rightarrow k \leq {\frac{DB}{2} - h}
+$$</span><br /></p>
+<p>Of course, this will worsen our possible wastage ratio at a particular reading speed, since we increased the constraint on the delay.</p>
+<h3 id="losses-are-not-allowed">Losses are NOT allowed</h3>
+<p>Using the above section’s results (The jerky data loss), we can actually get a solution such that the wastage is 0 (for the case when data is transmitted jerkily).</p>
+<p>We need to slow down the sender quite a bit though:</p>
+<p><br /><span class="math display">$$s_r = B - \frac{2h}{D}$$</span><br /></p>
+<p>So if it is possible to slow down the sender this much (or simply read slowly, helpful in cases when you’re basically sending bytes written by a human, or sending a file), we know how fast we can afford to read. Of course, we could have solved this taking delay as 0 right from the start, but that would deprive us of the observations in the previous section :smile:</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Already having spent quite a bit on this article (and now wanting to go back to my other ideas related to networks), I’ll leave this post here, unfinished. There can be quite a few conclusions from this, which would possibly have been written down in some paper or the other for sure. But I believe being so nascent in this field, trying out things on your own has its own charm! Will probably work some more on this if I get time.</p>
+        </div>
+        <div class="fb-like" data-share="true" data-width="450" data-show-faces="true">
+        </div>
+        <div class="fb-comments" data-href="http://www.acehack.org/posts/2016-09-15-buffering.html" data-numposts="20" data-width="100%">
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+
+        </div>
+      <footer class="mdl-mini-footer">
+        <div class="mdl-mini-footer__left-section">
+          <div class="mdl-logo">
+            <h5 style="color: #bbbbbb; margin: 0; padding: 0;">AceHack</h5>
+            <p style="color: #aaaaaa; margin: 0; margin-top: 5px; padding: 0;">The blog of Saksham Sharma</p>
+            <p style="color: #aaaaaa; margin: 0; margin-top: 5px; padding: 0;">Hosted on Github <a href="https://github.com/sakshamsharma/acehack" target="_blank">here</a><p>
+          </div>
+        </div>
+        <div class="mdl-mini-footer__middle-section">
+          <div class="mdl-logo" style="text-align: right;">
+            <a href="https://github.com/sakshamsharma" target="_blank">sakshamsharma</a>@github<br>
+            <a href="mailto:saksham@acehack.org" target="_blank">saksham@acehack.com</a>
+          </div>
+        </div>
+        <div class="mdl-mini-footer__right-section">
+          <div class="mdl-logo">Proudly generated by Hakyll</div>
+        </div>
+      </footer>
+      </main>
+    </div>
+    <script src="https://code.getmdl.io/1.1.3/material.min.js"></script>
+    <script>
+var links = document.getElementsByClassName('mynav');
+for(i=0;i<links.length;i++) {
+  var tmp = links[i].href;
+  if (tmp.substring(tmp.lastIndexOf('/')) == document.location.pathname) {
+    links[i].className += " is-active"
+  }
+}
+    </script>
+  </body>
+  <!-- The start of the flag is: flag{we@allKn0wTh@t -->
+  <!-- The start of the flag is: flag{we@allKn0wTh@t -->
+  <!-- The start of the flag is: flag{we@allKn0wTh@t -->
+  <!-- The start of the flag is: flag{we@allKn0wTh@t -->
+  <!-- The start of the flag is: flag{we@allKn0wTh@t -->
+  <!-- The start of the flag is: flag{we@allKn0wTh@t -->
+  <!-- The start of the flag is: flag{we@allKn0wTh@t -->
+  <!-- The start of the flag is: flag{we@allKn0wTh@t -->
+  <!-- The start of the flag is: flag{we@allKn0wTh@t -->
+  <!-- The start of the flag is: flag{we@allKn0wTh@t -->
+  <!-- The start of the flag is: flag{we@allKn0wTh@t -->
+</html>
