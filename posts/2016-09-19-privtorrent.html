@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <!-- The start of the flag is: flag{we@allKn0wTh@t -->
+  <!-- The start of the flag is: flag{we@allKn0wTh@t -->
+  <!-- The start of the flag is: flag{we@allKn0wTh@t -->
+  <!-- The start of the flag is: flag{we@allKn0wTh@t -->
+  <!-- The start of the flag is: flag{we@allKn0wTh@t -->
+  <!-- The start of the flag is: flag{we@allKn0wTh@t -->
+  <!-- The start of the flag is: flag{we@allKn0wTh@t -->
+  <!-- The start of the flag is: flag{we@allKn0wTh@t -->
+  <!-- The start of the flag is: flag{we@allKn0wTh@t -->
+  <!-- The start of the flag is: flag{we@allKn0wTh@t -->
+  <!-- The start of the flag is: flag{we@allKn0wTh@t -->
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="The blog of Saksham Sharma">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <title>AceHack - Privately send data to host without disclosing IP</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,large&amp;lang=en">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.grey-pink.min.css" />
+    <link rel="stylesheet" href="../css/styles.css" />
+    <link rel="stylesheet" href="../css/footer.css" />
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="../js/fb.js"></script>
+  </head>
+  <body>
+
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+      <header class="mdl-layout__header mdl-layout__header--scroll portfolio-header">
+        <div class="mdl-layout__header-row portfolio-logo-row">
+          <span class="mdl-layout__title">
+            <a href="../">
+              <div class="portfolio-logo"></div>
+            </a>
+            <span class="mdl-layout__title">The blog of Saksham Sharma</span>
+          </span>
+        </div>
+        <div class="mdl-layout__header-row portfolio-navigation-row mdl-layout--large-screen-only">
+          <nav class="mdl-navigation mdl-typography--body-1-force-preferred-font">
+            <a class="mdl-navigation__link mynav" href="../index.html">Home</a>
+            <a class="mdl-navigation__link mynav" href="../archive.html">Blog</a>
+            <a class="mdl-navigation__link mynav" href="../about.html">About</a>
+          </nav>
+        </div>
+      </header>
+      <div class="mdl-layout__drawer mdl-layout--small-screen-only">
+        <nav class="mdl-navigation mdl-typography--body-1-force-preferred-font">
+          <a class="mdl-navigation__link mynav" href="../index.html">Home</a>
+          <a class="mdl-navigation__link mynav" href="../archive.html">Blog</a>
+          <a class="mdl-navigation__link mynav" href="../about.html">About</a>
+        </nav>
+      </div>
+      <main class="mdl-layout__content">
+        <div class="con-body">
+          <div class="mdl-grid">
+  <div class="mdl-cell mdl-cell--3-col"></div>
+  <div class="mdl-cell mdl-cell--6-col mdl-cell--4-cell-phonemdl-card mdl-shadow--4dp">
+    <div class="mdl-card__title">
+      <h1 class="mdl-card__title-text" style="font-size: 2.5em;">Privately send data to host without disclosing IP</h1>
+    </div>
+    
+    <div class="mdl-card__supporting-text">
+      <strong>Written on: </strong> September 19, 2016
+      <strong>by</strong> Saksham Sharma 
+      <br><strong>Tags: </strong> <a href="../tags/algorithm.html">algorithm</a>, <a href="../tags/networks.html">networks</a> <br>
+    </div>
+    <div class="mdl-grid portfolio-copy" style="max-width: 95%;">
+      <div class="mdl-cell mdl-cell--12-col mdl-cell--4-col-phone mdl-card__supporting-text no-padding">
+        <div class="con-body">
+          <p>While thinking on some lines related to networks and security, I recently came up with an idea of having a distributed network connection without disclosing your identity to the sender. The idea is still nascent, and requires you to have root access to your machine (and a custom kernel module, which I’m miles away from writing in the middle of my semester). I’d nevertheless appreciate comments on this idea :)</p>
+<h3 id="tcp">TCP</h3>
+<p>A brief look at the relevant parts of TCP/IP needed for this:</p>
+<ul>
+<li>The sender opens a TCP connection with the client. This connection is over IP packets, which are stateless.</li>
+<li>IP can be spoofed easily. It is possible to send a packet to someone which has a misleading ‘source’ header set in the IP packet.</li>
+<li>Spoofing your identity over a TCP connection is not easy, since the response is sent to the host with the IP you set in the source.</li>
+<li>TCP prevents someone else from sending packets as you by setting up a random sequence number initially during the handshaking with the client.</li>
+</ul>
+<h3 id="basic-idea">Basic idea</h3>
+<p>I’ll take the example of torrent here, and assume that there are <code>n</code> senders (peers) in the torrent connection, who are uploading, let’s say, ubuntu’s iso file to a host <code>cl</code> (client); and the senders don’t want their IP to be known to <code>cl</code>. I will not attempt to get into the technical details of torrent here though.</p>
+<p>Imagine that there is a service like tor which let’s you talk to hosts anonymously. This would be somewhat of a proxy server. Call it <code>p</code>.</p>
+<p>A possible way would be for all the <code>n</code> senders to route their traffic through <code>p</code>. This is not a scalable idea perhaps, since many senders sending data via <code>p</code> would consume a lot of network resources over <code>p</code>.</p>
+<p>Here is a possibly better way. Host <code>p</code> sets up a TCP connection with the client <code>cl</code>. It gets a certain receive buffer. The <code>n</code> senders decide among themselves about how they wish to communicate the data to the client. One way is for each sender to send every <code>n</code>th byte. So sender <code>i</code> sends the <code>i</code>th, <code>(i+1)</code>th and so on bytes. The host <code>p</code> lets all the senders know the relevant TCP packet numbers. Now the host <code>p</code> only has to communicate with the client <code>cl</code> mostly, receiving it’s responses on the TCP connection it set up. All the senders spoof their packets by sending the packets with the source marked as <code>p</code>. The client will get the packets in the right order (due the senders deciding, and using the right TCP sequence number), and will respond to <code>p</code>, which can later inspect the response and let the senders know accordingly if it is something they should know.</p>
+<h3 id="details">Details</h3>
+<ul>
+<li>Senders need to honor the receive window of the client. Perhaps each one treats the effective receive window as the <code>1/n</code>th fraction of the actual receive window.</li>
+<li>There is no need to send every ACK to the senders, except to help with fast retransmits, and for them to know the network state. There might exist ways to avoid sending all responses from <code>p</code> to the senders (which puts load on <code>p</code>).</li>
+<li>If the network has low packet loss rate, it <em>may</em> be advantageous to not communicate all ACKs to the senders. It would only slow down responses when there’s a packet loss.</li>
+<li>If the host <code>p</code> detects a dropped packet, it communicates that to the sender who was supposed to send that packet.</li>
+<li>If host <code>p</code> detects network congestion (triple duplicate ACK, or ECN etc), it communicates this with all the senders.</li>
+</ul>
+<h3 id="advantages">Advantages</h3>
+<ul>
+<li>The client <code>cl</code> cannot find out which IP sent the actual packet.</li>
+<li>You do not need as high network resources as tor on the host machine <code>p</code> for this to work.</li>
+<li>Possibly inspire ideas related to private distributed network communication.</li>
+<li>One could possibly send part data from one host, and part from the other host via this mechanism. Thus, someone doing a man-in-the-middle on one sender would only see partial data being sent. So you could open a connection to a website, and a listener would see you sending <code>GET / HTTP1.0</code> to that website, while there would be another machine which sent the remaining request (maybe some password in clear-text, which was mandated by the website. I know, not a good example).</li>
+</ul>
+        </div>
+        <div class="fb-like" data-share="true" data-width="450" data-show-faces="true">
+        </div>
+        <div class="fb-comments" data-href="http://www.acehack.org/posts/2016-09-19-privtorrent.html" data-numposts="20" data-width="100%">
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>
+
+        </div>
+      <footer class="mdl-mini-footer">
+        <div class="mdl-mini-footer__left-section">
+          <div class="mdl-logo">
+            <h5 style="color: #bbbbbb; margin: 0; padding: 0;">AceHack</h5>
+            <p style="color: #aaaaaa; margin: 0; margin-top: 5px; padding: 0;">The blog of Saksham Sharma</p>
+            <p style="color: #aaaaaa; margin: 0; margin-top: 5px; padding: 0;">Hosted on Github <a href="https://github.com/sakshamsharma/acehack" target="_blank">here</a><p>
+          </div>
+        </div>
+        <div class="mdl-mini-footer__middle-section">
+          <div class="mdl-logo" style="text-align: right;">
+            <a href="https://github.com/sakshamsharma" target="_blank">sakshamsharma</a>@github<br>
+            <a href="mailto:saksham@acehack.org" target="_blank">saksham@acehack.com</a>
+          </div>
+        </div>
+        <div class="mdl-mini-footer__right-section">
+          <div class="mdl-logo">Proudly generated by Hakyll</div>
+        </div>
+      </footer>
+      </main>
+    </div>
+    <script src="https://code.getmdl.io/1.1.3/material.min.js"></script>
+    <script>
+var links = document.getElementsByClassName('mynav');
+for(i=0;i<links.length;i++) {
+  var tmp = links[i].href;
+  if (tmp.substring(tmp.lastIndexOf('/')) == document.location.pathname) {
+    links[i].className += " is-active"
+  }
+}
+    </script>
+  </body>
+  <!-- The start of the flag is: flag{we@allKn0wTh@t -->
+  <!-- The start of the flag is: flag{we@allKn0wTh@t -->
+  <!-- The start of the flag is: flag{we@allKn0wTh@t -->
+  <!-- The start of the flag is: flag{we@allKn0wTh@t -->
+  <!-- The start of the flag is: flag{we@allKn0wTh@t -->
+  <!-- The start of the flag is: flag{we@allKn0wTh@t -->
+  <!-- The start of the flag is: flag{we@allKn0wTh@t -->
+  <!-- The start of the flag is: flag{we@allKn0wTh@t -->
+  <!-- The start of the flag is: flag{we@allKn0wTh@t -->
+  <!-- The start of the flag is: flag{we@allKn0wTh@t -->
+  <!-- The start of the flag is: flag{we@allKn0wTh@t -->
+</html>
