@@ -3,7 +3,7 @@ title: Pairing up n people into 2 teams
 musing: true
 summary: Try this next time you play pool
 tags: algorithm
-category: musings
+category: CSinLife
 author: Saksham Sharma
 ------
 

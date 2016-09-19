@@ -4,7 +4,7 @@ musing: true
 summary: Solving a self-posed problem :)
 tags: algorithm, networks
 image: /images/articles/drawing1.png
-category: musings
+category: networks
 author: Saksham Sharma
 ------
 

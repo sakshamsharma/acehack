@@ -4,6 +4,7 @@ technical: true
 summary: Bloatware goodbye
 author: Saksham Sharma
 tags: gnome
+category: linux
 -------
 
 Let me get it straight, I love the GNOME project and DE. It's great looking, has great support, very stable, and includes almost all the basic essestials. It's great for high-performance PCs. Then why 'shifting away' you ask? Here's why I shifted:

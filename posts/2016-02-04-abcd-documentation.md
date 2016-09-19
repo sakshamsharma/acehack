@@ -2,10 +2,12 @@
 title: abcd-esolang Documentation
 summary: Documentation for my esolang written for Chaos'16
 tags: abcd, esolang, techkriti, chaos, programming language
-category: technical
+category: programming
 author: Saksham Sharma
 image: /images/articles/abcd-esolang.png
 ----
+
+What follows here is the description (documentation) of an esoteric programmine language I wrote up, and organized a national contest on. The purpose of this language was to be obscure and confusing, thus the challenge.
 
 abcd is an esoteric language. In other words, it is a language deliberately made obfuscated and confusing.
 Trivial tasks too might be quite tough to accomplish while programming in this language. That is the point of the competition.
