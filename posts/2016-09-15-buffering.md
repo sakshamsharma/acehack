@@ -1,5 +1,5 @@
 ------
-title: Buffering packets in a network with a variable source
+title: Buffering packets in a network with a variable source rate
 musing: true
 summary: Solving a self-posed problem :)
 tags: algorithm, networks
