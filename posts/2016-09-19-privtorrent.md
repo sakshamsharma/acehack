@@ -3,6 +3,7 @@ title: Privately send data to host without disclosing IP
 summary: Distributed network connections :)
 tags: algorithm, networks
 category: networks
+id: dist-private-communication
 author: Saksham Sharma
 ------
 

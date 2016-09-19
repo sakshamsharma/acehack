@@ -25,12 +25,33 @@
            data-width="450"
            data-show-faces="true">
         </div>
-        <div
-          class="fb-comments"
-          data-href="http://www.acehack.org$url$"
-          data-numposts="20"
-          data-width="100%">
-        </div>
+        <!-- <div -->
+        <!--   class="fb-comments" -->
+        <!--   data-href="http://www.acehack.org$url$" -->
+        <!--   data-numposts="20" -->
+        <!--   data-width="100%"> -->
+        <!-- </div> -->
+
+        <script id="dsq-count-scr" src="//acehack.disqus.com/count.js" async></script>
+        <div id="disqus_thread"></div>
+        <script>
+          var disqus_config = function () {
+          this.page.url = '//acehack.org$url$';
+          this.page.identifier = '$id$';
+          this.page.title = '$title$';
+          };
+
+          (function() {  // REQUIRED CONFIGURATION VARIABLE: EDIT THE SHORTNAME BELOW
+          var d = document, s = d.createElement('script');
+
+          s.src = '//acehack.disqus.com/embed.js';
+
+          s.setAttribute('data-timestamp', +new Date());
+          (d.head || d.body).appendChild(s);
+          })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
 
       </div>
     </div>

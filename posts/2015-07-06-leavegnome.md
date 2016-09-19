@@ -4,6 +4,7 @@ technical: true
 summary: Bloatware goodbye
 author: Saksham Sharma
 tags: gnome
+id: leave-gnome
 category: linux
 -------
 

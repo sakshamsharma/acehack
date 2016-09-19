@@ -4,6 +4,7 @@ technical: true
 summary: Installing Syslinux/GRUB2
 tags: bootloader, grub
 author: Saksham Sharma
+id: bootloaders
 categories: linux
 -------
 

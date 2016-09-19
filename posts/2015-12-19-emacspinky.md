@@ -5,6 +5,7 @@ summary: How I got about with the excessive stress on my fingers due to Emacs
 tags: emacs, short
 category: editors
 author: Saksham Sharma
+id: emacs-pinky
 image: /images/articles/emacs.jpg
 -----
 

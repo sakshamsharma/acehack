@@ -5,6 +5,7 @@ summary: A beyond-the-vimtutor tutorial
 tags: vim, beginner
 category: editors
 author: Saksham Sharma
+id: kickstart-to-vim
 image: https://lh3.googleusercontent.com/proxy/EgKIRLyLAOs_lBk3ti1e86-2stvN9RgrGX7HKRHjAYoBvcEpV1TXLmBtG2h-t6UPOuGav4jGp0OSm0U6TB-HCPoLYoZTcXPxTg=w426-h312
 ---
 

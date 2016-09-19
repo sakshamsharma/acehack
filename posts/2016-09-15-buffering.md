@@ -5,6 +5,7 @@ summary: Solving a self-posed problem :)
 tags: algorithm, networks
 image: /images/articles/drawing1.png
 category: networks
+id: buffering-1
 author: Saksham Sharma
 ------
 

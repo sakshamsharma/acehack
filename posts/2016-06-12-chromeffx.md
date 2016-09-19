@@ -1,10 +1,11 @@
 ------
 title: Chrome and Firefox resource usage experiment
 technical: true
-summary: Well, I'm not using Chrome anymore
+summary: Finally put them to the test!
 author: Saksham Sharma
 image: http://media2.giga.de/2015/05/chrome-vs-firefox2-rcm992x0.jpg
 tags: technical, browser, experiment
+id: chrome-vs-ffx
 category: experiment
 ------
 
@@ -21,6 +22,8 @@ Since majority would come here for the results, well...
 Firefox wins *hands down* here. Personally, this was not a surprise.
 
 Chrome was always know to be a RAM hog, but it also seems to have a huge lot more power usage as compared to Firefox as well.
+
+**Update** I'm back to Chrome these days. I noticed it works much more smoother, and hangs much less often.
 
 ### RAM
 Not a new thing, but yes, Firefox uses lower RAM than Chrome *consistently*. For description of the actions during the course of the benchmark, look at the next section.

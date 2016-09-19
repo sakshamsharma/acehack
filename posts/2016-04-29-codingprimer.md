@@ -7,6 +7,7 @@ website: http://acehack.org
 image: http://api.theweek.com/sites/default/files/styles/tw_image_9_4/public/56954_article_full.jpg?itok=SzhIgU1C&resize=1260x560
 summary: Beginner guide to foraying into coding
 category: programming
+id: coding-primer
 tags: beginner, coding
 ---
 

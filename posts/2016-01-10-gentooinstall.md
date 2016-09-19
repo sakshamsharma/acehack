@@ -4,6 +4,7 @@ technical: true
 summary: Super condensed installation experience
 tags: gentoo, install
 category: linux
+id: brief-gentoo-install
 author: Saksham Sharma
 ------
 

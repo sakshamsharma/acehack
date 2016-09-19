@@ -4,6 +4,7 @@ musing: true
 summary: Try this next time you play pool
 tags: algorithm
 category: CSinLife
+id: team-selection
 author: Saksham Sharma
 ------
 
