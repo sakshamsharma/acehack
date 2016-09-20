@@ -41,3 +41,11 @@ Here is a possibly better way. Host `p` sets up a TCP connection with the client
 * You do not need as high network resources as tor on the host machine `p` for this to work.
 * Possibly inspire ideas related to private distributed network communication.
 * One could possibly send part data from one host, and part from the other host via this mechanism. Thus, someone doing a man-in-the-middle on one sender would only see partial data being sent. So you could open a connection to a website, and a listener would see you sending `GET / HTTP/1.0` to that website, while there would be another machine which sent the remaining request (maybe some password in clear-text, which was mandated by the website. I know, not a good example).
+
+### Cons and limitations
+After discussion with some other people, there are a few things to this approach which make it impractical in use.
+
+* Unless ACKs are sent to the actual sender, the idea would actually slow down the network quite some bit, since that would mean reimplementing TCP without a lot of information from the network.
+* This is only suited for large sending. Receiving data over this mechanism would be highly impractical.
+* Some routers may not forward plain IP packets without a TCP connection set up (Details and comments welcome on this). You may need to own the network so be able to employ such a mechanism.
+* Requires root privileges on the hosts.
