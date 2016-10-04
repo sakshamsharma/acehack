@@ -50,10 +50,7 @@ main = hakyll $ do
 
        match "projects/**" $ do
          route projectRoute
-         compile $ do
-           pandocCompiler
-             >>= loadAndApplyTemplate "templates/hacker.html" defaultContext
-             >>= relativizeUrls
+         compile copyFileCompiler
 
        create ["archive.html"] $ do
               route idRoute
