@@ -1,100 +1,106 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+------
+title: Http-over-protocol
+gh-repo: https://github.com/sakshamsharma/HTTP-Over-Protocol
+h1: Http-over-protocol
+h2: HOP: A proxy server to enable arbitrary protocols behind an HTTP proxy
+------
 
-    <link rel="stylesheet" type="text/css" href="../css/stylesheet.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="../css/github-dark.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="../css/print.css" media="print">
+HTTP-Over-Protocol (HOP)
+========================
 
-    <title>Http-over-protocol by Saksham Sharma</title>
-  </head>
-
-  <body>
-
-    <header>
-      <div class="container">
-        <h1>Http-over-protocol</h1>
-        <h2>HOP: A proxy server to enable arbitrary protocols behind an HTTP proxy</h2>
-
-        <section id="downloads">
-          <a href="https://github.com/sakshamsharma/HTTP-Over-Protocol/zipball/master" class="btn">Download as .zip</a>
-          <a href="https://github.com/sakshamsharma/HTTP-Over-Protocol/tarball/master" class="btn">Download as .tar.gz</a>
-          <a href="https://github.com/sakshamsharma/HTTP-Over-Protocol" class="btn btn-github"><span class="icon"></span>View on GitHub</a>
-        </section>
-      </div>
-    </header>
-
-    <div class="container">
-      <section id="main_content">
-        <h1 id="http-over-protocol-hop">HTTP-Over-Protocol (HOP)</h1>
-<pre><code>  _   _  ___  ____  
+```
+  _   _  ___  ____  
  | | | |/ _ \|  _ \ 
  | |_| | | | | |_) |
  |  _  | |_| |  __/ 
- |_| |_|\___/|_|    </code></pre>
-<h1 id="introduction">Introduction</h1>
-<p>A friend once told me that his university has an HTTP(S)-only proxy, and thus he is unable to SSH to hosts outside. 5 hours of intensive coding later using code borrowed from my course assignment, here’s <strong>HOP</strong>.</p>
-<p><strong>HOP</strong> is a tool meant to tunnel any sort of traffic over a standard HTTP channel.</p>
-<p>Useful for scenarios where there’s a proxy filtering all traffic except standard HTTP(S) traffic. Unlike other tools which either require you to be behind a proxy which let’s you pass arbitrary traffic (possibly after an initial CONNECT request), or tools which work only for SSH, this imposes no such restrictions.</p>
-<h1 id="working">Working</h1>
-<p>Assuming you want to use SSH to connect to a remote machine where you don’t have root privileges.</p>
-<p>There will be 7 entities:</p>
-<ol style="list-style-type: decimal">
-<li>Client (Your computer, behind the proxy)</li>
-<li>Proxy (Evil)</li>
-<li>Target Server (The remote machine you want to SSH to, from Client)</li>
-<li>Client HOP process</li>
-<li>Target HOP process</li>
-<li>Client SSH process</li>
-<li>Target SSH process</li>
-</ol>
-<p>If there was no proxy, the communication would be something like:</p>
-<pre><code>Client -&gt; Client SSH process -&gt; Target Server -&gt; Target SSH process</code></pre>
-<p>In this scenario, here’s the proposed method:</p>
-<pre><code>Client -&gt; Client SSH process -&gt; Client HOP process -&gt; Proxy -&gt; Target HOP process -&gt; Target SSH process -&gt; Target Server</code></pre>
-<p><strong>HOP</strong> simply wraps all the data in HTTP packets, and buffers them accordingly.</p>
-<p>Another even more complicated scenario would be if you have an external utility server, and need to access another server’s resources from behind a proxy. In this case, <em>hop</em> will still run on your external server, but instead of using <code>localhost</code> in the second command (Usage section), use the hostname of the target machine which has the host.</p>
-<h1 id="usage">Usage</h1>
-<p>On the client machine:</p>
-<pre><code>./hop &lt;client-hop-port&gt; &lt;server-host-name&gt; &lt;server-hop-port&gt;</code></pre>
-<p>On the target machine:</p>
-<pre><code>./hop &lt;server-hop-port&gt; localhost &lt;target-port&gt; SERVER</code></pre>
-<p>(Note the keyword SERVER at the end)</p>
-<p>In case of SSH, the target-port would be 22. Now once these 2 are running, to SSH you would run the following:</p>
-<pre><code>ssh &lt;target-machine-username&gt;@localhost -p &lt;client-hop-port&gt;</code></pre>
-<p><em>Note</em>: The keyword server tells <em>hop</em> which side of the connection has to be over HTTP.</p>
-<h1 id="contributing">Contributing</h1>
-<p>Pull Requests are more than welcome! :smile:</p>
-<p>I’ve put down a list of possible ideas if you would like to contribute.</p>
-<h1 id="planned-features">Planned features</h1>
-<ul>
-<li>Better and adaptive buffering</li>
-<li>Better CLI flags interface</li>
-<li>Optional encrypting of data</li>
-<li>Parsing of .ssh/config file for hosts</li>
-<li>Web interface for remote server admin</li>
-<li>Web interface for local host</li>
-<li>Daemon mode for certain configs</li>
-</ul>
-<h1 id="bugs">Bugs</h1>
-<ul>
-<li>HTTP Responses may come before HTTP Requests. Let me know if you know of some proxy which blocks such responses.</li>
-<li>Logger seems to be non-thread-safe, despite locking. Suspected for memory errors, and thus disabled for now.</li>
-</ul>
-<h1 id="testing">Testing</h1>
-<pre><code>make
+ |_| |_|\___/|_|    
+```
+
+# Introduction
+A friend once told me that his university has an HTTP(S)-only proxy, and thus he is unable to SSH to hosts outside. 5 hours of intensive coding later using code borrowed from my course assignment, here's **HOP**.
+
+**HOP** is a tool meant to tunnel any sort of traffic over a standard HTTP channel.
+
+Useful for scenarios where there's a proxy filtering all traffic except standard HTTP(S) traffic. Unlike other tools which either require you to be behind a proxy which let's you pass arbitrary traffic (possibly after an initial CONNECT request), or tools which work only for SSH, this imposes no such restrictions.
+
+# Working
+Assuming you want to use SSH to connect to a remote machine where you don't have root privileges.
+
+There will be 7 entities:
+
+1. Client (Your computer, behind the proxy)
+2. Proxy (Evil)
+3. Target Server (The remote machine you want to SSH to, from Client)
+4. Client HOP process
+5. Target HOP process
+6. Client SSH process
+7. Target SSH process
+
+If there was no proxy, the communication would be something like:
+```
+Client -> Client SSH process -> Target Server -> Target SSH process
+```
+
+In this scenario, here's the proposed method:
+```
+Client -> Client SSH process -> Client HOP process -> Proxy -> Target HOP process -> Target SSH process -> Target Server
+```
+
+**HOP** simply wraps all the data in HTTP packets, and buffers them accordingly.
+
+Another even more complicated scenario would be if you have an external utility server, and need to access another server's
+resources from behind a proxy. In this case, *hop* will still run on your external server, but instead of using `localhost`
+in the second command (Usage section), use the hostname of the target machine which has the host.
+
+# Usage
+On the client machine:
+```
+./hop <client-hop-port> <server-host-name> <server-hop-port>
+```
+
+On the target machine:
+```
+./hop <server-hop-port> localhost <target-port> SERVER
+```
+(Note the keyword SERVER at the end)
+
+In case of SSH, the target-port would be 22.
+Now once these 2 are running, to SSH you would run the following:
+
+```
+ssh <target-machine-username>@localhost -p <client-hop-port>
+```
+
+*Note*: The keyword server tells *hop* which side of the connection has to be over HTTP.
+
+# Contributing
+Pull Requests are more than welcome! :smile:
+
+I've put down a list of possible ideas if you would like to contribute.
+
+# Planned features
+* Better and adaptive buffering
+* Better CLI flags interface
+* Optional encrypting of data
+* Parsing of .ssh/config file for hosts
+* Web interface for remote server admin
+* Web interface for local host
+* Daemon mode for certain configs
+
+# Bugs
+* HTTP Responses may come before HTTP Requests. Let me know if you know of some proxy which blocks such responses.
+* Logger seems to be non-thread-safe, despite locking. Suspected for memory errors, and thus disabled for now.
+
+# Testing
+```
+make
 ./hop 8081 localhost 8091 SERVER
 ./hop 8083 localhost 8081
-python -c 'print(&quot;\n&quot;.join([ str(i) for i in range(1000000, 2000000)]))' &gt;! ff1
-python -c 'print(&quot;\n&quot;.join([ str(i) for i in range(2000000, 3000000)]))' &gt;! ff2
-nc -l 8091 &lt; ff1 &gt;! oo1
-nc localhost 8083 &lt; ff2 &gt;! oo2
-wc -l oo*</code></pre>
-<p>This should say that both files contain a million lines. Any less would mean some data loss.</p>
-      </section>
-    </div>
+python -c 'print("\n".join([ str(i) for i in range(1000000, 2000000)]))' >! ff1
+python -c 'print("\n".join([ str(i) for i in range(2000000, 3000000)]))' >! ff2
+nc -l 8091 < ff1 >! oo1
+nc localhost 8083 < ff2 >! oo2
+wc -l oo*
+```
 
-  </body>
-</html>
+This should say that both files contain a million lines. Any less would mean some data loss.
