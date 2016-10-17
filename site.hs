@@ -52,10 +52,6 @@ main = hakyll $ do
          route projectRoute
          compile copyFileCompiler
 
-       match "resume/**" $ do
-         route idRoute
-         compile copyFileCompiler
-
        match "resume.pdf" $ do
          route idRoute
          compile copyFileCompiler
