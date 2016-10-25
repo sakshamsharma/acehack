@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="The blog of Saksham Sharma">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <title>AceHack - Anonymous and safe Couple Matching - Part 1</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,large&amp;lang=en">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.grey-pink.min.css" />
+    <link rel="stylesheet" href="../css/styles.css" />
+    <link rel="stylesheet" href="../css/footer.css" />
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="../js/fb.js"></script>
+  </head>
+  <body>
+
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+      <header class="mdl-layout__header mdl-layout__header--scroll portfolio-header">
+        <div class="mdl-layout__header-row portfolio-logo-row">
+          <span class="mdl-layout__title">
+            <a href="../">
+              <div class="portfolio-logo"></div>
+            </a>
+            <span class="mdl-layout__title">The blog of Saksham Sharma</span>
+          </span>
+        </div>
+        <div class="mdl-layout__header-row portfolio-navigation-row mdl-layout--large-screen-only">
+          <nav class="mdl-navigation mdl-typography--body-1-force-preferred-font">
+            <a class="mdl-navigation__link mynav" href="../index.html">Home</a>
+            <a class="mdl-navigation__link mynav" href="../archive.html">Blog</a>
+            <a class="mdl-navigation__link mynav" href="../about.html">About</a>
+          </nav>
+        </div>
+      </header>
+      <div class="mdl-layout__drawer mdl-layout--small-screen-only">
+        <nav class="mdl-navigation mdl-typography--body-1-force-preferred-font">
+          <a class="mdl-navigation__link mynav" href="../index.html">Home</a>
+          <a class="mdl-navigation__link mynav" href="../archive.html">Blog</a>
+          <a class="mdl-navigation__link mynav" href="../about.html">About</a>
+        </nav>
+      </div>
+      <main class="mdl-layout__content">
+        <div class="con-body">
+          <div class="mdl-grid">
+  <div class="mdl-cell mdl-cell--3-col"></div>
+  <div class="mdl-cell mdl-cell--6-col mdl-cell--4-cell-phonemdl-card mdl-shadow--4dp">
+    <div class="mdl-card__title">
+      <h1 class="mdl-card__title-text" style="font-size: 2.5em;">Anonymous and safe Couple Matching - Part 1</h1>
+    </div>
+    
+    <div class="mdl-card__supporting-text">
+      <strong>Written on: </strong> October 25, 2016
+      <strong>by</strong> Saksham Sharma 
+      <br><strong>Tags: </strong> <a href="../tags/algo.html">algo</a>, <a href="../tags/crypto.html">crypto</a> <br>
+    </div>
+    <div class="mdl-grid portfolio-copy" style="max-width: 95%;">
+      <div class="mdl-cell mdl-cell--12-col mdl-cell--4-col-phone mdl-card__supporting-text no-padding">
+        <div class="con-body">
+          <script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+<script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+<p>The queerly named <em>Puppy Love</em> platform has been running in my university since 2014, meant to help shy nerds meet their crush, made my the Programming Club (of which, I happen to be the current coordinator). The platform opens 1 week prior to the Valentine’s Day every year, and let’s people choose up to 4 of their crushes, encrypting their choices with their password. At the stroke of the midnight hour, everyone logs back, and their choices are decrypted, and are then matched to other people’s choices. Only the people who matched are informed about it. If your <em>love</em> was unrequited (the other person didn’t like you), you will not get to know. More importantly, if you did not like the other person, you would not know if that person liked you or not.</p>
+<p>The above seemed like a very rosy thing, till people began to find flaws. Some of the issues were with the code, and nothing too serious. But as would have, people began to get doubtful about the trust worthiness of the server admins. This year, being my turn to face the onslaught of accusations of looking at people’s choices, I, with Vinayak Tantia, a friend and fellow Coordinator, came up with a much improved algorithm to implement the same thing.</p>
+<p>Here’s the biggest issue with such a platform:</p>
+<blockquote>
+<p>You do NOT trust me when I say my code on the server is NOT seeing your choices</p>
+</blockquote>
+<p>What is required is, how I call it, a <code>zero-server-trust</code> based algorithm. Regardless of what code is running on the server, the client should be able to prove that any information it sends to the server shall not reveal any information about the client’s choices.</p>
+<h3 id="the-algorithm">The algorithm</h3>
+<h4 id="email-based-initial-auth">Email based initial auth</h4>
+<p>Instead of using the campus FTP or proxy based logins, which would have required you to send your password to the server (thus requiring trust), we send an initial email to the person’s official IIT Kanpur email address, and let the person create a password. The password’s hash is sent to the server for storage. The hash will be used for future logins, and thus the plain password never leaves the client.</p>
+<h4 id="public-private-keys">Public Private Keys</h4>
+<p>On the initial password creating, we also create a new public-private keypair on the client itself. The private key is then encrypted with the plaintext password of the user. The plaintext public key and the encrypted private key are then kept on the server.</p>
+<h4 id="the-usage">The usage</h4>
+<p>The user is allowed to query for people and add them to his tentative list of likes. The queries are routed to the IIT Kanpur internal student search, and thus the server cannot be logging the client’s requests. These choices are saved in a string, which has a few random bytes in the start. This string is encrypted with the private key, and sent to the server for storage and later retrieval. The random string is added to ensure that the server cannot deduce addition or removal of choices. Thus, whether the choices were changed or not, there shall be a change in the encrypted data.</p>
+<h4 id="submission">Submission</h4>
+<p>Finally, when the user is ready to lock his choices, the client fetches the public keys of all the students on campus. This data should be the order of magnitude of a few mega bytes. The client encodes its preference (a boolean) in a string (described later) for each student on the campus, and sends these strings back to the server for storage. Each string is encrypted with the public key of the intended recepient, and thus they are meaningless for the server.</p>
+<h4 id="matching">Matching</h4>
+<p>The most tricky part. How does the server match two people, without knowing any of their choices? Turns out, there’s something called Homomorphic computation, which is intended for this very purpose. Here’s a motivating example:</p>
+<p><br /><span class="math display">$$
+m_1^{e} \times m_2^{e} = (m_1 \times m_2)^{e}\\
+((m_1 \times m_2)^{e})^{d} = (m_1 \times m_2)
+$$</span><br /></p>
+<p>So basically, the server could compute the product of <span class="math inline"><em>m</em><sub>1</sub></span> and <span class="math inline"><em>m</em><sub>2</sub></span>, and convey the result to both the parties. They could separately get back the value of <span class="math inline"><em>m</em><sub>1</sub> × <em>m</em><sub>2</sub></span>, without the server ever coming to know the product. All this requires is a shared public private key pair between every two people on the campus.</p>
+<p>Of course, we’re not going to be using product, since a product has enough information to get the other person’s response. What is required is a message of the sort such that it encodes the choice, but can not be inverted to get the choice. Only when it is used with another message containing a positive choice is it possible to get any information out of the message.</p>
+<h4 id="server-requirements">Server requirements</h4>
+<p>There shall be a large number of entries in the database. For each pair of people, there shall be one entry in the database storing their messages, and their shared secret. The server is only expected to be providing the service it is claiming to provide, that is, letting people match. Thus, we only assume that the server shall not be trying to jeopardize the whole matching game by not playing its part. At no point is the server expected to maintain any level of trust.</p>
+<h3 id="conclusion">Conclusion</h3>
+<p>The project is being written using Node and JavaScript, and the source code is publicly available on <a href="https://github.com/pclubiitk/puppy-love">Github here</a>. We hope to finish it within a month, considering that the semester is on.</p>
+        </div>
+        <div class="fb-like" data-share="true" data-width="450" data-show-faces="true">
+        </div>
+        <!-- <div -->
+        <!--   class="fb-comments" -->
+        <!--   data-href="http://www.acehack.org/posts/2016-10-25-puppy1.html" -->
+        <!--   data-numposts="20" -->
+        <!--   data-width="100%"> -->
+        <!-- </div> -->
+
+        <script id="dsq-count-scr" src="//acehack.disqus.com/count.js" async></script>
+
+        <div id="disqus_thread"></div>
+        <script>
+          // For debugging
+          var disqus_developer = 1;
+          var disqus_shortname = 'acehack';
+          var disqus_config = function () {
+          this.page.url = 'http://acehack.org/posts/2016-10-25-puppy1.html';
+          this.page.identifier = 'puppy-1';
+          this.page.title = 'Anonymous and safe Couple Matching - Part 1';
+          };
+          (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+          })();
+          (function () {
+          var s = document.createElement('script'); s.async = true;
+          s.type = 'text/javascript';
+          s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+          (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+          }());
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+      </div>
+    </div>
+  </div>
+
+</div>
+
+        </div>
+      <footer class="mdl-mini-footer">
+        <div class="mdl-mini-footer__left-section">
+          <div class="mdl-logo">
+            <h5 style="color: #bbbbbb; margin: 0; padding: 0;">AceHack</h5>
+            <p style="color: #aaaaaa; margin: 0; margin-top: 5px; padding: 0;">The blog of Saksham Sharma</p>
+            <p style="color: #aaaaaa; margin: 0; margin-top: 5px; padding: 0;">Hosted on Github <a href="https://github.com/sakshamsharma/acehack" target="_blank">here</a><p>
+          </div>
+        </div>
+        <div class="mdl-mini-footer__middle-section">
+          <div class="mdl-logo" style="text-align: right;">
+            <a href="https://github.com/sakshamsharma" target="_blank">sakshamsharma</a>@github<br>
+            <a href="mailto:saksham@acehack.org" target="_blank">saksham@acehack.com</a>
+          </div>
+        </div>
+        <div class="mdl-mini-footer__right-section">
+          <div class="mdl-logo">Proudly generated by Hakyll</div>
+        </div>
+      </footer>
+      </main>
+    </div>
+    <script src="https://code.getmdl.io/1.1.3/material.min.js"></script>
+    <script>
+var links = document.getElementsByClassName('mynav');
+for(i=0;i<links.length;i++) {
+  var tmp = links[i].href;
+  if (tmp.substring(tmp.lastIndexOf('/')) == document.location.pathname) {
+    links[i].className += " is-active"
+  }
+}
+    </script>
+  </body>
+</html>
