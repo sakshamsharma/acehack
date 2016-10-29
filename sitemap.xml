@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
     <url>
+      <loc>http://www.acehack.org/posts/2016-10-29-cliplay.html</loc>
+        <changefreq>weekly</changefreq>
+        <lastmod>October 29, 2016</lastmod>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
       <loc>http://www.acehack.org/posts/2016-10-25-puppy1.html</loc>
         <changefreq>weekly</changefreq>
         <lastmod>October 25, 2016</lastmod>
