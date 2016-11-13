@@ -56,7 +56,7 @@ main = hakyll $ do
          route idRoute
          compile copyFileCompiler
 
-       create ["archive.html"] $ do
+       create ["blog/index.html", "archive.html"] $ do
               route idRoute
               compile $ do
                       posts <- recentFirst =<< loadAll "posts/**"
