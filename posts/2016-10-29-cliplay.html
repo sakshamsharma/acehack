@@ -84,7 +84,7 @@ ls **/*.jpg</code></pre>
 <li>You can generate array of names of files very easily with <code>list=(**/*.mp3)</code> kind of syntax.</li>
 </ul>
 <h3 id="the-code">The code:</h3>
-<pre><code>    function play() {
+<pre class="sh"><code>function play() {
     EXT=&quot;mp3&quot;
     while getopts “ht:r:p:v” OPTION
     do
@@ -97,13 +97,13 @@ ls **/*.jpg</code></pre>
             ?)
             usage
             ;;
-    esac
-done
+        esac
+    done
 
-setopt extendedglob
-pat=$(echo -n &quot;$@&quot; | sed -E 's/\s+/\*/g')
-list=((#i)**/*${~pat}*.${EXT})
-vlc $list
+    setopt extendedglob
+    pat=$(echo -n &quot;$@&quot; | sed -E 's/\s+/\*/g')
+    list=((#i)**/*${~pat}*.${EXT})
+    vlc $list
 }</code></pre>
         </div>
         <div class="fb-like" data-share="true" data-width="450" data-show-faces="true">
