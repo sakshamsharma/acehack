@@ -85,7 +85,7 @@ The experiments were conducted on a Lenovo Y50-70 with a 4 cell (and dismal) bat
 #### Data recording
 Here is the script used to record the data. Feel free to test it on yours as well.
 
-```shell
+``` bash
 #!/bin/bash
 
 if [ -z "$1" ]
@@ -122,7 +122,7 @@ The output data files were of the format:
 The (below-par) script used for plotting the plots is here.
 It takes as argument the 2 files (like: chrome-ram and firefox-ram).
 
-```shell
+``` bash
 #!/bin/bash
 
 if [ $# -eq 0 ]; then
