@@ -46,7 +46,8 @@
       </div>
       <main class="mdl-layout__content">
         <div class="con-body">
-          <div class="mdl-grid">
+          <link rel="stylesheet" href="../css/syntax.css" />
+<div class="mdl-grid">
   <div class="mdl-cell mdl-cell--3-col"></div>
   <div class="mdl-cell mdl-cell--6-col mdl-cell--4-cell-phonemdl-card mdl-shadow--4dp">
     <div class="mdl-card__title">
@@ -153,52 +154,52 @@
 <h2 id="scripts-used">Scripts used</h2>
 <h4 id="data-recording">Data recording</h4>
 <p>Here is the script used to record the data. Feel free to test it on yours as well.</p>
-<pre class="shell"><code>#!/bin/bash
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="co">#!/bin/bash</span>
 
-if [ -z &quot;$1&quot; ]
-then
-    echo &quot;CUSTOM MESSAGE&quot;
-    echo &quot;Arguement not supplied&quot;
-    echo &quot;Usage: ./test.sh &lt;file_1&gt; &lt;file_2&quot;
-    exit
-fi
+<span class="kw">if [</span> <span class="ot">-z</span> <span class="st">&quot;</span><span class="ot">$1</span><span class="st">&quot;</span><span class="kw"> ]</span>
+<span class="kw">then</span>
+    <span class="kw">echo</span> <span class="st">&quot;CUSTOM MESSAGE&quot;</span>
+    <span class="kw">echo</span> <span class="st">&quot;Arguement not supplied&quot;</span>
+    <span class="kw">echo</span> <span class="st">&quot;Usage: ./test.sh &lt;file_1&gt; &lt;file_2&quot;</span>
+    <span class="kw">exit</span>
+<span class="kw">fi</span>
 
-for i in {1..125}
-do
-  echo $i
-  power=$(cat /sys/class/power_supply/BAT1/power_now)
-  ramFree=$(cat /proc/meminfo | grep 'MemFree:\ *[0-9]*' | grep '[0-9]*' -o)
-  ramAvail=$(cat /proc/meminfo | grep 'MemAvailable:\ *[0-9]*' | grep '[0-9]*' -o)
-  ramUsed=$(($ramAvail - $ramFree))
-  echo &quot;Power: $power&quot;
-  echo &quot;RAM: $ramUsed&quot;
-  printf &quot;%s, %s\n&quot; &quot;$i&quot; &quot;$power&quot; &gt;&gt; &quot;$1-power&quot;
-  printf &quot;%s, %s\n&quot; &quot;$i&quot; &quot;$ramUsed&quot; &gt;&gt; &quot;$1-ram&quot;
-  sleep 1
-done</code></pre>
+<span class="kw">for</span> <span class="kw">i</span> in <span class="dt">{1..125}</span>
+<span class="kw">do</span>
+  <span class="kw">echo</span> <span class="ot">$i</span>
+  <span class="ot">power=$(</span><span class="kw">cat</span> /sys/class/power_supply/BAT1/power_now<span class="ot">)</span>
+  <span class="ot">ramFree=$(</span><span class="kw">cat</span> /proc/meminfo <span class="kw">|</span> <span class="kw">grep</span> <span class="st">'MemFree:\ *[0-9]*'</span> <span class="kw">|</span> <span class="kw">grep</span> <span class="st">'[0-9]*'</span> -o<span class="ot">)</span>
+  <span class="ot">ramAvail=$(</span><span class="kw">cat</span> /proc/meminfo <span class="kw">|</span> <span class="kw">grep</span> <span class="st">'MemAvailable:\ *[0-9]*'</span> <span class="kw">|</span> <span class="kw">grep</span> <span class="st">'[0-9]*'</span> -o<span class="ot">)</span>
+  <span class="ot">ramUsed=$(($ramAvail</span> - <span class="ot">$ramFree))</span>
+  <span class="kw">echo</span> <span class="st">&quot;Power: </span><span class="ot">$power</span><span class="st">&quot;</span>
+  <span class="kw">echo</span> <span class="st">&quot;RAM: </span><span class="ot">$ramUsed</span><span class="st">&quot;</span>
+  <span class="kw">printf</span> <span class="st">&quot;%s, %s\n&quot;</span> <span class="st">&quot;</span><span class="ot">$i</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="ot">$power</span><span class="st">&quot;</span> <span class="kw">&gt;&gt;</span> <span class="st">&quot;</span><span class="ot">$1</span><span class="st">-power&quot;</span>
+  <span class="kw">printf</span> <span class="st">&quot;%s, %s\n&quot;</span> <span class="st">&quot;</span><span class="ot">$i</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="ot">$ramUsed</span><span class="st">&quot;</span> <span class="kw">&gt;&gt;</span> <span class="st">&quot;</span><span class="ot">$1</span><span class="st">-ram&quot;</span>
+  <span class="kw">sleep</span> 1
+<span class="kw">done</span></code></pre></div>
 <h4 id="data-format">Data format</h4>
 <p>The output data files were of the format:</p>
 <pre><code>&lt;time&gt;, &lt;ram_used&gt;
 &lt;time2&gt;, &lt;ram_used2&gt;</code></pre>
 <h4 id="plotting-script">Plotting script</h4>
 <p>The (below-par) script used for plotting the plots is here. It takes as argument the 2 files (like: chrome-ram and firefox-ram).</p>
-<pre class="shell"><code>#!/bin/bash
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="co">#!/bin/bash</span>
 
-if [ $# -eq 0 ]; then
-    echo &quot;No file to be plotted&quot;
-    exit 1
-fi
+<span class="kw">if [</span> <span class="ot">$#</span> <span class="ot">-eq</span> 0<span class="kw"> ]</span>; <span class="kw">then</span>
+    <span class="kw">echo</span> <span class="st">&quot;No file to be plotted&quot;</span>
+    <span class="kw">exit</span> 1
+<span class="kw">fi</span>
 
-metric=$(echo $1 | grep '\-.*' -o)
-metric=${metric:1}
-echo $metric
+<span class="ot">metric=$(</span><span class="kw">echo</span> <span class="ot">$1</span> <span class="kw">|</span> <span class="kw">grep</span> <span class="st">'\-.*'</span> -o<span class="ot">)</span>
+<span class="ot">metric=${metric:1}</span>
+<span class="kw">echo</span> <span class="ot">$metric</span>
 
-# Have to pipe to gnuplot via cat otherwise it does not pause
-(cat &lt;&lt; EOF
-set title &quot;Plot of $metric in Chrome 51 vs Firefox 48&quot;
+<span class="co"># Have to pipe to gnuplot via cat otherwise it does not pause</span>
+<span class="kw">(cat</span> &lt;&lt; EOF
+set title &quot;Plot of <span class="ot">$metric</span> in Chrome 51 vs Firefox 48&quot;
 set term png
-set output &quot;$metric-plot.png&quot;
-set ylabel &quot;$metric&quot;
+set output &quot;<span class="ot">$metric</span>-plot.png&quot;
+set ylabel &quot;<span class="ot">$metric</span>&quot;
 set xlabel &quot;Time (seconds)&quot;
 set autoscale
 
@@ -213,10 +214,10 @@ set arrow from 45, graph 0 to 45, graph 1 nohead
 set arrow from 65, graph 0 to 65, graph 1 nohead
 set arrow from 85, graph 0 to 85, graph 1 nohead
 set arrow from 105, graph 0 to 105, graph 1 nohead
-plot '$1' using 2, '$2' using 2
+plot '<span class="ot">$1</span>' using 2, '<span class="ot">$2</span>' using 2
 pause -1 &quot;Press Ctrl+D to exit&quot;
 EOF
-cat /dev/tty) | gnuplot</code></pre>
+cat /dev/tty) | gnuplot</code></pre></div>
         </div>
         <div class="fb-like" data-share="true" data-width="450" data-show-faces="true">
         </div>

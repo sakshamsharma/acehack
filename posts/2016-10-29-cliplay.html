@@ -46,7 +46,8 @@
       </div>
       <main class="mdl-layout__content">
         <div class="con-body">
-          <div class="mdl-grid">
+          <link rel="stylesheet" href="../css/syntax.css" />
+<div class="mdl-grid">
   <div class="mdl-cell mdl-cell--3-col"></div>
   <div class="mdl-cell mdl-cell--6-col mdl-cell--4-cell-phonemdl-card mdl-shadow--4dp">
     <div class="mdl-card__title">
@@ -84,27 +85,27 @@ ls **/*.jpg</code></pre>
 <li>You can generate array of names of files very easily with <code>list=(**/*.mp3)</code> kind of syntax.</li>
 </ul>
 <h3 id="the-code">The code:</h3>
-<pre class="sh"><code>function play() {
-    EXT=&quot;mp3&quot;
-    while getopts “ht:r:p:v” OPTION
-    do
-        case $OPTION in
-            t)
-                EXT=$OPTARG
-                echo &quot;$EXT extension&quot;
-                shift 2
-                ;;
-            ?)
-            usage
-            ;;
-        esac
-    done
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">function</span><span class="fu"> play()</span> <span class="kw">{</span>
+    <span class="ot">EXT=</span><span class="st">&quot;mp3&quot;</span>
+    <span class="kw">while</span> <span class="kw">getopts</span> “ht:r:p:v” OPTION
+    <span class="kw">do</span>
+        <span class="kw">case</span> <span class="ot">$OPTION</span><span class="kw"> in</span>
+            t<span class="kw">)</span>
+                <span class="ot">EXT=$OPTARG</span>
+                <span class="kw">echo</span> <span class="st">&quot;</span><span class="ot">$EXT</span><span class="st"> extension&quot;</span>
+                <span class="kw">shift</span> 2
+                <span class="kw">;;</span>
+            ?<span class="kw">)</span>
+            <span class="kw">usage</span>
+            <span class="kw">;;</span>
+        <span class="kw">esac</span>
+    <span class="kw">done</span>
 
-    setopt extendedglob
-    pat=$(echo -n &quot;$@&quot; | sed -E 's/\s+/\*/g')
-    list=((#i)**/*${~pat}*.${EXT})
-    vlc $list
-}</code></pre>
+    <span class="kw">setopt</span> extendedglob
+    <span class="ot">pat=$(</span><span class="kw">echo</span> -n <span class="st">&quot;</span><span class="ot">$@</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="kw">sed</span> -E <span class="st">'s/\s+/\*/g'</span><span class="ot">)</span>
+    <span class="ot">list=(</span>(#i<span class="ot">)</span>**/*$<span class="dt">{~pat}*.${EXT}</span>)
+    <span class="kw">vlc</span> <span class="ot">$list</span>
+<span class="kw">}</span></code></pre></div>
         </div>
         <div class="fb-like" data-share="true" data-width="450" data-show-faces="true">
         </div>
