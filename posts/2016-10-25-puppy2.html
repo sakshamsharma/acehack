@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="description" content="The blog of Saksham Sharma">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
+    <title>AceHack - Safe and anonymous ANDing bits</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,large&amp;lang=en">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.grey-pink.min.css" />
+    <link rel="stylesheet" href="../css/styles.css" />
+    <link rel="stylesheet" href="../css/footer.css" />
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <script src="../js/fb.js"></script>
+  </head>
+  <body>
+
+    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
+      <header class="mdl-layout__header mdl-layout__header--scroll portfolio-header">
+        <div class="mdl-layout__header-row portfolio-logo-row">
+          <span class="mdl-layout__title">
+            <a href="../">
+              <div class="portfolio-logo"></div>
+            </a>
+            <span class="mdl-layout__title">The blog of Saksham Sharma</span>
+          </span>
+        </div>
+        <div class="mdl-layout__header-row portfolio-navigation-row mdl-layout--large-screen-only">
+          <nav class="mdl-navigation mdl-typography--body-1-force-preferred-font">
+            <a class="mdl-navigation__link mynav" href="../index.html">Home</a>
+            <a class="mdl-navigation__link mynav" href="../blog">Blog</a>
+            <a class="mdl-navigation__link mynav" href="../cv">Résumé</a>
+            <a class="mdl-navigation__link mynav" href="../about.html">About</a>
+          </nav>
+        </div>
+      </header>
+      <div class="mdl-layout__drawer mdl-layout--small-screen-only">
+        <nav class="mdl-navigation mdl-typography--body-1-force-preferred-font">
+          <a class="mdl-navigation__link mynav" href="../index.html">Home</a>
+          <a class="mdl-navigation__link mynav" href="../blog">Blog</a>
+            <a class="mdl-navigation__link mynav" href="../cv">Résumé</a>
+          <a class="mdl-navigation__link mynav" href="../about.html">About</a>
+        </nav>
+      </div>
+      <main class="mdl-layout__content">
+        <div class="con-body">
+          <link rel="stylesheet" href="../css/syntax.css" />
+<div class="mdl-grid">
+  <div class="mdl-cell mdl-cell--3-col"></div>
+  <div class="mdl-cell mdl-cell--6-col mdl-cell--4-cell-phonemdl-card mdl-shadow--4dp">
+    <div class="mdl-card__title">
+      <h1 class="mdl-card__title-text" style="font-size: 2.5em;">Safe and anonymous ANDing bits</h1>
+    </div>
+    
+    <div class="mdl-card__supporting-text">
+      <strong>Written on: </strong> October 25, 2016
+      <strong>by</strong> Saksham Sharma 
+      <br><strong>Tags: </strong> <a href="../tags/algo.html">algo</a>, <a href="../tags/crypto.html">crypto</a> <br>
+    </div>
+    <div class="mdl-grid portfolio-copy" style="max-width: 95%;">
+      <div class="mdl-cell mdl-cell--12-col mdl-cell--4-col-phone mdl-card__supporting-text no-padding">
+        <div class="con-body">
+          <!-- <script type="text/x-mathjax-config"> -->
+<!-- MathJax.Hub.Config({ -->
+<!--   tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]} -->
+<!-- }); -->
+<!-- </script> -->
+<!-- <script type="text/javascript" async -->
+<!--   src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"> -->
+<!-- </script> -->
+<h3 id="recap">Recap</h3>
+<p>For those who haven’t read the <a href="../posts/2016-10-25-puppy1.html">previous post</a>, this is a challenge which came up while trying to develop a secure version of a platform called <em>Puppy Love</em>. The introduction and the algorithmic challenge, taken from the previous article:</p>
+<p>The queerly named <em>Puppy Love</em> platform has been running in my university since 2014, meant to help shy nerds meet their crush, made my the Programming Club (of which, I happen to be the current coordinator). The platform opens 1 week prior to the Valentine’s Day every year, and let’s people choose up to 4 of their crushes, encrypting their choices with their password. At the stroke of the midnight hour, everyone logs back, and their choices are decrypted, and are then matched to other people’s choices. Only the people who matched are informed about it. If your <em>love</em> was unrequited (the other person didn’t like you), you will not get to know. More importantly, if you did not like the other person, you would not know if that person liked you or not.</p>
+<p>The above seemed like a very rosy thing, till people began to find flaws. Some of the issues were with the code, and nothing too serious. But as would have, people began to get doubtful about the trust worthiness of the server admins. This year, being my turn to face the onslaught of accusations of looking at people’s choices, I, with Vinayak Tantia, a friend and fellow Coordinator, came up with a much improved algorithm to implement the same thing.</p>
+<p>Here’s the biggest issue with such a platform:</p>
+<blockquote>
+<p>You do NOT trust me when I say my code on the server is NOT seeing your choices</p>
+</blockquote>
+<p>What is required is, how I call it, a <code>zero-server-trust</code> based algorithm. Regardless of what code is running on the server, the client should be able to prove that any information it sends to the server shall not reveal any information about the client’s choices.</p>
+<h3 id="possible-algorithms">Possible algorithms</h3>
+<p>We basically need a way to compute the <code>AND</code> of two bit values residing on two hosts (call them Alice and Bob), in the presence of a central server named Eve.</p>
+<ul>
+<li>One simple way is for Alice and Bob to share their bits to Eve, and trust Eve to not store the bits for the eyes of the admin of Eve, and only compute the AND of the bits, and send the AND value back to Alice and Bob. This is simple, but requires you to trust the server to not look at your choices. In case of naming your crushes, this is certainly not an option.</li>
+<li>Use <a href="https://en.wikipedia.org/wiki/Garbled_circuit">Garbled Circuit</a> technique, along with <a href="https://en.wikipedia.org/wiki/Oblivious_transfer">Oblivious Transfer</a>, but modified to keep the last step on the central server. This technique is quite complicated at first, but has a major drawback. There is no guarantee of secrecy of choices if one party does not play by the protocol and cheats instead. This would be outlined in a future article.</li>
+</ul>
+<p>The second solution is promising, but can possibly be exploited to reveal the choice of the other party without them knowing your choice. What is required to prevent that attack is randomness in the case where a party is not interested. We outline the new algorithm in the next section.</p>
+<h3 id="shared-knowledge-based-expected-result-algorithm">Shared knowledge based expected-result algorithm</h3>
+<p>As a preface, I did read a couple of papers on this topic, but did not find a fair, secure and practical solution. This particular algorithm solves a weaker problem than most papers I found, which is: Computing AND of 2 secret bits in presence of an honest-but-curious server. This algorithm was designed originally as a modification of the one based on garbled circuits after I came to know of the violation of secrecy in that, and has been significantly simplied since then. Onto:</p>
+<ul>
+<li>Both parties have shared secret values A and B. These are not known to Eve by virtue of public key encryption.</li>
+<li>Parties agree to this protocol:</li>
+<li>Alice sends value <code>a = A</code> to Eve if she likes Bob.</li>
+<li>Alice sends value <code>a = random</code> to Eve if she does not like Bob.</li>
+<li>Bob sends value <code>b = B</code> to Eve if he likes Alice.</li>
+<li>Bob sends value <code>b = random</code> to Eve if he does not like Alice.</li>
+<li>Eve receives <code>a</code> and <code>b</code>. She returns <code>hash(a*b)</code> to Alice and Bob.</li>
+<li>Alice and Bob manually compute <code>hash(A * B)</code>, and match it with the received value.</li>
+<li>It is a match only if the received value and the expected value are the same.</li>
+</ul>
+<h3 id="a-few-comments-about-the-safety-of-the-protocol">A few comments about the safety of the protocol</h3>
+<p>I do plan to formally prove this soon enough, but till then, here are some thoughts.</p>
+<ul>
+<li>Hash is not invertible. So if there was no match, Alice can not invert the result to get Bob’s sent value.</li>
+<li>The hashing step needs to be secure against brute force attacks, especially because each party already knows one multiplicative factor of the number hashed. Either the values of A and B need to be very large (experiments/data needed), or the hash function has to be very slow computationally (preventing inversion by computational bottleneck).</li>
+<li>Selecting random, and different values for A and B is important because Eve should not be able to see whether the values sent by Alice and Bob are same or different, and thus infer whether they matched or not.</li>
+<li>The protocol itself is fully symmetric. Both Alice and Bob execute the exact same steps, regardless of who starts the protocol.</li>
+<li>If Alice did not send A, she has no way of knowing whether Bob sent B or not, since the hash cannot be inverted (theoretically). The same is true for Bob.</li>
+</ul>
+<h3 id="conclusion">Conclusion</h3>
+<p>This algorithm is very simple to say the least, and seems secure to me. A formal proof ought to confirm this as well, though that is untrodden territory for me as of now. Do let me know in the comments or on email if something like this (fair and anonymous AND of bits) has been done before, or if you find a bug in this algorithm (if it is so, I cannot stress how important it is for me to know).</p>
+        </div>
+        <div class="fb-like" data-share="true" data-width="450" data-show-faces="true">
+        </div>
+        <!-- <div -->
+        <!--   class="fb-comments" -->
+        <!--   data-href="http://www.acehack.org/posts/2016-10-25-puppy2.html" -->
+        <!--   data-numposts="20" -->
+        <!--   data-width="100%"> -->
+        <!-- </div> -->
+
+        <script id="dsq-count-scr" src="//acehack.disqus.com/count.js" async></script>
+
+        <div id="disqus_thread"></div>
+        <script>
+          // For debugging
+          var disqus_developer = 1;
+          var disqus_shortname = 'acehack';
+          var disqus_config = function () {
+          this.page.url = 'http://acehack.org/posts/2016-10-25-puppy2.html';
+          this.page.identifier = 'puppy-2';
+          this.page.title = 'Safe and anonymous ANDing bits';
+          };
+          (function() {
+          var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+          dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+          (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+          })();
+          (function () {
+          var s = document.createElement('script'); s.async = true;
+          s.type = 'text/javascript';
+          s.src = 'http://' + disqus_shortname + '.disqus.com/count.js';
+          (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+          }());
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+      </div>
+    </div>
+  </div>
+
+</div>
+
+        </div>
+      <footer class="mdl-mini-footer">
+        <div class="mdl-mini-footer__left-section">
+          <div class="mdl-logo">
+            <h5 style="color: #bbbbbb; margin: 0; padding: 0;">AceHack</h5>
+            <p style="color: #aaaaaa; margin: 0; margin-top: 5px; padding: 0;">The blog of Saksham Sharma</p>
+            <p style="color: #aaaaaa; margin: 0; margin-top: 5px; padding: 0;">Hosted on Github <a href="https://github.com/sakshamsharma/acehack" target="_blank">here</a><p>
+          </div>
+        </div>
+        <div class="mdl-mini-footer__middle-section">
+          <div class="mdl-logo" style="text-align: right;">
+            <a href="https://github.com/sakshamsharma" target="_blank">sakshamsharma</a>@github<br>
+            <a href="mailto:saksham@acehack.org" target="_blank">saksham@acehack.com</a>
+          </div>
+        </div>
+        <div class="mdl-mini-footer__right-section">
+          <div class="mdl-logo">Proudly generated by Hakyll</div>
+        </div>
+      </footer>
+      </main>
+    </div>
+    <script src="https://code.getmdl.io/1.1.3/material.min.js"></script>
+    <script>
+var links = document.getElementsByClassName('mynav');
+for(i=0;i<links.length;i++) {
+  var tmp = links[i].href;
+  if (tmp.substring(tmp.lastIndexOf('/')) == document.location.pathname) {
+    links[i].className += " is-active"
+  }
+}
+    </script>
+  </body>
+</html>

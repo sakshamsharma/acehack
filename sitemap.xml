@@ -9,6 +9,13 @@
     </url>
 
     <url>
+      <loc>http://www.acehack.org/posts/2016-10-25-puppy2.html</loc>
+        <changefreq>weekly</changefreq>
+        <lastmod>October 25, 2016</lastmod>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
       <loc>http://www.acehack.org/posts/2016-10-25-puppy1.html</loc>
         <changefreq>weekly</changefreq>
         <lastmod>October 25, 2016</lastmod>
