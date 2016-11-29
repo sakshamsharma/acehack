@@ -97,11 +97,11 @@ main = hakyll $ do
 
        create ["index.html"] $ do
          route idRoute
-         let ctx = ctxWithPosts "AceHack"
+         let ctx = ctxWithPosts "Reveries of a programmer"
          compile $ do
            makeItem ""
-             >>= loadAndApplyTemplate "templates/with-title.html"   ctx
              >>= loadAndApplyTemplate "templates/index.html"        ctx
+             >>= loadAndApplyTemplate "templates/with-title.html"   ctx
              >>= loadAndApplyTemplate "templates/with-sidebar.html" ctx
              >>= loadAndApplyTemplate "templates/default.html"      ctx
              >>= relativizeUrls
