@@ -52,7 +52,7 @@ main = hakyll $ do
 
        create ["index.html"] $ do
          route idRoute
-         let title = "Home"
+         let title = "AceHack"
          compile $ do
            let indexCtx =
                  listField "posts" postCtx posts `mappend`

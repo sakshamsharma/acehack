@@ -1,6 +1,9 @@
+<link rel="stylesheet" href="/css/archive.css">
+
 $for(posts)$
 <article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-    <div class="postShorten-wrap">
+
+    <div class="postBlock postShorten-wrap" class="$date$" id="post-$url$">
 
         <div class="postShorten-header">
             <h1 class="postShorten-title" itemprop="headline">
@@ -39,3 +42,6 @@ $for(posts)$
     </div>
 </article>
 $endfor$
+
+<script src="/js/archive.js">
+</script>

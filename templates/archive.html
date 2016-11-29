@@ -1,13 +1,20 @@
+<link rel="stylesheet" href="/css/archive.css">
+
+<h1>$title$</h1>
+
 $for(posts)$
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-    <div class="postShorten-wrap">
+<article class="postShorten postShorten--thumbnailimg-bottom"
+    itemscope
+    itemType="http://schema.org/BlogPosting">
+
+    <div class="postBlock postShorten-wrap" class="$date$" id="post-$url$">
 
         <div class="postShorten-header">
-            <h1 class="postShorten-title" itemprop="headline">
+            <h3 class="postShorten-title" itemprop="headline">
                 <a class="link-unstyled" href="$url$">
                     $title$
                 </a>
-            </h1>
+            </h3>
             <div class="post-meta">
                 <time itemprop="datePublished">
                     $date$
@@ -22,20 +29,9 @@ $for(posts)$
             </div>
 
         </div>
-        <div class="postShorten-excerpt" itemprop="articleBody">
-            <p>
-                $if(teaser)$
-                    $teaser$
-                $else$
-                    $summary$
-                $endif$
-                <br>
-
-                <a href="$url$" class="postShorten-excerpt_link link">
-                    Continue reading
-                </a>
-            </p>
-        </div>
     </div>
 </article>
 $endfor$
+
+<script src="/js/archive.js">
+</script>

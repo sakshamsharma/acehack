@@ -1,0 +1,8 @@
+.postBlock:hover {
+    background-color: #eeeeee;
+    cursor: pointer; cursor: hand;
+}
+
+.postBlock {
+    padding: 1em;
+}
