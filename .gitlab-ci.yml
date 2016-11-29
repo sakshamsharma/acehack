@@ -6,14 +6,16 @@ pages:
       - _cache
       - .stack
   before_script:
+    - apt-get update
+    - bash -c "yes | apt-get install git"
     - export STACK_ROOT=`pwd`/.stack
     - stack install --only-dependencies
+    - stack setup
     - stack build
   script:
     - stack exec site build
   artifacts:
     paths:
-      - public
       - _site
   only:
     - master
