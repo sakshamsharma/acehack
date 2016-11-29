@@ -1,11 +1,11 @@
 -------
-title: Bootloaders: Basics
+title: Bootloaders basics
 technical: true
 summary: Installing Syslinux/GRUB2
 tags: bootloader, grub
 author: Saksham Sharma
 id: bootloaders
-categories: linux
+category: linux
 -------
 
 First things first, bootloader, what? For those who don't know, bootloader is the piece of code which loads up your Operating System. Remember that pink screen on boot which allows you to choose between Ubuntu and Windows? Yes, that one. Its named *grub*. Remember when you booted from a pen-drive perhaps to install Ubuntu? You got a black screen allowing you to choose whether to *test* Ubuntu or to install it directly? Yes, that one. Why just Linux? The blue screen on Windows 8 (and above) PCs which appears if you want to open safe mode or something?

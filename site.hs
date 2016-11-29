@@ -1,11 +1,13 @@
 --------------------------------------------------------------------------------
 {-# LANGUAGE OverloadedStrings #-}
+import           Data.Char
 import           Data.Monoid (mappend)
 import           Data.List (intercalate)
 import qualified Data.Map as M
 import           Hakyll
 import           Hakyll.Web.Tags
-
+import           System.FilePath.Posix  (takeBaseName, takeDirectory,
+                                         (</>), takeFileName)
 
 --------------------------------------------------------------------------------
 main :: IO ()
@@ -23,141 +25,126 @@ main = hakyll $ do
              route assetsRoute
              compile copyFileCompiler
 
+       match "assets/fonts/**" $ do
+             route assetsRoute
+             compile copyFileCompiler
+
        match (fromList ["404.md", "CNAME"]) $ do
              route idRoute
              compile copyFileCompiler
 
-       match (fromList ["about.md", "contact.md"]) $ do
-             route   $ setExtension "html"
-             compile $ pandocCompiler
-                     >>= loadAndApplyTemplate "templates/content.html" postCtx
-                     >>= loadAndApplyTemplate "templates/default.html" defaultContext
-                     >>= relativizeUrls
-
        tags <- buildTags "posts/**" (fromCapture "tags/*.html")
-       categories <- buildCategoriesNew "posts/**" (fromCapture "categories/*.html")
+
+       let posts = recentFirst =<< loadAll "posts/**"
+       let postCtx = dateField "date" "%B %e, %Y" `mappend`
+             tagsField "tagsCtx" tags `mappend`
+             defaultContext
 
        match "posts/**" $ do
-             route $ setExtension "html"
+             route $ postRoute
              compile $ do
-               let postCtxTagged =
-                     tagsField "tagsCtx" tags `mappend`
-                     postCtx
                pandocCompiler
-                     >>= loadAndApplyTemplate "templates/post.html"    postCtxTagged
-                     >>= loadAndApplyTemplate "templates/default.html" postCtxTagged
+                     >>= loadAndApplyTemplate "templates/with-sidebar.html" postCtx
+                     >>= loadAndApplyTemplate "templates/default.html"      postCtx
                      >>= relativizeUrls
 
-       match "projects/**" $ do
-         route projectRoute
-         compile copyFileCompiler
+       match "templates/**" $ compile templateBodyCompiler
 
-       match "resume.pdf" $ do
+       create ["index.html"] $ do
          route idRoute
-         compile copyFileCompiler
-
-       create ["blog/index.html", "archive.html"] $ do
-              route idRoute
-              compile $ do
-                      posts <- recentFirst =<< loadAll "posts/**"
-                      let archiveCtx =
-                            tagsField "tags" tags `mappend`
-                            listField "posts" postCtx (return posts) `mappend`
-                            constField "title" "Archives"            `mappend`
-                            field "tagList" (\_ -> renderTagCloud 70 140 categories) `mappend`
-                            defaultContext
-
-                      makeItem ""
-                        >>= loadAndApplyTemplate "templates/archive.html" archiveCtx
-                        >>= loadAndApplyTemplate "templates/default.html" archiveCtx
-                        >>= relativizeUrls
-
-       tagsRules tags $ \tag pattern -> do
-         let title = "Posts tagged \"" ++ tag ++ "\""
-         route idRoute
+         let title = "Home"
          compile $ do
-           posts <- recentFirst =<< loadAll pattern
-           let ctx = constField "title" title
-                 `mappend` constField "extra" title
-                 `mappend` field "tagList" (\_ -> renderTagCloud 70 140 categories)
-                 `mappend` listField "posts" postCtx (return posts)
-                 `mappend` defaultContext
+           let indexCtx =
+                 listField "posts" postCtx posts `mappend`
+                 constField "title" title        `mappend`
+                 defaultContext
 
            makeItem ""
-             >>= loadAndApplyTemplate "templates/post-list.html" ctx
-             >>= loadAndApplyTemplate "templates/default.html" ctx
+             >>= loadAndApplyTemplate "templates/index.html"        indexCtx
+             >>= loadAndApplyTemplate "templates/with-sidebar.html" indexCtx
+             >>= loadAndApplyTemplate "templates/default.html"      indexCtx
+             >>= relativizeUrls
+             >>= cleanIndexHtmls
+
+       create ["archives.html"] $ do
+         route $ cleanRoute True
+         let title = "Archive"
+         compile $ do
+           let archiveCtx =
+                 listField "posts" postCtx posts `mappend`
+                 constField "title" title        `mappend`
+                 defaultContext
+
+           makeItem ""
+             >>= loadAndApplyTemplate "templates/archive.html"      archiveCtx
+             >>= loadAndApplyTemplate "templates/with-sidebar.html" archiveCtx
+             >>= loadAndApplyTemplate "templates/default.html"      archiveCtx
              >>= relativizeUrls
 
-       tagsRules categories $ \tag pattern -> do
-           let title = "Posts in category \"" ++ tag ++ "\""
-           route idRoute
-           compile $ do
-               posts <- recentFirst =<< loadAll pattern
-               let ctx = constField "title" title
-                     `mappend` constField "extra" title
-                     `mappend` field "tagList" (\_ -> renderTagCloud 70 140 categories)
-                     `mappend` listField "posts" postCtx (return posts)
-                     `mappend` defaultContext
-
-               makeItem ""
-                   >>= loadAndApplyTemplate "templates/post-list.html" ctx
-                   >>= loadAndApplyTemplate "templates/default.html" ctx
-                   >>= relativizeUrls
-
-       match "index.html" $ do
-             route idRoute
-             compile $ do
-                     posts <- recentFirst =<< loadAll "posts/**"
-                     let indexCtx =
-                             listField "posts" postCtx (return posts) `mappend`
-                             constField "title" "Home"                `mappend`
-                             defaultContext
-
-                     getResourceBody
-                         >>= applyAsTemplate indexCtx
-                         >>= loadAndApplyTemplate "templates/content.html" indexCtx
-                         >>= loadAndApplyTemplate "templates/default.html" indexCtx
-                         >>= relativizeUrls
-
-       match "templates/*" $ compile templateBodyCompiler
+       match (fromList ["about.md"])$ do
+         route $ cleanRoute True
+         compile $ do
+           pandocCompiler
+             >>= loadAndApplyTemplate "templates/with-sidebar.html" defaultContext
+             >>= loadAndApplyTemplate "templates/default.html"      defaultContext
+             >>= relativizeUrls
 
        create ["sitemap.xml"] $ do
               route   idRoute
               compile $ do
-                posts <- recentFirst =<< loadAll "posts/**"
                 let sitemapCtx =
-                        listField "posts" postCtx (return posts)   `mappend`
+                        listField "posts" postCtx posts   `mappend`
                         defaultContext
                 makeItem ""
                  >>= loadAndApplyTemplate "templates/sitemap.xml" sitemapCtx
                  >>= cleanIndexHtmls
 
+
 --------------------------------------------------------------------------------
+type Year = String
+
+postsByYear :: Year -> Compiler [Item String]
+postsByYear year = do
+  posts <- recentFirst =<< loadAll (fromGlob $ "posts/" ++ year ++ "**")
+  return posts
+
+buildYears :: MonadMetadata m => Pattern -> m [(Year, Int)]
+buildYears pattern = do
+    ids <- getMatches pattern
+    return . frequency . (map getYear) $ ids
+  where
+    frequency xs =  M.toList (M.fromListWith (+) [(x, 1) | x <- xs])
+
+getYear :: Identifier -> Year
+getYear = takeBaseName . takeDirectory . toFilePath
+
 cleanIndexHtmls :: Item String -> Compiler (Item String)
 cleanIndexHtmls = return . fmap (replaceAll pattern replacement)
     where
       pattern = "/index.html"
+
+replacement :: String -> String
 replacement = const "/"
 
-postCtx :: Context String
-postCtx = dateField "date" "%B %e, %Y" `mappend`
-          defaultContext
+pathToPostRoute :: Identifier -> String
+pathToPostRoute path =
+  year ++ "/" ++ month ++ "/" ++ rest
+  where
+    year = takeWhile (/= '-') $ fileName
+    month = takeWhile (/= '-') . drop 1 . dropWhile (/= '-') $ fileName
+    rest = dropWhile (\x -> isDigit x || x == '-') $ fileName
+    fileName = drop 1 . dropWhile (/= '/') $ toFilePath path
+
+postRoute :: Routes
+postRoute = (customRoute $ pathToPostRoute) `composeRoutes` cleanRoute False
+
+cleanRoute :: Bool -> Routes
+cleanRoute isTopLevel =
+  customRoute $
+  (++ "/index.html") . takeWhile (/= '.') . (adjustPath isTopLevel) . toFilePath
+  where
+    adjustPath False = id
+    adjustPath True = reverse . takeWhile (/= '/') . reverse
 
 assetsRoute :: Routes
 assetsRoute = customRoute $ (\x -> x :: String) . drop 7 . toFilePath
-
-projectRoute :: Routes
-projectRoute =
-  idRoute `composeRoutes`
-  (customRoute $ (++ "/index") . takeWhile (/= '.') . drop 9 . toFilePath ) `composeRoutes`
-  setExtension "html"
-
--- | Add support for adding category directly to the metadata
--- | Helps avoid changing paths of posts while migrating from old blog
-getCustomCat :: MonadMetadata m => Identifier -> m [String]
-getCustomCat identifier = do
-    metadata <- getMetadata identifier
-    return $ maybe [] (map trim . splitAll ",") $ M.lookup "category" metadata
-
-buildCategoriesNew :: MonadMetadata m => Pattern -> (String -> Identifier) -> m Tags
-buildCategoriesNew = buildTagsWith getCustomCat
