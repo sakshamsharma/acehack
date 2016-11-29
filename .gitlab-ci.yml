@@ -1,4 +1,4 @@
-image: haskell:latest
+image: haskell:8.0.1
 
 pages:
   cache:
