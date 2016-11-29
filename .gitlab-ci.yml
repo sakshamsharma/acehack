@@ -5,11 +5,10 @@ pages:
     paths:
       - _cache
       - .stack
+      - $HOME/.stack
   before_script:
     - apt-get update
     - bash -c "yes | apt-get install git"
-    - export STACK_ROOT=`pwd`/.stack
-    - stack install --only-dependencies
     - stack setup
     - stack build
   script:
