@@ -36,6 +36,10 @@ main = hakyll $ do
              route idRoute
              compile copyFileCompiler
 
+       match "assets/well-known/acme-challenge/*" $ do
+         route $ acmeRoute
+         compile copyFileCompiler
+
        match "projects/**" $ do
          route projectRoute
          compile copyFileCompiler
@@ -234,3 +238,8 @@ projectRoute =
   idRoute `composeRoutes`
   (customRoute $ (++ "/index") . takeWhile (/= '.') . drop 9 . toFilePath ) `composeRoutes`
   setExtension "html"
+
+acmeRoute :: Routes
+acmeRoute =
+  assetsRoute `composeRoutes`
+  (customRoute $ (\x -> "." ++ x) . toFilePath)
