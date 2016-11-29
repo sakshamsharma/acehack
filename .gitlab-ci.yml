@@ -3,14 +3,12 @@ image: haskell:8.0.1
 pages:
   cache:
     paths:
-      - _cache
       - .stack
-      - $HOME/.stack
   before_script:
     - apt-get update
     - bash -c "yes | apt-get install git"
     - export STACK_ROOT=`pwd`/.stack
-    - stack setup
+    - stack install --only-dependencies
     - stack build
   script:
     - stack exec site clean
