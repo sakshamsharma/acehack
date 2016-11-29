@@ -10,6 +10,9 @@ import           System.FilePath.Posix  (takeBaseName, takeDirectory,
                                          (</>), takeFileName)
 
 --------------------------------------------------------------------------------
+baseUrl :: String
+baseUrl = "sakshamsharma.com"
+
 main :: IO ()
 main = hakyll $ do
 
@@ -34,20 +37,57 @@ main = hakyll $ do
              compile copyFileCompiler
 
        tags <- buildTags "posts/**" (fromCapture "tags/*.html")
+       cats <- buildCategoriesNew "posts/**" (fromCapture "categories/*.html")
 
        let posts = recentFirst =<< loadAll "posts/**"
        let postCtx = dateField "date" "%B %e, %Y" `mappend`
-             tagsField "tagsCtx" tags `mappend`
+             tagsField "tags" tags `mappend`
+             tagsField "cats" cats `mappend`
              defaultContext
        let ctxWithPosts title =
              constField "title" title `mappend`
              listField "posts" postCtx posts `mappend`
-             defaultContext
+             postCtx
+
+       -- | Add Tags
+       tagsRules tags $ \tag pat -> do
+           route $ cleanRoute False
+           let title = "Posts with tag \"" ++ tag ++ "\""
+           compile $ do
+             lessPosts <- recentFirst =<< loadAll pat
+             let ctx = constField "title" title `mappend`
+                       listField "posts" postCtx (return lessPosts) `mappend`
+                       defaultContext
+             makeItem ""
+               >>= loadAndApplyTemplate "templates/tags.html" ctx
+               >>= loadAndApplyTemplate "templates/with-title.html"   ctx
+               >>= loadAndApplyTemplate "templates/with-sidebar.html" ctx
+               >>= loadAndApplyTemplate "templates/default.html" ctx
+               >>= relativizeUrls
+               >>= cleanIndexHtmls
+
+       -- | Add Categories
+       tagsRules cats $ \tag pat -> do
+           route $ cleanRoute False
+           let title = "Posts in category \"" ++ tag ++ "\""
+           compile $ do
+             lessPosts <- recentFirst =<< loadAll pat
+             let ctx = constField "title" title `mappend`
+                       listField "posts" postCtx (return lessPosts) `mappend`
+                       defaultContext
+             makeItem ""
+               >>= loadAndApplyTemplate "templates/tags.html" ctx
+               >>= loadAndApplyTemplate "templates/with-title.html"   ctx
+               >>= loadAndApplyTemplate "templates/with-sidebar.html" ctx
+               >>= loadAndApplyTemplate "templates/default.html" ctx
+               >>= relativizeUrls
+               >>= cleanIndexHtmls
 
        match "posts/**" $ do
              route $ postRoute
              compile $ do
                pandocCompiler
+                     >>= loadAndApplyTemplate "templates/with-tags.html"    postCtx
                      >>= loadAndApplyTemplate "templates/with-title.html"   postCtx
                      >>= loadAndApplyTemplate "templates/with-sidebar.html" postCtx
                      >>= loadAndApplyTemplate "templates/default.html"      postCtx
@@ -90,7 +130,8 @@ main = hakyll $ do
 
        create ["sitemap.xml"] $ do
               route   idRoute
-              let ctx = ctxWithPosts "SiteMap"
+              let ctx = constField "baseUrl" baseUrl `mappend`
+                        ctxWithPosts "SiteMap"
               compile $ do
                 makeItem ""
                  >>= loadAndApplyTemplate "templates/sitemap.xml" ctx
@@ -145,3 +186,13 @@ cleanRoute isTopLevel =
 
 assetsRoute :: Routes
 assetsRoute = customRoute $ (\x -> x :: String) . drop 7 . toFilePath
+
+-- | Add support for adding category directly to the metadata
+-- | Helps avoid changing paths of posts while migrating from old blog
+getCustomCat :: MonadMetadata m => Identifier -> m [String]
+getCustomCat identifier = do
+    metadata <- getMetadataField identifier "category"
+    return $ maybe [] (map trim . splitAll ",") metadata
+
+buildCategoriesNew :: MonadMetadata m => Pattern -> (String -> Identifier) -> m Tags
+buildCategoriesNew = buildTagsWith getCustomCat
