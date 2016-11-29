@@ -67,7 +67,7 @@ main = hakyll $ do
                        listField "posts" postCtx (return lessPosts) `mappend`
                        defaultContext
              makeItem ""
-               >>= loadAndApplyTemplate "templates/tags.html" ctx
+               >>= loadAndApplyTemplate "templates/archive.html" ctx
                >>= loadAndApplyTemplate "templates/with-title.html"   ctx
                >>= loadAndApplyTemplate "templates/with-sidebar.html" ctx
                >>= loadAndApplyTemplate "templates/default.html" ctx
@@ -84,7 +84,7 @@ main = hakyll $ do
                        listField "posts" postCtx (return lessPosts) `mappend`
                        defaultContext
              makeItem ""
-               >>= loadAndApplyTemplate "templates/tags.html" ctx
+               >>= loadAndApplyTemplate "templates/archive.html" ctx
                >>= loadAndApplyTemplate "templates/with-title.html"   ctx
                >>= loadAndApplyTemplate "templates/with-sidebar.html" ctx
                >>= loadAndApplyTemplate "templates/default.html" ctx
@@ -120,8 +120,32 @@ main = hakyll $ do
          let ctx = ctxWithPosts "Archive"
          compile $ do
            makeItem ""
-             >>= loadAndApplyTemplate "templates/with-title.html"   ctx
              >>= loadAndApplyTemplate "templates/archive.html"      ctx
+             >>= loadAndApplyTemplate "templates/with-title.html"   ctx
+             >>= loadAndApplyTemplate "templates/with-sidebar.html" ctx
+             >>= loadAndApplyTemplate "templates/default.html"      ctx
+             >>= relativizeUrls
+
+       create ["categories.html"] $ do
+         route $ cleanRoute True
+         let ctx = ctxWithPosts "Categories" `mappend`
+                   field "tagList" (\_ -> renderTagCloud 70 140 cats)
+         compile $ do
+           makeItem ""
+             >>= loadAndApplyTemplate "templates/tags.html"         ctx
+             >>= loadAndApplyTemplate "templates/with-title.html"   ctx
+             >>= loadAndApplyTemplate "templates/with-sidebar.html" ctx
+             >>= loadAndApplyTemplate "templates/default.html"      ctx
+             >>= relativizeUrls
+
+       create ["tags.html"] $ do
+         route $ cleanRoute True
+         let ctx = ctxWithPosts "Tags" `mappend`
+                   field "tagList" (\_ -> renderTagCloud 70 140 tags)
+         compile $ do
+           makeItem ""
+             >>= loadAndApplyTemplate "templates/tags.html"         ctx
+             >>= loadAndApplyTemplate "templates/with-title.html"   ctx
              >>= loadAndApplyTemplate "templates/with-sidebar.html" ctx
              >>= loadAndApplyTemplate "templates/default.html"      ctx
              >>= relativizeUrls
