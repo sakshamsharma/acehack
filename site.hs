@@ -36,6 +36,14 @@ main = hakyll $ do
              route idRoute
              compile copyFileCompiler
 
+       match "projects/**" $ do
+         route projectRoute
+         compile copyFileCompiler
+
+       match "resume.pdf" $ do
+         route idRoute
+         compile copyFileCompiler
+
        tags <- buildTags "posts/**" (fromCapture "tags/*.html")
        cats <- buildCategoriesNew "posts/**" (fromCapture "categories/*.html")
 
@@ -196,3 +204,9 @@ getCustomCat identifier = do
 
 buildCategoriesNew :: MonadMetadata m => Pattern -> (String -> Identifier) -> m Tags
 buildCategoriesNew = buildTagsWith getCustomCat
+
+projectRoute :: Routes
+projectRoute =
+  idRoute `composeRoutes`
+  (customRoute $ (++ "/index") . takeWhile (/= '.') . drop 9 . toFilePath ) `composeRoutes`
+  setExtension "html"
