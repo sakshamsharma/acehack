@@ -1,128 +1,1401 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="The blog of Saksham Sharma">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-    <title>AceHack - Home</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,large&amp;lang=en">
-    <link rel="stylesheet" href="https://code.getmdl.io/1.1.3/material.grey-pink.min.css" />
-    <link rel="stylesheet" href="./css/styles.css" />
-    <link rel="stylesheet" href="./css/footer.css" />
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="generator" content="Hugo">
+        <title>AceHack</title>
+        <meta name="author" content="Saksham Sharma">
+        <meta name="keywords" content="acehack, coding, programming, linux, webdev, hakyll">
 
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
-    <script src="./js/fb.js"></script>
-  </head>
-  <body>
+        <meta name="description" content="Saksham Sharma's blog">
+        <meta property="og:description" content="Saksham Sharma's blog">
+        <meta property="og:type" content="blog">
+        <meta property="og:title" content="AceHack">
+        <meta property="og:url" content>
+        <meta property="og:site_name" content="AceHack">
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:title" content="AceHack">
+        <meta name="twitter:description" content="Saksham Sharma's blog">
 
-    <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
-      <header class="mdl-layout__header mdl-layout__header--scroll portfolio-header">
-        <div class="mdl-layout__header-row portfolio-logo-row">
-          <span class="mdl-layout__title">
-            <a href="./">
-              <div class="portfolio-logo"></div>
-            </a>
-            <span class="mdl-layout__title">The blog of Saksham Sharma</span>
-          </span>
-        </div>
-        <div class="mdl-layout__header-row portfolio-navigation-row mdl-layout--large-screen-only">
-          <nav class="mdl-navigation mdl-typography--body-1-force-preferred-font">
-            <a class="mdl-navigation__link mynav" href="./index.html">Home</a>
-            <a class="mdl-navigation__link mynav" href="./blog">Blog</a>
-            <a class="mdl-navigation__link mynav" href="./cv">Résumé</a>
-            <a class="mdl-navigation__link mynav" href="./about.html">About</a>
-          </nav>
-        </div>
-      </header>
-      <div class="mdl-layout__drawer mdl-layout--small-screen-only">
-        <nav class="mdl-navigation mdl-typography--body-1-force-preferred-font">
-          <a class="mdl-navigation__link mynav" href="./index.html">Home</a>
-          <a class="mdl-navigation__link mynav" href="./blog">Blog</a>
-            <a class="mdl-navigation__link mynav" href="./cv">Résumé</a>
-          <a class="mdl-navigation__link mynav" href="./about.html">About</a>
-        </nav>
-      </div>
-      <main class="mdl-layout__content">
-        <div class="con-body">
-          <div class="mdl-grid">
-  <div class="mdl-cell mdl-cell--3-col"></div>
-  <div class="mdl-cell mdl-cell--6-col mdl-cell--4-col-phone mdl-cell--8-col-tablet mdl-card mdl-shadow--4dp">
-    <div class="mdl-card__title">
-      <h1 class="mdl-card__title-text" style="font-size: 2.5em;">Reveries of a Programmer</h1>
-    </div>
-    <div class="mdl-grid portfolio-copy" style="max-width: 95%;">
-      <div class="mdl-cell mdl-cell--12-col mdl-cell--4-col-phone mdl-card__supporting-text no-padding">
-        <p>
-          
-          <img class="img-rounded displayed" width="35%" align="right" style="margin=10px; border-radius: 15px; margin: 20px; margin-right: 5px;" src="./images/me2.jpg" />
-          
-          <p class="con-body">
-            A proud Undergrad at the <a href="http://www.iitk.ac.in" target="_blank">Indian Institute of Technology Kanpur</a>, majoring in <i>Computer Science and Engineering</i>.<br>
-I was a <i>summer research intern</i> at the <a href="http://www.mpi-sws.org" target="_blank">Max Planck Insitute for Software Systems</a> during Summer '16, having worked with <a href="http://www.mpi-sws.org/~eva/" target="_blank">Prof. Eva Darulová</a> in the Automated Approximation and Verification group.<br><br>
+        <meta property="og:image" content="https://avatars3.githubusercontent.com/u/10418596?v=3&s=460">
 
-Throw in ramblings about Networks, Linux, Vim, Web Development, and some occassional philosophy; that's about much regarding this blog.<br>
+        <link rel="stylesheet" href="./css/hugo.css" />
+        <script src="./js/utils.js"></script>
+    </head>
 
-This happens to be the <i>fourth complete rewrite of my homepage</i>. And I'm not stopping.
-<br><br>
-As for about me, that's on the <a href="./about.html">About me</a> page.
+<body>
+    <!--SCRIPTS-->
+<script src="./js/hugo.js" type="text/javascript"></script>
+<!--SCRIPTS END-->
+<script src="./js/highlight.js">
+</script>
 
-Some things I'm passionate about (happen to be mostly computing related <i>somehow</i>):
-<ul>
-  <li> Computer Networks (New and current favorite)</li>
-  <li> Linux (Gentoo FTW!)</li>
-  <li> System security (Hacking ^_^ Not really..)</li>
-  <li> Text editors (Emacser, can still switch to Vim easily)</li>
-  <li> Functional Programming (love!)</li>
-  <li> Open Source (check out <a href="https://github.com/sakshamsharma" target="_blank">my Github</a>!)</li>
-  <li> Web Development</li>
-  <li> Tiling Window Managers (XMonad and i3wm)</li>
-  <li> Rambling? (sometimes phrased as 'writing')</li>
-</ul>
-
-<br>
-You can find all my articles here on the <b><a href="./blog">Blog</a></b> page.
-
-          </p>
-        </p>
-      </div>
-    </div>
+    <div id="blog">
+        <header id="header" data-behavior="1">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="./">AceHack</a>
   </div>
+      <a class="header-right-picture " href="./about">
+        <img class="header-picture" src="https://avatars3.githubusercontent.com/u/10418596?v=3&amp;s=460" alt="Author's picture" />
+    </a>
+</header>
+
+
+        <nav id="sidebar" data-behavior="1">
+    <div class="sidebar-container">
+        <div class="sidebar-profile">
+            <a href="./about">
+                <img class="sidebar-profile-picture" src="https://avatars3.githubusercontent.com/u/10418596?v=3&amp;s=460" alt="Author's picture" />
+            </a>
+            <h4 class="sidebar-profile-name">Saksham Sharma</h4>
+
+            <h5 class="sidebar-profile-bio">Hacker. Programmer. Geek.</h5>
+
+        </div>
+
+        <ul class="sidebar-buttons">
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="./">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">Home</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="./categories">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                    <span class="sidebar-button-desc">Categories</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="./tags">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">Tags</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="./archives">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">Archives</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="./about">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                    <span class="sidebar-button-desc">About</span>
+                </a>
+            </li>
+
+        </ul>
+        <ul class="sidebar-buttons">
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="https://github.com/sakshamsharma" target="_blank">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                    <span class="sidebar-button-desc">GitHub</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="http://sakshamsharma.com/cv" target="_blank">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-file-o"></i>
+                    <span class="sidebar-button-desc">Resume</span>
+                </a>
+            </li>
+
+
+        </ul>
+        <ul class="sidebar-buttons">
+
+        </ul>
+    </div>
+</nav>
+
+<div id="main" data-behavior="1" class="hasCoverMetaIn">
+    <section class="postShorten-group main-content-wrap">
+
+        <h1>Reveries of a programmer</h1>
+
+<link rel="stylesheet" href="./css/archive.css">
+
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+
+    <div class="postBlock postShorten-wrap" class="November 25, 2016" id="post-/2016/11/puppy2/">
+
+        <div class="postShorten-header">
+            <h2 class="postShorten-title" itemprop="headline">
+                <a class="link-unstyled" href="./2016/11/puppy2/">
+                    Safe and anonymous ANDing bits
+                </a>
+            </h2>
+            <div class="post-meta">
+                <time itemprop="datePublished">
+                    November 25, 2016
+                </time>
+
+                <span>in</span>
+
+                <a class="category-link" href="./categories/project">
+                    project
+                </a>
+
+            </div>
+
+        </div>
+        <div class="postShorten-excerpt" itemprop="articleBody">
+            <p>
+                
+                    The "Puppy-Love" algorithm
+                
+                <br>
+
+                <a href="./2016/11/puppy2/" class="postShorten-excerpt_link link">
+                    Continue reading
+                </a>
+            </p>
+        </div>
+    </div>
+</article>
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+
+    <div class="postBlock postShorten-wrap" class="October 29, 2016" id="post-/2016/10/cliplay/">
+
+        <div class="postShorten-header">
+            <h2 class="postShorten-title" itemprop="headline">
+                <a class="link-unstyled" href="./2016/10/cliplay/">
+                    ZSH globbing to play music
+                </a>
+            </h2>
+            <div class="post-meta">
+                <time itemprop="datePublished">
+                    October 29, 2016
+                </time>
+
+                <span>in</span>
+
+                <a class="category-link" href="./categories/linux">
+                    linux
+                </a>
+
+            </div>
+
+        </div>
+        <div class="postShorten-excerpt" itemprop="articleBody">
+            <p>
+                
+                    Shell scripting for profit :)
+                
+                <br>
+
+                <a href="./2016/10/cliplay/" class="postShorten-excerpt_link link">
+                    Continue reading
+                </a>
+            </p>
+        </div>
+    </div>
+</article>
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+
+    <div class="postBlock postShorten-wrap" class="October 25, 2016" id="post-/2016/10/puppy1/">
+
+        <div class="postShorten-header">
+            <h2 class="postShorten-title" itemprop="headline">
+                <a class="link-unstyled" href="./2016/10/puppy1/">
+                    Anonymous, zero-server-trust couple matching - Part 1
+                </a>
+            </h2>
+            <div class="post-meta">
+                <time itemprop="datePublished">
+                    October 25, 2016
+                </time>
+
+                <span>in</span>
+
+                <a class="category-link" href="./categories/project">
+                    project
+                </a>
+
+            </div>
+
+        </div>
+        <div class="postShorten-excerpt" itemprop="articleBody">
+            <p>
+                
+                    IITK's "Puppy-Love" reborn
+                
+                <br>
+
+                <a href="./2016/10/puppy1/" class="postShorten-excerpt_link link">
+                    Continue reading
+                </a>
+            </p>
+        </div>
+    </div>
+</article>
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+
+    <div class="postBlock postShorten-wrap" class="October  8, 2016" id="post-/2016/10/movi/">
+
+        <div class="postShorten-header">
+            <h2 class="postShorten-title" itemprop="headline">
+                <a class="link-unstyled" href="./2016/10/movi/">
+                    moVi - Mobile video protocol (Part 1)
+                </a>
+            </h2>
+            <div class="post-meta">
+                <time itemprop="datePublished">
+                    October  8, 2016
+                </time>
+
+                <span>in</span>
+
+                <a class="category-link" href="./categories/networks">
+                    networks
+                </a>
+
+            </div>
+
+        </div>
+        <div class="postShorten-excerpt" itemprop="articleBody">
+            <p>
+                
+                    My undergraduate project (semester 5)
+                
+                <br>
+
+                <a href="./2016/10/movi/" class="postShorten-excerpt_link link">
+                    Continue reading
+                </a>
+            </p>
+        </div>
+    </div>
+</article>
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+
+    <div class="postBlock postShorten-wrap" class="September 19, 2016" id="post-/2016/09/privtorrent/">
+
+        <div class="postShorten-header">
+            <h2 class="postShorten-title" itemprop="headline">
+                <a class="link-unstyled" href="./2016/09/privtorrent/">
+                    Privately send data to host without disclosing IP
+                </a>
+            </h2>
+            <div class="post-meta">
+                <time itemprop="datePublished">
+                    September 19, 2016
+                </time>
+
+                <span>in</span>
+
+                <a class="category-link" href="./categories/networks">
+                    networks
+                </a>
+
+            </div>
+
+        </div>
+        <div class="postShorten-excerpt" itemprop="articleBody">
+            <p>
+                
+                    Distributed network connections :)
+                
+                <br>
+
+                <a href="./2016/09/privtorrent/" class="postShorten-excerpt_link link">
+                    Continue reading
+                </a>
+            </p>
+        </div>
+    </div>
+</article>
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+
+    <div class="postBlock postShorten-wrap" class="September 15, 2016" id="post-/2016/09/buffering/">
+
+        <div class="postShorten-header">
+            <h2 class="postShorten-title" itemprop="headline">
+                <a class="link-unstyled" href="./2016/09/buffering/">
+                    Buffering packets in a network with a variable source rate
+                </a>
+            </h2>
+            <div class="post-meta">
+                <time itemprop="datePublished">
+                    September 15, 2016
+                </time>
+
+                <span>in</span>
+
+                <a class="category-link" href="./categories/networks">
+                    networks
+                </a>
+
+            </div>
+
+        </div>
+        <div class="postShorten-excerpt" itemprop="articleBody">
+            <p>
+                
+                    Solving a self-posed problem :)
+                
+                <br>
+
+                <a href="./2016/09/buffering/" class="postShorten-excerpt_link link">
+                    Continue reading
+                </a>
+            </p>
+        </div>
+    </div>
+</article>
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+
+    <div class="postBlock postShorten-wrap" class="September 10, 2016" id="post-/2016/09/teamselection/">
+
+        <div class="postShorten-header">
+            <h2 class="postShorten-title" itemprop="headline">
+                <a class="link-unstyled" href="./2016/09/teamselection/">
+                    Pairing up n people into 2 teams
+                </a>
+            </h2>
+            <div class="post-meta">
+                <time itemprop="datePublished">
+                    September 10, 2016
+                </time>
+
+                <span>in</span>
+
+                <a class="category-link" href="./categories/CSinLife">
+                    CSinLife
+                </a>
+
+            </div>
+
+        </div>
+        <div class="postShorten-excerpt" itemprop="articleBody">
+            <p>
+                
+                    Try this next time you play pool
+                
+                <br>
+
+                <a href="./2016/09/teamselection/" class="postShorten-excerpt_link link">
+                    Continue reading
+                </a>
+            </p>
+        </div>
+    </div>
+</article>
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+
+    <div class="postBlock postShorten-wrap" class="September  8, 2016" id="post-/2016/09/hop1/">
+
+        <div class="postShorten-header">
+            <h2 class="postShorten-title" itemprop="headline">
+                <a class="link-unstyled" href="./2016/09/hop1/">
+                    HTTP-Over-Protocol - Story and lessons
+                </a>
+            </h2>
+            <div class="post-meta">
+                <time itemprop="datePublished">
+                    September  8, 2016
+                </time>
+
+                <span>in</span>
+
+                <a class="category-link" href="./categories/networks">
+                    networks
+                </a>
+
+            </div>
+
+        </div>
+        <div class="postShorten-excerpt" itemprop="articleBody">
+            <p>
+                
+                    My first 100+ stars Github project
+                
+                <br>
+
+                <a href="./2016/09/hop1/" class="postShorten-excerpt_link link">
+                    Continue reading
+                </a>
+            </p>
+        </div>
+    </div>
+</article>
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+
+    <div class="postBlock postShorten-wrap" class="July 21, 2016" id="post-/2016/07/intern/">
+
+        <div class="postShorten-header">
+            <h2 class="postShorten-title" itemprop="headline">
+                <a class="link-unstyled" href="./2016/07/intern/">
+                    Interning at Max Planck Insititute for Software Systems
+                </a>
+            </h2>
+            <div class="post-meta">
+                <time itemprop="datePublished">
+                    July 21, 2016
+                </time>
+
+                <span>in</span>
+
+                <a class="category-link" href="./categories/musings">
+                    musings
+                </a>
+
+            </div>
+
+        </div>
+        <div class="postShorten-excerpt" itemprop="articleBody">
+            <p>
+                
+                    Experience and fun abound!
+                
+                <br>
+
+                <a href="./2016/07/intern/" class="postShorten-excerpt_link link">
+                    Continue reading
+                </a>
+            </p>
+        </div>
+    </div>
+</article>
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+
+    <div class="postBlock postShorten-wrap" class="June 12, 2016" id="post-/2016/06/chromeffx/">
+
+        <div class="postShorten-header">
+            <h2 class="postShorten-title" itemprop="headline">
+                <a class="link-unstyled" href="./2016/06/chromeffx/">
+                    Chrome and Firefox resource usage experiment
+                </a>
+            </h2>
+            <div class="post-meta">
+                <time itemprop="datePublished">
+                    June 12, 2016
+                </time>
+
+                <span>in</span>
+
+                <a class="category-link" href="./categories/experiment">
+                    experiment
+                </a>
+
+            </div>
+
+        </div>
+        <div class="postShorten-excerpt" itemprop="articleBody">
+            <p>
+                
+                    Finally put them to the test!
+                
+                <br>
+
+                <a href="./2016/06/chromeffx/" class="postShorten-excerpt_link link">
+                    Continue reading
+                </a>
+            </p>
+        </div>
+    </div>
+</article>
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+
+    <div class="postBlock postShorten-wrap" class="May 20, 2016" id="post-/2016/05/gentoo/">
+
+        <div class="postShorten-header">
+            <h2 class="postShorten-title" itemprop="headline">
+                <a class="link-unstyled" href="./2016/05/gentoo/">
+                    Gentoo, 8 months and on.
+                </a>
+            </h2>
+            <div class="post-meta">
+                <time itemprop="datePublished">
+                    May 20, 2016
+                </time>
+
+                <span>in</span>
+
+                <a class="category-link" href="./categories/linux">
+                    linux
+                </a>
+
+            </div>
+
+        </div>
+        <div class="postShorten-excerpt" itemprop="articleBody">
+            <p>
+                
+                    The ups and downs of the most whacky Linux journey I've had
+                
+                <br>
+
+                <a href="./2016/05/gentoo/" class="postShorten-excerpt_link link">
+                    Continue reading
+                </a>
+            </p>
+        </div>
+    </div>
+</article>
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+
+    <div class="postBlock postShorten-wrap" class="April 29, 2016" id="post-/2016/04/codingprimer/">
+
+        <div class="postShorten-header">
+            <h2 class="postShorten-title" itemprop="headline">
+                <a class="link-unstyled" href="./2016/04/codingprimer/">
+                    A Coding Primer
+                </a>
+            </h2>
+            <div class="post-meta">
+                <time itemprop="datePublished">
+                    April 29, 2016
+                </time>
+
+                <span>in</span>
+
+                <a class="category-link" href="./categories/programming">
+                    programming
+                </a>
+
+            </div>
+
+        </div>
+        <div class="postShorten-excerpt" itemprop="articleBody">
+            <p>
+                
+                    Beginner guide to foraying into coding
+                
+                <br>
+
+                <a href="./2016/04/codingprimer/" class="postShorten-excerpt_link link">
+                    Continue reading
+                </a>
+            </p>
+        </div>
+    </div>
+</article>
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+
+    <div class="postBlock postShorten-wrap" class="February  4, 2016" id="post-/2016/02/abcd-documentation/">
+
+        <div class="postShorten-header">
+            <h2 class="postShorten-title" itemprop="headline">
+                <a class="link-unstyled" href="./2016/02/abcd-documentation/">
+                    abcd-esolang Documentation
+                </a>
+            </h2>
+            <div class="post-meta">
+                <time itemprop="datePublished">
+                    February  4, 2016
+                </time>
+
+                <span>in</span>
+
+                <a class="category-link" href="./categories/programming">
+                    programming
+                </a>
+
+            </div>
+
+        </div>
+        <div class="postShorten-excerpt" itemprop="articleBody">
+            <p>
+                
+                    Documentation for my esolang written for Chaos'16
+                
+                <br>
+
+                <a href="./2016/02/abcd-documentation/" class="postShorten-excerpt_link link">
+                    Continue reading
+                </a>
+            </p>
+        </div>
+    </div>
+</article>
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+
+    <div class="postBlock postShorten-wrap" class="January 10, 2016" id="post-/2016/01/gentooinstall/">
+
+        <div class="postShorten-header">
+            <h2 class="postShorten-title" itemprop="headline">
+                <a class="link-unstyled" href="./2016/01/gentooinstall/">
+                    Mini Gentoo installation log
+                </a>
+            </h2>
+            <div class="post-meta">
+                <time itemprop="datePublished">
+                    January 10, 2016
+                </time>
+
+                <span>in</span>
+
+                <a class="category-link" href="./categories/linux">
+                    linux
+                </a>
+
+            </div>
+
+        </div>
+        <div class="postShorten-excerpt" itemprop="articleBody">
+            <p>
+                
+                    Super condensed installation experience
+                
+                <br>
+
+                <a href="./2016/01/gentooinstall/" class="postShorten-excerpt_link link">
+                    Continue reading
+                </a>
+            </p>
+        </div>
+    </div>
+</article>
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+
+    <div class="postBlock postShorten-wrap" class="December 19, 2015" id="post-/2015/12/emacspinky/">
+
+        <div class="postShorten-header">
+            <h2 class="postShorten-title" itemprop="headline">
+                <a class="link-unstyled" href="./2015/12/emacspinky/">
+                    Dealing with the Emacs finger strain
+                </a>
+            </h2>
+            <div class="post-meta">
+                <time itemprop="datePublished">
+                    December 19, 2015
+                </time>
+
+                <span>in</span>
+
+                <a class="category-link" href="./categories/editors">
+                    editors
+                </a>
+
+            </div>
+
+        </div>
+        <div class="postShorten-excerpt" itemprop="articleBody">
+            <p>
+                
+                    How I got about with the excessive stress on my fingers due to Emacs
+                
+                <br>
+
+                <a href="./2015/12/emacspinky/" class="postShorten-excerpt_link link">
+                    Continue reading
+                </a>
+            </p>
+        </div>
+    </div>
+</article>
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+
+    <div class="postBlock postShorten-wrap" class="December  1, 2015" id="post-/2015/12/blog/">
+
+        <div class="postShorten-header">
+            <h2 class="postShorten-title" itemprop="headline">
+                <a class="link-unstyled" href="./2015/12/blog/">
+                    The story of my blog v3
+                </a>
+            </h2>
+            <div class="post-meta">
+                <time itemprop="datePublished">
+                    December  1, 2015
+                </time>
+
+                <span>in</span>
+
+                <a class="category-link" href="./categories/web">
+                    web
+                </a>
+
+            </div>
+
+        </div>
+        <div class="postShorten-excerpt" itemprop="articleBody">
+            <p>
+                
+                    Shifting to Hakyll
+                
+                <br>
+
+                <a href="./2015/12/blog/" class="postShorten-excerpt_link link">
+                    Continue reading
+                </a>
+            </p>
+        </div>
+    </div>
+</article>
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+
+    <div class="postBlock postShorten-wrap" class="November 29, 2015" id="post-/2015/11/whereweheaded/">
+
+        <div class="postShorten-header">
+            <h2 class="postShorten-title" itemprop="headline">
+                <a class="link-unstyled" href="./2015/11/whereweheaded/">
+                    Where we're headed
+                </a>
+            </h2>
+            <div class="post-meta">
+                <time itemprop="datePublished">
+                    November 29, 2015
+                </time>
+
+                <span>in</span>
+
+                <a class="category-link" href="./categories/poems">
+                    poems
+                </a>
+
+            </div>
+
+        </div>
+        <div class="postShorten-excerpt" itemprop="articleBody">
+            <p>
+                
+                    The roads still diverge in the woods..
+                
+                <br>
+
+                <a href="./2015/11/whereweheaded/" class="postShorten-excerpt_link link">
+                    Continue reading
+                </a>
+            </p>
+        </div>
+    </div>
+</article>
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+
+    <div class="postBlock postShorten-wrap" class="November 25, 2015" id="post-/2015/11/power/">
+
+        <div class="postShorten-header">
+            <h2 class="postShorten-title" itemprop="headline">
+                <a class="link-unstyled" href="./2015/11/power/">
+                    NVIDIA with Bumblebee and improving Battery Backup
+                </a>
+            </h2>
+            <div class="post-meta">
+                <time itemprop="datePublished">
+                    November 25, 2015
+                </time>
+
+                <span>in</span>
+
+                <a class="category-link" href="./categories/linux">
+                    linux
+                </a>
+
+            </div>
+
+        </div>
+        <div class="postShorten-excerpt" itemprop="articleBody">
+            <p>
+                
+                    Quickfixes for battery backup on Linux
+                
+                <br>
+
+                <a href="./2015/11/power/" class="postShorten-excerpt_link link">
+                    Continue reading
+                </a>
+            </p>
+        </div>
+    </div>
+</article>
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+
+    <div class="postBlock postShorten-wrap" class="November 11, 2015" id="post-/2015/11/memory/">
+
+        <div class="postShorten-header">
+            <h2 class="postShorten-title" itemprop="headline">
+                <a class="link-unstyled" href="./2015/11/memory/">
+                    The Memory
+                </a>
+            </h2>
+            <div class="post-meta">
+                <time itemprop="datePublished">
+                    November 11, 2015
+                </time>
+
+                <span>in</span>
+
+                <a class="category-link" href="./categories/poems">
+                    poems
+                </a>
+
+            </div>
+
+        </div>
+        <div class="postShorten-excerpt" itemprop="articleBody">
+            <p>
+                
+                    Moving on to..
+                
+                <br>
+
+                <a href="./2015/11/memory/" class="postShorten-excerpt_link link">
+                    Continue reading
+                </a>
+            </p>
+        </div>
+    </div>
+</article>
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+
+    <div class="postBlock postShorten-wrap" class="October 12, 2015" id="post-/2015/10/ambition/">
+
+        <div class="postShorten-header">
+            <h2 class="postShorten-title" itemprop="headline">
+                <a class="link-unstyled" href="./2015/10/ambition/">
+                    Ambition and choices
+                </a>
+            </h2>
+            <div class="post-meta">
+                <time itemprop="datePublished">
+                    October 12, 2015
+                </time>
+
+                <span>in</span>
+
+                <a class="category-link" href="./categories/musings">
+                    musings
+                </a>
+
+            </div>
+
+        </div>
+        <div class="postShorten-excerpt" itemprop="articleBody">
+            <p>
+                
+                    An outpouring of thoughts about our life-choices
+                
+                <br>
+
+                <a href="./2015/10/ambition/" class="postShorten-excerpt_link link">
+                    Continue reading
+                </a>
+            </p>
+        </div>
+    </div>
+</article>
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+
+    <div class="postBlock postShorten-wrap" class="September 19, 2015" id="post-/2015/09/xmonad/">
+
+        <div class="postShorten-header">
+            <h2 class="postShorten-title" itemprop="headline">
+                <a class="link-unstyled" href="./2015/09/xmonad/">
+                    i3 to XMonad - How and why
+                </a>
+            </h2>
+            <div class="post-meta">
+                <time itemprop="datePublished">
+                    September 19, 2015
+                </time>
+
+                <span>in</span>
+
+                <a class="category-link" href="./categories/linux">
+                    linux
+                </a>
+
+            </div>
+
+        </div>
+        <div class="postShorten-excerpt" itemprop="articleBody">
+            <p>
+                
+                    Haskell + Tiling = Perfection
+                
+                <br>
+
+                <a href="./2015/09/xmonad/" class="postShorten-excerpt_link link">
+                    Continue reading
+                </a>
+            </p>
+        </div>
+    </div>
+</article>
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+
+    <div class="postBlock postShorten-wrap" class="September  6, 2015" id="post-/2015/09/bootloader/">
+
+        <div class="postShorten-header">
+            <h2 class="postShorten-title" itemprop="headline">
+                <a class="link-unstyled" href="./2015/09/bootloader/">
+                    Bootloaders basics
+                </a>
+            </h2>
+            <div class="post-meta">
+                <time itemprop="datePublished">
+                    September  6, 2015
+                </time>
+
+                <span>in</span>
+
+                <a class="category-link" href="./categories/linux">
+                    linux
+                </a>
+
+            </div>
+
+        </div>
+        <div class="postShorten-excerpt" itemprop="articleBody">
+            <p>
+                
+                    Installing Syslinux/GRUB2
+                
+                <br>
+
+                <a href="./2015/09/bootloader/" class="postShorten-excerpt_link link">
+                    Continue reading
+                </a>
+            </p>
+        </div>
+    </div>
+</article>
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+
+    <div class="postBlock postShorten-wrap" class="July 11, 2015" id="post-/2015/07/cse/">
+
+        <div class="postShorten-header">
+            <h2 class="postShorten-title" itemprop="headline">
+                <a class="link-unstyled" href="./2015/07/cse/">
+                    About what CSE is and isn't
+                </a>
+            </h2>
+            <div class="post-meta">
+                <time itemprop="datePublished">
+                    July 11, 2015
+                </time>
+
+                <span>in</span>
+
+                <a class="category-link" href="./categories/musings">
+                    musings
+                </a>
+
+            </div>
+
+        </div>
+        <div class="postShorten-excerpt" itemprop="articleBody">
+            <p>
+                
+                    TLDR; It isn't just app-dev
+                
+                <br>
+
+                <a href="./2015/07/cse/" class="postShorten-excerpt_link link">
+                    Continue reading
+                </a>
+            </p>
+        </div>
+    </div>
+</article>
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+
+    <div class="postBlock postShorten-wrap" class="July  6, 2015" id="post-/2015/07/leavegnome/">
+
+        <div class="postShorten-header">
+            <h2 class="postShorten-title" itemprop="headline">
+                <a class="link-unstyled" href="./2015/07/leavegnome/">
+                    Shifting away from GNOME
+                </a>
+            </h2>
+            <div class="post-meta">
+                <time itemprop="datePublished">
+                    July  6, 2015
+                </time>
+
+                <span>in</span>
+
+                <a class="category-link" href="./categories/linux">
+                    linux
+                </a>
+
+            </div>
+
+        </div>
+        <div class="postShorten-excerpt" itemprop="articleBody">
+            <p>
+                
+                    Bloatware goodbye
+                
+                <br>
+
+                <a href="./2015/07/leavegnome/" class="postShorten-excerpt_link link">
+                    Continue reading
+                </a>
+            </p>
+        </div>
+    </div>
+</article>
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+
+    <div class="postBlock postShorten-wrap" class="July  4, 2015" id="post-/2015/07/vimsudo/">
+
+        <div class="postShorten-header">
+            <h2 class="postShorten-title" itemprop="headline">
+                <a class="link-unstyled" href="./2015/07/vimsudo/">
+                    How to save a file with root-priviledges in a normal Vim session
+                </a>
+            </h2>
+            <div class="post-meta">
+                <time itemprop="datePublished">
+                    July  4, 2015
+                </time>
+
+                <span>in</span>
+
+                <a class="category-link" href="./categories/editors">
+                    editors
+                </a>
+
+            </div>
+
+        </div>
+        <div class="postShorten-excerpt" itemprop="articleBody">
+            <p>
+                
+                    No more 'sudo vim'
+                
+                <br>
+
+                <a href="./2015/07/vimsudo/" class="postShorten-excerpt_link link">
+                    Continue reading
+                </a>
+            </p>
+        </div>
+    </div>
+</article>
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+
+    <div class="postBlock postShorten-wrap" class="July  3, 2015" id="post-/2015/07/i3wm/">
+
+        <div class="postShorten-header">
+            <h2 class="postShorten-title" itemprop="headline">
+                <a class="link-unstyled" href="./2015/07/i3wm/">
+                    Hopping over to i3wm
+                </a>
+            </h2>
+            <div class="post-meta">
+                <time itemprop="datePublished">
+                    July  3, 2015
+                </time>
+
+                <span>in</span>
+
+                <a class="category-link" href="./categories/linux">
+                    linux
+                </a>
+
+            </div>
+
+        </div>
+        <div class="postShorten-excerpt" itemprop="articleBody">
+            <p>
+                
+                    Joys of Tiling Window managers
+                
+                <br>
+
+                <a href="./2015/07/i3wm/" class="postShorten-excerpt_link link">
+                    Continue reading
+                </a>
+            </p>
+        </div>
+    </div>
+</article>
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+
+    <div class="postBlock postShorten-wrap" class="July  1, 2015" id="post-/2015/07/voyage/">
+
+        <div class="postShorten-header">
+            <h2 class="postShorten-title" itemprop="headline">
+                <a class="link-unstyled" href="./2015/07/voyage/">
+                    My Voyage through the seas of programming
+                </a>
+            </h2>
+            <div class="post-meta">
+                <time itemprop="datePublished">
+                    July  1, 2015
+                </time>
+
+                <span>in</span>
+
+                <a class="category-link" href="./categories/musings">
+                    musings
+                </a>
+
+            </div>
+
+        </div>
+        <div class="postShorten-excerpt" itemprop="articleBody">
+            <p>
+                
+                    Story of my first year at IITK
+                
+                <br>
+
+                <a href="./2015/07/voyage/" class="postShorten-excerpt_link link">
+                    Continue reading
+                </a>
+            </p>
+        </div>
+    </div>
+</article>
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+
+    <div class="postBlock postShorten-wrap" class="July  1, 2015" id="post-/2015/07/tty/">
+
+        <div class="postShorten-header">
+            <h2 class="postShorten-title" itemprop="headline">
+                <a class="link-unstyled" href="./2015/07/tty/">
+                    TTY Tricks in Linux
+                </a>
+            </h2>
+            <div class="post-meta">
+                <time itemprop="datePublished">
+                    July  1, 2015
+                </time>
+
+                <span>in</span>
+
+                <a class="category-link" href="./categories/linux">
+                    linux
+                </a>
+
+            </div>
+
+        </div>
+        <div class="postShorten-excerpt" itemprop="articleBody">
+            <p>
+                
+                    Life in the terminal
+                
+                <br>
+
+                <a href="./2015/07/tty/" class="postShorten-excerpt_link link">
+                    Continue reading
+                </a>
+            </p>
+        </div>
+    </div>
+</article>
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+
+    <div class="postBlock postShorten-wrap" class="July  1, 2015" id="post-/2015/07/multigit/">
+
+        <div class="postShorten-header">
+            <h2 class="postShorten-title" itemprop="headline">
+                <a class="link-unstyled" href="./2015/07/multigit/">
+                    Multiple Git repos in a single directory
+                </a>
+            </h2>
+            <div class="post-meta">
+                <time itemprop="datePublished">
+                    July  1, 2015
+                </time>
+
+                <span>in</span>
+
+                <a class="category-link" href="./categories/linux">
+                    linux
+                </a>
+
+            </div>
+
+        </div>
+        <div class="postShorten-excerpt" itemprop="articleBody">
+            <p>
+                
+                    The --git-dir flag
+                
+                <br>
+
+                <a href="./2015/07/multigit/" class="postShorten-excerpt_link link">
+                    Continue reading
+                </a>
+            </p>
+        </div>
+    </div>
+</article>
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+
+    <div class="postBlock postShorten-wrap" class="June 25, 2015" id="post-/2015/06/vbox/">
+
+        <div class="postShorten-header">
+            <h2 class="postShorten-title" itemprop="headline">
+                <a class="link-unstyled" href="./2015/06/vbox/">
+                    Running Windows inside Arch (never leaving Arch again)
+                </a>
+            </h2>
+            <div class="post-meta">
+                <time itemprop="datePublished">
+                    June 25, 2015
+                </time>
+
+                <span>in</span>
+
+                <a class="category-link" href="./categories/linux">
+                    linux
+                </a>
+
+            </div>
+
+        </div>
+        <div class="postShorten-excerpt" itemprop="articleBody">
+            <p>
+                
+                    Getting VirtualBox running in Arch
+                
+                <br>
+
+                <a href="./2015/06/vbox/" class="postShorten-excerpt_link link">
+                    Continue reading
+                </a>
+            </p>
+        </div>
+    </div>
+</article>
+
+<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+
+    <div class="postBlock postShorten-wrap" class="June 15, 2015" id="post-/2015/06/vim/">
+
+        <div class="postShorten-header">
+            <h2 class="postShorten-title" itemprop="headline">
+                <a class="link-unstyled" href="./2015/06/vim/">
+                    Kickstart to Vim
+                </a>
+            </h2>
+            <div class="post-meta">
+                <time itemprop="datePublished">
+                    June 15, 2015
+                </time>
+
+                <span>in</span>
+
+                <a class="category-link" href="./categories/editors">
+                    editors
+                </a>
+
+            </div>
+
+        </div>
+        <div class="postShorten-excerpt" itemprop="articleBody">
+            <p>
+                
+                    A beyond-the-vimtutor tutorial
+                
+                <br>
+
+                <a href="./2015/06/vim/" class="postShorten-excerpt_link link">
+                    Continue reading
+                </a>
+            </p>
+        </div>
+    </div>
+</article>
+
+
+<script src="./js/archive.js">
+</script>
+
+
+
+
+    </section>
+    <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+      Saksham Sharma
+  </span>
+</footer>
+
 </div>
 
 
-
-        </div>
-      <footer class="mdl-mini-footer">
-        <div class="mdl-mini-footer__left-section">
-          <div class="mdl-logo">
-            <h5 style="color: #bbbbbb; margin: 0; padding: 0;">AceHack</h5>
-            <p style="color: #aaaaaa; margin: 0; margin-top: 5px; padding: 0;">The blog of Saksham Sharma</p>
-            <p style="color: #aaaaaa; margin: 0; margin-top: 5px; padding: 0;">Hosted on Github <a href="https://github.com/sakshamsharma/acehack" target="_blank">here</a><p>
-          </div>
-        </div>
-        <div class="mdl-mini-footer__middle-section">
-          <div class="mdl-logo" style="text-align: right;">
-            <a href="https://github.com/sakshamsharma" target="_blank">sakshamsharma</a>@github<br>
-            <a href="mailto:saksham@acehack.org" target="_blank">saksham@acehack.com</a>
-          </div>
-        </div>
-        <div class="mdl-mini-footer__right-section">
-          <div class="mdl-logo">Proudly generated by Hakyll</div>
-        </div>
-      </footer>
-      </main>
     </div>
-    <script src="https://code.getmdl.io/1.1.3/material.min.js"></script>
-    <script>
-var links = document.getElementsByClassName('mynav');
-for(i=0;i<links.length;i++) {
-  var tmp = links[i].href;
-  if (tmp.substring(tmp.lastIndexOf('/')) == document.location.pathname) {
-    links[i].className += " is-active"
-  }
-}
-    </script>
-  </body>
+    <div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+
+        <img id="about-card-picture" src="https://avatars3.githubusercontent.com/u/10418596?v=3&amp;s=460" alt="Author's picture" />
+
+        <h4 id="about-card-name">Saksham Sharma</h4>
+
+        <div id="about-card-bio">Hacker. Programmer. Geek.</div>
+
+
+        <div id="about-card-job">
+            <i class="fa fa-briefcase"></i>
+            <br />
+            3rd year Undergrad, Computer Science and Engineering
+        </div>
+
+
+        <div id="about-card-location">
+            <i class="fa fa-map-marker"></i>
+            <br />
+            Indian Institute of Technology Kanpur
+        </div>
+
+    </div>
+</div>
+
+    <div id="cover" style="background-image:url('/images/header.jpg');"></div>
+
+</body>
 </html>

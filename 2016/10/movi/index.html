@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="generator" content="Hugo">
+        <title>AceHack</title>
+        <meta name="author" content="Saksham Sharma">
+        <meta name="keywords" content="acehack, coding, programming, linux, webdev, hakyll">
+
+        <meta name="description" content="Saksham Sharma's blog">
+        <meta property="og:description" content="Saksham Sharma's blog">
+        <meta property="og:type" content="blog">
+        <meta property="og:title" content="AceHack">
+        <meta property="og:url" content>
+        <meta property="og:site_name" content="AceHack">
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:title" content="AceHack">
+        <meta name="twitter:description" content="Saksham Sharma's blog">
+
+        <meta property="og:image" content="https://avatars3.githubusercontent.com/u/10418596?v=3&s=460">
+
+        <link rel="stylesheet" href="../../../css/hugo.css" />
+        <script src="../../../js/utils.js"></script>
+    </head>
+
+<body>
+    <!--SCRIPTS-->
+<script src="../../../js/hugo.js" type="text/javascript"></script>
+<!--SCRIPTS END-->
+<script src="../../../js/highlight.js">
+</script>
+
+    <div id="blog">
+        <header id="header" data-behavior="1">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="../../../">AceHack</a>
+  </div>
+      <a class="header-right-picture " href="../../../about">
+        <img class="header-picture" src="https://avatars3.githubusercontent.com/u/10418596?v=3&amp;s=460" alt="Author's picture" />
+    </a>
+</header>
+
+
+        <nav id="sidebar" data-behavior="1">
+    <div class="sidebar-container">
+        <div class="sidebar-profile">
+            <a href="../../../about">
+                <img class="sidebar-profile-picture" src="https://avatars3.githubusercontent.com/u/10418596?v=3&amp;s=460" alt="Author's picture" />
+            </a>
+            <h4 class="sidebar-profile-name">Saksham Sharma</h4>
+
+            <h5 class="sidebar-profile-bio">Hacker. Programmer. Geek.</h5>
+
+        </div>
+
+        <ul class="sidebar-buttons">
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="../../../">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">Home</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="../../../categories">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                    <span class="sidebar-button-desc">Categories</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="../../../tags">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">Tags</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="../../../archives">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">Archives</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="../../../about">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                    <span class="sidebar-button-desc">About</span>
+                </a>
+            </li>
+
+        </ul>
+        <ul class="sidebar-buttons">
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="https://github.com/sakshamsharma" target="_blank">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                    <span class="sidebar-button-desc">GitHub</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="http://sakshamsharma.com/cv" target="_blank">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-file-o"></i>
+                    <span class="sidebar-button-desc">Resume</span>
+                </a>
+            </li>
+
+
+        </ul>
+        <ul class="sidebar-buttons">
+
+        </ul>
+    </div>
+</nav>
+
+<div id="main" data-behavior="1" class="hasCoverMetaIn">
+    <section class="postShorten-group main-content-wrap">
+
+        <h1>moVi - Mobile video protocol (Part 1)</h1>
+
+ Tags: <a href="../../../tags/networks/index.html">networks</a>, <a href="../../../tags/video/index.html">video</a>  <br><br>
+<p>After a really late start to my undergraduate project (UGP) this semester, I finally started working on something we call <a href="https://github.com/netsecIITK/moVi">moVi</a>.</p>
+<p>First off, if the idea reminds you of <a href="https://mosh.org">mosh - Mobile Shell</a> by Keith Winstein and Hari Balakrishnan of MIT, it is not a coincidence. I’d loved their paper called <em>Mosh: An Interactive Remote Shell for Mobile Clients</em>, and moVi is in a way taking their idea forward. We’re 2 undergraduates working on this project, me and Ayush Agarwal, under the guidance of Prof. Sandeep Shukla of IIT Kanpur (previously at Virginia Tech).</p>
+<p>I’ve been working on moVi since around 20 (regular semester) days now; here’s what all <strong>I</strong> know about moVi by now :)</p>
+<h2 id="introduction">Introduction</h2>
+<p>The core idea is simple. How do you make a protocol robust to network, IP, and location changes? A conventional solution might be DDNS (Dynamic DNS). Some idealized scenarios let DDNS do real-time updates of IP of its clients. That way, both the clients can continue their communication, whatever that might be, despite changes in IP of one or both clients. But is there another, cleaner way?</p>
+<h2 id="what-mosh-does---ideas">What Mosh does - Ideas</h2>
+<p>Winstein, Balakrishnan propose in the above paper, a much simpler technique. Instead of using a global directory for such clients, they instead rely on the connectionless state of UDP. Both parties share a secret key, and send a signature of their message (or an encrypted version of the message) signed with that secret key. When one of the sides receives a <em>valid</em> packet from some other IP, it can safely assume that the other side has changed its IP.</p>
+<p>Apart from that, another thing which they use is what they call <em>State Synchronization Protocol</em>. This is essentially noting the fact that to ensure both people see the same version of an object (state), you do not need to share all past states. Mosh, in some sense, <em>renders</em> the terminal view on the SSH server side, and sends the view, limited by the frame rate, to the person who has SSHed into the machine from a mobile channel.</p>
+<h2 id="what-movi-does">What moVi does</h2>
+<p>We use the idea of connectionless signed UDP channels between 2 parties for UDP based communication. But what communication? Why not video?</p>
+<p>Real time (and non-replayable) video is an ideal candidate for using UDP. One does not really care what traffic is lost, since the communication has to be real time, and <em>better late than never</em> is not really valid for a real-time packet now :)</p>
+<p>So here are the things we’ve done, or are planning to do:</p>
+<h3 id="robust-to-ip-changes">Robust to IP changes</h3>
+<p>This simply implements the idea used by Mosh, without any modifications. We rely on UDP and a secret key shared between the parties beforehand. For now, we let the parties share the secret key over an initial TCP connection, which is then torn down when the UDP connection starts. The TCP connection is also used to communicate the UDP ports to be used for video communication from each side.</p>
+<h3 id="robust-to-data-losses">Robust to data losses</h3>
+<p>Packets are fickle things. They could get lost due to full queues and congestion, or because of intermediate network issues (especially WiFi). But do we need all packets to reach reliably?</p>
+<p>Instead of using a reliable TCP connection, or a ack-all-packets kind of implementation, we instead use a different approach tailored for slow networks. We divide the whole video into small regions of a pre-decided size (geometrically for now, but we’re planning to use regions in the Fourier transform as well). The sender first retreives the current frame from the camera, and divides it into regions. Each region is separately compressed using JPEG. This is now sent over the network, with a header specifying the region number / location. Some points to note, design choices and variations:</p>
+<ul>
+<li>The chances of a region reaching the other side quickly relies on the size of the packet. IP fragmentation can handle packet loss for packets having size a small multiple of the MTU (Maximum transfer unit), which is most often set to 1500 bytes (including the headers). We’ve noticed that using regions of size 150x150, using JPEG compression with quality set to 50, each region has an approximate size of 2-3 kilobytes. This should offer sufficient reliability, though we’re yet to test it on bad networks.</li>
+<li>Why specifically JPEG? Why not some video compression methods? The reason we had (as people utterly unfamiliar to video encoding) is that the video compression protocols work on the principle that each state of the video is available, either as a diff, or as a normal full frame. We do not have that luxury. We never know whether a region has reached or not.</li>
+<li>We implement our own optimizations to improve the image encoding method for our particular use case of real time videos. The receiver keeps a small buffer of states of the video (per region). Let this number be 100 for now. Since this is a 2 way communication, the receiver himself is sending updates for the same region. In those packets, it would embed ACKs for the last state received. This way, each sender knows each region’s latest state received, modulo packet losses on sending and ACKing side. Each sender, instead of sending a frame separately, instead sends the diffs of the region with the last ACKed state of that region. If somehow the sender has already sent a 100 diffs, and yet has not received another ACK, it will assume that something is wrong, and will conservatively send a non-diff packet instead. There shall be a header flag which signifies if it is a diff, and if yes, from which state.</li>
+<li>Another possible optimization is that regions having no change are not sent at all. This is useful for stable camera situations. But to ensure that states still get ACKed, we ensure that at least one region is sent from each row, and that region contains the ID of the regions in that row which did not get sent because of no changes.</li>
+</ul>
+<h3 id="robust-to-varying-network-speed-and-reliability">Robust to varying network speed and reliability</h3>
+<p>Note that using this technique, if the reliability of the network is too low (but UDP queues are not too small), one can ideally send smaller regions of the frame, increasing the number of packets by a significant amount but bringing the packet size below the MTU size. Plus, the JPEG encoding quality can be varied in real time as well, reducing the packet size further.</p>
+<h3 id="synchronization-of-regions-joining-together-to-form-a-frame">Synchronization of regions joining together to form a frame</h3>
+<p>The above idea seems coherent, but in practice it shows a big issue. If there are a large number of regions (seen with 50x50 regions in an image of 600x400 pixels), there is a small delay in the regions getting <em>pasted</em> onto the displayed frame. This causes an effect such that the image is never fully synchronized. To avoid this, we bunch together updates for regions, and only when we have all the regions in the latest state, or there is a timeout (approximately the desired frame rate), whichever is earlier, do we update the frame and display it to the client.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>The code is <a href="https://github.com/netsecIITK/moVi">here (moVi)</a> on Github. It is still in progress, but we do hope this comes out to be something interesting! We’ve still got a quarter of the semester left with us.</p>
+
+
+
+    </section>
+    <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+      Saksham Sharma
+  </span>
+</footer>
+
+</div>
+
+
+    </div>
+    <div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+
+        <img id="about-card-picture" src="https://avatars3.githubusercontent.com/u/10418596?v=3&amp;s=460" alt="Author's picture" />
+
+        <h4 id="about-card-name">Saksham Sharma</h4>
+
+        <div id="about-card-bio">Hacker. Programmer. Geek.</div>
+
+
+        <div id="about-card-job">
+            <i class="fa fa-briefcase"></i>
+            <br />
+            3rd year Undergrad, Computer Science and Engineering
+        </div>
+
+
+        <div id="about-card-location">
+            <i class="fa fa-map-marker"></i>
+            <br />
+            Indian Institute of Technology Kanpur
+        </div>
+
+    </div>
+</div>
+
+    <div id="cover" style="background-image:url('/images/header.jpg');"></div>
+
+</body>
+</html>

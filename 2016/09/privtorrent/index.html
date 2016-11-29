@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="generator" content="Hugo">
+        <title>AceHack</title>
+        <meta name="author" content="Saksham Sharma">
+        <meta name="keywords" content="acehack, coding, programming, linux, webdev, hakyll">
+
+        <meta name="description" content="Saksham Sharma's blog">
+        <meta property="og:description" content="Saksham Sharma's blog">
+        <meta property="og:type" content="blog">
+        <meta property="og:title" content="AceHack">
+        <meta property="og:url" content>
+        <meta property="og:site_name" content="AceHack">
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:title" content="AceHack">
+        <meta name="twitter:description" content="Saksham Sharma's blog">
+
+        <meta property="og:image" content="https://avatars3.githubusercontent.com/u/10418596?v=3&s=460">
+
+        <link rel="stylesheet" href="../../../css/hugo.css" />
+        <script src="../../../js/utils.js"></script>
+    </head>
+
+<body>
+    <!--SCRIPTS-->
+<script src="../../../js/hugo.js" type="text/javascript"></script>
+<!--SCRIPTS END-->
+<script src="../../../js/highlight.js">
+</script>
+
+    <div id="blog">
+        <header id="header" data-behavior="1">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="../../../">AceHack</a>
+  </div>
+      <a class="header-right-picture " href="../../../about">
+        <img class="header-picture" src="https://avatars3.githubusercontent.com/u/10418596?v=3&amp;s=460" alt="Author's picture" />
+    </a>
+</header>
+
+
+        <nav id="sidebar" data-behavior="1">
+    <div class="sidebar-container">
+        <div class="sidebar-profile">
+            <a href="../../../about">
+                <img class="sidebar-profile-picture" src="https://avatars3.githubusercontent.com/u/10418596?v=3&amp;s=460" alt="Author's picture" />
+            </a>
+            <h4 class="sidebar-profile-name">Saksham Sharma</h4>
+
+            <h5 class="sidebar-profile-bio">Hacker. Programmer. Geek.</h5>
+
+        </div>
+
+        <ul class="sidebar-buttons">
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="../../../">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">Home</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="../../../categories">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                    <span class="sidebar-button-desc">Categories</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="../../../tags">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">Tags</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="../../../archives">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">Archives</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="../../../about">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                    <span class="sidebar-button-desc">About</span>
+                </a>
+            </li>
+
+        </ul>
+        <ul class="sidebar-buttons">
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="https://github.com/sakshamsharma" target="_blank">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                    <span class="sidebar-button-desc">GitHub</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="http://sakshamsharma.com/cv" target="_blank">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-file-o"></i>
+                    <span class="sidebar-button-desc">Resume</span>
+                </a>
+            </li>
+
+
+        </ul>
+        <ul class="sidebar-buttons">
+
+        </ul>
+    </div>
+</nav>
+
+<div id="main" data-behavior="1" class="hasCoverMetaIn">
+    <section class="postShorten-group main-content-wrap">
+
+        <h1>Privately send data to host without disclosing IP</h1>
+
+ Tags: <a href="../../../tags/algorithm/index.html">algorithm</a>, <a href="../../../tags/networks/index.html">networks</a>  <br><br>
+<p>While thinking on some lines related to networks and security, I recently came up with an idea of having a distributed network connection without disclosing your identity to the sender. The idea is still nascent, and requires you to have root access to your machine (and a custom kernel module, which I’m miles away from writing in the middle of my semester). I’d nevertheless appreciate comments on this idea :)</p>
+<h3 id="tcp">TCP</h3>
+<p>A brief look at the relevant parts of TCP/IP needed for this:</p>
+<ul>
+<li>The sender opens a TCP connection with the client. This connection is over IP packets, which are stateless.</li>
+<li>IP can be spoofed easily. It is possible to send a packet to someone which has a misleading ‘source’ header set in the IP packet.</li>
+<li>Spoofing your identity over a TCP connection is not easy, since the response is sent to the host with the IP you set in the source.</li>
+<li>TCP prevents someone else from sending packets as you by setting up a random sequence number initially during the handshaking with the client.</li>
+</ul>
+<h3 id="basic-idea">Basic idea</h3>
+<p>I’ll take the example of torrent here, and assume that there are <code>n</code> senders (peers) in the torrent connection, who are uploading, let’s say, ubuntu’s iso file to a host <code>cl</code> (client); and the senders don’t want their IP to be known to <code>cl</code>. I will not attempt to get into the technical details of torrent here though.</p>
+<p>Imagine that there is a service like tor which let’s you talk to hosts anonymously. This would be somewhat of a proxy server. Call it <code>p</code>.</p>
+<p>A possible way would be for all the <code>n</code> senders to route their traffic through <code>p</code>. This is not a scalable idea perhaps, since many senders sending data via <code>p</code> would consume a lot of network resources over <code>p</code>.</p>
+<p>Here is a possibly better way. Host <code>p</code> sets up a TCP connection with the client <code>cl</code>. It gets a certain receive buffer. The <code>n</code> senders decide among themselves about how they wish to communicate the data to the client. One way is for each sender to send every <code>n</code>th byte. So sender <code>i</code> sends the <code>i</code>th, <code>(i+1)</code>th and so on bytes. The host <code>p</code> lets all the senders know the relevant TCP packet numbers. Now the host <code>p</code> only has to communicate with the client <code>cl</code> mostly, receiving it’s responses on the TCP connection it set up. All the senders spoof their packets by sending the packets with the source marked as <code>p</code>. The client will get the packets in the right order (due the senders deciding, and using the right TCP sequence number), and will respond to <code>p</code>, which can later inspect the response and let the senders know accordingly if it is something they should know.</p>
+<h3 id="details">Details</h3>
+<ul>
+<li>Senders need to honor the receive window of the client. Perhaps each one treats the effective receive window as the <code>1/n</code>th fraction of the actual receive window.</li>
+<li>There is no need to send every ACK to the senders, except to help with fast retransmits, and for them to know the network state. There might exist ways to avoid sending all responses from <code>p</code> to the senders (which puts load on <code>p</code>).</li>
+<li>If the network has low packet loss rate, it <em>may</em> be advantageous to not communicate all ACKs to the senders. It would only slow down responses when there’s a packet loss.</li>
+<li>If the host <code>p</code> detects a dropped packet, it communicates that to the sender who was supposed to send that packet.</li>
+<li>If host <code>p</code> detects network congestion (triple duplicate ACK, or ECN etc), it communicates this with all the senders.</li>
+</ul>
+<h3 id="advantages">Advantages</h3>
+<ul>
+<li>The client <code>cl</code> cannot find out which IP sent the actual packet.</li>
+<li>You do not need as high network resources as tor on the host machine <code>p</code> for this to work.</li>
+<li>Possibly inspire ideas related to private distributed network communication.</li>
+<li>One could possibly send part data from one host, and part from the other host via this mechanism. Thus, someone doing a man-in-the-middle on one sender would only see partial data being sent. So you could open a connection to a website, and a listener would see you sending <code>GET / HTTP/1.0</code> to that website, while there would be another machine which sent the remaining request (maybe some password in clear-text, which was mandated by the website. I know, not a good example).</li>
+</ul>
+<h3 id="cons-and-limitations">Cons and limitations</h3>
+<p>After discussion with some other people, there are a few things to this approach which make it impractical in use.</p>
+<ul>
+<li>Unless ACKs are sent to the actual sender, the idea would actually slow down the network quite some bit, since that would mean reimplementing TCP without a lot of information from the network.</li>
+<li>This is only suited for large sending. Receiving data over this mechanism would be highly impractical.</li>
+<li>Some routers may not forward plain IP packets without a TCP connection set up (Details and comments welcome on this). You may need to own the network so be able to employ such a mechanism.</li>
+<li>Requires root privileges on the hosts.</li>
+</ul>
+
+
+
+    </section>
+    <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+      Saksham Sharma
+  </span>
+</footer>
+
+</div>
+
+
+    </div>
+    <div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+
+        <img id="about-card-picture" src="https://avatars3.githubusercontent.com/u/10418596?v=3&amp;s=460" alt="Author's picture" />
+
+        <h4 id="about-card-name">Saksham Sharma</h4>
+
+        <div id="about-card-bio">Hacker. Programmer. Geek.</div>
+
+
+        <div id="about-card-job">
+            <i class="fa fa-briefcase"></i>
+            <br />
+            3rd year Undergrad, Computer Science and Engineering
+        </div>
+
+
+        <div id="about-card-location">
+            <i class="fa fa-map-marker"></i>
+            <br />
+            Indian Institute of Technology Kanpur
+        </div>
+
+    </div>
+</div>
+
+    <div id="cover" style="background-image:url('/images/header.jpg');"></div>
+
+</body>
+</html>

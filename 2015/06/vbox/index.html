@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="generator" content="Hugo">
+        <title>AceHack</title>
+        <meta name="author" content="Saksham Sharma">
+        <meta name="keywords" content="acehack, coding, programming, linux, webdev, hakyll">
+
+        <meta name="description" content="Saksham Sharma's blog">
+        <meta property="og:description" content="Saksham Sharma's blog">
+        <meta property="og:type" content="blog">
+        <meta property="og:title" content="AceHack">
+        <meta property="og:url" content>
+        <meta property="og:site_name" content="AceHack">
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:title" content="AceHack">
+        <meta name="twitter:description" content="Saksham Sharma's blog">
+
+        <meta property="og:image" content="https://avatars3.githubusercontent.com/u/10418596?v=3&s=460">
+
+        <link rel="stylesheet" href="../../../css/hugo.css" />
+        <script src="../../../js/utils.js"></script>
+    </head>
+
+<body>
+    <!--SCRIPTS-->
+<script src="../../../js/hugo.js" type="text/javascript"></script>
+<!--SCRIPTS END-->
+<script src="../../../js/highlight.js">
+</script>
+
+    <div id="blog">
+        <header id="header" data-behavior="1">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="../../../">AceHack</a>
+  </div>
+      <a class="header-right-picture " href="../../../about">
+        <img class="header-picture" src="https://avatars3.githubusercontent.com/u/10418596?v=3&amp;s=460" alt="Author's picture" />
+    </a>
+</header>
+
+
+        <nav id="sidebar" data-behavior="1">
+    <div class="sidebar-container">
+        <div class="sidebar-profile">
+            <a href="../../../about">
+                <img class="sidebar-profile-picture" src="https://avatars3.githubusercontent.com/u/10418596?v=3&amp;s=460" alt="Author's picture" />
+            </a>
+            <h4 class="sidebar-profile-name">Saksham Sharma</h4>
+
+            <h5 class="sidebar-profile-bio">Hacker. Programmer. Geek.</h5>
+
+        </div>
+
+        <ul class="sidebar-buttons">
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="../../../">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">Home</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="../../../categories">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                    <span class="sidebar-button-desc">Categories</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="../../../tags">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">Tags</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="../../../archives">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">Archives</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="../../../about">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                    <span class="sidebar-button-desc">About</span>
+                </a>
+            </li>
+
+        </ul>
+        <ul class="sidebar-buttons">
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="https://github.com/sakshamsharma" target="_blank">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                    <span class="sidebar-button-desc">GitHub</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="http://sakshamsharma.com/cv" target="_blank">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-file-o"></i>
+                    <span class="sidebar-button-desc">Resume</span>
+                </a>
+            </li>
+
+
+        </ul>
+        <ul class="sidebar-buttons">
+
+        </ul>
+    </div>
+</nav>
+
+<div id="main" data-behavior="1" class="hasCoverMetaIn">
+    <section class="postShorten-group main-content-wrap">
+
+        <h1>Running Windows inside Arch (never leaving Arch again)</h1>
+
+ Tags: <a href="../../../tags/arch/index.html">arch</a>, <a href="../../../tags/virtualbox/index.html">virtualbox</a>, <a href="../../../tags/technical/index.html">technical</a>  <br><br>
+<p>I am a die-hard Linux user, and yet, I used to have to boot up my Windows at times. I loathed that, I had to leave all my work, I missed the concept of workspaces, I missed the terminal.</p>
+<p>At one point, I used to be an expert about Windows related troubles, and now I hardly ever open it. If you are thinking of doing that too, I’ll list some reasons I have about not removing it altogether.</p>
+<ol style="list-style-type: decimal">
+<li>Visual Studio: Yes this is probably the only IDE I use (For Windows Phone App Dev for code.fun.do finals). The IDE is good enough, and, I pretty much don’t have a choice.</li>
+<li>Gaming: Well, I manage the occasional Counter Strike game with friends on my Linux itself, with Wine. But for games like GTA 5, you don’t have any choice but to boot up Windows.</li>
+<li>Proper phone support: It’s possibly just me, but I have troubles with MTP for my android phone. Can be fixed.</li>
+</ol>
+<p>Anyhow, here’s about how to never have to boot out of Linux again: Wine + VirtualBox !</p>
+<h3 id="wine">Wine</h3>
+<p>This lets me run Counter Strike, small exe programs meant for small tasks, and the big boy Office 2010 right in my Linux. Agreed I don’t use it so often, but it feels great to have this functionality.</p>
+<h3 id="virtualbox">VirtualBox</h3>
+<p>The cure to the main trouble I had: Visual Studio. Run Windows inside your Linux. Boot up is faster (as this Windows just has things my Linux doesn’t have, i.e. Visual Studio), and I get workspaces ! (I keep Windows on one workspace, and the rest of the work on another). Oh and works quite fast (although you need a good PC to be able to say this).</p>
+<p>Without further ado, I’ll show you how to get the same experience:</p>
+<h2 id="installing-a-windows-guest-inside-arch-linux-host">Installing a Windows guest inside Arch Linux host</h2>
+<p>You would first have to check whether your processor supports Virtualization. To check this, run <code>lscpu</code> in your terminal. You should see a line like <code>Virtualization: VT-X</code> or something similar. A missing line means you’re out of luck. If that is so, you should either look at Emulation, for example Wine, or should upgrade your CPU (well I feel this step should be done nonetheless :) ). Now if your PC did support Virtualization, well read ahead. You need to have Virtualization enabled in your BIOS (it wasn’t in my case). To check this, do a <code>lsmod | grep kvm</code>. You should see a ‘kvm’ and a ‘kvm_intel’ or ‘kvm_amd’ modules there. If not, enable the setting in BIOS, the module should load then (assuming it was already installed, which it is in the default Linux kernel).</p>
+<p>Here’s a list of packages you need to install:</p>
+<ol style="list-style-type: decimal">
+<li>virtualbox</li>
+<li>virtualbox-guest-utils</li>
+<li>virtualbox-guest-modules</li>
+<li>virtualbox-guest-dkms</li>
+<li>virtualbox-host-dkms</li>
+<li>virtualbox-host-modules</li>
+<li>virtualbox-guest-iso</li>
+<li>vboxguest-hook (AUR)</li>
+</ol>
+<p>You might already have qt4, that would provide you with a GUI for VirtualBox too.</p>
+<p>Now to add your user to the necessary groups: <code>sudo gpasswd -a &lt;user&gt; vboxusers</code> Make SURE you logout and login again after this command to make this take effect.</p>
+<p>Now run this: <code>sudo dkms install vboxguest/4.3.28</code> (version as of 6/6/2015. Change it as per your Virtualbox version installed).</p>
+<p>Also, you have to add the entry “vboxguest” to the array “HOOKS” inside /etc/mkinitcpio.conf</p>
+<p>Now to loading necessary modules and services. Here are the command I run the first time I have to open vbox after a fresh boot:</p>
+<ol style="list-style-type: decimal">
+<li>sudo modprobe vboxdrv vboxnetadp vboxnetflt vboxpci vboxvideo</li>
+<li>VBoxClient-all</li>
+<li>sudo systemctl start vboxservice</li>
+</ol>
+<p>This should be all. Now Open up virtualbox, and create a new machine. I gave mine 4 GB RAM out of 8 and 3 processors out of 8. Next allocate harddisk space. I kept it on my home drive, 30 GB (its almost full now, with Visual Studio + Windows Phone taking up almost half of it).</p>
+<p>Now if you have a DVD drive, insert a DVD of Windows 8 and then start the machine. It should boot from the drive (you must enable the drive access from the menu below).</p>
+
+
+
+    </section>
+    <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+      Saksham Sharma
+  </span>
+</footer>
+
+</div>
+
+
+    </div>
+    <div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+
+        <img id="about-card-picture" src="https://avatars3.githubusercontent.com/u/10418596?v=3&amp;s=460" alt="Author's picture" />
+
+        <h4 id="about-card-name">Saksham Sharma</h4>
+
+        <div id="about-card-bio">Hacker. Programmer. Geek.</div>
+
+
+        <div id="about-card-job">
+            <i class="fa fa-briefcase"></i>
+            <br />
+            3rd year Undergrad, Computer Science and Engineering
+        </div>
+
+
+        <div id="about-card-location">
+            <i class="fa fa-map-marker"></i>
+            <br />
+            Indian Institute of Technology Kanpur
+        </div>
+
+    </div>
+</div>
+
+    <div id="cover" style="background-image:url('/images/header.jpg');"></div>
+
+</body>
+</html>

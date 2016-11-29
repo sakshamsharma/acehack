@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="generator" content="Hugo">
+        <title>AceHack</title>
+        <meta name="author" content="Saksham Sharma">
+        <meta name="keywords" content="acehack, coding, programming, linux, webdev, hakyll">
+
+        <meta name="description" content="Saksham Sharma's blog">
+        <meta property="og:description" content="Saksham Sharma's blog">
+        <meta property="og:type" content="blog">
+        <meta property="og:title" content="AceHack">
+        <meta property="og:url" content>
+        <meta property="og:site_name" content="AceHack">
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:title" content="AceHack">
+        <meta name="twitter:description" content="Saksham Sharma's blog">
+
+        <meta property="og:image" content="https://avatars3.githubusercontent.com/u/10418596?v=3&s=460">
+
+        <link rel="stylesheet" href="../../../css/hugo.css" />
+        <script src="../../../js/utils.js"></script>
+    </head>
+
+<body>
+    <!--SCRIPTS-->
+<script src="../../../js/hugo.js" type="text/javascript"></script>
+<!--SCRIPTS END-->
+<script src="../../../js/highlight.js">
+</script>
+
+    <div id="blog">
+        <header id="header" data-behavior="1">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="../../../">AceHack</a>
+  </div>
+      <a class="header-right-picture " href="../../../about">
+        <img class="header-picture" src="https://avatars3.githubusercontent.com/u/10418596?v=3&amp;s=460" alt="Author's picture" />
+    </a>
+</header>
+
+
+        <nav id="sidebar" data-behavior="1">
+    <div class="sidebar-container">
+        <div class="sidebar-profile">
+            <a href="../../../about">
+                <img class="sidebar-profile-picture" src="https://avatars3.githubusercontent.com/u/10418596?v=3&amp;s=460" alt="Author's picture" />
+            </a>
+            <h4 class="sidebar-profile-name">Saksham Sharma</h4>
+
+            <h5 class="sidebar-profile-bio">Hacker. Programmer. Geek.</h5>
+
+        </div>
+
+        <ul class="sidebar-buttons">
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="../../../">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">Home</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="../../../categories">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                    <span class="sidebar-button-desc">Categories</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="../../../tags">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">Tags</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="../../../archives">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">Archives</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="../../../about">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                    <span class="sidebar-button-desc">About</span>
+                </a>
+            </li>
+
+        </ul>
+        <ul class="sidebar-buttons">
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="https://github.com/sakshamsharma" target="_blank">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                    <span class="sidebar-button-desc">GitHub</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="http://sakshamsharma.com/cv" target="_blank">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-file-o"></i>
+                    <span class="sidebar-button-desc">Resume</span>
+                </a>
+            </li>
+
+
+        </ul>
+        <ul class="sidebar-buttons">
+
+        </ul>
+    </div>
+</nav>
+
+<div id="main" data-behavior="1" class="hasCoverMetaIn">
+    <section class="postShorten-group main-content-wrap">
+
+        <h1>Pairing up n people into 2 teams</h1>
+
+ Tags: <a href="../../../tags/algorithm/index.html">algorithm</a>  <br><br>
+<p>While at <a href="www.mpi-sws.org">MPI</a> during the Summer, a friend (<a href="https://venkatarun.wordpress.com">Venkat</a>) inspired me by presenting some real world algorithm hacks. A few hours later, I found myself playing pool with 3 others, and we tried doing a toss of hands to pair ourselves up into 2 teams. 7 tosses later, we still didn’t have a pairing of 2 each.</p>
+<p>This inspired me to think of a way to divide <code>n</code> people into 2 teams using a single random choice by every player.</p>
+<h2 id="scenario-and-problem-definition">Scenario and problem definition</h2>
+<p>Here are the desired characteristics of such an algorithm:</p>
+<ul>
+<li>Should require only 1 random computation from each party.</li>
+<li>Should return 2 disjoint sets (whose union is the complete group of people) after a trivial (<code>O(n)</code> desired) computation.</li>
+<li>If 2 people want to be in the same team, even if they talk beforehand, they must not be able to increase the probability of them being in the same team from more than half.</li>
+<li>If 2 people <em>don’t</em> want to be in the same team, even if they talk beforehand, they must not be able to decrease the probability of them being in the same team from more than half.</li>
+<li>There should be no need for any external material (like paper slips).</li>
+</ul>
+<h2 id="candidate-algorithms-and-analysis">Candidate algorithms and analysis</h2>
+<p>Some of the candidate techniques are listed here</p>
+<h3 id="paper-slip-based-team-ups">Paper slip based team ups</h3>
+<h4 id="algorithm">Algorithm</h4>
+<p>Make <code>n</code> paper slips, where <code>n/2</code> of them have <code>1</code> written, and the remaining have <code>0</code> written on them. Place them inverted after shuffling, and ask everyone to pick one up each.</p>
+<h4 id="pros">Pros</h4>
+<ul>
+<li>Simple and easy to use</li>
+<li>Requires no computation after the initial random choice from each person’s side</li>
+</ul>
+<h4 id="cons">Cons</h4>
+<ul>
+<li>Requires use of paper slips, which may not always be at hand</li>
+</ul>
+<h3 id="random-number-selection">Random number selection</h3>
+<p>I would explain this algorithm bit by bit, posing challenges to the algorithm, and proposing workarounds. The issues are listed in the order I had encountered them while analysing the algorithm that fine day.</p>
+<h4 id="algorithm-1">Algorithm</h4>
+<p>Ask everyone to choose a number between <code>1</code> to, say <code>10*n</code> (10 is just a heuristic choice here, tradeoff between calculation complexity and avoiding collisions). Arrange people in ascending order of their chosen number such that every alternate person is in the same team.</p>
+<blockquote>
+<p>Collisions can still occur</p>
+</blockquote>
+<p>Ask every one to stand in a circle before this exercise, and decide on clockwise or anticlockwise direction. Since there are even number of people, use a pre-decided-location dummy person for making the count odd. When two people have the same number, let them be <code>A</code> and <code>B</code>. From <code>A</code> to <code>B</code>, let there be <em>k</em> people, and from <code>B</code> to <code>A</code>, there would be <code>n-k-2-1</code> people. If <em>k &lt;= n-k-3</em>, <code>A</code> gets precedence. This is an easy computation, and can be done in a distributed manner, thus taking up <code>O(n)</code> time for any number of collisions possible.</p>
+<blockquote>
+<p>People can choose numbers at the extremes to defeat the algorithm</p>
+</blockquote>
+<p>Take the mean of the numbers chosen (<code>O(n)</code>) and use it to define a mean position to wrap around. Now start counting from the mean position as the <em>0</em> index. This defeats any attempt by anywhere less than <em>n/2</em> people to influence the teams meaningfully, since this adds an influence of the whole group.</p>
+<blockquote>
+<p>But wait, cyclic order is something like sorting, which is O(n log(n))</p>
+</blockquote>
+<p>Point taken. But for <em>n</em> humans, perhaps sorting is not a challenge. As for computers, since it is only integers here, which are bounded by a small value, computers can actually use <a href="https://en.wikipedia.org/wiki/Radix_sort">radix sort</a> to sort the numbers in <code>O(n)</code> time.</p>
+<blockquote>
+<p>People can choose same or numbers differing by 1</p>
+</blockquote>
+<p>This is harder to defeat. A possible way is the following:</p>
+<ul>
+<li>Using the cyclic numbering assigned above to each person, everyone multiplies his own number by his position received (this should perhaps be improved to be something like 10 times the position received)</li>
+<li>Each person returns the above value modulo <code>10*n</code>.</li>
+</ul>
+<p>After the above steps, any pair of people won’t know what positions they might get, and how many people will find a numeric value between them after the multiplication and modulo calculation.</p>
+<h4 id="pros-1">Pros</h4>
+<ul>
+<li>No paper needed.</li>
+<li>Only <code>O(n)</code> computation needed (if you consider that humans are capable of doing sorting in <code>O(n)</code> time).</li>
+<li>Nice theoretical problem to solve :smile:</li>
+<li>Mostly individual calculations (except mean calculation and sorting), thus can be done in parallel.</li>
+</ul>
+<h4 id="cons-1">Cons</h4>
+<ul>
+<li>Insanely complicated to explain to a group of people :smile:</li>
+</ul>
+<p>You can actually validate the computations by enforcing that every person also checks the computation of the person having the value just greater than his value (thus ensuring fairness). This way, everyone can do only 3 computations, and the computations can be finished in a distributed manner.</p>
+<p>I don’t suppose a computer would want to use this algorithm, since it can always do a random sorting of the list, and select the first <code>n/2</code>. Of course there are easier ways. I believe the sole purpose of this algorithm is to illustrate how one can patch up a bad algorithm to make it work.</p>
+<h3 id="central-random-number-choosing-party">Central random number choosing party</h3>
+<p>One person is selected randomly, and he turns his back. The remaining people shuffle around into a random order, and he chooses random <code>n/2-1</code> people to be in his team.</p>
+<h4 id="pros-2">Pros</h4>
+<ul>
+<li>Simple and easy</li>
+<li>No computation needed</li>
+</ul>
+<h4 id="cons-2">Cons</h4>
+<ul>
+<li>If the person chosen is a biased person, he may have it precided with his desired team mates to choose positions towards a certain end.</li>
+</ul>
+<p>The above <em>con</em> can be defeated to certain extents if the remaining people choose a random 0 index (using a mean of randomly chosen numbers) without telling the random number chooser.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>As stated above, the second algorithm seems to be pretty much useless in practical terms, except maybe for a group of people so mathematically inclined. The third algorithm should be enough for normal situations.</p>
+
+
+
+    </section>
+    <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+      Saksham Sharma
+  </span>
+</footer>
+
+</div>
+
+
+    </div>
+    <div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+
+        <img id="about-card-picture" src="https://avatars3.githubusercontent.com/u/10418596?v=3&amp;s=460" alt="Author's picture" />
+
+        <h4 id="about-card-name">Saksham Sharma</h4>
+
+        <div id="about-card-bio">Hacker. Programmer. Geek.</div>
+
+
+        <div id="about-card-job">
+            <i class="fa fa-briefcase"></i>
+            <br />
+            3rd year Undergrad, Computer Science and Engineering
+        </div>
+
+
+        <div id="about-card-location">
+            <i class="fa fa-map-marker"></i>
+            <br />
+            Indian Institute of Technology Kanpur
+        </div>
+
+    </div>
+</div>
+
+    <div id="cover" style="background-image:url('/images/header.jpg');"></div>
+
+</body>
+</html>

@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="generator" content="Hugo">
+        <title>AceHack</title>
+        <meta name="author" content="Saksham Sharma">
+        <meta name="keywords" content="acehack, coding, programming, linux, webdev, hakyll">
+
+        <meta name="description" content="Saksham Sharma's blog">
+        <meta property="og:description" content="Saksham Sharma's blog">
+        <meta property="og:type" content="blog">
+        <meta property="og:title" content="AceHack">
+        <meta property="og:url" content>
+        <meta property="og:site_name" content="AceHack">
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:title" content="AceHack">
+        <meta name="twitter:description" content="Saksham Sharma's blog">
+
+        <meta property="og:image" content="https://avatars3.githubusercontent.com/u/10418596?v=3&s=460">
+
+        <link rel="stylesheet" href="../../../css/hugo.css" />
+        <script src="../../../js/utils.js"></script>
+    </head>
+
+<body>
+    <!--SCRIPTS-->
+<script src="../../../js/hugo.js" type="text/javascript"></script>
+<!--SCRIPTS END-->
+<script src="../../../js/highlight.js">
+</script>
+
+    <div id="blog">
+        <header id="header" data-behavior="1">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="../../../">AceHack</a>
+  </div>
+      <a class="header-right-picture " href="../../../about">
+        <img class="header-picture" src="https://avatars3.githubusercontent.com/u/10418596?v=3&amp;s=460" alt="Author's picture" />
+    </a>
+</header>
+
+
+        <nav id="sidebar" data-behavior="1">
+    <div class="sidebar-container">
+        <div class="sidebar-profile">
+            <a href="../../../about">
+                <img class="sidebar-profile-picture" src="https://avatars3.githubusercontent.com/u/10418596?v=3&amp;s=460" alt="Author's picture" />
+            </a>
+            <h4 class="sidebar-profile-name">Saksham Sharma</h4>
+
+            <h5 class="sidebar-profile-bio">Hacker. Programmer. Geek.</h5>
+
+        </div>
+
+        <ul class="sidebar-buttons">
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="../../../">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">Home</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="../../../categories">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                    <span class="sidebar-button-desc">Categories</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="../../../tags">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">Tags</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="../../../archives">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">Archives</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="../../../about">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                    <span class="sidebar-button-desc">About</span>
+                </a>
+            </li>
+
+        </ul>
+        <ul class="sidebar-buttons">
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="https://github.com/sakshamsharma" target="_blank">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                    <span class="sidebar-button-desc">GitHub</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="http://sakshamsharma.com/cv" target="_blank">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-file-o"></i>
+                    <span class="sidebar-button-desc">Resume</span>
+                </a>
+            </li>
+
+
+        </ul>
+        <ul class="sidebar-buttons">
+
+        </ul>
+    </div>
+</nav>
+
+<div id="main" data-behavior="1" class="hasCoverMetaIn">
+    <section class="postShorten-group main-content-wrap">
+
+        <h1>Mini Gentoo installation log</h1>
+
+ Tags: <a href="../../../tags/gentoo/index.html">gentoo</a>, <a href="../../../tags/install/index.html">install</a>  <br><br>
+<p>This article is more of a note to self. Would help me install Gentoo a little bit faster whenever I choose to do that again (not anytime soon :) ). More probably, I’ll use this as a reference to remember what’s in my system etc.</p>
+<p>And what about <em>you</em>? So I’ve often had to tell people how to do stuff. I like to keep all my instructions online. Saves time ;) . Feel free to refer to this in case you plan to jump on the Gentoo ship.</p>
+<p><strong>NOTE:</strong> This article is not meant as a replacement for the <em>awesome</em> Gentoo wiki. Infact this is a super condensed version of the steps written there, and may not work for everyone. But would certainly help if you’re having some trouble getting something to work (for example: the bootloader).</p>
+<h1 id="testing">Testing</h1>
+<ul>
+<li>Make bootable with dd command.</li>
+<li>Ping internet</li>
+</ul>
+<h1 id="make-partition">Make partition</h1>
+<ul>
+<li><code>parted -a optimal /dev/sda</code></li>
+<li>unit mib</li>
+<li>Exact same steps as on [https://wiki.gentoo.org/wiki/Handbook:AMD64/Installation/Disks]</li>
+<li>Created swap space of 9.5 GB</li>
+<li>Mounted into directories.</li>
+</ul>
+<h1 id="stage-3">Stage 3</h1>
+<ul>
+<li>Downloaded tar.gz from iitk mirror.</li>
+<li>Unpacked it.</li>
+<li>Wrote all my USE flags (copied from laptop. See section on <em>other notes</em>)</li>
+</ul>
+<h1 id="chroot">Chroot</h1>
+<ul>
+<li>Mounted all proc,sys,dev etc as written on Gentoo Wiki.</li>
+<li>Did chroot and sourced etc/profile</li>
+<li>Did <code>emerge-webrsync</code></li>
+<li>Selected plain systemd profile</li>
+</ul>
+<h1 id="systemd">Systemd</h1>
+<ul>
+<li>Symlinked: ln -sf /proc/self/mounts /etc/mtab</li>
+<li>Set root password</li>
+</ul>
+<h1 id="other">Other</h1>
+<ul>
+<li>echo “Asia/Kolkata” &gt; /etc/timezone</li>
+<li>emerge –config sys-libs/timezone-data</li>
+<li>Added locales in /etc/locale.gen</li>
+<li>locale-gen</li>
+<li>Set locale to en_US.utf8 using eselect</li>
+<li>Installing vim</li>
+</ul>
+<h1 id="kernel">Kernel</h1>
+<ul>
+<li>emerge gentoo-sources</li>
+<li>Did genkernel for now.</li>
+<li>genkernel –menuconfig all to add inkernel support for ext4</li>
+<li>Required kernel parameters: root=/dev/sda4, rootfstype=ext4</li>
+<li>Realized that I should’ve let my boot partition be ext2</li>
+<li>Did that. Recreated the boot partition and regenerated the kernel.</li>
+<li>Realized I should’ve just made a backup of the previous build of the kernel.</li>
+</ul>
+<h1 id="config">Config</h1>
+<ul>
+<li>Edited /etc/fstab file and mounted root with noatime</li>
+<li>Set root passwd</li>
+<li>emerged linux-firmware</li>
+<li>emerged net-misc/netifrc</li>
+<li>Removed udev</li>
+<li>Installed systemd</li>
+<li>Did emerge -avDN <span class="citation">@world</span></li>
+<li>Enabled systemd-networkd service using systemd</li>
+<li>Installed ssh, dhcpcd</li>
+<li>Installed eix to be able to query packages</li>
+<li>SUDO!</li>
+<li>useradd</li>
+<li>EDITOR=vim visudo and give myself permissions</li>
+</ul>
+<h1 id="bootloader">Bootloader</h1>
+<ul>
+<li>Installed grub and os-prober</li>
+<li>BIOS: grub2-install /dev/sda</li>
+<li>Set this line in /etc/default/grub: <code>GRUB_CMDLINE_LINUX=&quot;init=/usr/lib/systemd/systemd&quot;</code></li>
+<li>grub2-mkconfig -o /boot/grub/grub.cfg</li>
+<li>DIDN’T WORK!!</li>
+<li>Change of plans, go with UEFI.</li>
+<li>Used my Arch bootable (which had a dual, UEFI and Legacy boot) to boot into a UEFI environment which had the EFI variables. Gentoo bootable wasn’t UEFI for some reason.</li>
+<li>Did the regular gentoo liveUSB style chroot into my gentoo installation.</li>
+<li>Add entry in make.conf to install efivars: <code>GRUB_PLATFORMS=&quot;efi-64 efi-32 pc emu&quot;</code></li>
+<li>Mount /dev/sda2 to /boot</li>
+<li>Mount /dev/sda1 to /boot/efi and format it as vfat</li>
+<li>Now do the grub UEFI install steps</li>
+<li>Enable systemd-networkd on boot</li>
+</ul>
+<h1 id="graphics">Graphics</h1>
+<ul>
+<li>Installed x11-base/xorg-x11</li>
+<li>Installed ghc and xmonad</li>
+<li>Installed i3 and dmenu</li>
+<li>Copied xinitrc from /etc/X11/xinit/xinitrc to ~/.xinitrc</li>
+<li>Startx runs i3 (added exec i3 to .xinitrc)!</li>
+</ul>
+<h1 id="audio">Audio</h1>
+<ul>
+<li>Installed pulseaudio (fixed unmet use flags)</li>
+<li>alsa-utils</li>
+<li>Relogin</li>
+</ul>
+<h1 id="packages">Packages</h1>
+<ul>
+<li>rxvt-unicode and urxvt-perls</li>
+<li>networkmanager</li>
+<li>Emacs and started its daemon to download packages</li>
+<li>Vim and installed neobundle and vim-plug, followed by installation of my vim packages</li>
+<li>elinks</li>
+<li>firefox-bin-43.0</li>
+<li>google-chrome-unstable</li>
+<li>x11-misc/xclip</li>
+<li>zsh fortune-mod cowsay</li>
+<li>cabal</li>
+<li>taffybar</li>
+<li>i3lock</li>
+<li>setxkbmap and xmodmap for keyboard layouts</li>
+<li>arandr and xrandr</li>
+<li>unrar, pcmanfm</li>
+<li>gentoolkit, genlop</li>
+</ul>
+<h1 id="set-up-ssh-key">Set up ssh key</h1>
+<ul>
+<li><code>ssh-keygen -t rsa -C -b 4096 &quot;your_email&quot;</code></li>
+<li>Set strong password</li>
+<li><code>eval &quot;$(ssh-agent -s)&quot;</code></li>
+<li><code>ssh-add ~/.ssh/id_rsa</code></li>
+<li>Preferably add this to your xinitrc as follows: <code>exec ssh-agent i3</code> (or whatever DE you use)</li>
+</ul>
+<h1 id="haskell">Haskell</h1>
+<ul>
+<li>Installed ghc and xmonad</li>
+<li>Now <code>sudo layman -a haskell</code></li>
+<li>Installed taffybar</li>
+<li>xmonad-contrib</li>
+<li>Installed taffybar again</li>
+<li>Installed ghc-mod (hell) using: <code>emerge -av --oneshot --keep-going ghc-mod --backtrack=30</code></li>
+<li>Failed. Did haskell-updater</li>
+</ul>
+<h1 id="virtualbox">Virtualbox</h1>
+<ul>
+<li>Installed virtualbox-bin</li>
+</ul>
+<h1 id="other-notes">Other notes:</h1>
+<p>Here are my USE flags:</p>
+<pre><code>USE=&quot;bindist mmx sse sse2 udisks systemd X acl alsa gtk bindist mp3 mp4 unicode jpg xft 256-color unicode3 fading-colors jpeg bluetooth science truetype mtp png xvmc imagemagick libass fontconfig pulseaudio x264 gd gtk3 dbus&quot;</code></pre>
+
+
+
+    </section>
+    <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+      Saksham Sharma
+  </span>
+</footer>
+
+</div>
+
+
+    </div>
+    <div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+
+        <img id="about-card-picture" src="https://avatars3.githubusercontent.com/u/10418596?v=3&amp;s=460" alt="Author's picture" />
+
+        <h4 id="about-card-name">Saksham Sharma</h4>
+
+        <div id="about-card-bio">Hacker. Programmer. Geek.</div>
+
+
+        <div id="about-card-job">
+            <i class="fa fa-briefcase"></i>
+            <br />
+            3rd year Undergrad, Computer Science and Engineering
+        </div>
+
+
+        <div id="about-card-location">
+            <i class="fa fa-map-marker"></i>
+            <br />
+            Indian Institute of Technology Kanpur
+        </div>
+
+    </div>
+</div>
+
+    <div id="cover" style="background-image:url('/images/header.jpg');"></div>
+
+</body>
+</html>

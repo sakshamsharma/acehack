@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="generator" content="Hugo">
+        <title>AceHack</title>
+        <meta name="author" content="Saksham Sharma">
+        <meta name="keywords" content="acehack, coding, programming, linux, webdev, hakyll">
+
+        <meta name="description" content="Saksham Sharma's blog">
+        <meta property="og:description" content="Saksham Sharma's blog">
+        <meta property="og:type" content="blog">
+        <meta property="og:title" content="AceHack">
+        <meta property="og:url" content>
+        <meta property="og:site_name" content="AceHack">
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:title" content="AceHack">
+        <meta name="twitter:description" content="Saksham Sharma's blog">
+
+        <meta property="og:image" content="https://avatars3.githubusercontent.com/u/10418596?v=3&s=460">
+
+        <link rel="stylesheet" href="../../../css/hugo.css" />
+        <script src="../../../js/utils.js"></script>
+    </head>
+
+<body>
+    <!--SCRIPTS-->
+<script src="../../../js/hugo.js" type="text/javascript"></script>
+<!--SCRIPTS END-->
+<script src="../../../js/highlight.js">
+</script>
+
+    <div id="blog">
+        <header id="header" data-behavior="1">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="../../../">AceHack</a>
+  </div>
+      <a class="header-right-picture " href="../../../about">
+        <img class="header-picture" src="https://avatars3.githubusercontent.com/u/10418596?v=3&amp;s=460" alt="Author's picture" />
+    </a>
+</header>
+
+
+        <nav id="sidebar" data-behavior="1">
+    <div class="sidebar-container">
+        <div class="sidebar-profile">
+            <a href="../../../about">
+                <img class="sidebar-profile-picture" src="https://avatars3.githubusercontent.com/u/10418596?v=3&amp;s=460" alt="Author's picture" />
+            </a>
+            <h4 class="sidebar-profile-name">Saksham Sharma</h4>
+
+            <h5 class="sidebar-profile-bio">Hacker. Programmer. Geek.</h5>
+
+        </div>
+
+        <ul class="sidebar-buttons">
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="../../../">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">Home</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="../../../categories">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                    <span class="sidebar-button-desc">Categories</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="../../../tags">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">Tags</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="../../../archives">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">Archives</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="../../../about">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                    <span class="sidebar-button-desc">About</span>
+                </a>
+            </li>
+
+        </ul>
+        <ul class="sidebar-buttons">
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="https://github.com/sakshamsharma" target="_blank">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                    <span class="sidebar-button-desc">GitHub</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="http://sakshamsharma.com/cv" target="_blank">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-file-o"></i>
+                    <span class="sidebar-button-desc">Resume</span>
+                </a>
+            </li>
+
+
+        </ul>
+        <ul class="sidebar-buttons">
+
+        </ul>
+    </div>
+</nav>
+
+<div id="main" data-behavior="1" class="hasCoverMetaIn">
+    <section class="postShorten-group main-content-wrap">
+
+        <h1>NVIDIA with Bumblebee and improving Battery Backup</h1>
+
+ Tags: <a href="../../../tags/nvidia/index.html">nvidia</a>, <a href="../../../tags/bumblebee/index.html">bumblebee</a>, <a href="../../../tags/battery/index.html">battery</a>  <br><br>
+<p>The issue of Graphic cards and Battery Life has been a sticky one for me, and I believe most other laptop users too. The battery backup under Linux is simply awful. For instance, I can get ~5 hours on my Laptop using Windows. Linux lands me at max 1.5-2 hours under similar usage. I believe most Linux users would have similar experiences.</p>
+<p>Here’s some of the things I did which have helped increase the battery backup by a large amount in my case:</p>
+<h2 id="get-your-graphics-card-straight">Get your graphics card straight</h2>
+<p>This is one of the biggest reasons on Linux for low battery backup. So what happens is, if your laptop has a dedicated graphics card, its going to stay on no matter whether its being used or not, no matter whether you’re reading a PDF or watching a movie. Even if your laptop is using the default fallback graphics most of the time, Intel HD graphics as they’re called in Windows; even then the dedicated graphics card stays on.</p>
+<p>One straightforward way to fix this is to disable the graphics card entirely in the systems settings of your laptop accesible during bootup. That’s not a pretty idea, I can almost see some frowns on this.</p>
+<p>Of course we have a better way, its Linux :) . I’ll be mentioning about NVIDIA only, as that’s the one I’m using. There’s a project called Bumblebee for NVIDIA cards on Linux which handles the job of graphics switching. You can install bumblebee, and it’ll happily make the integrated graphics the default, and start the dedicated one only when needed. Here’s how I’ve got Bumbleebee to work for me in the past</p>
+<ul>
+<li><p>If you’re on Arch Linux, do exactly what this says: <a href="https://wiki.archlinux.org/index.php/Bumblebee">You guessed it right, ArchWiki</a>. Try to do these steps when you haven’t installed your Graphics drivers yet. If you have them already, then remove them first. I always install the proprietary NVIDIA drivers, so I cannot comment about Nouveau, but given ArchWiki’s reputation, it should be easy too.</p></li>
+<li><p>For Gentoo I found information very hard to find. Gentoo Wiki is literally clueless about Bumblebee. I stumbled upon this really good link here: <a href="http://blog.fkmclane.net/nvidia-optimus-gentoo" class="uri">http://blog.fkmclane.net/nvidia-optimus-gentoo</a>. Again, proprietary drivers work for me.</p></li>
+</ul>
+<p>Once you have Bumblebee done (remember to add your user to the bumblebee group), try restarting and running <code>glxspheres64</code> with and without <code>optirun</code> prefixed. You should see the difference.</p>
+<p>This step is of quite some significance. Now your Graphic card won’t be put to work unless it’s told to, by the <code>optirun</code> or <code>primusrun</code> commands. That also means that if you play games on Steam, they won’t use the Graphics card. A fix for that is as follows. Right click on the game in your Steam Library and go to properties. Click on ‘set launch options’ and put this there: <code>optirun %command% -nojoy</code>. This should do the trick.</p>
+<h2 id="powertop">Powertop</h2>
+<p><a href="https://wiki.archlinux.org/index.php/Powertop">Powertop</a> is a great nifty tool to monitor your power usage. But importantly here, you can actually use it to fix your battery life. * sudo pacman -S powertop * sudo emerge –ask powertop * sudo apt-get install powertop</p>
+<p>Fire it up (it requires sudo), have a look at the current stats. See if some program is causing more wakeups than it should (more the number of wakeups, more the power consumtion). Look at your CPU idle stats. If they’re too high, you should perhaps consider setting up a <a href="https://wiki.archlinux.org/index.php/CPU_frequency_scaling">CPU governor</a>.</p>
+<p>The interesting part, look at the ‘Device Stats’ tab. Here you’d see what hardware is consuming battery. You’d see things like Bluetooth, and your graphics card. I personally disable my Bluetooth completely using this script at startup <a href="https://github.com/sakshamsharma/my-configs/blob/master/.myscripts/blueoff" class="uri">https://github.com/sakshamsharma/my-configs/blob/master/.myscripts/blueoff</a>. It might not work for you, but you get the point. About the Graphics card still being at 100%, that’s because of one last trick up Powertop’s sleeve.</p>
+<p>Shift to the tunables tab, and mark every ‘bad’ tunable to ‘good’ unless you have a problem with anyone of those. I’ve never hard one, but then everyone uses their laptop differently. Once you’ve done this, you should finally see your graphics card at 0% in the Device Stats, unless you’re using it.</p>
+<p>I often like to open powertop and see the battery discharge rate in Watts. Try doing it a few times to see how your usage affects the consumption.</p>
+<p>Concluding this section, you can use <code>sudo powertop --auto-tune</code> to make all the tunables to good. I made a small systemd service to run this command at every boot by enabling it.</p>
+<p>These tips are just a drop in the ocean, there is a plethora of information on the Arch Wiki about power management. But anyhow, with these 2 tricks (and a userspace CPU governor), I now get about 3.5 hours of battery reading PDFs etc (when I don’t open new webpages on my Browser, that is). Good enough for Library visits during Exam days :)</p>
+<p>Feel free to comment whether these tips improved your laptop’s battery backup or not.</p>
+
+
+
+    </section>
+    <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+      Saksham Sharma
+  </span>
+</footer>
+
+</div>
+
+
+    </div>
+    <div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+
+        <img id="about-card-picture" src="https://avatars3.githubusercontent.com/u/10418596?v=3&amp;s=460" alt="Author's picture" />
+
+        <h4 id="about-card-name">Saksham Sharma</h4>
+
+        <div id="about-card-bio">Hacker. Programmer. Geek.</div>
+
+
+        <div id="about-card-job">
+            <i class="fa fa-briefcase"></i>
+            <br />
+            3rd year Undergrad, Computer Science and Engineering
+        </div>
+
+
+        <div id="about-card-location">
+            <i class="fa fa-map-marker"></i>
+            <br />
+            Indian Institute of Technology Kanpur
+        </div>
+
+    </div>
+</div>
+
+    <div id="cover" style="background-image:url('/images/header.jpg');"></div>
+
+</body>
+</html>

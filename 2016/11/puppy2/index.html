@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="generator" content="Hugo">
+        <title>AceHack</title>
+        <meta name="author" content="Saksham Sharma">
+        <meta name="keywords" content="acehack, coding, programming, linux, webdev, hakyll">
+
+        <meta name="description" content="Saksham Sharma's blog">
+        <meta property="og:description" content="Saksham Sharma's blog">
+        <meta property="og:type" content="blog">
+        <meta property="og:title" content="AceHack">
+        <meta property="og:url" content>
+        <meta property="og:site_name" content="AceHack">
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:title" content="AceHack">
+        <meta name="twitter:description" content="Saksham Sharma's blog">
+
+        <meta property="og:image" content="https://avatars3.githubusercontent.com/u/10418596?v=3&s=460">
+
+        <link rel="stylesheet" href="../../../css/hugo.css" />
+        <script src="../../../js/utils.js"></script>
+    </head>
+
+<body>
+    <!--SCRIPTS-->
+<script src="../../../js/hugo.js" type="text/javascript"></script>
+<!--SCRIPTS END-->
+<script src="../../../js/highlight.js">
+</script>
+
+    <div id="blog">
+        <header id="header" data-behavior="1">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="../../../">AceHack</a>
+  </div>
+      <a class="header-right-picture " href="../../../about">
+        <img class="header-picture" src="https://avatars3.githubusercontent.com/u/10418596?v=3&amp;s=460" alt="Author's picture" />
+    </a>
+</header>
+
+
+        <nav id="sidebar" data-behavior="1">
+    <div class="sidebar-container">
+        <div class="sidebar-profile">
+            <a href="../../../about">
+                <img class="sidebar-profile-picture" src="https://avatars3.githubusercontent.com/u/10418596?v=3&amp;s=460" alt="Author's picture" />
+            </a>
+            <h4 class="sidebar-profile-name">Saksham Sharma</h4>
+
+            <h5 class="sidebar-profile-bio">Hacker. Programmer. Geek.</h5>
+
+        </div>
+
+        <ul class="sidebar-buttons">
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="../../../">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">Home</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="../../../categories">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                    <span class="sidebar-button-desc">Categories</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="../../../tags">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">Tags</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="../../../archives">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">Archives</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="../../../about">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                    <span class="sidebar-button-desc">About</span>
+                </a>
+            </li>
+
+        </ul>
+        <ul class="sidebar-buttons">
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="https://github.com/sakshamsharma" target="_blank">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                    <span class="sidebar-button-desc">GitHub</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="http://sakshamsharma.com/cv" target="_blank">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-file-o"></i>
+                    <span class="sidebar-button-desc">Resume</span>
+                </a>
+            </li>
+
+
+        </ul>
+        <ul class="sidebar-buttons">
+
+        </ul>
+    </div>
+</nav>
+
+<div id="main" data-behavior="1" class="hasCoverMetaIn">
+    <section class="postShorten-group main-content-wrap">
+
+        <h1>Safe and anonymous ANDing bits</h1>
+
+ Tags: <a href="../../../tags/algo/index.html">algo</a>, <a href="../../../tags/crypto/index.html">crypto</a>  <br><br>
+<!-- <script type="text/x-mathjax-config"> -->
+<!-- MathJax.Hub.Config({ -->
+<!--   tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]} -->
+<!-- }); -->
+<!-- </script> -->
+<!-- <script type="text/javascript" async -->
+<!--   src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"> -->
+<!-- </script> -->
+<h3 id="recap">Recap</h3>
+<p>For those who haven’t read the <a href="../../../posts/2016-10-25-puppy1.html">previous post</a>, this is a challenge which came up while trying to develop a secure version of a platform called <em>Puppy Love</em>. The introduction and the algorithmic challenge, taken from the previous article:</p>
+<!--more-->
+<p>The queerly named <em>Puppy Love</em> platform has been running in my university since 2014, meant to help shy nerds meet their crush, made my the Programming Club (of which, I happen to be the current coordinator). The platform opens 1 week prior to the Valentine’s Day every year, and let’s people choose up to 4 of their crushes, encrypting their choices with their password. At the stroke of the midnight hour, everyone logs back, and their choices are decrypted, and are then matched to other people’s choices. Only the people who matched are informed about it. If your <em>love</em> was unrequited (the other person didn’t like you), you will not get to know. More importantly, if you did not like the other person, you would not know if that person liked you or not.</p>
+<p>The above seemed like a very rosy thing, till people began to find flaws. Some of the issues were with the code, and nothing too serious. But as would have, people began to get doubtful about the trust worthiness of the server admins. This year, being my turn to face the onslaught of accusations of looking at people’s choices, I, with Vinayak Tantia, a friend and fellow Coordinator, came up with a much improved algorithm to implement the same thing.</p>
+<p>Here’s the biggest issue with such a platform:</p>
+<blockquote>
+<p>You do NOT trust me when I say my code on the server is NOT seeing your choices</p>
+</blockquote>
+<p>What is required is, how I call it, a <code>zero-server-trust</code> based algorithm. Regardless of what code is running on the server, the client should be able to prove that any information it sends to the server shall not reveal any information about the client’s choices.</p>
+<h3 id="possible-algorithms">Possible algorithms</h3>
+<p>We basically need a way to compute the <code>AND</code> of two bit values residing on two hosts (call them Alice and Bob), in the presence of a central server named Eve.</p>
+<ul>
+<li>One simple way is for Alice and Bob to share their bits to Eve, and trust Eve to not store the bits for the eyes of the admin of Eve, and only compute the AND of the bits, and send the AND value back to Alice and Bob. This is simple, but requires you to trust the server to not look at your choices. In case of naming your crushes, this is certainly not an option.</li>
+<li>Use <a href="https://en.wikipedia.org/wiki/Garbled_circuit">Garbled Circuit</a> technique, along with <a href="https://en.wikipedia.org/wiki/Oblivious_transfer">Oblivious Transfer</a>, but modified to keep the last step on the central server. This technique is quite complicated at first, but has a major drawback. There is no guarantee of secrecy of choices if one party does not play by the protocol and cheats instead. This would be outlined in a future article.</li>
+</ul>
+<p>The second solution is promising, but can possibly be exploited to reveal the choice of the other party without them knowing your choice. What is required to prevent that attack is randomness in the case where a party is not interested. We outline the new algorithm in the next section.</p>
+<h3 id="shared-knowledge-based-expected-result-algorithm">Shared knowledge based expected-result algorithm</h3>
+<p>As a preface, I did read a couple of papers on this topic, but did not find a fair, secure and practical solution. This particular algorithm solves a weaker problem than most papers I found, which is: Computing AND of 2 secret bits in presence of an honest-but-curious server. This algorithm was designed originally as a modification of the one based on garbled circuits after I came to know of the violation of secrecy in that, and has been significantly simplied since then. Onto:</p>
+<ul>
+<li>Both parties have shared secret values A and B. These are not known to Eve by virtue of public key encryption.</li>
+<li>Parties agree to this protocol:</li>
+<li>Alice sends value <code>a = A</code> to Eve if she likes Bob.</li>
+<li>Alice sends value <code>a = random</code> to Eve if she does not like Bob.</li>
+<li>Bob sends value <code>b = B</code> to Eve if he likes Alice.</li>
+<li>Bob sends value <code>b = random</code> to Eve if he does not like Alice.</li>
+<li>Eve receives <code>a</code> and <code>b</code>. She returns <code>hash(a*b)</code> to Alice and Bob.</li>
+<li>Alice and Bob manually compute <code>hash(A * B)</code>, and match it with the received value.</li>
+<li>It is a match only if the received value and the expected value are the same.</li>
+</ul>
+<h3 id="a-few-comments-about-the-safety-of-the-protocol">A few comments about the safety of the protocol</h3>
+<p>I do plan to formally prove this soon enough, but till then, here are some thoughts.</p>
+<ul>
+<li>Hash is not invertible. So if there was no match, Alice can not invert the result to get Bob’s sent value.</li>
+<li>The hashing step needs to be secure against brute force attacks, especially because each party already knows one multiplicative factor of the number hashed. Either the values of A and B need to be very large (experiments/data needed), or the hash function has to be very slow computationally (preventing inversion by computational bottleneck).</li>
+<li>Selecting random, and different values for A and B is important because Eve should not be able to see whether the values sent by Alice and Bob are same or different, and thus infer whether they matched or not.</li>
+<li>The protocol itself is fully symmetric. Both Alice and Bob execute the exact same steps, regardless of who starts the protocol.</li>
+<li>If Alice did not send A, she has no way of knowing whether Bob sent B or not, since the hash cannot be inverted (theoretically). The same is true for Bob.</li>
+</ul>
+<h3 id="conclusion">Conclusion</h3>
+<p>This algorithm is very simple to say the least, and seems secure to me. A formal proof ought to confirm this as well, though that is untrodden territory for me as of now. Do let me know in the comments or on email if something like this (fair and anonymous AND of bits) has been done before, or if you find a bug in this algorithm (if it is so, I cannot stress how important it is for me to know).</p>
+
+
+
+    </section>
+    <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+      Saksham Sharma
+  </span>
+</footer>
+
+</div>
+
+
+    </div>
+    <div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+
+        <img id="about-card-picture" src="https://avatars3.githubusercontent.com/u/10418596?v=3&amp;s=460" alt="Author's picture" />
+
+        <h4 id="about-card-name">Saksham Sharma</h4>
+
+        <div id="about-card-bio">Hacker. Programmer. Geek.</div>
+
+
+        <div id="about-card-job">
+            <i class="fa fa-briefcase"></i>
+            <br />
+            3rd year Undergrad, Computer Science and Engineering
+        </div>
+
+
+        <div id="about-card-location">
+            <i class="fa fa-map-marker"></i>
+            <br />
+            Indian Institute of Technology Kanpur
+        </div>
+
+    </div>
+</div>
+
+    <div id="cover" style="background-image:url('/images/header.jpg');"></div>
+
+</body>
+</html>

@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="generator" content="Hugo">
+        <title>AceHack</title>
+        <meta name="author" content="Saksham Sharma">
+        <meta name="keywords" content="acehack, coding, programming, linux, webdev, hakyll">
+
+        <meta name="description" content="Saksham Sharma's blog">
+        <meta property="og:description" content="Saksham Sharma's blog">
+        <meta property="og:type" content="blog">
+        <meta property="og:title" content="AceHack">
+        <meta property="og:url" content>
+        <meta property="og:site_name" content="AceHack">
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:title" content="AceHack">
+        <meta name="twitter:description" content="Saksham Sharma's blog">
+
+        <meta property="og:image" content="https://avatars3.githubusercontent.com/u/10418596?v=3&s=460">
+
+        <link rel="stylesheet" href="../../../css/hugo.css" />
+        <script src="../../../js/utils.js"></script>
+    </head>
+
+<body>
+    <!--SCRIPTS-->
+<script src="../../../js/hugo.js" type="text/javascript"></script>
+<!--SCRIPTS END-->
+<script src="../../../js/highlight.js">
+</script>
+
+    <div id="blog">
+        <header id="header" data-behavior="1">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="../../../">AceHack</a>
+  </div>
+      <a class="header-right-picture " href="../../../about">
+        <img class="header-picture" src="https://avatars3.githubusercontent.com/u/10418596?v=3&amp;s=460" alt="Author's picture" />
+    </a>
+</header>
+
+
+        <nav id="sidebar" data-behavior="1">
+    <div class="sidebar-container">
+        <div class="sidebar-profile">
+            <a href="../../../about">
+                <img class="sidebar-profile-picture" src="https://avatars3.githubusercontent.com/u/10418596?v=3&amp;s=460" alt="Author's picture" />
+            </a>
+            <h4 class="sidebar-profile-name">Saksham Sharma</h4>
+
+            <h5 class="sidebar-profile-bio">Hacker. Programmer. Geek.</h5>
+
+        </div>
+
+        <ul class="sidebar-buttons">
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="../../../">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">Home</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="../../../categories">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                    <span class="sidebar-button-desc">Categories</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="../../../tags">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">Tags</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="../../../archives">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">Archives</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="../../../about">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                    <span class="sidebar-button-desc">About</span>
+                </a>
+            </li>
+
+        </ul>
+        <ul class="sidebar-buttons">
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="https://github.com/sakshamsharma" target="_blank">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                    <span class="sidebar-button-desc">GitHub</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="http://sakshamsharma.com/cv" target="_blank">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-file-o"></i>
+                    <span class="sidebar-button-desc">Resume</span>
+                </a>
+            </li>
+
+
+        </ul>
+        <ul class="sidebar-buttons">
+
+        </ul>
+    </div>
+</nav>
+
+<div id="main" data-behavior="1" class="hasCoverMetaIn">
+    <section class="postShorten-group main-content-wrap">
+
+        <h1>Chrome and Firefox resource usage experiment</h1>
+
+ Tags: <a href="../../../tags/technical/index.html">technical</a>, <a href="../../../tags/browser/index.html">browser</a>, <a href="../../../tags/experiment/index.html">experiment</a>  <br><br>
+<h2 id="browser-war">Browser WAR!</h2>
+<p>Why bother fighting over features in browsers when you can decide using some hard facts?</p>
+<p>I had recently managed to make Firefox work for me (it still isn’t as fluid as Chrome, but is now close, thanks to using the beta version which has e10s support). Still confused about whether its really better than Chrome, I decided to put them to the test!</p>
+<h2 id="results-first-because..-well.">Results first, because.. well.</h2>
+<p>Since majority would come here for the results, well…</p>
+<p><strong><em>drum roll</em></strong></p>
+<p>Firefox wins <em>hands down</em> here. Personally, this was not a surprise.</p>
+<p>Chrome was always know to be a RAM hog, but it also seems to have a huge lot more power usage as compared to Firefox as well.</p>
+<p><strong>Update</strong> I’m back to Chrome these days. I noticed it works much more smoother, and hangs much less often.</p>
+<h3 id="ram">RAM</h3>
+<p>Not a new thing, but yes, Firefox uses lower RAM than Chrome <em>consistently</em>. For description of the actions during the course of the benchmark, look at the next section.</p>
+<p><img src="../../../images/articles/ram-plot.png" style="width: 95%; height: auto;" /></p>
+<blockquote>
+<p>Don’t laugh at the plot :P</p>
+<p>Also, the higher one is Chrome, although it’s not apparent.</p>
+<p>Bad gnuplot skills ^</p>
+</blockquote>
+<h3 id="power">Power</h3>
+<p>I measured the power output of my laptop’s battery while doing various actions on both browsers, and Firefox again demonstrates much lower usage. Really good for people who keep running out of battery and complain they cannot figure out the reason (Yes, I’m also talking about myself). Firefox, good job there!</p>
+<p><img src="../../../images/articles/power-plot.png" style="width: 95%; height: auto;" /></p>
+<h2 id="the-experiment">The experiment</h2>
+<p>I designed a casual benchmark for testing the browsers’ resource usage.</p>
+<p>Here’s the timeline of the benchmark:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="center">Start Time</th>
+<th align="center">Duration of step</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">0 seconds</td>
+<td align="center">25 seconds</td>
+<td>Startup of browser</td>
+</tr>
+<tr class="even">
+<td align="center">25 seconds</td>
+<td align="center">20 seconds</td>
+<td>Open Viva La Vida video on Youtube</td>
+</tr>
+<tr class="odd">
+<td align="center">45 seconds</td>
+<td align="center">20 seconds</td>
+<td>Open Instant Crush video on Youtube in a new tab</td>
+</tr>
+<tr class="even">
+<td align="center">65 seconds</td>
+<td align="center">20 seconds</td>
+<td>Open The Scientist video on Youtube in a new tab</td>
+</tr>
+<tr class="odd">
+<td align="center">85 seconds</td>
+<td align="center">20 seconds</td>
+<td>Open Facebook in a new tab</td>
+</tr>
+<tr class="even">
+<td align="center">105 seconds</td>
+<td align="center">20 seconds</td>
+<td>Close all tabs but keep browser open</td>
+</tr>
+</tbody>
+</table>
+<p><strong>NOTE</strong> All videos were running simultaneously by 85 seconds. No tab was closed prior to 105 seconds.</p>
+<p>I executed these exact actions on both browsers, taking care to start with exactly the same conditions in both experiments.</p>
+<p>Things done to ensure a clean test environment:</p>
+<ul>
+<li>A fresh boot in both cases.</li>
+<li>No other applications were running, except the light weight window manager (XMonad) and core services.</li>
+<li>Browser was not loaded any time before the start of the test.</li>
+<li>The battery level (95%) and the battery usage rate (power) were same before the start in both cases.</li>
+<li>All plugins (except ad-blocker) were disabled in both browsers prior to the start of the experiment.</li>
+<li>The browsers used were the publicly available binaries, not custom compiled.</li>
+<li>Both browsers did not use dedicated GPU for any purpose (nvidia module was not loaded).</li>
+<li>Yes, both browsers had the same volume set on system as well as Youtube.</li>
+</ul>
+<p><strong>NOTE</strong> I left ad-blocker running in both the browsers since Ads would just introduce variability and delays in video starts.</p>
+<p>Here are the links used for the experiment:</p>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=dvgZkm1xWPE">Viva La Vida</a></li>
+<li><a href="https://www.youtube.com/watch?v=a5uQMwRMHcs">Instant Crush</a></li>
+<li><a href="https://www.youtube.com/watch?v=RB-RcX5DS5A">The Scientist</a></li>
+</ul>
+<p>The experiments were conducted on a Lenovo Y50-70 with a 4 cell (and dismal) battery, 8 GB RAM, and an i7 4705HQ Processor.</p>
+<h2 id="scripts-used">Scripts used</h2>
+<h4 id="data-recording">Data recording</h4>
+<p>Here is the script used to record the data. Feel free to test it on yours as well.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="co">#!/bin/bash</span>
+
+<span class="kw">if</span><span class="bu"> [</span> <span class="ot">-z</span> <span class="st">&quot;</span><span class="va">$1</span><span class="st">&quot;</span><span class="bu"> ]</span>
+<span class="kw">then</span>
+    <span class="bu">echo</span> <span class="st">&quot;CUSTOM MESSAGE&quot;</span>
+    <span class="bu">echo</span> <span class="st">&quot;Arguement not supplied&quot;</span>
+    <span class="bu">echo</span> <span class="st">&quot;Usage: ./test.sh &lt;file_1&gt; &lt;file_2&quot;</span>
+    <span class="bu">exit</span>
+<span class="kw">fi</span>
+
+<span class="kw">for</span> <span class="ex">i</span> in <span class="dt">{1..125}</span>
+<span class="kw">do</span>
+  <span class="bu">echo</span> <span class="va">$i</span>
+  <span class="va">power=$(</span><span class="fu">cat</span> /sys/class/power_supply/BAT1/power_now<span class="va">)</span>
+  <span class="va">ramFree=$(</span><span class="fu">cat</span> /proc/meminfo <span class="kw">|</span> <span class="fu">grep</span> <span class="st">'MemFree:\ *[0-9]*'</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="st">'[0-9]*'</span> -o<span class="va">)</span>
+  <span class="va">ramAvail=$(</span><span class="fu">cat</span> /proc/meminfo <span class="kw">|</span> <span class="fu">grep</span> <span class="st">'MemAvailable:\ *[0-9]*'</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="st">'[0-9]*'</span> -o<span class="va">)</span>
+  <span class="va">ramUsed=$(($ramAvail</span> - <span class="va">$ramFree))</span>
+  <span class="bu">echo</span> <span class="st">&quot;Power: </span><span class="va">$power</span><span class="st">&quot;</span>
+  <span class="bu">echo</span> <span class="st">&quot;RAM: </span><span class="va">$ramUsed</span><span class="st">&quot;</span>
+  <span class="bu">printf</span> <span class="st">&quot;%s, %s\n&quot;</span> <span class="st">&quot;</span><span class="va">$i</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$power</span><span class="st">&quot;</span> <span class="op">&gt;&gt;</span> <span class="st">&quot;</span><span class="va">$1</span><span class="st">-power&quot;</span>
+  <span class="bu">printf</span> <span class="st">&quot;%s, %s\n&quot;</span> <span class="st">&quot;</span><span class="va">$i</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$ramUsed</span><span class="st">&quot;</span> <span class="op">&gt;&gt;</span> <span class="st">&quot;</span><span class="va">$1</span><span class="st">-ram&quot;</span>
+  <span class="fu">sleep</span> 1
+<span class="kw">done</span></code></pre></div>
+<h4 id="data-format">Data format</h4>
+<p>The output data files were of the format:</p>
+<pre><code>&lt;time&gt;, &lt;ram_used&gt;
+&lt;time2&gt;, &lt;ram_used2&gt;</code></pre>
+<h4 id="plotting-script">Plotting script</h4>
+<p>The (below-par) script used for plotting the plots is here. It takes as argument the 2 files (like: chrome-ram and firefox-ram).</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="co">#!/bin/bash</span>
+
+<span class="kw">if</span><span class="bu"> [</span> <span class="va">$#</span> <span class="ot">-eq</span> 0<span class="bu"> ]</span>; <span class="kw">then</span>
+    <span class="bu">echo</span> <span class="st">&quot;No file to be plotted&quot;</span>
+    <span class="bu">exit</span> 1
+<span class="kw">fi</span>
+
+<span class="va">metric=$(</span><span class="bu">echo</span> <span class="va">$1</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="st">'\-.*'</span> -o<span class="va">)</span>
+<span class="va">metric=${metric:1}</span>
+<span class="bu">echo</span> <span class="va">$metric</span>
+
+<span class="co"># Have to pipe to gnuplot via cat otherwise it does not pause</span>
+<span class="kw">(</span><span class="fu">cat</span> &lt;&lt; EOF
+set title &quot;Plot of <span class="va">$metric</span> in Chrome 51 vs Firefox 48&quot;
+set term png
+set output &quot;<span class="va">$metric</span>-plot.png&quot;
+set ylabel &quot;<span class="va">$metric</span>&quot;
+set xlabel &quot;Time (seconds)&quot;
+set autoscale
+
+set style data histogram
+set style histogram gap 1
+set style fill solid border -1
+set boxwidth 1
+
+set datafile separator &quot;,&quot;
+set arrow from 25, graph 0 to 25, graph 1 nohead
+set arrow from 45, graph 0 to 45, graph 1 nohead
+set arrow from 65, graph 0 to 65, graph 1 nohead
+set arrow from 85, graph 0 to 85, graph 1 nohead
+set arrow from 105, graph 0 to 105, graph 1 nohead
+plot '<span class="va">$1</span>' using 2, '<span class="va">$2</span>' using 2
+pause -1 &quot;Press Ctrl+D to exit&quot;
+EOF
+cat /dev/tty) | gnuplot</code></pre></div>
+
+
+
+    </section>
+    <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+      Saksham Sharma
+  </span>
+</footer>
+
+</div>
+
+
+    </div>
+    <div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+
+        <img id="about-card-picture" src="https://avatars3.githubusercontent.com/u/10418596?v=3&amp;s=460" alt="Author's picture" />
+
+        <h4 id="about-card-name">Saksham Sharma</h4>
+
+        <div id="about-card-bio">Hacker. Programmer. Geek.</div>
+
+
+        <div id="about-card-job">
+            <i class="fa fa-briefcase"></i>
+            <br />
+            3rd year Undergrad, Computer Science and Engineering
+        </div>
+
+
+        <div id="about-card-location">
+            <i class="fa fa-map-marker"></i>
+            <br />
+            Indian Institute of Technology Kanpur
+        </div>
+
+    </div>
+</div>
+
+    <div id="cover" style="background-image:url('/images/header.jpg');"></div>
+
+</body>
+</html>

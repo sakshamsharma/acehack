@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="generator" content="Hugo">
+        <title>AceHack</title>
+        <meta name="author" content="Saksham Sharma">
+        <meta name="keywords" content="acehack, coding, programming, linux, webdev, hakyll">
+
+        <meta name="description" content="Saksham Sharma's blog">
+        <meta property="og:description" content="Saksham Sharma's blog">
+        <meta property="og:type" content="blog">
+        <meta property="og:title" content="AceHack">
+        <meta property="og:url" content>
+        <meta property="og:site_name" content="AceHack">
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:title" content="AceHack">
+        <meta name="twitter:description" content="Saksham Sharma's blog">
+
+        <meta property="og:image" content="https://avatars3.githubusercontent.com/u/10418596?v=3&s=460">
+
+        <link rel="stylesheet" href="../../../css/hugo.css" />
+        <script src="../../../js/utils.js"></script>
+    </head>
+
+<body>
+    <!--SCRIPTS-->
+<script src="../../../js/hugo.js" type="text/javascript"></script>
+<!--SCRIPTS END-->
+<script src="../../../js/highlight.js">
+</script>
+
+    <div id="blog">
+        <header id="header" data-behavior="1">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="../../../">AceHack</a>
+  </div>
+      <a class="header-right-picture " href="../../../about">
+        <img class="header-picture" src="https://avatars3.githubusercontent.com/u/10418596?v=3&amp;s=460" alt="Author's picture" />
+    </a>
+</header>
+
+
+        <nav id="sidebar" data-behavior="1">
+    <div class="sidebar-container">
+        <div class="sidebar-profile">
+            <a href="../../../about">
+                <img class="sidebar-profile-picture" src="https://avatars3.githubusercontent.com/u/10418596?v=3&amp;s=460" alt="Author's picture" />
+            </a>
+            <h4 class="sidebar-profile-name">Saksham Sharma</h4>
+
+            <h5 class="sidebar-profile-bio">Hacker. Programmer. Geek.</h5>
+
+        </div>
+
+        <ul class="sidebar-buttons">
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="../../../">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">Home</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="../../../categories">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                    <span class="sidebar-button-desc">Categories</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="../../../tags">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">Tags</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="../../../archives">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">Archives</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="../../../about">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                    <span class="sidebar-button-desc">About</span>
+                </a>
+            </li>
+
+        </ul>
+        <ul class="sidebar-buttons">
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="https://github.com/sakshamsharma" target="_blank">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                    <span class="sidebar-button-desc">GitHub</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="http://sakshamsharma.com/cv" target="_blank">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-file-o"></i>
+                    <span class="sidebar-button-desc">Resume</span>
+                </a>
+            </li>
+
+
+        </ul>
+        <ul class="sidebar-buttons">
+
+        </ul>
+    </div>
+</nav>
+
+<div id="main" data-behavior="1" class="hasCoverMetaIn">
+    <section class="postShorten-group main-content-wrap">
+
+        <h1>Gentoo, 8 months and on.</h1>
+
+ Tags: <a href="../../../tags/gentoo/index.html">gentoo</a>, <a href="../../../tags/experience/index.html">experience</a>  <br><br>
+<p>This article has been long pending. <em>LONG Pending</em>. It’s been almost 8 months since I shifted over to Gentoo. I’ve had a huge number of confusions, goof-ups, troubles, horrors. It’s been <em>whacky</em> to say the least. But I had expected this. It’s no way near the regular Linux experience you’ve had.</p>
+<p>I’ll begin with the (really short and stupid) list of reasons I shifted from Arch Linux, my faithful, never betraying Arch Linux:</p>
+<ul>
+<li>Gentoo is basically, <em>Linux nirvana</em> (there’s a comic about this). You would never feel more close to your Linux (except if you’re running an LFS, which wasn’t that practical a thing for me, given that my time is limited).</li>
+<li>I wanted to stick a <em>Powered by Gentoo Linux</em> sticker I had on my laptop. :)</li>
+<li>Had been 8 months since I tried a new Linux :)</li>
+<li>I had heard a lot about it’s package manager <em>Portage</em>. A really powerful and massively complex (at least for me) piece of code. More on this later.</li>
+</ul>
+<p>Lot’s of different systems in use are basically developed off Gentoo. For instance, Chrome OS used in Chromebooks is developed on Gentoo to ensure system stability, and later stripped off of portage. The same stands for CoreOS, Knopperdisk, and many others <a href="https://wiki.gentoo.org/wiki/Distributions_based_on_Gentoo">listed here</a>.</p>
+<h2 id="the-upsides-of-using-gentoo">The upsides of using Gentoo</h2>
+<p>That is, other than Portage. Gentoo quite much changed the way how thought about Linux.</p>
+<h3 id="may-the-source-be-with-you">May the source be with you!</h3>
+<p>The single biggest advantage (and also the disadvantage) is that all packages are compiled from source. How’s this useful, you ask?</p>
+<p>Here’s a scenario. You are working on a project, which requires <code>php 5.5</code>, but your distro officially has <code>php 7</code> (Example: Arch, or Ubuntu 16.04). Let’s see what’s going to happen in various distros (Assuming they had <code>php 7</code> in their stable repositories):</p>
+<ul>
+<li><strong>Ubuntu</strong> You try to install an older version. Find an older <code>.deb</code> file, and install it with <code>dpkg -i</code> I believe.</li>
+<li><strong>Debian</strong> Same as above.</li>
+<li><strong>Arch</strong> Finding an older binary is itself an issue. You either have it in your portage cache, and you <em>hold</em> the package version. Or, you install it from source / AUR. Well.</li>
+<li><strong>Fedora</strong> Mix of all the above. Not really sure about this.</li>
+</ul>
+<p>Now there’s one issue which all the above fail to tackle. Since you’re using <code>php 5.5</code>, other packages also need to know that. Sadly, since the package repositories are stabilized according to <code>php 7</code>, and all binaries were compiled according to that. Now you suddenly have downgraded your php. There’s the issue! They’ll simply assume php to be the normal one, and function. The moment there’s some call which depended on php 7, they’re going to crash.</p>
+<p>Gentoo tackles this issue by compiling everything from source. So, if you want to downgrade php, it’ll let you, and also calculate which other packages depend on a recent php. Along with downgrading php, it’ll also recompile those packages with support for <code>php 5.5</code>. There’s some incredible work behind the curtains, but the end effect is that you get a really stable system, however much you tinker with package versionings.</p>
+<p>Of note, Arch allows source based installs, but they are very sketchy, more of a way to allow packages to progress fast rather than a way to manage package compatibility.</p>
+<h3 id="i-hear-you-like-to-use-flags">I hear you like to USE Flags?</h3>
+<p>Apart from this, Gentoo has this concept of <strong>USE Flags</strong>. They are basically feature flags. To explain, I’ll provide another scenario. Assume you are running a system based on GNOME. Of course there’s no point having KDE features in your packages. A regular binary based distro will just put in the generic binary for you, riddled with all non-essential features as well.</p>
+<p>In Gentoo, you would declare beforehand what all features you want your system to have, and what all should not be. Its as simple as <code>USE=&quot;gnome systemd -kde -openrc ...&quot;</code>.</p>
+<p>This will tell the package manager (did I mention <em>portage</em>?) to ensure all the packages in the system adhere to these rules, unless overridden otherwise. Even with overrides, you cannot break your system, and it’ll ensure that those overrides cannot break the package consistency.</p>
+<h3 id="scratch">Scratch?</h3>
+<p>A scary thing, you build Gentoo from scratch up. You just get a bare installation with GCC etc, and you build up from that, without a GUI (Graphical User Interface) to begin with. It’s fun, and really exciting. Gets that <em>hacker mode</em> on as well. Well Arch does qualify for this too, so do a few others.</p>
+<h3 id="gentoo-wiki">Gentoo Wiki</h3>
+<p>Perhaps not as good as Arch’s, but the Gentoo Wiki is certainly very detailed and helpful. While using Gentoo you tend to find solutions, rather than search Stack Overflow. This itself is a very good learning experience.</p>
+<h2 id="the-downsides">The downsides?</h2>
+<p>Honestly, compiling takes ages. And compiling every single package is certainly time consuming. Regular upgrades take quite some times. Thankfully, most huge packages have binary versions aswell, for example Firefox (which takes more than half an hour to build usually).</p>
+<p>Another issue is that Gentoo usually needs some careful maintainence. You need to figure out some version conflicts at times, which can be fairly complicated. It’s not rocket science, but it sometimes isn’t easy.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>There are some things which I wish Gentoo had implemented. There are other things which are really good in other operating systems, like the super fast installations in Arch (I used to <code>time</code> them and show off). But once you get to tinkering with multiple packages all the time, you’re going to need some proper package mananagement.</p>
+<p>Going anywhere from Gentoo is going to be a hard choice, if I ever make it. It has a really nice developer community, and quite a lot of support online as well.</p>
+<p>Oh did I mention, we have a Gentoo mirror inside IIT Kanpur? <a href="http://mirror.cse.iitk.ac.in/gentoo">It’s here</a>! So download times are not bottlenecks (they were anyway not going to be, thanks to the compile times).</p>
+
+
+
+    </section>
+    <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+      Saksham Sharma
+  </span>
+</footer>
+
+</div>
+
+
+    </div>
+    <div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+
+        <img id="about-card-picture" src="https://avatars3.githubusercontent.com/u/10418596?v=3&amp;s=460" alt="Author's picture" />
+
+        <h4 id="about-card-name">Saksham Sharma</h4>
+
+        <div id="about-card-bio">Hacker. Programmer. Geek.</div>
+
+
+        <div id="about-card-job">
+            <i class="fa fa-briefcase"></i>
+            <br />
+            3rd year Undergrad, Computer Science and Engineering
+        </div>
+
+
+        <div id="about-card-location">
+            <i class="fa fa-map-marker"></i>
+            <br />
+            Indian Institute of Technology Kanpur
+        </div>
+
+    </div>
+</div>
+
+    <div id="cover" style="background-image:url('/images/header.jpg');"></div>
+
+</body>
+</html>

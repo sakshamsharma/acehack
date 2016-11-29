@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="generator" content="Hugo">
+        <title>AceHack</title>
+        <meta name="author" content="Saksham Sharma">
+        <meta name="keywords" content="acehack, coding, programming, linux, webdev, hakyll">
+
+        <meta name="description" content="Saksham Sharma's blog">
+        <meta property="og:description" content="Saksham Sharma's blog">
+        <meta property="og:type" content="blog">
+        <meta property="og:title" content="AceHack">
+        <meta property="og:url" content>
+        <meta property="og:site_name" content="AceHack">
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:title" content="AceHack">
+        <meta name="twitter:description" content="Saksham Sharma's blog">
+
+        <meta property="og:image" content="https://avatars3.githubusercontent.com/u/10418596?v=3&s=460">
+
+        <link rel="stylesheet" href="../../../css/hugo.css" />
+        <script src="../../../js/utils.js"></script>
+    </head>
+
+<body>
+    <!--SCRIPTS-->
+<script src="../../../js/hugo.js" type="text/javascript"></script>
+<!--SCRIPTS END-->
+<script src="../../../js/highlight.js">
+</script>
+
+    <div id="blog">
+        <header id="header" data-behavior="1">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="../../../">AceHack</a>
+  </div>
+      <a class="header-right-picture " href="../../../about">
+        <img class="header-picture" src="https://avatars3.githubusercontent.com/u/10418596?v=3&amp;s=460" alt="Author's picture" />
+    </a>
+</header>
+
+
+        <nav id="sidebar" data-behavior="1">
+    <div class="sidebar-container">
+        <div class="sidebar-profile">
+            <a href="../../../about">
+                <img class="sidebar-profile-picture" src="https://avatars3.githubusercontent.com/u/10418596?v=3&amp;s=460" alt="Author's picture" />
+            </a>
+            <h4 class="sidebar-profile-name">Saksham Sharma</h4>
+
+            <h5 class="sidebar-profile-bio">Hacker. Programmer. Geek.</h5>
+
+        </div>
+
+        <ul class="sidebar-buttons">
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="../../../">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">Home</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="../../../categories">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                    <span class="sidebar-button-desc">Categories</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="../../../tags">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">Tags</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="../../../archives">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">Archives</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="../../../about">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                    <span class="sidebar-button-desc">About</span>
+                </a>
+            </li>
+
+        </ul>
+        <ul class="sidebar-buttons">
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="https://github.com/sakshamsharma" target="_blank">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                    <span class="sidebar-button-desc">GitHub</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="http://sakshamsharma.com/cv" target="_blank">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-file-o"></i>
+                    <span class="sidebar-button-desc">Resume</span>
+                </a>
+            </li>
+
+
+        </ul>
+        <ul class="sidebar-buttons">
+
+        </ul>
+    </div>
+</nav>
+
+<div id="main" data-behavior="1" class="hasCoverMetaIn">
+    <section class="postShorten-group main-content-wrap">
+
+        <h1>HTTP-Over-Protocol - Story and lessons</h1>
+
+ Tags: <a href="../../../tags/networks/index.html">networks</a>, <a href="../../../tags/hop/index.html">hop</a>, <a href="../../../tags/github/index.html">github</a>  <br><br>
+<p>During my time in Germany, a friend once told me that his university’s proxy only lets him use HTTP(S) traffic. I didn’t know much about networks back then to be able to think over this, but when I began my course in Networks, revisiting this problem suggested a solution.</p>
+<p>After a few weeks, and around 6 hours of initial code later, I had the project ready, in the form of <a href="github.com/sakshamsharma/HTTP-Over-Protocol">hop</a>.</p>
+<p><strong>HOP</strong> is a tool meant to tunnel any sort of traffic over a standard HTTP channel.</p>
+<p>Useful for scenarios where there’s a proxy filtering all traffic except standard HTTP(S) traffic. Unlike other tools which either require you to be behind a proxy which let’s you pass arbitrary traffic (possibly after an initial CONNECT request), or tools which work only for SSH, this imposes no such restrictions.</p>
+<h1 id="response">Response</h1>
+<p>I posted a link to <code>hop</code> on reddit for comments, and surprisingly, I received (github) stars at a never-seen-before rate for me. Some people suggested some existing ways to accomplish this. Personally, I knew there would be some. But while coding this, I had stopped myself from checking for such things, so as to not lower my motivation for finishing this code. This actually helped, and despite some generic methods existing already, <code>hop</code> specializes for arbitrary protocols, and I think it is useful in some ways.</p>
+<p>The repository stayed in <strong>top 5</strong> trending C++ repositories for 2 days, and went on to cross <strong>100 stars</strong> after 3 days. This surely felt good :smile:</p>
+<h1 id="working">Working</h1>
+<p>This section tries to tackle a situation where you want to use SSH to connect to a remote machine where you don’t have root privileges.</p>
+<p>There will be 7 entities:</p>
+<ol style="list-style-type: decimal">
+<li>Client (Your computer, behind the proxy)</li>
+<li>Proxy (Evil)</li>
+<li>Target Server (The remote machine you want to SSH to, from Client)</li>
+<li>Client HOP process</li>
+<li>Target HOP process</li>
+<li>Client SSH process</li>
+<li>Target SSH process</li>
+</ol>
+<p>If there was no proxy, the communication would be something like:</p>
+<pre><code>Client -&gt; Client SSH process -&gt; Target Server -&gt; Target SSH process</code></pre>
+<p>In this scenario, here’s the proposed method:</p>
+<pre><code>Client -&gt;
+Client SSH process -&gt;
+Client HOP process -&gt;
+Proxy -&gt;
+Target HOP process -&gt;
+Target SSH process -&gt;
+Target Server</code></pre>
+<p><strong>HOP</strong> simply wraps all the data in HTTP packets, and buffers them accordingly.</p>
+<p>Another even more complicated scenario would be if you have an external utility server, and need to access another server’s resources from behind a proxy. In this case, <em>hop</em> will still run on your external server, but instead of forwarding to <code>localhost</code> from the target HOP process, you should forward to the remote address (hostname) of the target machine which has the SSH process.</p>
+<h1 id="current-state">Current state</h1>
+<p>After the initial release (when I started receiving stars on Github), I found a bug which caused data drops, and thus broke the tunneled SSH connections. Around 10 hours later, and multiple rewrites later (which made the code much more readable too), the bug finally stands fixed. The bug was due to me using 2 different threads to read and write to the same 2 sockets. I realized this while writing an article on bidirectional nature of sockets.</p>
+<p>There had been plenty of memory corruption errors as well, which have been fixed now. I can use <code>hop</code> to SSH to machines over HTTP, or transfer files using <code>nc</code> reliably now.</p>
+<h1 id="lessons">Lessons</h1>
+<ul>
+<li>It is often quite hard to figure out parts which can be abstracted out in a program on the first rewrite. I actually leart a lot during the rewrites of the code.</li>
+<li>You get no prizes for reusing variables in real life. Here I quote a very helpful user on Reddit. This actually helped me clean up my code a lot, and make it much more readable.</li>
+<li>You can never assume thread safety, even for local buffers, or for logging classes.</li>
+<li>Stress testing ought to be mandatory before publishing the project :smile:</li>
+<li>Spend your time working on innovative projects rather than writing config files for packages etc. Helps you learn a lot more.</li>
+<li>Avoid C/C++ if you can :smile: If you cannot, atleast avoid memory corruption errors.</li>
+<li>Think before you begin writing. Think of all the corner cases, and all the errors you want to handle.</li>
+<li>Don’t leave things which you assume will never happen, and thus you don’t handle them. If there’s something like that, put an assert on it. Will save a ton of a time later.</li>
+<li>Remember, sockets are not synced nicely across threads.</li>
+</ul>
+
+
+
+    </section>
+    <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+      Saksham Sharma
+  </span>
+</footer>
+
+</div>
+
+
+    </div>
+    <div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+
+        <img id="about-card-picture" src="https://avatars3.githubusercontent.com/u/10418596?v=3&amp;s=460" alt="Author's picture" />
+
+        <h4 id="about-card-name">Saksham Sharma</h4>
+
+        <div id="about-card-bio">Hacker. Programmer. Geek.</div>
+
+
+        <div id="about-card-job">
+            <i class="fa fa-briefcase"></i>
+            <br />
+            3rd year Undergrad, Computer Science and Engineering
+        </div>
+
+
+        <div id="about-card-location">
+            <i class="fa fa-map-marker"></i>
+            <br />
+            Indian Institute of Technology Kanpur
+        </div>
+
+    </div>
+</div>
+
+    <div id="cover" style="background-image:url('/images/header.jpg');"></div>
+
+</body>
+</html>

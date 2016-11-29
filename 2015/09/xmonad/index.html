@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="generator" content="Hugo">
+        <title>AceHack</title>
+        <meta name="author" content="Saksham Sharma">
+        <meta name="keywords" content="acehack, coding, programming, linux, webdev, hakyll">
+
+        <meta name="description" content="Saksham Sharma's blog">
+        <meta property="og:description" content="Saksham Sharma's blog">
+        <meta property="og:type" content="blog">
+        <meta property="og:title" content="AceHack">
+        <meta property="og:url" content>
+        <meta property="og:site_name" content="AceHack">
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:title" content="AceHack">
+        <meta name="twitter:description" content="Saksham Sharma's blog">
+
+        <meta property="og:image" content="https://avatars3.githubusercontent.com/u/10418596?v=3&s=460">
+
+        <link rel="stylesheet" href="../../../css/hugo.css" />
+        <script src="../../../js/utils.js"></script>
+    </head>
+
+<body>
+    <!--SCRIPTS-->
+<script src="../../../js/hugo.js" type="text/javascript"></script>
+<!--SCRIPTS END-->
+<script src="../../../js/highlight.js">
+</script>
+
+    <div id="blog">
+        <header id="header" data-behavior="1">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="../../../">AceHack</a>
+  </div>
+      <a class="header-right-picture " href="../../../about">
+        <img class="header-picture" src="https://avatars3.githubusercontent.com/u/10418596?v=3&amp;s=460" alt="Author's picture" />
+    </a>
+</header>
+
+
+        <nav id="sidebar" data-behavior="1">
+    <div class="sidebar-container">
+        <div class="sidebar-profile">
+            <a href="../../../about">
+                <img class="sidebar-profile-picture" src="https://avatars3.githubusercontent.com/u/10418596?v=3&amp;s=460" alt="Author's picture" />
+            </a>
+            <h4 class="sidebar-profile-name">Saksham Sharma</h4>
+
+            <h5 class="sidebar-profile-bio">Hacker. Programmer. Geek.</h5>
+
+        </div>
+
+        <ul class="sidebar-buttons">
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="../../../">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">Home</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="../../../categories">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                    <span class="sidebar-button-desc">Categories</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="../../../tags">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">Tags</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="../../../archives">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">Archives</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="../../../about">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                    <span class="sidebar-button-desc">About</span>
+                </a>
+            </li>
+
+        </ul>
+        <ul class="sidebar-buttons">
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="https://github.com/sakshamsharma" target="_blank">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                    <span class="sidebar-button-desc">GitHub</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="http://sakshamsharma.com/cv" target="_blank">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-file-o"></i>
+                    <span class="sidebar-button-desc">Resume</span>
+                </a>
+            </li>
+
+
+        </ul>
+        <ul class="sidebar-buttons">
+
+        </ul>
+    </div>
+</nav>
+
+<div id="main" data-behavior="1" class="hasCoverMetaIn">
+    <section class="postShorten-group main-content-wrap">
+
+        <h1>i3 to XMonad - How and why</h1>
+
+ Tags: <a href="../../../tags/xmonad/index.html">xmonad</a>, <a href="../../../tags/i3wm/index.html">i3wm</a>  <br><br>
+<p>Never thought I’d see this day, but I actually found a new Tiling Window Manager for my Linux system, I went past i3wm for once just to experiment, and don’t see myself coming back any soon. So yeah, XMonad it is.</p>
+<p>Never heard of it? Very probable. If 1-10% of the PC users are capable of using a Linux system properly, out of those about 1-10% are capable of using i3wm; then out of the remaining few, I guess again only 1-10% would gain anything from using XMonad, for if you want to be able to make XMonad better than i3wm, you need to <em>Code</em>, and I mean actual code. Not just scribbling in a plaintext file with some default keywords you google or read on the i3wm website. What’s more daunting is that this isn’t Python code, its Haskell, probably one of the most tough languages to code in for average people.</p>
+<p>Still here? Good news, no more scaring! I’ll jump to the reasons why you should try out XMonad:</p>
+<ol style="list-style-type: decimal">
+<li>A really nice way to learn Haskell (Ha! Yeah, I installed it just to be able to start somewhere in Haskell.)</li>
+<li>Much more configurable than i3wm and perhaps most other tiling window Managers (haven’t tried awesome and dwm)</li>
+<li>Tiling at its best. i3wm offers manual tiling, you tile windows the way you want to. XMonad does it itself. You can define your layouts and XMonad tiles the windows in those layouts. ‘Automatic Tiling’.</li>
+<li>A fresh take at multi-monitor support. XMonad lets you swap Windows between your monitors in a breeze. I found that I can work much better this way, Bring whatever I am working on onto the larger monitor and keep the other workspace on the secondary one as reference. This works amazingly fine for me.</li>
+<li>Taffybar. So mostly where you’d read about XMonad, most people go with a dzen2 or a xmobar based top-bar (or bottom bar). These 2 certainly are nice, but Taffybar is the bar for me. Again, its coded in Haskell and you actually write Haskell code to configure it. Another learning opportunity :D</li>
+<li>Light weight and bug free :D (so far)</li>
+<li>No need for mouse (just like i3wm). That is, if you use Vimium for Chrome or Vimperator for Firefox (if you don’t, you should be using them).</li>
+</ol>
+<p>Enough of reason listing, how do you get to use it? Ubuntu:</p>
+<pre><code>sudo apt-get install xmonad suckless-tools</code></pre>
+<p>Funny name, suckless-tools.. Well they have a package named <code>dmenu</code> you’d be using extensively. No more finding apps in some application drawer. Just type.</p>
+<p>Arch:</p>
+<pre><code>sudo pacman -S xmonad dmenu</code></pre>
+<p>Logout of your current desktop session (<strong>NOT NOW</strong>, after you have read the following). Now login again, selecting XMonad when you login. You’d be dropped to an empty black screen which does nothing. Funny. <code>alt+shift+return</code> would open a new terminal. <code>alt+p</code> would open the dmenu at the top. Open firefox or chrome and get back to the safe haven of a web browser :P Now that you survived this, it’s time to learn some shortcuts. But before that, a few tips:</p>
+<ul>
+<li>Look at the default complete-config. Here’s the <a href="http://xmonad.org/xmonad-docs/xmonad/src/XMonad-Config.html">link</a>. This file contains most of the code you should be using initially.</li>
+<li>You’ll never get the hang of things till you actually code them. How I proceeded was by reading lots and lots and lots of config files of people on Github.</li>
+<li>Hack on the source code. Look at the sources of different libraries you are using and see how they define things, the Syntax and all.</li>
+</ul>
+<p>Configuration is pretty simple. You just go ahead and create a directory <code>~/.xmonad/</code> and create a new file <code>xmonad.hs</code> there.</p>
+<p>Here’s a sample xmonad.hs taken from the Arch Wiki.</p>
+<pre><code>import XMonad
+
+main = do
+  xmonad $ defaultConfig
+    { terminal    = myTerminal
+    , modMask     = myModMask
+    , borderWidth = myBorderWidth
+    }
+
+myTerminal    = &quot;urxvt&quot;
+myModMask     = mod4Mask -- Win key or Super_L
+myBorderWidth = 3</code></pre>
+<p>Well I haven’t explained much about the configs, and I know it. I cannot help it, as it mostly involves Haskell (and that means people already comfortable with Haskell would find it pretty easy). I’ll follow up about various configuration options in XMonad in another set of articles here at AceHack. I leave you to explore XMonad if interested.</p>
+<p>Oh and I almost forgot, here’s the link to my <a href="https://github.com/sakshamsharma/my-configs/tree/master/.xmonad">xmonad.hs</a>. , and it’s pretty tweaked. Note that I put almost all my main code in files inside the folder lib. You can import them with their names as I have done in my xmonad.hs. <em>warning</em>, many of the keybindings have been changed to those of i3wm so as not to break my muscle reflexes developed from using i3wm for almost 8 months. Ha, i3wm is still one of my favs, and it’s keybindings certainly are the best.</p>
+
+
+
+    </section>
+    <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+      Saksham Sharma
+  </span>
+</footer>
+
+</div>
+
+
+    </div>
+    <div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+
+        <img id="about-card-picture" src="https://avatars3.githubusercontent.com/u/10418596?v=3&amp;s=460" alt="Author's picture" />
+
+        <h4 id="about-card-name">Saksham Sharma</h4>
+
+        <div id="about-card-bio">Hacker. Programmer. Geek.</div>
+
+
+        <div id="about-card-job">
+            <i class="fa fa-briefcase"></i>
+            <br />
+            3rd year Undergrad, Computer Science and Engineering
+        </div>
+
+
+        <div id="about-card-location">
+            <i class="fa fa-map-marker"></i>
+            <br />
+            Indian Institute of Technology Kanpur
+        </div>
+
+    </div>
+</div>
+
+    <div id="cover" style="background-image:url('/images/header.jpg');"></div>
+
+</body>
+</html>

@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="generator" content="Hugo">
+        <title>AceHack</title>
+        <meta name="author" content="Saksham Sharma">
+        <meta name="keywords" content="acehack, coding, programming, linux, webdev, hakyll">
+
+        <meta name="description" content="Saksham Sharma's blog">
+        <meta property="og:description" content="Saksham Sharma's blog">
+        <meta property="og:type" content="blog">
+        <meta property="og:title" content="AceHack">
+        <meta property="og:url" content>
+        <meta property="og:site_name" content="AceHack">
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:title" content="AceHack">
+        <meta name="twitter:description" content="Saksham Sharma's blog">
+
+        <meta property="og:image" content="https://avatars3.githubusercontent.com/u/10418596?v=3&s=460">
+
+        <link rel="stylesheet" href="../../../css/hugo.css" />
+        <script src="../../../js/utils.js"></script>
+    </head>
+
+<body>
+    <!--SCRIPTS-->
+<script src="../../../js/hugo.js" type="text/javascript"></script>
+<!--SCRIPTS END-->
+<script src="../../../js/highlight.js">
+</script>
+
+    <div id="blog">
+        <header id="header" data-behavior="1">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="../../../">AceHack</a>
+  </div>
+      <a class="header-right-picture " href="../../../about">
+        <img class="header-picture" src="https://avatars3.githubusercontent.com/u/10418596?v=3&amp;s=460" alt="Author's picture" />
+    </a>
+</header>
+
+
+        <nav id="sidebar" data-behavior="1">
+    <div class="sidebar-container">
+        <div class="sidebar-profile">
+            <a href="../../../about">
+                <img class="sidebar-profile-picture" src="https://avatars3.githubusercontent.com/u/10418596?v=3&amp;s=460" alt="Author's picture" />
+            </a>
+            <h4 class="sidebar-profile-name">Saksham Sharma</h4>
+
+            <h5 class="sidebar-profile-bio">Hacker. Programmer. Geek.</h5>
+
+        </div>
+
+        <ul class="sidebar-buttons">
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="../../../">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">Home</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="../../../categories">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                    <span class="sidebar-button-desc">Categories</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="../../../tags">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">Tags</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="../../../archives">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">Archives</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="../../../about">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                    <span class="sidebar-button-desc">About</span>
+                </a>
+            </li>
+
+        </ul>
+        <ul class="sidebar-buttons">
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="https://github.com/sakshamsharma" target="_blank">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                    <span class="sidebar-button-desc">GitHub</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="http://sakshamsharma.com/cv" target="_blank">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-file-o"></i>
+                    <span class="sidebar-button-desc">Resume</span>
+                </a>
+            </li>
+
+
+        </ul>
+        <ul class="sidebar-buttons">
+
+        </ul>
+    </div>
+</nav>
+
+<div id="main" data-behavior="1" class="hasCoverMetaIn">
+    <section class="postShorten-group main-content-wrap">
+
+        <h1>abcd-esolang Documentation</h1>
+
+ Tags: <a href="../../../tags/abcd/index.html">abcd</a>, <a href="../../../tags/esolang/index.html">esolang</a>, <a href="../../../tags/techkriti/index.html">techkriti</a>, <a href="../../../tags/chaos/index.html">chaos</a>, <a href="../../../tags/programming%20language/index.html">programming language</a>  <br><br>
+<p>What follows here is the description (documentation) of an esoteric programmine language I wrote up, and organized a national contest on. The purpose of this language was to be obscure and confusing, thus the challenge.</p>
+<p>abcd is an esoteric language. In other words, it is a language deliberately made obfuscated and confusing. Trivial tasks too might be quite tough to accomplish while programming in this language. That is the point of the competition.</p>
+<p>In Chaos ’16, you will be attempting to write computer programs to accomplish certain tasks using this language. These tasks would range from simple ones, to some really tricky ones.</p>
+<h1 id="description">Description</h1>
+<p>Cutting to the chase, <strong>abcd</strong> is based off another similar language which had some shortcomings, and needed some fixes to be able to work properly.</p>
+<p>Programming in this language requires you to manage values, memory and execution control flow effectively between a very restricted amount of variables you have. The execution is to a good extent very similar to how computer programs are run by CPUs in computers.</p>
+<p>You will have 53 instructions which will give the program instructions. These will be the alphabets <em>a-z</em>, <em>A-Z</em>, and the character <em>?</em>. So your program will basically look like a long gibberish string of alphabets. They will manipulate 3 regular memory values (integers), and one which is basically a tuple of 2 integers. We call these integer values as <em>Registers</em>, as is done for CPUs.</p>
+<p>In addition, you will have an array of integers of size 1024 which can be used to store values outside the registers.</p>
+<p>You can only do operations on the values inside registers. You will be able to retrieve values from the memory and put it inside the registers, and vice-verse.</p>
+<h3 id="register1-and-register2">Register1 and Register2</h3>
+<p>These are general purpose registers used to provide arguments to operations. For example if you need to add 2 integers, you will need to store them in these registers.</p>
+<h3 id="register3---the-result-register">Register3 - The result register</h3>
+<p>This is the result register. This will store the result of instructions if any. For example in the above mentioned sum exercise, the result would be stored in this register.</p>
+<p>The two registers available as a tuple are meant for specialized operations. They are modelled as follows: Register4[2], where Register4[0] is the memory pointer, and Register4[1] is the position pointer.</p>
+<h3 id="the-memory-pointer">The memory pointer</h3>
+<p>One of them lets you write integer values to memory locations, and also to retrieve values from it. You can store intermediate results in the memory using this. For example, if this register stores the value 0 right now and you call the instruction to write the value of Register3 to memory, it will write that value to Memory[0].</p>
+<h3 id="the-position-pointer">The position pointer</h3>
+<p>The other lets you jump to the position in the program corresponding to the integer stored in it. For example, if that register stores 0, you can jump to the 0th location of the program, that is, to the beginning. This is useful for looping statements.</p>
+<p>You will also have a <em>?</em> instruction which will let you stop the program if the complete input has been read. This will be useful when you need to read an arbitrary amount of input.</p>
+<p>There will be a Mode bit. This will be either 0 or 1. You have instructions to add or subtract some values to Register4[Mode]. This will come in handy if you need to modify the memory or the position pointer.</p>
+<h1 id="sample-programs">Sample programs</h1>
+<h3 id="hello-world">Hello World!</h3>
+<pre><code>cccCISccccCIScccCIYx
+SGSHaaCLgDLihhhDLDLgggDL
+TTGaaCL
+SGccbbbCLDLgggDLjggggDLSHDL
+TTGaaaCL</code></pre>
+<h3 id="print-the-character-b">Print the character ‘b’</h3>
+<pre><code>ebbCL</code></pre>
+<h3 id="print-the-number-98">Print the number 98</h3>
+<pre><code>ebbCM</code></pre>
+<h1 id="the-implementation-and-the-instructions">The implementation and the instructions</h1>
+<p>Here’s the javascript code of the interpreter for more clarity. Note: All these cases are separated by ‘break;’ statements in the actual code.</p>
+<pre><code>    case &quot;a&quot;:
+      Register1 += 1;
+      
+    case &quot;b&quot;:
+      Register1 -= 1;
+      
+    case &quot;c&quot;:
+      Register1 += 10;
+      
+    case &quot;d&quot;:
+      Register1 -= 10;
+      
+    case &quot;e&quot;:
+      Register1 += 100;
+
+    case &quot;f&quot;:
+      Register1 -= 100;
+      
+    case &quot;g&quot;:
+      Register2 += 1;
+      
+    case &quot;h&quot;:
+      Register2 -= 1;
+      
+    case &quot;i&quot;:
+      Register2 += 10;
+      
+    case &quot;j&quot;:
+      Register2 -= 10;
+      
+    case &quot;k&quot;:
+      Register2 += 100;
+      
+    case &quot;l&quot;:
+      Register2 -= 100;
+      
+    case &quot;m&quot;:
+      Register3 = !Register1;
+      
+    case &quot;n&quot;:
+      Register3 = !Register2;
+      
+    case &quot;o&quot;:
+      Register3 = Register1 &amp; Register2;
+      
+    case &quot;p&quot;:
+      Register3 = Register1 | Register2;
+      
+    case &quot;q&quot;:
+      Register3 = Register1 ^ Register2;
+      
+    case &quot;r&quot;:
+      Register3 = Register1 + Register2;
+      
+    case &quot;s&quot;:
+      Register3 = Register1 - Register2;
+      
+    case &quot;t&quot;:
+      Register3 = Register1 * Register2;
+      
+    case &quot;u&quot;:
+      Register3 = Register1 / Register2;
+      
+    case &quot;v&quot;:
+      Register3 = Register1 % Register2;
+      
+    case &quot;w&quot;:
+      Register3 = Register1 ^ Register2;
+      
+    case &quot;x&quot;:
+      Register1 = 0;
+      
+    case &quot;y&quot;:
+      Register2 = 0;
+      
+    case &quot;z&quot;:
+      Register3 = 0;
+      
+    case &quot;A&quot;:
+      Register2 = Register1;
+      
+    case &quot;B&quot;:
+      Register1 = Register2;
+      
+    case &quot;C&quot;:
+      Register3 = Register1;
+      
+    case &quot;D&quot;:
+      Register3 = Register2;
+      
+    case &quot;E&quot;:
+      Register1 = Register3;
+      
+    case &quot;F&quot;:
+      Register2 = Register3;
+      
+    case &quot;G&quot;:
+      Register1 = Memory[Register4[0]];
+      
+    case &quot;H&quot;:
+      Register2 = Memory[Register4[0]];
+      
+    case &quot;I&quot;:
+      Memory[Register4[0]] = Register3;
+      
+    case &quot;J&quot;:
+      Read the next character from input.
+      Store it in register1
+      
+    case &quot;K&quot;:
+      Read next character from input.
+      Store it in register2
+      
+    case &quot;L&quot;:
+      Basically printing the value of Register3 as a character.
+      So 97 would print as 'a'.
+      
+    case &quot;M&quot;:
+      Printing value of Register3 as an integer.
+      97 would print '97'
+      
+    case &quot;N&quot;:
+      if(Register1 === Register2) Position = Register4[1]-1;
+      
+    case &quot;O&quot;:
+      if(Register1 !== Register2) Position = Register4[1]-1;
+      
+    case &quot;P&quot;:
+      if(Register1 &gt;= Register2) Position = Register4[1]-1;
+      
+    case &quot;Q&quot;:
+      if(Register1 &lt;= Register2) Position = Register4[1]-1;
+      
+    case &quot;R&quot;:
+      if(Register3) Position = Register4[1]-1;
+      
+    case &quot;S&quot;:
+      Register4[Mode] += 1;
+      
+    case &quot;T&quot;:
+      Register4[Mode] -= 1;
+      
+    case &quot;U&quot;:
+      Register4[Mode] += 10;
+      
+    case &quot;V&quot;:
+      Register4[Mode] -= 10;
+      
+    case &quot;W&quot;:
+      Register4[Mode] += 100;
+      
+    case &quot;X&quot;:
+      Register4[Mode] -= 100;
+      
+    case &quot;Y&quot;:
+      Register4[Mode] = 0;
+      
+    case &quot;Z&quot;:
+      Mode = (Mode+1)%2;
+      
+    case &quot;?&quot;:
+      if(readInput &gt;= input.length + 1)
+        finished=1;
+</code></pre>
+<h1 id="tips">Tips</h1>
+<ul>
+<li>Characters which are not recognized are ignored. Use this to keep your code readable. You can use spaces and newline to have that effect.</li>
+</ul>
+<h1 id="ascii-table">ASCII Table</h1>
+<p>You’ll <strong>NEED</strong> this:</p>
+<table>
+<thead>
+<tr class="header">
+<th>DEC</th>
+<th>Symbol</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>32</td>
+<td></td>
+<td>Space</td>
+</tr>
+<tr class="even">
+<td>33</td>
+<td>!</td>
+<td>Exclamation mark</td>
+</tr>
+<tr class="odd">
+<td>34</td>
+<td>“</td>
+<td>Double quotes (or speech marks)</td>
+</tr>
+<tr class="even">
+<td>35</td>
+<td>#</td>
+<td>Number</td>
+</tr>
+<tr class="odd">
+<td>36</td>
+<td>$</td>
+<td>Dollar</td>
+</tr>
+<tr class="even">
+<td>37</td>
+<td>%</td>
+<td>Procenttecken</td>
+</tr>
+<tr class="odd">
+<td>38</td>
+<td>&amp;</td>
+<td>Ampersand</td>
+</tr>
+<tr class="even">
+<td>39</td>
+<td>’</td>
+<td>Single quote</td>
+</tr>
+<tr class="odd">
+<td>40</td>
+<td>(</td>
+<td>Open parenthesis (or open bracket)</td>
+</tr>
+<tr class="even">
+<td>41</td>
+<td>)</td>
+<td>Close parenthesis (or close bracket)</td>
+</tr>
+<tr class="odd">
+<td>42</td>
+<td>*</td>
+<td>Asterisk</td>
+</tr>
+<tr class="even">
+<td>43</td>
+<td>+</td>
+<td>Plus</td>
+</tr>
+<tr class="odd">
+<td>44</td>
+<td>,</td>
+<td>Comma</td>
+</tr>
+<tr class="even">
+<td>45</td>
+<td>-</td>
+<td>Hyphen</td>
+</tr>
+<tr class="odd">
+<td>46</td>
+<td>.</td>
+<td>Period, dot or full stop</td>
+</tr>
+<tr class="even">
+<td>47</td>
+<td>/</td>
+<td>Slash or divide</td>
+</tr>
+<tr class="odd">
+<td>48</td>
+<td>0</td>
+<td>Zero</td>
+</tr>
+<tr class="even">
+<td>49</td>
+<td>1</td>
+<td>One</td>
+</tr>
+<tr class="odd">
+<td>50</td>
+<td>2</td>
+<td>Two</td>
+</tr>
+<tr class="even">
+<td>51</td>
+<td>3</td>
+<td>Three</td>
+</tr>
+<tr class="odd">
+<td>52</td>
+<td>4</td>
+<td>Four</td>
+</tr>
+<tr class="even">
+<td>53</td>
+<td>5</td>
+<td>Five</td>
+</tr>
+<tr class="odd">
+<td>54</td>
+<td>6</td>
+<td>Six</td>
+</tr>
+<tr class="even">
+<td>55</td>
+<td>7</td>
+<td>Seven</td>
+</tr>
+<tr class="odd">
+<td>56</td>
+<td>8</td>
+<td>Eight</td>
+</tr>
+<tr class="even">
+<td>57</td>
+<td>9</td>
+<td>Nine</td>
+</tr>
+<tr class="odd">
+<td>58</td>
+<td>:</td>
+<td>Colon</td>
+</tr>
+<tr class="even">
+<td>59</td>
+<td>;</td>
+<td>Semicolon</td>
+</tr>
+<tr class="odd">
+<td>60</td>
+<td>&lt;</td>
+<td>Less than (or open angled bracket)</td>
+</tr>
+<tr class="even">
+<td>61</td>
+<td>=</td>
+<td>Equals</td>
+</tr>
+<tr class="odd">
+<td>62</td>
+<td>&gt;</td>
+<td>Greater than (or close angled bracket)</td>
+</tr>
+<tr class="even">
+<td>63</td>
+<td>?</td>
+<td>Question mark</td>
+</tr>
+<tr class="odd">
+<td>64</td>
+<td>@</td>
+<td>At symbol</td>
+</tr>
+<tr class="even">
+<td>65</td>
+<td>A</td>
+<td>Uppercase A</td>
+</tr>
+<tr class="odd">
+<td>66</td>
+<td>B</td>
+<td>Uppercase B</td>
+</tr>
+<tr class="even">
+<td>67</td>
+<td>C</td>
+<td>Uppercase C</td>
+</tr>
+<tr class="odd">
+<td>68</td>
+<td>D</td>
+<td>Uppercase D</td>
+</tr>
+<tr class="even">
+<td>69</td>
+<td>E</td>
+<td>Uppercase E</td>
+</tr>
+<tr class="odd">
+<td>70</td>
+<td>F</td>
+<td>Uppercase F</td>
+</tr>
+<tr class="even">
+<td>71</td>
+<td>G</td>
+<td>Uppercase G</td>
+</tr>
+<tr class="odd">
+<td>72</td>
+<td>H</td>
+<td>Uppercase H</td>
+</tr>
+<tr class="even">
+<td>73</td>
+<td>I</td>
+<td>Uppercase I</td>
+</tr>
+<tr class="odd">
+<td>74</td>
+<td>J</td>
+<td>Uppercase J</td>
+</tr>
+<tr class="even">
+<td>75</td>
+<td>K</td>
+<td>Uppercase K</td>
+</tr>
+<tr class="odd">
+<td>76</td>
+<td>L</td>
+<td>Uppercase L</td>
+</tr>
+<tr class="even">
+<td>77</td>
+<td>M</td>
+<td>Uppercase M</td>
+</tr>
+<tr class="odd">
+<td>78</td>
+<td>N</td>
+<td>Uppercase N</td>
+</tr>
+<tr class="even">
+<td>79</td>
+<td>O</td>
+<td>Uppercase O</td>
+</tr>
+<tr class="odd">
+<td>80</td>
+<td>P</td>
+<td>Uppercase P</td>
+</tr>
+<tr class="even">
+<td>81</td>
+<td>Q</td>
+<td>Uppercase Q</td>
+</tr>
+<tr class="odd">
+<td>82</td>
+<td>R</td>
+<td>Uppercase R</td>
+</tr>
+<tr class="even">
+<td>83</td>
+<td>S</td>
+<td>Uppercase S</td>
+</tr>
+<tr class="odd">
+<td>84</td>
+<td>T</td>
+<td>Uppercase T</td>
+</tr>
+<tr class="even">
+<td>85</td>
+<td>U</td>
+<td>Uppercase U</td>
+</tr>
+<tr class="odd">
+<td>86</td>
+<td>V</td>
+<td>Uppercase V</td>
+</tr>
+<tr class="even">
+<td>87</td>
+<td>W</td>
+<td>Uppercase W</td>
+</tr>
+<tr class="odd">
+<td>88</td>
+<td>X</td>
+<td>Uppercase X</td>
+</tr>
+<tr class="even">
+<td>89</td>
+<td>Y</td>
+<td>Uppercase Y</td>
+</tr>
+<tr class="odd">
+<td>90</td>
+<td>Z</td>
+<td>Uppercase Z</td>
+</tr>
+<tr class="even">
+<td>91</td>
+<td>[</td>
+<td>Opening bracket</td>
+</tr>
+<tr class="odd">
+<td>92</td>
+<td></td>
+<td>Backslash</td>
+</tr>
+<tr class="even">
+<td>93</td>
+<td>]</td>
+<td>Closing bracket</td>
+</tr>
+<tr class="odd">
+<td>94</td>
+<td>^</td>
+<td>Caret - circumflex</td>
+</tr>
+<tr class="even">
+<td>95</td>
+<td>_</td>
+<td>Underscore</td>
+</tr>
+<tr class="odd">
+<td>96</td>
+<td>`</td>
+<td>Grave accent</td>
+</tr>
+<tr class="even">
+<td>97</td>
+<td>a</td>
+<td>Lowercase a</td>
+</tr>
+<tr class="odd">
+<td>98</td>
+<td>b</td>
+<td>Lowercase b</td>
+</tr>
+<tr class="even">
+<td>99</td>
+<td>c</td>
+<td>Lowercase c</td>
+</tr>
+<tr class="odd">
+<td>100</td>
+<td>d</td>
+<td>Lowercase d</td>
+</tr>
+<tr class="even">
+<td>101</td>
+<td>e</td>
+<td>Lowercase e</td>
+</tr>
+<tr class="odd">
+<td>102</td>
+<td>f</td>
+<td>Lowercase f</td>
+</tr>
+<tr class="even">
+<td>103</td>
+<td>g</td>
+<td>Lowercase g</td>
+</tr>
+<tr class="odd">
+<td>104</td>
+<td>h</td>
+<td>Lowercase h</td>
+</tr>
+<tr class="even">
+<td>105</td>
+<td>i</td>
+<td>Lowercase i</td>
+</tr>
+<tr class="odd">
+<td>106</td>
+<td>j</td>
+<td>Lowercase j</td>
+</tr>
+<tr class="even">
+<td>107</td>
+<td>k</td>
+<td>Lowercase k</td>
+</tr>
+<tr class="odd">
+<td>108</td>
+<td>l</td>
+<td>Lowercase l</td>
+</tr>
+<tr class="even">
+<td>109</td>
+<td>m</td>
+<td>Lowercase m</td>
+</tr>
+<tr class="odd">
+<td>110</td>
+<td>n</td>
+<td>Lowercase n</td>
+</tr>
+<tr class="even">
+<td>111</td>
+<td>o</td>
+<td>Lowercase o</td>
+</tr>
+<tr class="odd">
+<td>112</td>
+<td>p</td>
+<td>Lowercase p</td>
+</tr>
+<tr class="even">
+<td>113</td>
+<td>q</td>
+<td>Lowercase q</td>
+</tr>
+<tr class="odd">
+<td>114</td>
+<td>r</td>
+<td>Lowercase r</td>
+</tr>
+<tr class="even">
+<td>115</td>
+<td>s</td>
+<td>Lowercase s</td>
+</tr>
+<tr class="odd">
+<td>116</td>
+<td>t</td>
+<td>Lowercase t</td>
+</tr>
+<tr class="even">
+<td>117</td>
+<td>u</td>
+<td>Lowercase u</td>
+</tr>
+<tr class="odd">
+<td>118</td>
+<td>v</td>
+<td>Lowercase v</td>
+</tr>
+<tr class="even">
+<td>119</td>
+<td>w</td>
+<td>Lowercase w</td>
+</tr>
+<tr class="odd">
+<td>120</td>
+<td>x</td>
+<td>Lowercase x</td>
+</tr>
+<tr class="even">
+<td>121</td>
+<td>y</td>
+<td>Lowercase y</td>
+</tr>
+<tr class="odd">
+<td>122</td>
+<td>z</td>
+<td>Lowercase z</td>
+</tr>
+<tr class="even">
+<td>123</td>
+<td>{</td>
+<td>Opening brace</td>
+</tr>
+<tr class="odd">
+<td>124</td>
+<td></td>
+<td></td>
+</tr>
+<tr class="even">
+<td>125</td>
+<td>}</td>
+<td>Closing brace</td>
+</tr>
+<tr class="odd">
+<td>126</td>
+<td>~</td>
+<td>Equivalency sign - tilde</td>
+</tr>
+<tr class="even">
+<td>127</td>
+<td></td>
+<td>Delete</td>
+</tr>
+</tbody>
+</table>
+
+
+
+    </section>
+    <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+      Saksham Sharma
+  </span>
+</footer>
+
+</div>
+
+
+    </div>
+    <div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+
+        <img id="about-card-picture" src="https://avatars3.githubusercontent.com/u/10418596?v=3&amp;s=460" alt="Author's picture" />
+
+        <h4 id="about-card-name">Saksham Sharma</h4>
+
+        <div id="about-card-bio">Hacker. Programmer. Geek.</div>
+
+
+        <div id="about-card-job">
+            <i class="fa fa-briefcase"></i>
+            <br />
+            3rd year Undergrad, Computer Science and Engineering
+        </div>
+
+
+        <div id="about-card-location">
+            <i class="fa fa-map-marker"></i>
+            <br />
+            Indian Institute of Technology Kanpur
+        </div>
+
+    </div>
+</div>
+
+    <div id="cover" style="background-image:url('/images/header.jpg');"></div>
+
+</body>
+</html>
