@@ -1,0 +1,19 @@
+image: haskell:7.10.3
+
+pages:
+  cache:
+    paths:
+      - _cache
+      - .stack
+  before_script:
+    - export STACK_ROOT=`pwd`/.stack
+    - stack install --only-dependencies
+    - stack build
+  script:
+    - stack exec site build
+  artifacts:
+    paths:
+      - public
+      - _site
+  only:
+    - master
