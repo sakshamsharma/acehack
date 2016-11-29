@@ -39,11 +39,16 @@ main = hakyll $ do
        let postCtx = dateField "date" "%B %e, %Y" `mappend`
              tagsField "tagsCtx" tags `mappend`
              defaultContext
+       let ctxWithPosts title =
+             constField "title" title `mappend`
+             listField "posts" postCtx posts `mappend`
+             defaultContext
 
        match "posts/**" $ do
              route $ postRoute
              compile $ do
                pandocCompiler
+                     >>= loadAndApplyTemplate "templates/with-title.html"   postCtx
                      >>= loadAndApplyTemplate "templates/with-sidebar.html" postCtx
                      >>= loadAndApplyTemplate "templates/default.html"      postCtx
                      >>= relativizeUrls
@@ -52,51 +57,43 @@ main = hakyll $ do
 
        create ["index.html"] $ do
          route idRoute
-         let title = "AceHack"
+         let ctx = ctxWithPosts "AceHack"
          compile $ do
-           let indexCtx =
-                 listField "posts" postCtx posts `mappend`
-                 constField "title" title        `mappend`
-                 defaultContext
-
            makeItem ""
-             >>= loadAndApplyTemplate "templates/index.html"        indexCtx
-             >>= loadAndApplyTemplate "templates/with-sidebar.html" indexCtx
-             >>= loadAndApplyTemplate "templates/default.html"      indexCtx
+             >>= loadAndApplyTemplate "templates/with-title.html"   ctx
+             >>= loadAndApplyTemplate "templates/index.html"        ctx
+             >>= loadAndApplyTemplate "templates/with-sidebar.html" ctx
+             >>= loadAndApplyTemplate "templates/default.html"      ctx
              >>= relativizeUrls
              >>= cleanIndexHtmls
 
        create ["archives.html"] $ do
          route $ cleanRoute True
-         let title = "Archive"
+         let ctx = ctxWithPosts "Archive"
          compile $ do
-           let archiveCtx =
-                 listField "posts" postCtx posts `mappend`
-                 constField "title" title        `mappend`
-                 defaultContext
-
            makeItem ""
-             >>= loadAndApplyTemplate "templates/archive.html"      archiveCtx
-             >>= loadAndApplyTemplate "templates/with-sidebar.html" archiveCtx
-             >>= loadAndApplyTemplate "templates/default.html"      archiveCtx
+             >>= loadAndApplyTemplate "templates/with-title.html"   ctx
+             >>= loadAndApplyTemplate "templates/archive.html"      ctx
+             >>= loadAndApplyTemplate "templates/with-sidebar.html" ctx
+             >>= loadAndApplyTemplate "templates/default.html"      ctx
              >>= relativizeUrls
 
        match (fromList ["about.md"])$ do
          route $ cleanRoute True
+         let ctx = ctxWithPosts "About"
          compile $ do
            pandocCompiler
-             >>= loadAndApplyTemplate "templates/with-sidebar.html" defaultContext
-             >>= loadAndApplyTemplate "templates/default.html"      defaultContext
+             >>= loadAndApplyTemplate "templates/with-title.html"   ctx
+             >>= loadAndApplyTemplate "templates/with-sidebar.html" ctx
+             >>= loadAndApplyTemplate "templates/default.html"      ctx
              >>= relativizeUrls
 
        create ["sitemap.xml"] $ do
               route   idRoute
+              let ctx = ctxWithPosts "SiteMap"
               compile $ do
-                let sitemapCtx =
-                        listField "posts" postCtx posts   `mappend`
-                        defaultContext
                 makeItem ""
-                 >>= loadAndApplyTemplate "templates/sitemap.xml" sitemapCtx
+                 >>= loadAndApplyTemplate "templates/sitemap.xml" ctx
                  >>= cleanIndexHtmls
 
 
