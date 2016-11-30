@@ -7,3 +7,10 @@ function redirect(loc) {
         }
     }
 }
+
+function moveToHttps() {
+    var host = "sakshamsharma.com";
+    if (window.location.host == host && window.location.protocol != "https:") {
+        window.location.protocol = "https:";
+    }
+}
