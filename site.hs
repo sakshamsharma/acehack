@@ -99,6 +99,7 @@ main = hakyll $ do
              route $ postRoute
              compile $ do
                pandocCompiler
+                     >>= loadAndApplyTemplate "templates/post.html"         postCtx
                      >>= loadAndApplyTemplate "templates/with-tags.html"    postCtx
                      >>= loadAndApplyTemplate "templates/with-title.html"   postCtx
                      >>= loadAndApplyTemplate "templates/with-sidebar.html" postCtx
