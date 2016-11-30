@@ -22,6 +22,9 @@
 
         <link rel="stylesheet" href="../../../css/hugo.css" />
         <script src="../../../js/utils.js"></script>
+        <script>
+         moveToHttps();
+        </script>
     </head>
 
 <body>
@@ -146,7 +149,8 @@
         <h1>Bootloaders basics</h1>
 
  Tags: <a href="../../../tags/bootloader/index.html">bootloader</a>, <a href="../../../tags/grub/index.html">grub</a>  <br><br>
-<p>First things first, bootloader, what? For those who don’t know, bootloader is the piece of code which loads up your Operating System. Remember that pink screen on boot which allows you to choose between Ubuntu and Windows? Yes, that one. Its named <em>grub</em>. Remember when you booted from a pen-drive perhaps to install Ubuntu? You got a black screen allowing you to choose whether to <em>test</em> Ubuntu or to install it directly? Yes, that one. Why just Linux? The blue screen on Windows 8 (and above) PCs which appears if you want to open safe mode or something?</p>
+<div>
+    <p>First things first, bootloader, what? For those who don’t know, bootloader is the piece of code which loads up your Operating System. Remember that pink screen on boot which allows you to choose between Ubuntu and Windows? Yes, that one. Its named <em>grub</em>. Remember when you booted from a pen-drive perhaps to install Ubuntu? You got a black screen allowing you to choose whether to <em>test</em> Ubuntu or to install it directly? Yes, that one. Why just Linux? The blue screen on Windows 8 (and above) PCs which appears if you want to open safe mode or something?</p>
 <p>Enough examples, the job of the bootloader is to load up the ‘core’ of your OS (techies, read: Kernel), and some more things (like initial RAM disk, no don’t get confused already) which allow the operating system to start.</p>
 <p>There are 2 types of booting, BIOS and UEFI, the latter being the newer one. They are considerably different, and thus, the bootloaders available vary. Most newer PCs boot via UEFI.</p>
 <p>Arch Linux, like all the ‘techie’ linux distributions, requires you to manually install your bootloader. This can be very daunting, because you can run into either of the following horrible situations (yes, to scare you):</p>
@@ -181,6 +185,38 @@ sudo syslinux-install_update -i -a -m</code></pre>
 grub-mkconfig -o /boot/grub/grub.cfg</code></pre>
 <p>And there! You’re probably done! If you run a normal PC (that is, no archaic stuff or some really non-obvious choice of partitions or configurations which might require some more work). Luckily, the Arch wiki is there to help in such cases.</p>
 <p>Feel free to comment if you run into a mountain.</p>
+</div>
+
+<script src="../../../js/fb.js"></script>
+<div class="fb-like" data-share="true" data-width="450" data-show-faces="true">
+</div>
+
+<script id="dsq-count-scr" src="//acehack.disqus.com/count.js" async></script>
+
+<div id="disqus_thread"></div>
+<script>
+ // For debugging
+ var disqus_developer = 1;
+ var disqus_shortname = 'acehack';
+ var disqus_config = function () {
+     this.page.url = 'http://acehack.org/2015/09/bootloader/index.html';
+     this.page.identifier = 'bootloaders';
+     this.page.title = 'Bootloaders basics';
+ };
+ (function() {
+     var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+     dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+ })();
+ (function () {
+     var s = document.createElement('script'); s.async = true;
+     s.type = 'text/javascript';
+     s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+     (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+ }());
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
 
 
 

@@ -22,6 +22,9 @@
 
         <link rel="stylesheet" href="../../../css/hugo.css" />
         <script src="../../../js/utils.js"></script>
+        <script>
+         moveToHttps();
+        </script>
     </head>
 
 <body>
@@ -146,7 +149,8 @@
         <h1>NVIDIA with Bumblebee and improving Battery Backup</h1>
 
  Tags: <a href="../../../tags/nvidia/index.html">nvidia</a>, <a href="../../../tags/bumblebee/index.html">bumblebee</a>, <a href="../../../tags/battery/index.html">battery</a>  <br><br>
-<p>The issue of Graphic cards and Battery Life has been a sticky one for me, and I believe most other laptop users too. The battery backup under Linux is simply awful. For instance, I can get ~5 hours on my Laptop using Windows. Linux lands me at max 1.5-2 hours under similar usage. I believe most Linux users would have similar experiences.</p>
+<div>
+    <p>The issue of Graphic cards and Battery Life has been a sticky one for me, and I believe most other laptop users too. The battery backup under Linux is simply awful. For instance, I can get ~5 hours on my Laptop using Windows. Linux lands me at max 1.5-2 hours under similar usage. I believe most Linux users would have similar experiences.</p>
 <p>Here’s some of the things I did which have helped increase the battery backup by a large amount in my case:</p>
 <h2 id="get-your-graphics-card-straight">Get your graphics card straight</h2>
 <p>This is one of the biggest reasons on Linux for low battery backup. So what happens is, if your laptop has a dedicated graphics card, its going to stay on no matter whether its being used or not, no matter whether you’re reading a PDF or watching a movie. Even if your laptop is using the default fallback graphics most of the time, Intel HD graphics as they’re called in Windows; even then the dedicated graphics card stays on.</p>
@@ -167,6 +171,38 @@
 <p>Concluding this section, you can use <code>sudo powertop --auto-tune</code> to make all the tunables to good. I made a small systemd service to run this command at every boot by enabling it.</p>
 <p>These tips are just a drop in the ocean, there is a plethora of information on the Arch Wiki about power management. But anyhow, with these 2 tricks (and a userspace CPU governor), I now get about 3.5 hours of battery reading PDFs etc (when I don’t open new webpages on my Browser, that is). Good enough for Library visits during Exam days :)</p>
 <p>Feel free to comment whether these tips improved your laptop’s battery backup or not.</p>
+</div>
+
+<script src="../../../js/fb.js"></script>
+<div class="fb-like" data-share="true" data-width="450" data-show-faces="true">
+</div>
+
+<script id="dsq-count-scr" src="//acehack.disqus.com/count.js" async></script>
+
+<div id="disqus_thread"></div>
+<script>
+ // For debugging
+ var disqus_developer = 1;
+ var disqus_shortname = 'acehack';
+ var disqus_config = function () {
+     this.page.url = 'http://acehack.org/2015/11/power/index.html';
+     this.page.identifier = 'bumblebee-nvidia-battery-life';
+     this.page.title = 'NVIDIA with Bumblebee and improving Battery Backup';
+ };
+ (function() {
+     var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+     dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+ })();
+ (function () {
+     var s = document.createElement('script'); s.async = true;
+     s.type = 'text/javascript';
+     s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+     (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+ }());
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
 
 
 

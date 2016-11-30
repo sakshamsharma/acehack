@@ -22,6 +22,9 @@
 
         <link rel="stylesheet" href="../../../css/hugo.css" />
         <script src="../../../js/utils.js"></script>
+        <script>
+         moveToHttps();
+        </script>
     </head>
 
 <body>
@@ -146,7 +149,8 @@
         <h1>i3 to XMonad - How and why</h1>
 
  Tags: <a href="../../../tags/xmonad/index.html">xmonad</a>, <a href="../../../tags/i3wm/index.html">i3wm</a>  <br><br>
-<p>Never thought I’d see this day, but I actually found a new Tiling Window Manager for my Linux system, I went past i3wm for once just to experiment, and don’t see myself coming back any soon. So yeah, XMonad it is.</p>
+<div>
+    <p>Never thought I’d see this day, but I actually found a new Tiling Window Manager for my Linux system, I went past i3wm for once just to experiment, and don’t see myself coming back any soon. So yeah, XMonad it is.</p>
 <p>Never heard of it? Very probable. If 1-10% of the PC users are capable of using a Linux system properly, out of those about 1-10% are capable of using i3wm; then out of the remaining few, I guess again only 1-10% would gain anything from using XMonad, for if you want to be able to make XMonad better than i3wm, you need to <em>Code</em>, and I mean actual code. Not just scribbling in a plaintext file with some default keywords you google or read on the i3wm website. What’s more daunting is that this isn’t Python code, its Haskell, probably one of the most tough languages to code in for average people.</p>
 <p>Still here? Good news, no more scaring! I’ll jump to the reasons why you should try out XMonad:</p>
 <ol style="list-style-type: decimal">
@@ -185,6 +189,38 @@ myModMask     = mod4Mask -- Win key or Super_L
 myBorderWidth = 3</code></pre>
 <p>Well I haven’t explained much about the configs, and I know it. I cannot help it, as it mostly involves Haskell (and that means people already comfortable with Haskell would find it pretty easy). I’ll follow up about various configuration options in XMonad in another set of articles here at AceHack. I leave you to explore XMonad if interested.</p>
 <p>Oh and I almost forgot, here’s the link to my <a href="https://github.com/sakshamsharma/my-configs/tree/master/.xmonad">xmonad.hs</a>. , and it’s pretty tweaked. Note that I put almost all my main code in files inside the folder lib. You can import them with their names as I have done in my xmonad.hs. <em>warning</em>, many of the keybindings have been changed to those of i3wm so as not to break my muscle reflexes developed from using i3wm for almost 8 months. Ha, i3wm is still one of my favs, and it’s keybindings certainly are the best.</p>
+</div>
+
+<script src="../../../js/fb.js"></script>
+<div class="fb-like" data-share="true" data-width="450" data-show-faces="true">
+</div>
+
+<script id="dsq-count-scr" src="//acehack.disqus.com/count.js" async></script>
+
+<div id="disqus_thread"></div>
+<script>
+ // For debugging
+ var disqus_developer = 1;
+ var disqus_shortname = 'acehack';
+ var disqus_config = function () {
+     this.page.url = 'http://acehack.org/2015/09/xmonad/index.html';
+     this.page.identifier = 'move-to-xmonad';
+     this.page.title = 'i3 to XMonad - How and why';
+ };
+ (function() {
+     var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+     dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+ })();
+ (function () {
+     var s = document.createElement('script'); s.async = true;
+     s.type = 'text/javascript';
+     s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+     (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+ }());
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
 
 
 

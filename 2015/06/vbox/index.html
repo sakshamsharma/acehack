@@ -22,6 +22,9 @@
 
         <link rel="stylesheet" href="../../../css/hugo.css" />
         <script src="../../../js/utils.js"></script>
+        <script>
+         moveToHttps();
+        </script>
     </head>
 
 <body>
@@ -146,7 +149,8 @@
         <h1>Running Windows inside Arch (never leaving Arch again)</h1>
 
  Tags: <a href="../../../tags/arch/index.html">arch</a>, <a href="../../../tags/virtualbox/index.html">virtualbox</a>, <a href="../../../tags/technical/index.html">technical</a>  <br><br>
-<p>I am a die-hard Linux user, and yet, I used to have to boot up my Windows at times. I loathed that, I had to leave all my work, I missed the concept of workspaces, I missed the terminal.</p>
+<div>
+    <p>I am a die-hard Linux user, and yet, I used to have to boot up my Windows at times. I loathed that, I had to leave all my work, I missed the concept of workspaces, I missed the terminal.</p>
 <p>At one point, I used to be an expert about Windows related troubles, and now I hardly ever open it. If you are thinking of doing that too, I’ll list some reasons I have about not removing it altogether.</p>
 <ol style="list-style-type: decimal">
 <li>Visual Studio: Yes this is probably the only IDE I use (For Windows Phone App Dev for code.fun.do finals). The IDE is good enough, and, I pretty much don’t have a choice.</li>
@@ -184,6 +188,38 @@
 </ol>
 <p>This should be all. Now Open up virtualbox, and create a new machine. I gave mine 4 GB RAM out of 8 and 3 processors out of 8. Next allocate harddisk space. I kept it on my home drive, 30 GB (its almost full now, with Visual Studio + Windows Phone taking up almost half of it).</p>
 <p>Now if you have a DVD drive, insert a DVD of Windows 8 and then start the machine. It should boot from the drive (you must enable the drive access from the menu below).</p>
+</div>
+
+<script src="../../../js/fb.js"></script>
+<div class="fb-like" data-share="true" data-width="450" data-show-faces="true">
+</div>
+
+<script id="dsq-count-scr" src="//acehack.disqus.com/count.js" async></script>
+
+<div id="disqus_thread"></div>
+<script>
+ // For debugging
+ var disqus_developer = 1;
+ var disqus_shortname = 'acehack';
+ var disqus_config = function () {
+     this.page.url = 'http://acehack.org/2015/06/vbox/index.html';
+     this.page.identifier = 'vbox-in-arch';
+     this.page.title = 'Running Windows inside Arch (never leaving Arch again)';
+ };
+ (function() {
+     var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+     dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+ })();
+ (function () {
+     var s = document.createElement('script'); s.async = true;
+     s.type = 'text/javascript';
+     s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+     (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+ }());
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
 
 
 

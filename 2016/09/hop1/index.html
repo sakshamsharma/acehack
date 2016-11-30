@@ -22,6 +22,9 @@
 
         <link rel="stylesheet" href="../../../css/hugo.css" />
         <script src="../../../js/utils.js"></script>
+        <script>
+         moveToHttps();
+        </script>
     </head>
 
 <body>
@@ -146,7 +149,8 @@
         <h1>HTTP-Over-Protocol - Story and lessons</h1>
 
  Tags: <a href="../../../tags/networks/index.html">networks</a>, <a href="../../../tags/hop/index.html">hop</a>, <a href="../../../tags/github/index.html">github</a>  <br><br>
-<p>During my time in Germany, a friend once told me that his university’s proxy only lets him use HTTP(S) traffic. I didn’t know much about networks back then to be able to think over this, but when I began my course in Networks, revisiting this problem suggested a solution.</p>
+<div>
+    <p>During my time in Germany, a friend once told me that his university’s proxy only lets him use HTTP(S) traffic. I didn’t know much about networks back then to be able to think over this, but when I began my course in Networks, revisiting this problem suggested a solution.</p>
 <p>After a few weeks, and around 6 hours of initial code later, I had the project ready, in the form of <a href="github.com/sakshamsharma/HTTP-Over-Protocol">hop</a>.</p>
 <p><strong>HOP</strong> is a tool meant to tunnel any sort of traffic over a standard HTTP channel.</p>
 <p>Useful for scenarios where there’s a proxy filtering all traffic except standard HTTP(S) traffic. Unlike other tools which either require you to be behind a proxy which let’s you pass arbitrary traffic (possibly after an initial CONNECT request), or tools which work only for SSH, this imposes no such restrictions.</p>
@@ -192,6 +196,38 @@ Target Server</code></pre>
 <li>Don’t leave things which you assume will never happen, and thus you don’t handle them. If there’s something like that, put an assert on it. Will save a ton of a time later.</li>
 <li>Remember, sockets are not synced nicely across threads.</li>
 </ul>
+</div>
+
+<script src="../../../js/fb.js"></script>
+<div class="fb-like" data-share="true" data-width="450" data-show-faces="true">
+</div>
+
+<script id="dsq-count-scr" src="//acehack.disqus.com/count.js" async></script>
+
+<div id="disqus_thread"></div>
+<script>
+ // For debugging
+ var disqus_developer = 1;
+ var disqus_shortname = 'acehack';
+ var disqus_config = function () {
+     this.page.url = 'http://acehack.org/2016/09/hop1/index.html';
+     this.page.identifier = 'hop-article1';
+     this.page.title = 'HTTP-Over-Protocol - Story and lessons';
+ };
+ (function() {
+     var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+     dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+ })();
+ (function () {
+     var s = document.createElement('script'); s.async = true;
+     s.type = 'text/javascript';
+     s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+     (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+ }());
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
 
 
 

@@ -22,6 +22,9 @@
 
         <link rel="stylesheet" href="../../../css/hugo.css" />
         <script src="../../../js/utils.js"></script>
+        <script>
+         moveToHttps();
+        </script>
     </head>
 
 <body>
@@ -146,7 +149,8 @@
         <h1>Safe and anonymous ANDing bits</h1>
 
  Tags: <a href="../../../tags/algo/index.html">algo</a>, <a href="../../../tags/crypto/index.html">crypto</a>  <br><br>
-<!-- <script type="text/x-mathjax-config"> -->
+<div>
+    <!-- <script type="text/x-mathjax-config"> -->
 <!-- MathJax.Hub.Config({ -->
 <!--   tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]} -->
 <!-- }); -->
@@ -195,6 +199,38 @@
 </ul>
 <h3 id="conclusion">Conclusion</h3>
 <p>This algorithm is very simple to say the least, and seems secure to me. A formal proof ought to confirm this as well, though that is untrodden territory for me as of now. Do let me know in the comments or on email if something like this (fair and anonymous AND of bits) has been done before, or if you find a bug in this algorithm (if it is so, I cannot stress how important it is for me to know).</p>
+</div>
+
+<script src="../../../js/fb.js"></script>
+<div class="fb-like" data-share="true" data-width="450" data-show-faces="true">
+</div>
+
+<script id="dsq-count-scr" src="//acehack.disqus.com/count.js" async></script>
+
+<div id="disqus_thread"></div>
+<script>
+ // For debugging
+ var disqus_developer = 1;
+ var disqus_shortname = 'acehack';
+ var disqus_config = function () {
+     this.page.url = 'http://acehack.org/2016/11/puppy2/index.html';
+     this.page.identifier = 'puppy-2';
+     this.page.title = 'Safe and anonymous ANDing bits';
+ };
+ (function() {
+     var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+     dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+ })();
+ (function () {
+     var s = document.createElement('script'); s.async = true;
+     s.type = 'text/javascript';
+     s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+     (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+ }());
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
 
 
 

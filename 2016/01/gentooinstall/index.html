@@ -22,6 +22,9 @@
 
         <link rel="stylesheet" href="../../../css/hugo.css" />
         <script src="../../../js/utils.js"></script>
+        <script>
+         moveToHttps();
+        </script>
     </head>
 
 <body>
@@ -146,7 +149,8 @@
         <h1>Mini Gentoo installation log</h1>
 
  Tags: <a href="../../../tags/gentoo/index.html">gentoo</a>, <a href="../../../tags/install/index.html">install</a>  <br><br>
-<p>This article is more of a note to self. Would help me install Gentoo a little bit faster whenever I choose to do that again (not anytime soon :) ). More probably, I’ll use this as a reference to remember what’s in my system etc.</p>
+<div>
+    <p>This article is more of a note to self. Would help me install Gentoo a little bit faster whenever I choose to do that again (not anytime soon :) ). More probably, I’ll use this as a reference to remember what’s in my system etc.</p>
 <p>And what about <em>you</em>? So I’ve often had to tell people how to do stuff. I like to keep all my instructions online. Saves time ;) . Feel free to refer to this in case you plan to jump on the Gentoo ship.</p>
 <p><strong>NOTE:</strong> This article is not meant as a replacement for the <em>awesome</em> Gentoo wiki. Infact this is a super condensed version of the steps written there, and may not work for everyone. But would certainly help if you’re having some trouble getting something to work (for example: the bootloader).</p>
 <h1 id="testing">Testing</h1>
@@ -289,6 +293,38 @@
 <h1 id="other-notes">Other notes:</h1>
 <p>Here are my USE flags:</p>
 <pre><code>USE=&quot;bindist mmx sse sse2 udisks systemd X acl alsa gtk bindist mp3 mp4 unicode jpg xft 256-color unicode3 fading-colors jpeg bluetooth science truetype mtp png xvmc imagemagick libass fontconfig pulseaudio x264 gd gtk3 dbus&quot;</code></pre>
+</div>
+
+<script src="../../../js/fb.js"></script>
+<div class="fb-like" data-share="true" data-width="450" data-show-faces="true">
+</div>
+
+<script id="dsq-count-scr" src="//acehack.disqus.com/count.js" async></script>
+
+<div id="disqus_thread"></div>
+<script>
+ // For debugging
+ var disqus_developer = 1;
+ var disqus_shortname = 'acehack';
+ var disqus_config = function () {
+     this.page.url = 'http://acehack.org/2016/01/gentooinstall/index.html';
+     this.page.identifier = 'brief-gentoo-install';
+     this.page.title = 'Mini Gentoo installation log';
+ };
+ (function() {
+     var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+     dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+ })();
+ (function () {
+     var s = document.createElement('script'); s.async = true;
+     s.type = 'text/javascript';
+     s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+     (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+ }());
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
 
 
 

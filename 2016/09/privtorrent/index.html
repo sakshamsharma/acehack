@@ -22,6 +22,9 @@
 
         <link rel="stylesheet" href="../../../css/hugo.css" />
         <script src="../../../js/utils.js"></script>
+        <script>
+         moveToHttps();
+        </script>
     </head>
 
 <body>
@@ -146,7 +149,8 @@
         <h1>Privately send data to host without disclosing IP</h1>
 
  Tags: <a href="../../../tags/algorithm/index.html">algorithm</a>, <a href="../../../tags/networks/index.html">networks</a>  <br><br>
-<p>While thinking on some lines related to networks and security, I recently came up with an idea of having a distributed network connection without disclosing your identity to the sender. The idea is still nascent, and requires you to have root access to your machine (and a custom kernel module, which I’m miles away from writing in the middle of my semester). I’d nevertheless appreciate comments on this idea :)</p>
+<div>
+    <p>While thinking on some lines related to networks and security, I recently came up with an idea of having a distributed network connection without disclosing your identity to the sender. The idea is still nascent, and requires you to have root access to your machine (and a custom kernel module, which I’m miles away from writing in the middle of my semester). I’d nevertheless appreciate comments on this idea :)</p>
 <h3 id="tcp">TCP</h3>
 <p>A brief look at the relevant parts of TCP/IP needed for this:</p>
 <ul>
@@ -183,6 +187,38 @@
 <li>Some routers may not forward plain IP packets without a TCP connection set up (Details and comments welcome on this). You may need to own the network so be able to employ such a mechanism.</li>
 <li>Requires root privileges on the hosts.</li>
 </ul>
+</div>
+
+<script src="../../../js/fb.js"></script>
+<div class="fb-like" data-share="true" data-width="450" data-show-faces="true">
+</div>
+
+<script id="dsq-count-scr" src="//acehack.disqus.com/count.js" async></script>
+
+<div id="disqus_thread"></div>
+<script>
+ // For debugging
+ var disqus_developer = 1;
+ var disqus_shortname = 'acehack';
+ var disqus_config = function () {
+     this.page.url = 'http://acehack.org/2016/09/privtorrent/index.html';
+     this.page.identifier = 'dist-private-communication';
+     this.page.title = 'Privately send data to host without disclosing IP';
+ };
+ (function() {
+     var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+     dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+ })();
+ (function () {
+     var s = document.createElement('script'); s.async = true;
+     s.type = 'text/javascript';
+     s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+     (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+ }());
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
 
 
 

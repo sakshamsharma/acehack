@@ -22,6 +22,9 @@
 
         <link rel="stylesheet" href="../../../css/hugo.css" />
         <script src="../../../js/utils.js"></script>
+        <script>
+         moveToHttps();
+        </script>
     </head>
 
 <body>
@@ -146,11 +149,44 @@
         <h1>How to save a file with root-priviledges in a normal Vim session</h1>
 
  Tags: <a href="../../../tags/vim/index.html">vim</a>, <a href="../../../tags/short/index.html">short</a>  <br><br>
-<p>This is one thing perhaps every person who tinkers with his/her Linux would love. You open Vim to edit a system file, do a couple of changes, and try to save. Oh you forgot to add sudo whoile opening Vim? Close, restart it, and do the changes again. Well here’s a great trick to fix that, I’ve been using it since quite a while.</p>
+<div>
+    <p>This is one thing perhaps every person who tinkers with his/her Linux would love. You open Vim to edit a system file, do a couple of changes, and try to save. Oh you forgot to add sudo whoile opening Vim? Close, restart it, and do the changes again. Well here’s a great trick to fix that, I’ve been using it since quite a while.</p>
 <p>Just add this to your .vimrc:</p>
 <pre><code>cmap w!! w !sudo tee % &gt;/dev/null</code></pre>
 <p>To use this, instead of doing a <code>:w!</code> while saving, do a <code>:w!!</code> and then enter your password as prompted. Voila.</p>
 <p>For those interested, this mapping uses the Linux utility named tee, which writes to file and stdout both. The file here is /dev/null (gutter :P ). cmap does mapping only in the console portion where you type commands.</p>
+</div>
+
+<script src="../../../js/fb.js"></script>
+<div class="fb-like" data-share="true" data-width="450" data-show-faces="true">
+</div>
+
+<script id="dsq-count-scr" src="//acehack.disqus.com/count.js" async></script>
+
+<div id="disqus_thread"></div>
+<script>
+ // For debugging
+ var disqus_developer = 1;
+ var disqus_shortname = 'acehack';
+ var disqus_config = function () {
+     this.page.url = 'http://acehack.org/2015/07/vimsudo/index.html';
+     this.page.identifier = 'sudo-in-vim';
+     this.page.title = 'How to save a file with root-priviledges in a normal Vim session';
+ };
+ (function() {
+     var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+     dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+ })();
+ (function () {
+     var s = document.createElement('script'); s.async = true;
+     s.type = 'text/javascript';
+     s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+     (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+ }());
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
 
 
 

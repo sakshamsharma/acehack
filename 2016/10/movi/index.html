@@ -22,6 +22,9 @@
 
         <link rel="stylesheet" href="../../../css/hugo.css" />
         <script src="../../../js/utils.js"></script>
+        <script>
+         moveToHttps();
+        </script>
     </head>
 
 <body>
@@ -146,7 +149,8 @@
         <h1>moVi - Mobile video protocol (Part 1)</h1>
 
  Tags: <a href="../../../tags/networks/index.html">networks</a>, <a href="../../../tags/video/index.html">video</a>  <br><br>
-<p>After a really late start to my undergraduate project (UGP) this semester, I finally started working on something we call <a href="https://github.com/netsecIITK/moVi">moVi</a>.</p>
+<div>
+    <p>After a really late start to my undergraduate project (UGP) this semester, I finally started working on something we call <a href="https://github.com/netsecIITK/moVi">moVi</a>.</p>
 <p>First off, if the idea reminds you of <a href="https://mosh.org">mosh - Mobile Shell</a> by Keith Winstein and Hari Balakrishnan of MIT, it is not a coincidence. I’d loved their paper called <em>Mosh: An Interactive Remote Shell for Mobile Clients</em>, and moVi is in a way taking their idea forward. We’re 2 undergraduates working on this project, me and Ayush Agarwal, under the guidance of Prof. Sandeep Shukla of IIT Kanpur (previously at Virginia Tech).</p>
 <p>I’ve been working on moVi since around 20 (regular semester) days now; here’s what all <strong>I</strong> know about moVi by now :)</p>
 <h2 id="introduction">Introduction</h2>
@@ -175,6 +179,38 @@
 <p>The above idea seems coherent, but in practice it shows a big issue. If there are a large number of regions (seen with 50x50 regions in an image of 600x400 pixels), there is a small delay in the regions getting <em>pasted</em> onto the displayed frame. This causes an effect such that the image is never fully synchronized. To avoid this, we bunch together updates for regions, and only when we have all the regions in the latest state, or there is a timeout (approximately the desired frame rate), whichever is earlier, do we update the frame and display it to the client.</p>
 <h2 id="conclusion">Conclusion</h2>
 <p>The code is <a href="https://github.com/netsecIITK/moVi">here (moVi)</a> on Github. It is still in progress, but we do hope this comes out to be something interesting! We’ve still got a quarter of the semester left with us.</p>
+</div>
+
+<script src="../../../js/fb.js"></script>
+<div class="fb-like" data-share="true" data-width="450" data-show-faces="true">
+</div>
+
+<script id="dsq-count-scr" src="//acehack.disqus.com/count.js" async></script>
+
+<div id="disqus_thread"></div>
+<script>
+ // For debugging
+ var disqus_developer = 1;
+ var disqus_shortname = 'acehack';
+ var disqus_config = function () {
+     this.page.url = 'http://acehack.org/2016/10/movi/index.html';
+     this.page.identifier = 'movi-1';
+     this.page.title = 'moVi - Mobile video protocol (Part 1)';
+ };
+ (function() {
+     var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+     dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+ })();
+ (function () {
+     var s = document.createElement('script'); s.async = true;
+     s.type = 'text/javascript';
+     s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+     (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+ }());
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
 
 
 

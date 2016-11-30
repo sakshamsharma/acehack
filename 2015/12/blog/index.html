@@ -22,6 +22,9 @@
 
         <link rel="stylesheet" href="../../../css/hugo.css" />
         <script src="../../../js/utils.js"></script>
+        <script>
+         moveToHttps();
+        </script>
     </head>
 
 <body>
@@ -146,7 +149,8 @@
         <h1>The story of my blog v3</h1>
 
  Tags: <a href="../../../tags/web/index.html">web</a>, <a href="../../../tags/blog/index.html">blog</a>, <a href="../../../tags/hakyll/index.html">hakyll</a>  <br><br>
-<p><em>My third blog</em> Continuing on my <em>change your blog every semester</em> schedule, I finally have my 3rd blog ready in 3 semesters.</p>
+<div>
+    <p><em>My third blog</em> Continuing on my <em>change your blog every semester</em> schedule, I finally have my 3rd blog ready in 3 semesters.</p>
 <p>Well, why? I’d simply answer by saying its fun. And besides, I try out something entirely new every time, so its always a good learning experience. Here’s how this blog came to be:</p>
 <ul>
 <li>The old blog didn’t support images directly. There was a workaround; but well it was a <em>workaround</em> nonetheless.</li>
@@ -162,6 +166,38 @@
 <p>The next step was of hosting, and Continous Integration. I chose to host it on Github (not much of a choice really, Github is the best choice IMO for this). For CI, I chose CircleCI over TravisCI purely on the basis of a blogger’s opinion that Circle is better than Travis for Hakyll. Being naive with both, I chose Circle. Took some time to figure out, but in the end turned out to be great. I just push to my repository now, and get a built and deployed website in around one and a half minute. Awesome!</p>
 <p>Lastly, https! So Github doesn’t allow SSL certificates for custom domain names either. I went with Cloudflare, a custom nameserver. That doesn’t solve the problem completely, but its almost good enough. So now, the client’s connection to the nameserver is encrypted, but the nameserver’s connection to Github isn’t. Well I feel that’s decent. This took quite some time to get working (I got stuck in endless acehack.org-www.acehack.org redirect loops while trying to make the final domain name the top level one. I finally compromised and let it be www.acehack.org).</p>
 <p>So, here’s how this blog came about. See you 6 months later! :)</p>
+</div>
+
+<script src="../../../js/fb.js"></script>
+<div class="fb-like" data-share="true" data-width="450" data-show-faces="true">
+</div>
+
+<script id="dsq-count-scr" src="//acehack.disqus.com/count.js" async></script>
+
+<div id="disqus_thread"></div>
+<script>
+ // For debugging
+ var disqus_developer = 1;
+ var disqus_shortname = 'acehack';
+ var disqus_config = function () {
+     this.page.url = 'http://acehack.org/2015/12/blog/index.html';
+     this.page.identifier = 'story-of-blog-v3';
+     this.page.title = 'The story of my blog v3';
+ };
+ (function() {
+     var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+     dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+ })();
+ (function () {
+     var s = document.createElement('script'); s.async = true;
+     s.type = 'text/javascript';
+     s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+     (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+ }());
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
 
 
 

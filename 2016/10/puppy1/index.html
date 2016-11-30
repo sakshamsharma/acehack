@@ -22,6 +22,9 @@
 
         <link rel="stylesheet" href="../../../css/hugo.css" />
         <script src="../../../js/utils.js"></script>
+        <script>
+         moveToHttps();
+        </script>
     </head>
 
 <body>
@@ -146,7 +149,8 @@
         <h1>Anonymous, zero-server-trust couple matching - Part 1</h1>
 
  Tags: <a href="../../../tags/algo/index.html">algo</a>, <a href="../../../tags/crypto/index.html">crypto</a>  <br><br>
-<script type="text/x-mathjax-config">
+<div>
+    <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
   tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
 });
@@ -183,6 +187,38 @@ $$</span><br /></p>
 <p>There shall be a large number of entries in the database. For each pair of people, there shall be one entry in the database storing their messages, and their shared secret. The server is only expected to be providing the service it is claiming to provide, that is, letting people match. Thus, we only assume that the server shall not be trying to jeopardize the whole matching game by not playing its part. At no point is the server expected to maintain any level of trust.</p>
 <h3 id="conclusion">Conclusion</h3>
 <p>The project is being written using Node and JavaScript, and the source code is publicly available on <a href="https://github.com/pclubiitk/puppy-love">Github here</a>. We hope to finish it within a month, considering that the semester is on.</p>
+</div>
+
+<script src="../../../js/fb.js"></script>
+<div class="fb-like" data-share="true" data-width="450" data-show-faces="true">
+</div>
+
+<script id="dsq-count-scr" src="//acehack.disqus.com/count.js" async></script>
+
+<div id="disqus_thread"></div>
+<script>
+ // For debugging
+ var disqus_developer = 1;
+ var disqus_shortname = 'acehack';
+ var disqus_config = function () {
+     this.page.url = 'http://acehack.org/2016/10/puppy1/index.html';
+     this.page.identifier = 'puppy-1';
+     this.page.title = 'Anonymous, zero-server-trust couple matching - Part 1';
+ };
+ (function() {
+     var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+     dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+ })();
+ (function () {
+     var s = document.createElement('script'); s.async = true;
+     s.type = 'text/javascript';
+     s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+     (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+ }());
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
 
 
 

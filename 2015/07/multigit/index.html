@@ -22,6 +22,9 @@
 
         <link rel="stylesheet" href="../../../css/hugo.css" />
         <script src="../../../js/utils.js"></script>
+        <script>
+         moveToHttps();
+        </script>
     </head>
 
 <body>
@@ -146,7 +149,8 @@
         <h1>Multiple Git repos in a single directory</h1>
 
  Tags: <a href="../../../tags/git/index.html">git</a>, <a href="../../../tags/short/index.html">short</a>  <br><br>
-<p>There might be a case when you want 2 different Git repositories in a single directory. The most logical situation which comes to mind is keeping 2 repositories in your home-folder, one to perhaps keep your configuration files, and another to keep your custom scripts.</p>
+<div>
+    <p>There might be a case when you want 2 different Git repositories in a single directory. The most logical situation which comes to mind is keeping 2 repositories in your home-folder, one to perhaps keep your configuration files, and another to keep your custom scripts.</p>
 <p>Seems out-of-bounds right? Not really. It so happens that Git offers a ‘git-dir’ flag to all its commands which tells where the Git files for that repository are stored. Here’s how to put it to some real use.</p>
 <ol style="list-style-type: decimal">
 <li><p>Firstly, do a <code>git init</code> in your home folder. This creates a folder ‘.git’ in your home folder.</p></li>
@@ -161,6 +165,38 @@ alias scgit='git --git-dir=.scgit'</code></pre>
 <p>Note that this won’t work if you try these commands from any of their children folders. You’ll have to give the –git-dir flag manually in that case.</p>
 <p>Another thing to keep in mind is that you would have trouble keeping 2 separate ‘.gitignores’. Hopefully the 2 repositories would be able to share a single one.</p>
 <p>For another powerful functionality in Git, look at <a href="http://git-scm.com/docs/git-submodule">submodules</a>. Some other day perhaps.</p>
+</div>
+
+<script src="../../../js/fb.js"></script>
+<div class="fb-like" data-share="true" data-width="450" data-show-faces="true">
+</div>
+
+<script id="dsq-count-scr" src="//acehack.disqus.com/count.js" async></script>
+
+<div id="disqus_thread"></div>
+<script>
+ // For debugging
+ var disqus_developer = 1;
+ var disqus_shortname = 'acehack';
+ var disqus_config = function () {
+     this.page.url = 'http://acehack.org/2015/07/multigit/index.html';
+     this.page.identifier = 'multiple-git-repos';
+     this.page.title = 'Multiple Git repos in a single directory';
+ };
+ (function() {
+     var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+     dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+ })();
+ (function () {
+     var s = document.createElement('script'); s.async = true;
+     s.type = 'text/javascript';
+     s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+     (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+ }());
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
 
 
 

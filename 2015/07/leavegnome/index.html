@@ -22,6 +22,9 @@
 
         <link rel="stylesheet" href="../../../css/hugo.css" />
         <script src="../../../js/utils.js"></script>
+        <script>
+         moveToHttps();
+        </script>
     </head>
 
 <body>
@@ -146,7 +149,8 @@
         <h1>Shifting away from GNOME</h1>
 
  Tags: <a href="../../../tags/gnome/index.html">gnome</a>  <br><br>
-<p>Let me get it straight, I love the GNOME project and DE. It’s great looking, has great support, very stable, and includes almost all the basic essestials. It’s great for high-performance PCs. Then why ‘shifting away’ you ask? Here’s why I shifted:</p>
+<div>
+    <p>Let me get it straight, I love the GNOME project and DE. It’s great looking, has great support, very stable, and includes almost all the basic essestials. It’s great for high-performance PCs. Then why ‘shifting away’ you ask? Here’s why I shifted:</p>
 <ul>
 <li><p>It’s slow. Slow to boot up, and slow to use (it still depends heavily on mouse usage, which is slow). Mind you, I have a i7 4710HQ with 8GB RAM.</p></li>
 <li><p>It’s over-cluttered. I’m sure it looks great because of that, but that’s not a programmer loves.</p></li>
@@ -162,6 +166,38 @@
 <p>Yes it is awesome. But here’s the alternative I use: <a href="http://screengrab.doomer.org/">screengrab</a>. Many more are listed at <a href="https://wiki.archlinux.org/index.php/Taking_a_screenshot">arch wiki</a></p>
 <h3 id="gnome-terminal">GNOME Terminal</h3>
 <p>This stuck around for the longest time. It allows for easy configuration, and is great overall. But everything has to go. One of the main reasons for removing it was the menu bar at the top. When you keep 6 terminals open on a single screen at a time (courtesy i3wm, yes that’s possible and practical), you want to keep as much space as possible for the Terminal and no space for the extras. So here is the solution, urxvt (or rxvt-unicode). I configured it to look exactly like my GNOME Terminal, and its much faster, lighter, cleaner, and with no 1000 dependencies. If you want, have a look at my .Xresources <a href="https://github.com/sakshamsharma/my-rc-files/blob/master/.Xresources">here</a> or read about urxvt in my upcoming article here on acehack. I hope this article helps some of you go ahead and take that leap. It’s not <em>that</em> dark and murky world without GNOME, you’ll come to love it too.</p>
+</div>
+
+<script src="../../../js/fb.js"></script>
+<div class="fb-like" data-share="true" data-width="450" data-show-faces="true">
+</div>
+
+<script id="dsq-count-scr" src="//acehack.disqus.com/count.js" async></script>
+
+<div id="disqus_thread"></div>
+<script>
+ // For debugging
+ var disqus_developer = 1;
+ var disqus_shortname = 'acehack';
+ var disqus_config = function () {
+     this.page.url = 'http://acehack.org/2015/07/leavegnome/index.html';
+     this.page.identifier = 'leave-gnome';
+     this.page.title = 'Shifting away from GNOME';
+ };
+ (function() {
+     var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+     dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+ })();
+ (function () {
+     var s = document.createElement('script'); s.async = true;
+     s.type = 'text/javascript';
+     s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+     (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+ }());
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
 
 
 

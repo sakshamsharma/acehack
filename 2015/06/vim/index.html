@@ -22,6 +22,9 @@
 
         <link rel="stylesheet" href="../../../css/hugo.css" />
         <script src="../../../js/utils.js"></script>
+        <script>
+         moveToHttps();
+        </script>
     </head>
 
 <body>
@@ -146,7 +149,8 @@
         <h1>Kickstart to Vim</h1>
 
  Tags: <a href="../../../tags/vim/index.html">vim</a>, <a href="../../../tags/beginner/index.html">beginner</a>  <br><br>
-<p>Vim is one of the two widely known text-based Text Editor cum IDEs, the other one being, ahem, Emacs. For people new to Vim, it might have be a big leap, it is markedely different from the usual text editors, it being modal (implying that the same keys do differnt things in different modes. Don’t worry, modes are awesome.)</p>
+<div>
+    <p>Vim is one of the two widely known text-based Text Editor cum IDEs, the other one being, ahem, Emacs. For people new to Vim, it might have be a big leap, it is markedely different from the usual text editors, it being modal (implying that the same keys do differnt things in different modes. Don’t worry, modes are awesome.)</p>
 <p>Some cool things to know about Vim:</p>
 <ol style="list-style-type: decimal">
 <li>You don’t have to press any keys outside beyond the Return key. No need to stretch/move your hands to press the Home/End/PageUp/PageDown/Up/Down/Left/Right keys. There are much better ways to do that in Vim.</li>
@@ -225,6 +229,38 @@ filetype plugin indent on</code></pre>
 <h3 id="the-stuff">The :! stuff</h3>
 <p>One of the coolest things about Vim which modern editors cannot do, it to be able to run terminal commands right inside the editor. So say, you want to compile and run your C++ code from within Vim, and don’t want to exit, I’ll show you how to do that. Well modern editors can do this, but the fact that you can integrate these commands and actions into your keybindings, and plugins, and scripts etc etc, that makes this functionality a lot of fun. Try typing this: <code>:!echo &quot;Yo hey! Vim is cool!&quot;</code>. See? Now try <code>:!date</code>. I use this to compile my LaTeX documents on the fly: <code>nmap &lt;F5&gt; :w !pdflatex %&lt;return&gt;</code>. A simple tap on F5, and the editor on the right refreshes the document preview. Neat, ain’t it? The possibilities with this are endless. You can write complete functions and scripts using this, to accomplish common tasks.</p>
 <p>I’ll add more info here as and when I get time.</p>
+</div>
+
+<script src="../../../js/fb.js"></script>
+<div class="fb-like" data-share="true" data-width="450" data-show-faces="true">
+</div>
+
+<script id="dsq-count-scr" src="//acehack.disqus.com/count.js" async></script>
+
+<div id="disqus_thread"></div>
+<script>
+ // For debugging
+ var disqus_developer = 1;
+ var disqus_shortname = 'acehack';
+ var disqus_config = function () {
+     this.page.url = 'http://acehack.org/2015/06/vim/index.html';
+     this.page.identifier = 'kickstart-to-vim';
+     this.page.title = 'Kickstart to Vim';
+ };
+ (function() {
+     var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+     dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+ })();
+ (function () {
+     var s = document.createElement('script'); s.async = true;
+     s.type = 'text/javascript';
+     s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+     (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+ }());
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
 
 
 

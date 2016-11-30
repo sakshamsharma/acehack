@@ -22,6 +22,9 @@
 
         <link rel="stylesheet" href="../../../css/hugo.css" />
         <script src="../../../js/utils.js"></script>
+        <script>
+         moveToHttps();
+        </script>
     </head>
 
 <body>
@@ -146,7 +149,8 @@
         <h1>Pairing up n people into 2 teams</h1>
 
  Tags: <a href="../../../tags/algorithm/index.html">algorithm</a>  <br><br>
-<p>While at <a href="www.mpi-sws.org">MPI</a> during the Summer, a friend (<a href="https://venkatarun.wordpress.com">Venkat</a>) inspired me by presenting some real world algorithm hacks. A few hours later, I found myself playing pool with 3 others, and we tried doing a toss of hands to pair ourselves up into 2 teams. 7 tosses later, we still didn’t have a pairing of 2 each.</p>
+<div>
+    <p>While at <a href="www.mpi-sws.org">MPI</a> during the Summer, a friend (<a href="https://venkatarun.wordpress.com">Venkat</a>) inspired me by presenting some real world algorithm hacks. A few hours later, I found myself playing pool with 3 others, and we tried doing a toss of hands to pair ourselves up into 2 teams. 7 tosses later, we still didn’t have a pairing of 2 each.</p>
 <p>This inspired me to think of a way to divide <code>n</code> people into 2 teams using a single random choice by every player.</p>
 <h2 id="scenario-and-problem-definition">Scenario and problem definition</h2>
 <p>Here are the desired characteristics of such an algorithm:</p>
@@ -223,6 +227,38 @@
 <p>The above <em>con</em> can be defeated to certain extents if the remaining people choose a random 0 index (using a mean of randomly chosen numbers) without telling the random number chooser.</p>
 <h2 id="conclusion">Conclusion</h2>
 <p>As stated above, the second algorithm seems to be pretty much useless in practical terms, except maybe for a group of people so mathematically inclined. The third algorithm should be enough for normal situations.</p>
+</div>
+
+<script src="../../../js/fb.js"></script>
+<div class="fb-like" data-share="true" data-width="450" data-show-faces="true">
+</div>
+
+<script id="dsq-count-scr" src="//acehack.disqus.com/count.js" async></script>
+
+<div id="disqus_thread"></div>
+<script>
+ // For debugging
+ var disqus_developer = 1;
+ var disqus_shortname = 'acehack';
+ var disqus_config = function () {
+     this.page.url = 'http://acehack.org/2016/09/teamselection/index.html';
+     this.page.identifier = 'team-selection';
+     this.page.title = 'Pairing up n people into 2 teams';
+ };
+ (function() {
+     var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+     dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+ })();
+ (function () {
+     var s = document.createElement('script'); s.async = true;
+     s.type = 'text/javascript';
+     s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+     (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+ }());
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
 
 
 
