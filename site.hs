@@ -36,10 +36,6 @@ main = hakyll $ do
              route idRoute
              compile copyFileCompiler
 
-       match "assets/well-known/acme-challenge/*" $ do
-         route $ acmeRoute
-         compile copyFileCompiler
-
        match "projects/**" $ do
          route projectRoute
          compile copyFileCompiler
@@ -110,10 +106,12 @@ main = hakyll $ do
 
        create ["index.html"] $ do
          route idRoute
-         let ctx = ctxWithPosts "Reveries of a programmer"
+         let ctx = ctxWithPosts "Reveries of a programmer" `mappend`
+                   constField "imageUrl" "/images/green.jpg"
          compile $ do
            makeItem ""
              >>= loadAndApplyTemplate "templates/index.html"        ctx
+             >>= loadAndApplyTemplate "templates/with-image.html"   ctx
              >>= loadAndApplyTemplate "templates/with-title.html"   ctx
              >>= loadAndApplyTemplate "templates/with-sidebar.html" ctx
              >>= loadAndApplyTemplate "templates/default.html"      ctx
