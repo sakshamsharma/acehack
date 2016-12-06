@@ -3,7 +3,7 @@ image: haskell:8.0.1
 pages:
   cache:
     paths:
-      - $HOME/.stack
+      - _cache
       - .stack
   before_script:
     - apt-get update
