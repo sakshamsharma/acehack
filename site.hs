@@ -6,8 +6,7 @@ import           Data.List (intercalate)
 import qualified Data.Map as M
 import           Hakyll
 import           Hakyll.Web.Tags
-import           System.FilePath.Posix  (takeBaseName, takeDirectory,
-                                         (</>), takeFileName)
+import qualified System.FilePath.Posix as F
 
 --------------------------------------------------------------------------------
 baseUrl :: String
@@ -102,6 +101,15 @@ main = hakyll $ do
                      >>= loadAndApplyTemplate "templates/default.html"      postCtx
                      >>= relativizeUrls
 
+       match "posts/**" $ version "source" $ do
+             route $ setExtension "html"
+             let redirectCtx =
+                   functionField "newUrl" (\x _ -> return $ modernPostPath (x !! 0)) `mappend` postCtx
+             compile $ do
+               pandocCompiler
+                     >>= loadAndApplyTemplate "templates/redirect.html" redirectCtx
+
+
        match "templates/**" $ compile templateBodyCompiler
 
        create ["index.html"] $ do
@@ -176,21 +184,6 @@ main = hakyll $ do
 --------------------------------------------------------------------------------
 type Year = String
 
-postsByYear :: Year -> Compiler [Item String]
-postsByYear year = do
-  posts <- recentFirst =<< loadAll (fromGlob $ "posts/" ++ year ++ "**")
-  return posts
-
-buildYears :: MonadMetadata m => Pattern -> m [(Year, Int)]
-buildYears pattern = do
-    ids <- getMatches pattern
-    return . frequency . (map getYear) $ ids
-  where
-    frequency xs =  M.toList (M.fromListWith (+) [(x, 1) | x <- xs])
-
-getYear :: Identifier -> Year
-getYear = takeBaseName . takeDirectory . toFilePath
-
 cleanIndexHtmls :: Item String -> Compiler (Item String)
 cleanIndexHtmls = return . fmap (replaceAll pattern replacement)
     where
@@ -199,17 +192,18 @@ cleanIndexHtmls = return . fmap (replaceAll pattern replacement)
 replacement :: String -> String
 replacement = const "/"
 
-pathToPostRoute :: Identifier -> String
-pathToPostRoute path =
+modernPostPath :: String -> String
+modernPostPath path =
   year ++ "/" ++ month ++ "/" ++ rest
   where
+    fileName = F.takeBaseName path
     year = takeWhile (/= '-') $ fileName
     month = takeWhile (/= '-') . drop 1 . dropWhile (/= '-') $ fileName
     rest = dropWhile (\x -> isDigit x || x == '-') $ fileName
-    fileName = drop 1 . dropWhile (/= '/') $ toFilePath path
 
 postRoute :: Routes
-postRoute = (customRoute $ pathToPostRoute) `composeRoutes` cleanRoute False
+postRoute = (customRoute $ (\path -> modernPostPath $ toFilePath path))
+  `composeRoutes` cleanRoute False
 
 cleanRoute :: Bool -> Routes
 cleanRoute isTopLevel =
