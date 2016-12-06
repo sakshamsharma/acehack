@@ -46,7 +46,7 @@ main = hakyll $ do
        tags <- buildTags "posts/**" (fromCapture "tags/*.html")
        cats <- buildCategoriesNew "posts/**" (fromCapture "categories/*.html")
 
-       let posts = recentFirst =<< loadAll "posts/**"
+       let posts = recentFirst =<< loadAll ("posts/**" .&&. hasNoVersion)
        let postCtx = dateField "date" "%B %e, %Y" `mappend`
              tagsField "tags" tags `mappend`
              tagsField "cats" cats `mappend`
@@ -101,13 +101,13 @@ main = hakyll $ do
                      >>= loadAndApplyTemplate "templates/default.html"      postCtx
                      >>= relativizeUrls
 
-       -- match "posts/**" $ version "source" $ do
-       --       route $ setExtension "html"
-       --       let redirectCtx =
-       --             functionField "newUrl" (\x _ -> return $ modernPostPath (x !! 0)) `mappend` postCtx
-       --       compile $ do
-       --         pandocCompiler
-       --               >>= loadAndApplyTemplate "templates/redirect.html" redirectCtx
+       match "posts/**" $ version "source" $ do
+             route $ setExtension "html"
+             let redirectCtx =
+                   functionField "newUrl" (\x _ -> return $ modernPostPath (x !! 0)) `mappend` postCtx
+             compile $ do
+               pandocCompiler
+                     >>= loadAndApplyTemplate "templates/redirect.html" redirectCtx
 
 
        match "templates/**" $ compile templateBodyCompiler
@@ -140,7 +140,7 @@ main = hakyll $ do
        create ["categories.html"] $ do
          route $ cleanRoute True
          let ctx = ctxWithPosts "Categories" `mappend`
-                   field "tagList" (\_ -> renderTagCloud 70 140 cats)
+                   field "tagList" (\_ -> renderTagCloud 100 170 cats)
          compile $ do
            makeItem ""
              >>= loadAndApplyTemplate "templates/tags.html"         ctx
@@ -152,7 +152,7 @@ main = hakyll $ do
        create ["tags.html"] $ do
          route $ cleanRoute True
          let ctx = ctxWithPosts "Tags" `mappend`
-                   field "tagList" (\_ -> renderTagCloud 70 140 tags)
+                   field "tagList" (\_ -> renderTagCloud 100 170 tags)
          compile $ do
            makeItem ""
              >>= loadAndApplyTemplate "templates/tags.html"         ctx
