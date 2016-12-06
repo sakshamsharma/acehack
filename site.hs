@@ -101,13 +101,13 @@ main = hakyll $ do
                      >>= loadAndApplyTemplate "templates/default.html"      postCtx
                      >>= relativizeUrls
 
-       match "posts/**" $ version "source" $ do
-             route $ setExtension "html"
-             let redirectCtx =
-                   functionField "newUrl" (\x _ -> return $ modernPostPath (x !! 0)) `mappend` postCtx
-             compile $ do
-               pandocCompiler
-                     >>= loadAndApplyTemplate "templates/redirect.html" redirectCtx
+       -- match "posts/**" $ version "source" $ do
+       --       route $ setExtension "html"
+       --       let redirectCtx =
+       --             functionField "newUrl" (\x _ -> return $ modernPostPath (x !! 0)) `mappend` postCtx
+       --       compile $ do
+       --         pandocCompiler
+       --               >>= loadAndApplyTemplate "templates/redirect.html" redirectCtx
 
 
        match "templates/**" $ compile templateBodyCompiler

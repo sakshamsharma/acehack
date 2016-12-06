@@ -2,6 +2,7 @@ image: haskell:8.0.1
 
 pages:
   cache:
+    key: ${CI_BUILD_REF_NAME}
     paths:
       - _cache
       - .stack
