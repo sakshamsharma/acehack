@@ -184,9 +184,9 @@
 <li>Alice sends value <code>a = random</code> to Eve if she does not like Bob.</li>
 <li>Bob sends value <code>b = B</code> to Eve if he likes Alice.</li>
 <li>Bob sends value <code>b = random</code> to Eve if he does not like Alice.</li>
-<li>Eve receives <code>a</code> and <code>b</code>. She returns <code>hash(a*b)</code> to Alice and Bob.</li>
-<li>Alice and Bob manually compute <code>hash(A * B)</code>, and match it with the received value.</li>
-<li>It is a match only if the received value and the expected value are the same.</li>
+<li>Eve receives <code>a</code> and <code>b</code>. She stores <code>hash(a*b)</code> as result.</li>
+<li>Alice and Bob manually compute <code>hash(A * B)</code>, and send it to server (server can verify malicious behavior if they don’t match)</li>
+<li>It is a match only if the result and the expected value by both parties are the same.</li>
 </ul>
 <h3 id="a-few-comments-about-the-safety-of-the-protocol">A few comments about the safety of the protocol</h3>
 <p>I do plan to formally prove this soon enough, but till then, here are some thoughts.</p>
@@ -196,6 +196,7 @@
 <li>Selecting random, and different values for A and B is important because Eve should not be able to see whether the values sent by Alice and Bob are same or different, and thus infer whether they matched or not.</li>
 <li>The protocol itself is fully symmetric. Both Alice and Bob execute the exact same steps, regardless of who starts the protocol.</li>
 <li>If Alice did not send A, she has no way of knowing whether Bob sent B or not, since the hash cannot be inverted (theoretically). The same is true for Bob.</li>
+<li>The server does come to know the result of the computation here. But it should be possible to generalize. More on it later.</li>
 </ul>
 <h3 id="conclusion">Conclusion</h3>
 <p>This algorithm is very simple to say the least, and seems secure to me. A formal proof ought to confirm this as well, though that is untrodden territory for me as of now. Do let me know in the comments or on email if something like this (fair and anonymous AND of bits) has been done before, or if you find a bug in this algorithm (if it is so, I cannot stress how important it is for me to know).</p>
