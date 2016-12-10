@@ -2,18 +2,28 @@
 {-# LANGUAGE OverloadedStrings #-}
 import           Data.Char
 import           Data.Monoid (mappend)
-import           Data.List (intercalate)
-import qualified Data.Map as M
+import           Data.List ()
+import qualified Data.Map ()
 import           Hakyll
-import           Hakyll.Web.Tags
+import           Hakyll.Web.Tags ()
 import qualified System.FilePath.Posix as F
 
 --------------------------------------------------------------------------------
 baseUrl :: String
 baseUrl = "sakshamsharma.com"
 
+myFeedConfiguration :: FeedConfiguration
+myFeedConfiguration = FeedConfiguration
+    { feedTitle       = "AceHack"
+    , feedDescription = "Reveries of a programmer"
+    , feedAuthorName  = "Saksham Sharma"
+    , feedAuthorEmail = "saksham0808@gmail.com"
+    , feedRoot        = "https://sakshamsharma.com"
+    }
+
 main :: IO ()
 main = hakyll $ do
+
 
        match "assets/js/**" $ do
              route assetsRoute
@@ -95,6 +105,7 @@ main = hakyll $ do
              compile $ do
                pandocCompiler
                      >>= loadAndApplyTemplate "templates/post.html"         postCtx
+                     >>= saveSnapshot "content"
                      >>= loadAndApplyTemplate "templates/with-tags.html"    postCtx
                      >>= loadAndApplyTemplate "templates/with-title.html"   postCtx
                      >>= loadAndApplyTemplate "templates/with-sidebar.html" postCtx
@@ -180,10 +191,23 @@ main = hakyll $ do
                  >>= loadAndApplyTemplate "templates/sitemap.xml" ctx
                  >>= cleanIndexHtmls
 
+       create ["rss.xml"] $ do
+           route idRoute
+           compile $ do
+               let feedCtx = postCtx `mappend` bodyField "description"
+               pPosts <- fmap (take 10) . recentFirst =<<
+                   loadAllSnapshots ("posts/**" .&&. hasNoVersion) "content"
+               renderRss myFeedConfiguration feedCtx pPosts
+
+       create ["atom.xml"] $ do
+           route idRoute
+           compile $ do
+               let feedCtx = postCtx `mappend` bodyField "description"
+               pPosts <- fmap (take 10) . recentFirst =<<
+                   loadAllSnapshots ("posts/**" .&&. hasNoVersion) "content"
+               renderAtom myFeedConfiguration feedCtx pPosts
 
 --------------------------------------------------------------------------------
-type Year = String
-
 cleanIndexHtmls :: Item String -> Compiler (Item String)
 cleanIndexHtmls = return . fmap (replaceAll pattern replacement)
     where
@@ -231,8 +255,3 @@ projectRoute =
   idRoute `composeRoutes`
   (customRoute $ (++ "/index") . takeWhile (/= '.') . drop 9 . toFilePath ) `composeRoutes`
   setExtension "html"
-
-acmeRoute :: Routes
-acmeRoute =
-  assetsRoute `composeRoutes`
-  (customRoute $ (\x -> "." ++ x) . toFilePath)
