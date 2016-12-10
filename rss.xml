@@ -1,0 +1,1038 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"
+    xmlns:dc="http://purl.org/dc/elements/1.1/">
+    <channel>
+        <title>AceHack</title>
+        <link>https://sakshamsharma.com</link>
+        <description><![CDATA[Reveries of a programmer]]></description>
+        <atom:link href="https://sakshamsharma.com/rss.xml" rel="self"
+                   type="application/rss+xml" />
+        <lastBuildDate>Fri, 25 Nov 2016 00:00:00 UT</lastBuildDate>
+        <item>
+    <title>Zero-trust - Safe and anonymous ANDing bits - Part 2</title>
+    <link>https://sakshamsharma.com/2016/11/puppy2/index.html</link>
+    <description><![CDATA[<div>
+    <!-- <script type="text/x-mathjax-config"> -->
+<!-- MathJax.Hub.Config({ -->
+<!--   tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]} -->
+<!-- }); -->
+<!-- </script> -->
+<!-- <script type="text/javascript" async -->
+<!--   src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"> -->
+<!-- </script> -->
+<h3 id="recap">Recap</h3>
+<p>For those who haven’t read the <a href="/2016/10/puppy1/">previous post</a>, this is a challenge which came up while trying to develop a secure version of a platform called <em>Puppy Love</em>. The introduction and the algorithmic challenge, taken from the previous article:</p>
+<!--more-->
+<p>The queerly named <em>Puppy Love</em> platform has been running in my university since 2014, meant to help shy nerds meet their crush, made my the Programming Club (of which, I happen to be the current coordinator). The platform opens 1 week prior to the Valentine’s Day every year, and let’s people choose up to 4 of their crushes, encrypting their choices with their password. At the stroke of the midnight hour, everyone logs back, and their choices are decrypted, and are then matched to other people’s choices. Only the people who matched are informed about it. If your <em>love</em> was unrequited (the other person didn’t like you), you will not get to know. More importantly, if you did not like the other person, you would not know if that person liked you or not.</p>
+<p>The above seemed like a very rosy thing, till people began to find flaws. Some of the issues were with the code, and nothing too serious. But as would have, people began to get doubtful about the trust worthiness of the server admins. This year, being my turn to face the onslaught of accusations of looking at people’s choices, I, with Vinayak Tantia, a friend and fellow Coordinator, came up with a much improved algorithm to implement the same thing.</p>
+<p>Here’s the biggest issue with such a platform:</p>
+<blockquote>
+<p>You do NOT trust me when I say my code on the server is NOT seeing your choices</p>
+</blockquote>
+<p>What is required is, how I call it, a <code>zero-server-trust</code> based algorithm. Regardless of what code is running on the server, the client should be able to prove that any information it sends to the server shall not reveal any information about the client’s choices.</p>
+<h3 id="possible-algorithms">Possible algorithms</h3>
+<p>We basically need a way to compute the <code>AND</code> of two bit values residing on two hosts (call them Alice and Bob), in the presence of a central server named Eve.</p>
+<ul>
+<li>One simple way is for Alice and Bob to share their bits to Eve, and trust Eve to not store the bits for the eyes of the admin of Eve, and only compute the AND of the bits, and send the AND value back to Alice and Bob. This is simple, but requires you to trust the server to not look at your choices. In case of naming your crushes, this is certainly not an option.</li>
+<li>Use <a href="https://en.wikipedia.org/wiki/Garbled_circuit">Garbled Circuit</a> technique, along with <a href="https://en.wikipedia.org/wiki/Oblivious_transfer">Oblivious Transfer</a>, but modified to keep the last step on the central server. This technique is quite complicated at first, but has a major drawback. There is no guarantee of secrecy of choices if one party does not play by the protocol and cheats instead. This would be outlined in a future article.</li>
+</ul>
+<p>The second solution is promising, but can possibly be exploited to reveal the choice of the other party without them knowing your choice. What is required to prevent that attack is randomness in the case where a party is not interested. We outline the new algorithm in the next section.</p>
+<h3 id="shared-knowledge-based-expected-result-algorithm">Shared knowledge based expected-result algorithm</h3>
+<p>As a preface, I did read a couple of papers on this topic, but did not find a fair, secure and practical solution. This particular algorithm solves a weaker problem than most papers I found, which is: Computing AND of 2 secret bits in presence of an honest-but-curious server. This algorithm was designed originally as a modification of the one based on garbled circuits after I came to know of the violation of secrecy in that, and has been significantly simplied since then. Onto:</p>
+<ul>
+<li>Both parties have shared secret values A and B. These are not known to Eve by virtue of public key encryption.</li>
+<li>Parties agree to this protocol:</li>
+<li>Alice sends value <code>a = A</code> to Eve if she likes Bob.</li>
+<li>Alice sends value <code>a = random</code> to Eve if she does not like Bob.</li>
+<li>Bob sends value <code>b = B</code> to Eve if he likes Alice.</li>
+<li>Bob sends value <code>b = random</code> to Eve if he does not like Alice.</li>
+<li>Eve receives <code>a</code> and <code>b</code>. She stores <code>hash(a*b)</code> as result.</li>
+<li>Alice and Bob manually compute <code>hash(A * B)</code>, and send it to server (server can verify malicious behavior if they don’t match)</li>
+<li>It is a match only if the result and the expected value by both parties are the same.</li>
+</ul>
+<h3 id="a-few-comments-about-the-safety-of-the-protocol">A few comments about the safety of the protocol</h3>
+<p>I do plan to formally prove this soon enough, but till then, here are some thoughts.</p>
+<ul>
+<li>Hash is not invertible. So if there was no match, Alice can not invert the result to get Bob’s sent value.</li>
+<li>The hashing step needs to be secure against brute force attacks, especially because each party already knows one multiplicative factor of the number hashed. Either the values of A and B need to be very large (experiments/data needed), or the hash function has to be very slow computationally (preventing inversion by computational bottleneck).</li>
+<li>Selecting random, and different values for A and B is important because Eve should not be able to see whether the values sent by Alice and Bob are same or different, and thus infer whether they matched or not.</li>
+<li>The protocol itself is fully symmetric. Both Alice and Bob execute the exact same steps, regardless of who starts the protocol.</li>
+<li>If Alice did not send A, she has no way of knowing whether Bob sent B or not, since the hash cannot be inverted (theoretically). The same is true for Bob.</li>
+<li>The server does come to know the result of the computation here. But it should be possible to generalize. More on it later.</li>
+</ul>
+<h3 id="conclusion">Conclusion</h3>
+<p>This algorithm is very simple to say the least, and seems secure to me. A formal proof ought to confirm this as well, though that is untrodden territory for me as of now. Do let me know in the comments or on email if something like this (fair and anonymous AND of bits) has been done before, or if you find a bug in this algorithm (if it is so, I cannot stress how important it is for me to know).</p>
+</div>
+
+<script src="/js/fb.js"></script>
+<div
+    class="fb-like"
+    data-share="true"
+    data-width="450"
+    data-show-faces="true">
+</div>
+
+<script id="dsq-count-scr" src="//acehack.disqus.com/count.js" async></script>
+
+<div id="disqus_thread"></div>
+<script>
+ // For debugging
+ var disqus_developer = 1;
+ var disqus_shortname = 'acehack';
+ var disqus_config = function () {
+     this.page.url = 'http://acehack.org/2016/11/puppy2/index.html';
+     this.page.identifier = 'puppy-2';
+     this.page.title = 'Zero-trust - Safe and anonymous ANDing bits - Part 2';
+ };
+ (function() {
+     var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+     dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+ })();
+ (function () {
+     var s = document.createElement('script'); s.async = true;
+     s.type = 'text/javascript';
+     s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+     (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+ }());
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+]]></description>
+    <pubDate>Fri, 25 Nov 2016 00:00:00 UT</pubDate>
+    <guid>https://sakshamsharma.com/2016/11/puppy2/index.html</guid>
+    <dc:creator>Saksham Sharma</dc:creator>
+</item>
+<item>
+    <title>ZSH globbing to play music</title>
+    <link>https://sakshamsharma.com/2016/10/cliplay/index.html</link>
+    <description><![CDATA[<div>
+    <p>Too lazy to learn to use the awesome <a href="https://cmus.github.io/">cmus</a>, and living on an (very regrettably) extremely unorganized music library since I came to IIT Kanpur, yeah that’s me these days when it comes to music. Without the likes of Spotify in India, I’ve been living on YouTube since more than 2 years, when I used to have a fully organized music library back in my school days.</p>
+<p>Having a very dynamic (and mostly incomplete) music library, I was constantly being annoyed having to import folders, sort some, organize others. What would be ideal in such a scenario is a way to live in the shell itself, but have the freedom to easily search for music files and play them.</p>
+<p>If you’re not familiar with pattern globbing, fire up ZSH and try this:</p>
+<pre><code>cd Pictures
+ls **/*.jpg</code></pre>
+<p>Nice right? The <code>**</code> stands for recursive searching. So it will go and search recursively in all subfolders of the current directory.</p>
+<h3 id="zsh-play">zsh-play</h3>
+<p>I envisioned an interface of this sort:</p>
+<pre><code>play river flows</code></pre>
+<p>This ought to open all songs containing the words <em>river</em> and <em>flows</em> in their name, in this particular order, regardless of the case of the spellings. Also, it shouldn’t be matching all kinds of files, so I added a <code>-t</code> flag, to decide the file type, set to <code>mp3</code> by default, but something like <code>-t flac</code> works as well.</p>
+<h3 id="how-to">How to?</h3>
+<p>The code was short enough. I added a new ZSH function in my ZSH configuration, and voila! In reality though, it took me a great while to make it work, because I did not know (sounds obvious in hindsight as always) that globs (The useful <code>*</code>s) are not expanded when coming from a string variable in the shell. And why should they?</p>
+<p>You can pick the code from the end of this article, and use it by putting it in your .zshrc and sourcing it. Voila!</p>
+<h3 id="lessons">Lessons</h3>
+<ul>
+<li>Globs aren’t expanded from strings. Don’t hope to put strings containing <code>*</code>s in a command, and expect it to expand. Use <code>{~var}</code> instead.</li>
+<li>Functions in ZSH are quite powerful! Better use them instead of writing aliases and small scripts.</li>
+<li><code>getopts</code> and <code>OPTARGS</code> is a really nice way to implement CLI arguments!</li>
+<li>You need <code>setopt extendedglob</code> for some globbing to work.</li>
+<li>Case insensitive matching of globs uses <code>(#i)</code>.</li>
+<li>You can generate array of names of files very easily with <code>list=(**/*.mp3)</code> kind of syntax.</li>
+</ul>
+<h3 id="the-code">The code:</h3>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">function</span><span class="fu"> play()</span> <span class="kw">{</span>
+    <span class="va">EXT=</span><span class="st">&quot;mp3&quot;</span>
+    <span class="kw">while</span> <span class="bu">getopts</span> “ht:r:p:v” OPTION
+    <span class="kw">do</span>
+        <span class="kw">case</span> <span class="va">$OPTION</span><span class="kw"> in</span>
+            t<span class="kw">)</span>
+                <span class="va">EXT=$OPTARG</span>
+                <span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$EXT</span><span class="st"> extension&quot;</span>
+                <span class="bu">shift</span> 2
+                <span class="kw">;;</span>
+            ?<span class="kw">)</span>
+            <span class="ex">usage</span>
+            <span class="kw">;;</span>
+        <span class="kw">esac</span>
+    <span class="kw">done</span>
+
+    <span class="ex">setopt</span> extendedglob
+    <span class="va">pat=$(</span><span class="bu">echo</span> -n <span class="st">&quot;</span><span class="va">$@</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">sed</span> -E <span class="st">&#39;s/\s+/\*/g&#39;</span><span class="va">)</span>
+    <span class="va">list=(</span>(#i<span class="va">)</span>**/*$<span class="dt">{~pat}*.${EXT}</span>)
+    <span class="ex">vlc</span> <span class="va">$list</span>
+<span class="kw">}</span></code></pre></div>
+</div>
+
+<script src="/js/fb.js"></script>
+<div
+    class="fb-like"
+    data-share="true"
+    data-width="450"
+    data-show-faces="true">
+</div>
+
+<script id="dsq-count-scr" src="//acehack.disqus.com/count.js" async></script>
+
+<div id="disqus_thread"></div>
+<script>
+ // For debugging
+ var disqus_developer = 1;
+ var disqus_shortname = 'acehack';
+ var disqus_config = function () {
+     this.page.url = 'http://acehack.org/2016/10/cliplay/index.html';
+     this.page.identifier = 'zsh-play';
+     this.page.title = 'ZSH globbing to play music';
+ };
+ (function() {
+     var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+     dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+ })();
+ (function () {
+     var s = document.createElement('script'); s.async = true;
+     s.type = 'text/javascript';
+     s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+     (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+ }());
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+]]></description>
+    <pubDate>Sat, 29 Oct 2016 00:00:00 UT</pubDate>
+    <guid>https://sakshamsharma.com/2016/10/cliplay/index.html</guid>
+    <dc:creator>Saksham Sharma</dc:creator>
+</item>
+<item>
+    <title>Anonymous, zero-server-trust couple matching - Part 1</title>
+    <link>https://sakshamsharma.com/2016/10/puppy1/index.html</link>
+    <description><![CDATA[<div>
+    <script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+<script type="text/javascript" async
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+<p><strong>NOTE:</strong>: The algorithm used has been re-worked, and changed since this article was written. Expect a new article with the formal algorithm soon :)</p>
+<p>The queerly named <em>Puppy Love</em> platform has been running in my university since 2014, meant to help shy nerds meet their crush, made my the Programming Club (of which, I happen to be the current coordinator). The platform opens 1 week prior to the Valentine’s Day every year, and let’s people choose up to 4 of their crushes, encrypting their choices with their password. At the stroke of the midnight hour, everyone logs back, and their choices are decrypted, and are then matched to other people’s choices. Only the people who matched are informed about it. If your <em>love</em> was unrequited (the other person didn’t like you), you will not get to know. More importantly, if you did not like the other person, you would not know if that person liked you or not.</p>
+<p>The above seemed like a very rosy thing, till people began to find flaws. Some of the issues were with the code, and nothing too serious. But as would have, people began to get doubtful about the trust worthiness of the server admins. This year, being my turn to face the onslaught of accusations of looking at people’s choices, I, with Vinayak Tantia, a friend and fellow Coordinator, came up with a much improved algorithm to implement the same thing.</p>
+<p>Here’s the biggest issue with such a platform:</p>
+<blockquote>
+<p>You do NOT trust me when I say my code on the server is NOT seeing your choices</p>
+</blockquote>
+<p>What is required is, how I call it, a <code>zero-server-trust</code> based algorithm. Regardless of what code is running on the server, the client should be able to prove that any information it sends to the server shall not reveal any information about the client’s choices.</p>
+<h3 id="the-algorithm">The algorithm</h3>
+<h4 id="email-based-initial-auth">Email based initial auth</h4>
+<p>Instead of using the campus FTP or proxy based logins, which would have required you to send your password to the server (thus requiring trust), we send an initial email to the person’s official IIT Kanpur email address, and let the person create a password. The password’s hash is sent to the server for storage. The hash will be used for future logins, and thus the plain password never leaves the client.</p>
+<h4 id="public-private-keys">Public Private Keys</h4>
+<p>On the initial password creating, we also create a new public-private keypair on the client itself. The private key is then encrypted with the plaintext password of the user. The plaintext public key and the encrypted private key are then kept on the server.</p>
+<h4 id="the-usage">The usage</h4>
+<p>The user is allowed to query for people and add them to his tentative list of likes. The queries are routed to the IIT Kanpur internal student search, and thus the server cannot be logging the client’s requests. These choices are saved in a string, which has a few random bytes in the start. This string is encrypted with the private key, and sent to the server for storage and later retrieval. The random string is added to ensure that the server cannot deduce addition or removal of choices. Thus, whether the choices were changed or not, there shall be a change in the encrypted data.</p>
+<h4 id="submission">Submission</h4>
+<p>Finally, when the user is ready to lock his choices, the client fetches the public keys of all the students on campus. This data should be the order of magnitude of a few mega bytes. The client encodes its preference (a boolean) in a string (described later) for each student on the campus, and sends these strings back to the server for storage. Each string is encrypted with the public key of the intended recepient, and thus they are meaningless for the server.</p>
+<h4 id="matching">Matching</h4>
+<p>The most tricky part. How does the server match two people, without knowing any of their choices? Turns out, there’s something called Homomorphic computation, which is intended for this very purpose. Here’s a motivating example:</p>
+<p><br /><span class="math display">$$
+m_1^{e} \times m_2^{e} = (m_1 \times m_2)^{e}\\
+((m_1 \times m_2)^{e})^{d} = (m_1 \times m_2)
+$$</span><br /></p>
+<p>So basically, the server could compute the product of <span class="math inline"><em>m</em><sub>1</sub></span> and <span class="math inline"><em>m</em><sub>2</sub></span>, and convey the result to both the parties. They could separately get back the value of <span class="math inline"><em>m</em><sub>1</sub> × <em>m</em><sub>2</sub></span>, without the server ever coming to know the product. All this requires is a shared public private key pair between every two people on the campus.</p>
+<p>Of course, we’re not going to be using product, since a product has enough information to get the other person’s response. What is required is a message of the sort such that it encodes the choice, but can not be inverted to get the choice. Only when it is used with another message containing a positive choice is it possible to get any information out of the message.</p>
+<p><strong>Update</strong>: The above technique means that if the database is compromised, any person can take the other person’s response, forge a new response from his side, and see what choices were filled. To disallow this, the algorithm needs to be changed into a two-step method (both people share their choice in the form of two messages), where the second message is dependent on the first message of the other person. We are still working on deciding the exact form to be taken.</p>
+<h4 id="server-requirements">Server requirements</h4>
+<p>There shall be a large number of entries in the database. For each pair of people, there shall be one entry in the database storing their messages, and their shared secret. The server is only expected to be providing the service it is claiming to provide, that is, letting people match. Thus, we only assume that the server shall not be trying to jeopardize the whole matching game by not playing its part. At no point is the server expected to maintain any level of trust.</p>
+<h3 id="conclusion">Conclusion</h3>
+<p>The project is being written using Node and JavaScript, and the source code is publicly available on <a href="https://github.com/pclubiitk/puppy-love">Github here</a>. We hope to finish it within a month, considering that the semester is on.</p>
+</div>
+
+<script src="/js/fb.js"></script>
+<div
+    class="fb-like"
+    data-share="true"
+    data-width="450"
+    data-show-faces="true">
+</div>
+
+<script id="dsq-count-scr" src="//acehack.disqus.com/count.js" async></script>
+
+<div id="disqus_thread"></div>
+<script>
+ // For debugging
+ var disqus_developer = 1;
+ var disqus_shortname = 'acehack';
+ var disqus_config = function () {
+     this.page.url = 'http://acehack.org/2016/10/puppy1/index.html';
+     this.page.identifier = 'puppy-1';
+     this.page.title = 'Anonymous, zero-server-trust couple matching - Part 1';
+ };
+ (function() {
+     var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+     dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+ })();
+ (function () {
+     var s = document.createElement('script'); s.async = true;
+     s.type = 'text/javascript';
+     s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+     (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+ }());
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+]]></description>
+    <pubDate>Tue, 25 Oct 2016 00:00:00 UT</pubDate>
+    <guid>https://sakshamsharma.com/2016/10/puppy1/index.html</guid>
+    <dc:creator>Saksham Sharma</dc:creator>
+</item>
+<item>
+    <title>moVi - Mobile video protocol (Part 1)</title>
+    <link>https://sakshamsharma.com/2016/10/movi/index.html</link>
+    <description><![CDATA[<div>
+    <p>After a really late start to my undergraduate project (UGP) this semester, I finally started working on something we call <a href="https://github.com/netsecIITK/moVi">moVi</a>.</p>
+<p>First off, if the idea reminds you of <a href="https://mosh.org">mosh - Mobile Shell</a> by Keith Winstein and Hari Balakrishnan of MIT, it is not a coincidence. I’d loved their paper called <em>Mosh: An Interactive Remote Shell for Mobile Clients</em>, and moVi is in a way taking their idea forward. We’re 2 undergraduates working on this project, me and Ayush Agarwal, under the guidance of Prof. Sandeep Shukla of IIT Kanpur (previously at Virginia Tech).</p>
+<p>I’ve been working on moVi since around 20 (regular semester) days now; here’s what all <strong>I</strong> know about moVi by now :)</p>
+<h2 id="introduction">Introduction</h2>
+<p>The core idea is simple. How do you make a protocol robust to network, IP, and location changes? A conventional solution might be DDNS (Dynamic DNS). Some idealized scenarios let DDNS do real-time updates of IP of its clients. That way, both the clients can continue their communication, whatever that might be, despite changes in IP of one or both clients. But is there another, cleaner way?</p>
+<h2 id="what-mosh-does---ideas">What Mosh does - Ideas</h2>
+<p>Winstein, Balakrishnan propose in the above paper, a much simpler technique. Instead of using a global directory for such clients, they instead rely on the connectionless state of UDP. Both parties share a secret key, and send a signature of their message (or an encrypted version of the message) signed with that secret key. When one of the sides receives a <em>valid</em> packet from some other IP, it can safely assume that the other side has changed its IP.</p>
+<p>Apart from that, another thing which they use is what they call <em>State Synchronization Protocol</em>. This is essentially noting the fact that to ensure both people see the same version of an object (state), you do not need to share all past states. Mosh, in some sense, <em>renders</em> the terminal view on the SSH server side, and sends the view, limited by the frame rate, to the person who has SSHed into the machine from a mobile channel.</p>
+<h2 id="what-movi-does">What moVi does</h2>
+<p>We use the idea of connectionless signed UDP channels between 2 parties for UDP based communication. But what communication? Why not video?</p>
+<p>Real time (and non-replayable) video is an ideal candidate for using UDP. One does not really care what traffic is lost, since the communication has to be real time, and <em>better late than never</em> is not really valid for a real-time packet now :)</p>
+<p>So here are the things we’ve done, or are planning to do:</p>
+<h3 id="robust-to-ip-changes">Robust to IP changes</h3>
+<p>This simply implements the idea used by Mosh, without any modifications. We rely on UDP and a secret key shared between the parties beforehand. For now, we let the parties share the secret key over an initial TCP connection, which is then torn down when the UDP connection starts. The TCP connection is also used to communicate the UDP ports to be used for video communication from each side.</p>
+<h3 id="robust-to-data-losses">Robust to data losses</h3>
+<p>Packets are fickle things. They could get lost due to full queues and congestion, or because of intermediate network issues (especially WiFi). But do we need all packets to reach reliably?</p>
+<p>Instead of using a reliable TCP connection, or a ack-all-packets kind of implementation, we instead use a different approach tailored for slow networks. We divide the whole video into small regions of a pre-decided size (geometrically for now, but we’re planning to use regions in the Fourier transform as well). The sender first retreives the current frame from the camera, and divides it into regions. Each region is separately compressed using JPEG. This is now sent over the network, with a header specifying the region number / location. Some points to note, design choices and variations:</p>
+<ul>
+<li>The chances of a region reaching the other side quickly relies on the size of the packet. IP fragmentation can handle packet loss for packets having size a small multiple of the MTU (Maximum transfer unit), which is most often set to 1500 bytes (including the headers). We’ve noticed that using regions of size 150x150, using JPEG compression with quality set to 50, each region has an approximate size of 2-3 kilobytes. This should offer sufficient reliability, though we’re yet to test it on bad networks.</li>
+<li>Why specifically JPEG? Why not some video compression methods? The reason we had (as people utterly unfamiliar to video encoding) is that the video compression protocols work on the principle that each state of the video is available, either as a diff, or as a normal full frame. We do not have that luxury. We never know whether a region has reached or not.</li>
+<li>We implement our own optimizations to improve the image encoding method for our particular use case of real time videos. The receiver keeps a small buffer of states of the video (per region). Let this number be 100 for now. Since this is a 2 way communication, the receiver himself is sending updates for the same region. In those packets, it would embed ACKs for the last state received. This way, each sender knows each region’s latest state received, modulo packet losses on sending and ACKing side. Each sender, instead of sending a frame separately, instead sends the diffs of the region with the last ACKed state of that region. If somehow the sender has already sent a 100 diffs, and yet has not received another ACK, it will assume that something is wrong, and will conservatively send a non-diff packet instead. There shall be a header flag which signifies if it is a diff, and if yes, from which state.</li>
+<li>Another possible optimization is that regions having no change are not sent at all. This is useful for stable camera situations. But to ensure that states still get ACKed, we ensure that at least one region is sent from each row, and that region contains the ID of the regions in that row which did not get sent because of no changes.</li>
+</ul>
+<h3 id="robust-to-varying-network-speed-and-reliability">Robust to varying network speed and reliability</h3>
+<p>Note that using this technique, if the reliability of the network is too low (but UDP queues are not too small), one can ideally send smaller regions of the frame, increasing the number of packets by a significant amount but bringing the packet size below the MTU size. Plus, the JPEG encoding quality can be varied in real time as well, reducing the packet size further.</p>
+<h3 id="synchronization-of-regions-joining-together-to-form-a-frame">Synchronization of regions joining together to form a frame</h3>
+<p>The above idea seems coherent, but in practice it shows a big issue. If there are a large number of regions (seen with 50x50 regions in an image of 600x400 pixels), there is a small delay in the regions getting <em>pasted</em> onto the displayed frame. This causes an effect such that the image is never fully synchronized. To avoid this, we bunch together updates for regions, and only when we have all the regions in the latest state, or there is a timeout (approximately the desired frame rate), whichever is earlier, do we update the frame and display it to the client.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>The code is <a href="https://github.com/netsecIITK/moVi">here (moVi)</a> on Github. It is still in progress, but we do hope this comes out to be something interesting! We’ve still got a quarter of the semester left with us.</p>
+</div>
+
+<script src="/js/fb.js"></script>
+<div
+    class="fb-like"
+    data-share="true"
+    data-width="450"
+    data-show-faces="true">
+</div>
+
+<script id="dsq-count-scr" src="//acehack.disqus.com/count.js" async></script>
+
+<div id="disqus_thread"></div>
+<script>
+ // For debugging
+ var disqus_developer = 1;
+ var disqus_shortname = 'acehack';
+ var disqus_config = function () {
+     this.page.url = 'http://acehack.org/2016/10/movi/index.html';
+     this.page.identifier = 'movi-1';
+     this.page.title = 'moVi - Mobile video protocol (Part 1)';
+ };
+ (function() {
+     var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+     dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+ })();
+ (function () {
+     var s = document.createElement('script'); s.async = true;
+     s.type = 'text/javascript';
+     s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+     (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+ }());
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+]]></description>
+    <pubDate>Sat, 08 Oct 2016 00:00:00 UT</pubDate>
+    <guid>https://sakshamsharma.com/2016/10/movi/index.html</guid>
+    <dc:creator>Saksham Sharma</dc:creator>
+</item>
+<item>
+    <title>Privately send data to host without disclosing IP</title>
+    <link>https://sakshamsharma.com/2016/09/privtorrent/index.html</link>
+    <description><![CDATA[<div>
+    <p>While thinking on some lines related to networks and security, I recently came up with an idea of having a distributed network connection without disclosing your identity to the sender. The idea is still nascent, and requires you to have root access to your machine (and a custom kernel module, which I’m miles away from writing in the middle of my semester). I’d nevertheless appreciate comments on this idea :)</p>
+<h3 id="tcp">TCP</h3>
+<p>A brief look at the relevant parts of TCP/IP needed for this:</p>
+<ul>
+<li>The sender opens a TCP connection with the client. This connection is over IP packets, which are stateless.</li>
+<li>IP can be spoofed easily. It is possible to send a packet to someone which has a misleading ‘source’ header set in the IP packet.</li>
+<li>Spoofing your identity over a TCP connection is not easy, since the response is sent to the host with the IP you set in the source.</li>
+<li>TCP prevents someone else from sending packets as you by setting up a random sequence number initially during the handshaking with the client.</li>
+</ul>
+<h3 id="basic-idea">Basic idea</h3>
+<p>I’ll take the example of torrent here, and assume that there are <code>n</code> senders (peers) in the torrent connection, who are uploading, let’s say, ubuntu’s iso file to a host <code>cl</code> (client); and the senders don’t want their IP to be known to <code>cl</code>. I will not attempt to get into the technical details of torrent here though.</p>
+<p>Imagine that there is a service like tor which let’s you talk to hosts anonymously. This would be somewhat of a proxy server. Call it <code>p</code>.</p>
+<p>A possible way would be for all the <code>n</code> senders to route their traffic through <code>p</code>. This is not a scalable idea perhaps, since many senders sending data via <code>p</code> would consume a lot of network resources over <code>p</code>.</p>
+<p>Here is a possibly better way. Host <code>p</code> sets up a TCP connection with the client <code>cl</code>. It gets a certain receive buffer. The <code>n</code> senders decide among themselves about how they wish to communicate the data to the client. One way is for each sender to send every <code>n</code>th byte. So sender <code>i</code> sends the <code>i</code>th, <code>(i+1)</code>th and so on bytes. The host <code>p</code> lets all the senders know the relevant TCP packet numbers. Now the host <code>p</code> only has to communicate with the client <code>cl</code> mostly, receiving it’s responses on the TCP connection it set up. All the senders spoof their packets by sending the packets with the source marked as <code>p</code>. The client will get the packets in the right order (due the senders deciding, and using the right TCP sequence number), and will respond to <code>p</code>, which can later inspect the response and let the senders know accordingly if it is something they should know.</p>
+<h3 id="details">Details</h3>
+<ul>
+<li>Senders need to honor the receive window of the client. Perhaps each one treats the effective receive window as the <code>1/n</code>th fraction of the actual receive window.</li>
+<li>There is no need to send every ACK to the senders, except to help with fast retransmits, and for them to know the network state. There might exist ways to avoid sending all responses from <code>p</code> to the senders (which puts load on <code>p</code>).</li>
+<li>If the network has low packet loss rate, it <em>may</em> be advantageous to not communicate all ACKs to the senders. It would only slow down responses when there’s a packet loss.</li>
+<li>If the host <code>p</code> detects a dropped packet, it communicates that to the sender who was supposed to send that packet.</li>
+<li>If host <code>p</code> detects network congestion (triple duplicate ACK, or ECN etc), it communicates this with all the senders.</li>
+</ul>
+<h3 id="advantages">Advantages</h3>
+<ul>
+<li>The client <code>cl</code> cannot find out which IP sent the actual packet.</li>
+<li>You do not need as high network resources as tor on the host machine <code>p</code> for this to work.</li>
+<li>Possibly inspire ideas related to private distributed network communication.</li>
+<li>One could possibly send part data from one host, and part from the other host via this mechanism. Thus, someone doing a man-in-the-middle on one sender would only see partial data being sent. So you could open a connection to a website, and a listener would see you sending <code>GET / HTTP/1.0</code> to that website, while there would be another machine which sent the remaining request (maybe some password in clear-text, which was mandated by the website. I know, not a good example).</li>
+</ul>
+<h3 id="cons-and-limitations">Cons and limitations</h3>
+<p>After discussion with some other people, there are a few things to this approach which make it impractical in use.</p>
+<ul>
+<li>Unless ACKs are sent to the actual sender, the idea would actually slow down the network quite some bit, since that would mean reimplementing TCP without a lot of information from the network.</li>
+<li>This is only suited for large sending. Receiving data over this mechanism would be highly impractical.</li>
+<li>Some routers may not forward plain IP packets without a TCP connection set up (Details and comments welcome on this). You may need to own the network so be able to employ such a mechanism.</li>
+<li>Requires root privileges on the hosts.</li>
+</ul>
+</div>
+
+<script src="/js/fb.js"></script>
+<div
+    class="fb-like"
+    data-share="true"
+    data-width="450"
+    data-show-faces="true">
+</div>
+
+<script id="dsq-count-scr" src="//acehack.disqus.com/count.js" async></script>
+
+<div id="disqus_thread"></div>
+<script>
+ // For debugging
+ var disqus_developer = 1;
+ var disqus_shortname = 'acehack';
+ var disqus_config = function () {
+     this.page.url = 'http://acehack.org/2016/09/privtorrent/index.html';
+     this.page.identifier = 'dist-private-communication';
+     this.page.title = 'Privately send data to host without disclosing IP';
+ };
+ (function() {
+     var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+     dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+ })();
+ (function () {
+     var s = document.createElement('script'); s.async = true;
+     s.type = 'text/javascript';
+     s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+     (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+ }());
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+]]></description>
+    <pubDate>Mon, 19 Sep 2016 00:00:00 UT</pubDate>
+    <guid>https://sakshamsharma.com/2016/09/privtorrent/index.html</guid>
+    <dc:creator>Saksham Sharma</dc:creator>
+</item>
+<item>
+    <title>Buffering packets in a network with a variable source rate</title>
+    <link>https://sakshamsharma.com/2016/09/buffering/index.html</link>
+    <description><![CDATA[<div>
+    <script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+<script type="text/javascript" async
+  src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+<p>As a natural extension my project <a href="https://github.com/sakshamsharma/HTTP-Over-Protocol">hop</a>, I decided to try and optimize it’s buffering technique. Here is the problem formalized a bit:</p>
+<ul>
+<li>A source which is capable of writing bytes at the rate of <code>S bytes/sec</code>.</li>
+<li>A network channel which can carry bytes at a bandwidth or rate of <code>B bytes/sec</code>. <code>B</code> is almost always slower than <code>S</code>.</li>
+<li>You can choose to read the data from the source slower than it can write, but that will cause delays.</li>
+<li>Maximum delay for any byte is bounded by the value <code>D</code>.</li>
+<li>To send <code>k</code> bytes in an IP packet, you need to attach a header of size <code>h</code>.</li>
+<li><code>h</code> does not depend on <code>k</code>, but <code>k</code> is limited to the size of an IP packet minus <code>h</code>. Thus, <code>k</code> can be expected to be around 65000 bytes at max.</li>
+<li>An IP packet is received as an atomic entity. So <code>k</code> chunked bytes will be received at the same time.</li>
+</ul>
+<p>I tried to find an optimal solution for this, or a related problem. It turns out that this problem doesn’t even present a solution, and modifying the problem seems to help provide a workable problem. For the following section, I will assume that there is an added condition to the problem:</p>
+<ul>
+<li>You can afford to lose bytes at some rate.</li>
+</ul>
+<p>With this information, I set on to try find something interesting in this problem (and end up using the found solution for another problem).</p>
+<p><strong>Note</strong>: Although assumed that the source can write at the speed of <code>S bytes/sec</code>, this will be considered only as an upper limit.</p>
+<h3 id="losses-are-allowed">Losses are allowed</h3>
+<p>Here we are assuming (for the sake of keeping the problem well-defined) that the receiver does not mind random byte losses.</p>
+<p>We first note a few key ideas regarding the optimal solution here:</p>
+<ul>
+<li>It is wasteful to not be using the network channel at any point of time. Better read and keep some bytes ready beforehand</li>
+<li>Sending too large chunks would increase delay</li>
+<li>Sending small chunks would cause the packet header size overhead to become significant</li>
+</ul>
+<h4 id="async-reading">Async reading</h4>
+<p>We have 2 client side processes/threads. One of them handles reading from the input source, while the other handles writing to the network socket. For sake of convenience, we will now assume <span class="math inline"><em>s</em><sub><em>r</em></sub></span> to be the speed of reading from the source asynchonously.</p>
+<p>In the given scenario, this would follow:</p>
+<ul>
+<li>The last read <code>k</code> bytes take <span class="math inline">$\frac{h+h}{B}$</span> time to be sent.</li>
+<li>Meanwhile, the reader accumulates <code>k</code> bytes to be sent once the above send is done.</li>
+<li>While reading at the rate <span class="math inline"><em>s</em><sub><em>r</em></sub></span>, this takes <span class="math inline">$\frac{k}{s_r}$</span> time.</li>
+<li>The remaining bytes written by the source during the time of send are lost.</li>
+<li>This loss time is <span class="math inline">$\frac{h+k}{B} - \frac{k}{s}$</span>.</li>
+<li>These newly read bytes are sent once the previous send is finished.</li>
+</ul>
+<p>Now we have the condition that any packet which reaches the receiver should not be too old (at max <code>D</code> seconds old). In that case, it is favorable to send only the packets read just before the next send (the most latest packets, since they are more valuable than the old ones). The figure describes this (green is reading from source, blue is sending over network):</p>
+<div class="figure">
+<img src="/images/articles/drawing1.png" />
+
+</div>
+<p>Now note that we are trying to minimize the losses, while keeping the delay in check. Total loss is <span class="math inline"><em>N</em>/<em>k</em></span> times the loss per <code>k</code> bytes, where <code>N</code> is the total amount of data to be sent (just an asymptotic constant for this case). We try find an expression for the total loss. Here, wasted means bytes which were not read, and thus never sent.</p>
+<p><br /><span class="math display">$$
+wasted\ time\ per\ k\ bytes = \frac{h+k}{B} - \frac{k}{s_r}\\
+wasted\ bytes\ per\ k\ bytes\ sent = (\frac{h+k}{B} - \frac{k}{s_r})\times s_r\\
+total\ wastage\ in\ N\ bytes = (\frac{h+k}{B} - \frac{k}{s_r})\times s_r \times \frac{N}{k} \leq D
+$$</span><br /></p>
+<p>Also <br /><span class="math display">$$
+delay\ of\ max\ delayed\ byte = \frac{h+k}{B} + \frac{k}{s_r} \leq D\\
+\Rightarrow k \leq {D - \frac{h}{B}} \times \frac{Bs_r}{B+s_r}
+$$</span><br /></p>
+<p>Using the constraint on <code>k</code>, we get:</p>
+<p><br /><span class="math display">$$
+Wastage\ ratio = \frac{Wastage}{N} = (\frac{hs_r}{B} \times \frac{B+s_r}{DB-h}) + \frac{s_r - B}{B}
+$$</span><br /></p>
+<p>This whole discussion assumed that old packets are considered useless. So our source should either find a way to not send packets for a while, or it should be robust enough to be able to tolerate some fractions of losses.</p>
+<p>For Video streaming, one can envision a scenario where the source sends packets frame by frame, with the gap (the one we considered the loss) as a small fraction less than the frame gap in the desired frame rate.</p>
+<h4 id="non-jerky-data-loss">Non-jerky data loss</h4>
+<p>Now what if it is surely a video stream, but we don’t want jerks in the data? (We’re still okay with losses). In that case, almost the whole analysis is the same as above, with the exception that now the oldest packet reaching the other side will not have been sent so late. The sending buffer will randomly drop packets with a probability of <span class="math inline">$1 - \frac{B}{h+k} \times \frac{k}{S}$</span>. In the end, these packets will be sent over to the other side, but they will include packets close to the start of the blue region (above figure) too. So, the inequality for <code>k</code> will now be:</p>
+<p><br /><span class="math display">$$
+delay\ of\ max\ delayed\ byte = 2\times\frac{h+k}{B} \leq D\\
+\Rightarrow k \leq {\frac{DB}{2} - h}
+$$</span><br /></p>
+<p>Of course, this will worsen our possible wastage ratio at a particular reading speed, since we increased the constraint on the delay.</p>
+<h3 id="losses-are-not-allowed">Losses are NOT allowed</h3>
+<p>Using the above section’s results (The jerky data loss), we can actually get a solution such that the wastage is 0 (for the case when data is transmitted jerkily).</p>
+<p>We need to slow down the sender quite a bit though:</p>
+<p><br /><span class="math display">$$s_r = B - \frac{2h}{D}$$</span><br /></p>
+<p>So if it is possible to slow down the sender this much (or simply read slowly, helpful in cases when you’re basically sending bytes written by a human, or sending a file), we know how fast we can afford to read. Of course, we could have solved this taking delay as 0 right from the start, but that would deprive us of the observations in the previous section :smile:</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Already having spent quite a bit on this article (and now wanting to go back to my other ideas related to networks), I’ll leave this post here, unfinished. There can be quite a few conclusions from this, which would possibly have been written down in some paper or the other for sure. But I believe being so nascent in this field, trying out things on your own has its own charm! Will probably work some more on this if I get time.</p>
+</div>
+
+<script src="/js/fb.js"></script>
+<div
+    class="fb-like"
+    data-share="true"
+    data-width="450"
+    data-show-faces="true">
+</div>
+
+<script id="dsq-count-scr" src="//acehack.disqus.com/count.js" async></script>
+
+<div id="disqus_thread"></div>
+<script>
+ // For debugging
+ var disqus_developer = 1;
+ var disqus_shortname = 'acehack';
+ var disqus_config = function () {
+     this.page.url = 'http://acehack.org/2016/09/buffering/index.html';
+     this.page.identifier = 'buffering-1';
+     this.page.title = 'Buffering packets in a network with a variable source rate';
+ };
+ (function() {
+     var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+     dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+ })();
+ (function () {
+     var s = document.createElement('script'); s.async = true;
+     s.type = 'text/javascript';
+     s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+     (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+ }());
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+]]></description>
+    <pubDate>Thu, 15 Sep 2016 00:00:00 UT</pubDate>
+    <guid>https://sakshamsharma.com/2016/09/buffering/index.html</guid>
+    <dc:creator>Saksham Sharma</dc:creator>
+</item>
+<item>
+    <title>Pairing up n people into 2 teams</title>
+    <link>https://sakshamsharma.com/2016/09/teamselection/index.html</link>
+    <description><![CDATA[<div>
+    <p>While at <a href="www.mpi-sws.org">MPI</a> during the Summer, a friend (<a href="https://venkatarun.wordpress.com">Venkat</a>) inspired me by presenting some real world algorithm hacks. A few hours later, I found myself playing pool with 3 others, and we tried doing a toss of hands to pair ourselves up into 2 teams. 7 tosses later, we still didn’t have a pairing of 2 each.</p>
+<p>This inspired me to think of a way to divide <code>n</code> people into 2 teams using a single random choice by every player.</p>
+<h2 id="scenario-and-problem-definition">Scenario and problem definition</h2>
+<p>Here are the desired characteristics of such an algorithm:</p>
+<ul>
+<li>Should require only 1 random computation from each party.</li>
+<li>Should return 2 disjoint sets (whose union is the complete group of people) after a trivial (<code>O(n)</code> desired) computation.</li>
+<li>If 2 people want to be in the same team, even if they talk beforehand, they must not be able to increase the probability of them being in the same team from more than half.</li>
+<li>If 2 people <em>don’t</em> want to be in the same team, even if they talk beforehand, they must not be able to decrease the probability of them being in the same team from more than half.</li>
+<li>There should be no need for any external material (like paper slips).</li>
+</ul>
+<h2 id="candidate-algorithms-and-analysis">Candidate algorithms and analysis</h2>
+<p>Some of the candidate techniques are listed here</p>
+<h3 id="paper-slip-based-team-ups">Paper slip based team ups</h3>
+<h4 id="algorithm">Algorithm</h4>
+<p>Make <code>n</code> paper slips, where <code>n/2</code> of them have <code>1</code> written, and the remaining have <code>0</code> written on them. Place them inverted after shuffling, and ask everyone to pick one up each.</p>
+<h4 id="pros">Pros</h4>
+<ul>
+<li>Simple and easy to use</li>
+<li>Requires no computation after the initial random choice from each person’s side</li>
+</ul>
+<h4 id="cons">Cons</h4>
+<ul>
+<li>Requires use of paper slips, which may not always be at hand</li>
+</ul>
+<h3 id="random-number-selection">Random number selection</h3>
+<p>I would explain this algorithm bit by bit, posing challenges to the algorithm, and proposing workarounds. The issues are listed in the order I had encountered them while analysing the algorithm that fine day.</p>
+<h4 id="algorithm-1">Algorithm</h4>
+<p>Ask everyone to choose a number between <code>1</code> to, say <code>10*n</code> (10 is just a heuristic choice here, tradeoff between calculation complexity and avoiding collisions). Arrange people in ascending order of their chosen number such that every alternate person is in the same team.</p>
+<blockquote>
+<p>Collisions can still occur</p>
+</blockquote>
+<p>Ask every one to stand in a circle before this exercise, and decide on clockwise or anticlockwise direction. Since there are even number of people, use a pre-decided-location dummy person for making the count odd. When two people have the same number, let them be <code>A</code> and <code>B</code>. From <code>A</code> to <code>B</code>, let there be <em>k</em> people, and from <code>B</code> to <code>A</code>, there would be <code>n-k-2-1</code> people. If <em>k &lt;= n-k-3</em>, <code>A</code> gets precedence. This is an easy computation, and can be done in a distributed manner, thus taking up <code>O(n)</code> time for any number of collisions possible.</p>
+<blockquote>
+<p>People can choose numbers at the extremes to defeat the algorithm</p>
+</blockquote>
+<p>Take the mean of the numbers chosen (<code>O(n)</code>) and use it to define a mean position to wrap around. Now start counting from the mean position as the <em>0</em> index. This defeats any attempt by anywhere less than <em>n/2</em> people to influence the teams meaningfully, since this adds an influence of the whole group.</p>
+<blockquote>
+<p>But wait, cyclic order is something like sorting, which is O(n log(n))</p>
+</blockquote>
+<p>Point taken. But for <em>n</em> humans, perhaps sorting is not a challenge. As for computers, since it is only integers here, which are bounded by a small value, computers can actually use <a href="https://en.wikipedia.org/wiki/Radix_sort">radix sort</a> to sort the numbers in <code>O(n)</code> time.</p>
+<blockquote>
+<p>People can choose same or numbers differing by 1</p>
+</blockquote>
+<p>This is harder to defeat. A possible way is the following:</p>
+<ul>
+<li>Using the cyclic numbering assigned above to each person, everyone multiplies his own number by his position received (this should perhaps be improved to be something like 10 times the position received)</li>
+<li>Each person returns the above value modulo <code>10*n</code>.</li>
+</ul>
+<p>After the above steps, any pair of people won’t know what positions they might get, and how many people will find a numeric value between them after the multiplication and modulo calculation.</p>
+<h4 id="pros-1">Pros</h4>
+<ul>
+<li>No paper needed.</li>
+<li>Only <code>O(n)</code> computation needed (if you consider that humans are capable of doing sorting in <code>O(n)</code> time).</li>
+<li>Nice theoretical problem to solve :smile:</li>
+<li>Mostly individual calculations (except mean calculation and sorting), thus can be done in parallel.</li>
+</ul>
+<h4 id="cons-1">Cons</h4>
+<ul>
+<li>Insanely complicated to explain to a group of people :smile:</li>
+</ul>
+<p>You can actually validate the computations by enforcing that every person also checks the computation of the person having the value just greater than his value (thus ensuring fairness). This way, everyone can do only 3 computations, and the computations can be finished in a distributed manner.</p>
+<p>I don’t suppose a computer would want to use this algorithm, since it can always do a random sorting of the list, and select the first <code>n/2</code>. Of course there are easier ways. I believe the sole purpose of this algorithm is to illustrate how one can patch up a bad algorithm to make it work.</p>
+<h3 id="central-random-number-choosing-party">Central random number choosing party</h3>
+<p>One person is selected randomly, and he turns his back. The remaining people shuffle around into a random order, and he chooses random <code>n/2-1</code> people to be in his team.</p>
+<h4 id="pros-2">Pros</h4>
+<ul>
+<li>Simple and easy</li>
+<li>No computation needed</li>
+</ul>
+<h4 id="cons-2">Cons</h4>
+<ul>
+<li>If the person chosen is a biased person, he may have it precided with his desired team mates to choose positions towards a certain end.</li>
+</ul>
+<p>The above <em>con</em> can be defeated to certain extents if the remaining people choose a random 0 index (using a mean of randomly chosen numbers) without telling the random number chooser.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>As stated above, the second algorithm seems to be pretty much useless in practical terms, except maybe for a group of people so mathematically inclined. The third algorithm should be enough for normal situations.</p>
+</div>
+
+<script src="/js/fb.js"></script>
+<div
+    class="fb-like"
+    data-share="true"
+    data-width="450"
+    data-show-faces="true">
+</div>
+
+<script id="dsq-count-scr" src="//acehack.disqus.com/count.js" async></script>
+
+<div id="disqus_thread"></div>
+<script>
+ // For debugging
+ var disqus_developer = 1;
+ var disqus_shortname = 'acehack';
+ var disqus_config = function () {
+     this.page.url = 'http://acehack.org/2016/09/teamselection/index.html';
+     this.page.identifier = 'team-selection';
+     this.page.title = 'Pairing up n people into 2 teams';
+ };
+ (function() {
+     var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+     dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+ })();
+ (function () {
+     var s = document.createElement('script'); s.async = true;
+     s.type = 'text/javascript';
+     s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+     (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+ }());
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+]]></description>
+    <pubDate>Sat, 10 Sep 2016 00:00:00 UT</pubDate>
+    <guid>https://sakshamsharma.com/2016/09/teamselection/index.html</guid>
+    <dc:creator>Saksham Sharma</dc:creator>
+</item>
+<item>
+    <title>HTTP-Over-Protocol - Story and lessons</title>
+    <link>https://sakshamsharma.com/2016/09/hop1/index.html</link>
+    <description><![CDATA[<div>
+    <p>During my time in Germany, a friend once told me that his university’s proxy only lets him use HTTP(S) traffic. I didn’t know much about networks back then to be able to think over this, but when I began my course in Networks, revisiting this problem suggested a solution.</p>
+<p>After a few weeks, and around 6 hours of initial code later, I had the project ready, in the form of <a href="github.com/sakshamsharma/HTTP-Over-Protocol">hop</a>.</p>
+<p><strong>HOP</strong> is a tool meant to tunnel any sort of traffic over a standard HTTP channel.</p>
+<p>Useful for scenarios where there’s a proxy filtering all traffic except standard HTTP(S) traffic. Unlike other tools which either require you to be behind a proxy which let’s you pass arbitrary traffic (possibly after an initial CONNECT request), or tools which work only for SSH, this imposes no such restrictions.</p>
+<h1 id="response">Response</h1>
+<p>I posted a link to <code>hop</code> on reddit for comments, and surprisingly, I received (github) stars at a never-seen-before rate for me. Some people suggested some existing ways to accomplish this. Personally, I knew there would be some. But while coding this, I had stopped myself from checking for such things, so as to not lower my motivation for finishing this code. This actually helped, and despite some generic methods existing already, <code>hop</code> specializes for arbitrary protocols, and I think it is useful in some ways.</p>
+<p>The repository stayed in <strong>top 5</strong> trending C++ repositories for 2 days, and went on to cross <strong>100 stars</strong> after 3 days. This surely felt good :smile:</p>
+<h1 id="working">Working</h1>
+<p>This section tries to tackle a situation where you want to use SSH to connect to a remote machine where you don’t have root privileges.</p>
+<p>There will be 7 entities:</p>
+<ol style="list-style-type: decimal">
+<li>Client (Your computer, behind the proxy)</li>
+<li>Proxy (Evil)</li>
+<li>Target Server (The remote machine you want to SSH to, from Client)</li>
+<li>Client HOP process</li>
+<li>Target HOP process</li>
+<li>Client SSH process</li>
+<li>Target SSH process</li>
+</ol>
+<p>If there was no proxy, the communication would be something like:</p>
+<pre><code>Client -&gt; Client SSH process -&gt; Target Server -&gt; Target SSH process</code></pre>
+<p>In this scenario, here’s the proposed method:</p>
+<pre><code>Client -&gt;
+Client SSH process -&gt;
+Client HOP process -&gt;
+Proxy -&gt;
+Target HOP process -&gt;
+Target SSH process -&gt;
+Target Server</code></pre>
+<p><strong>HOP</strong> simply wraps all the data in HTTP packets, and buffers them accordingly.</p>
+<p>Another even more complicated scenario would be if you have an external utility server, and need to access another server’s resources from behind a proxy. In this case, <em>hop</em> will still run on your external server, but instead of forwarding to <code>localhost</code> from the target HOP process, you should forward to the remote address (hostname) of the target machine which has the SSH process.</p>
+<h1 id="current-state">Current state</h1>
+<p>After the initial release (when I started receiving stars on Github), I found a bug which caused data drops, and thus broke the tunneled SSH connections. Around 10 hours later, and multiple rewrites later (which made the code much more readable too), the bug finally stands fixed. The bug was due to me using 2 different threads to read and write to the same 2 sockets. I realized this while writing an article on bidirectional nature of sockets.</p>
+<p>There had been plenty of memory corruption errors as well, which have been fixed now. I can use <code>hop</code> to SSH to machines over HTTP, or transfer files using <code>nc</code> reliably now.</p>
+<h1 id="lessons">Lessons</h1>
+<ul>
+<li>It is often quite hard to figure out parts which can be abstracted out in a program on the first rewrite. I actually leart a lot during the rewrites of the code.</li>
+<li>You get no prizes for reusing variables in real life. Here I quote a very helpful user on Reddit. This actually helped me clean up my code a lot, and make it much more readable.</li>
+<li>You can never assume thread safety, even for local buffers, or for logging classes.</li>
+<li>Stress testing ought to be mandatory before publishing the project :smile:</li>
+<li>Spend your time working on innovative projects rather than writing config files for packages etc. Helps you learn a lot more.</li>
+<li>Avoid C/C++ if you can :smile: If you cannot, atleast avoid memory corruption errors.</li>
+<li>Think before you begin writing. Think of all the corner cases, and all the errors you want to handle.</li>
+<li>Don’t leave things which you assume will never happen, and thus you don’t handle them. If there’s something like that, put an assert on it. Will save a ton of a time later.</li>
+<li>Remember, sockets are not synced nicely across threads.</li>
+</ul>
+</div>
+
+<script src="/js/fb.js"></script>
+<div
+    class="fb-like"
+    data-share="true"
+    data-width="450"
+    data-show-faces="true">
+</div>
+
+<script id="dsq-count-scr" src="//acehack.disqus.com/count.js" async></script>
+
+<div id="disqus_thread"></div>
+<script>
+ // For debugging
+ var disqus_developer = 1;
+ var disqus_shortname = 'acehack';
+ var disqus_config = function () {
+     this.page.url = 'http://acehack.org/2016/09/hop1/index.html';
+     this.page.identifier = 'hop-article1';
+     this.page.title = 'HTTP-Over-Protocol - Story and lessons';
+ };
+ (function() {
+     var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+     dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+ })();
+ (function () {
+     var s = document.createElement('script'); s.async = true;
+     s.type = 'text/javascript';
+     s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+     (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+ }());
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+]]></description>
+    <pubDate>Thu, 08 Sep 2016 00:00:00 UT</pubDate>
+    <guid>https://sakshamsharma.com/2016/09/hop1/index.html</guid>
+    <dc:creator>Saksham Sharma</dc:creator>
+</item>
+<item>
+    <title>Interning at Max Planck Insititute for Software Systems</title>
+    <link>https://sakshamsharma.com/2016/07/intern/index.html</link>
+    <description><![CDATA[<div>
+    <p>I recently spent 10 weeks at the Max Planck Insititute for Software Systems in Saarbruecken, Germany; as a research fellow / intern.</p>
+<p>It was an eye-opening and immensely interesting 2.5 months. Since there have been quite a few questions, I’ll detail most of the things here.</p>
+<h3 id="how-i-got-the-internship">How I got the internship</h3>
+<p>Honestly, there was nothing too spectacular in what I did. I was already conversing with one professor there over Email; when a professor at my university sends out an email saying 2 faculty at MPI (the one I was talking to, and Prof. Eva, my advisor for the internship) are looking for interns (of course I jumped at this).</p>
+<p>This being mid december, and having sent just 3 emails, I began talk over Email with Eva as well. I (would like to) believe that my resume helped in getting a prompt reply to begin with. Within 2 days of the first Email, I had a Skype call and had a sort-of confirmation. 2 weeks (and a winter vacation) later, I had received my invitaion letter by post.</p>
+<h3 id="boring-visa-application">(Boring?) Visa application</h3>
+<p>Much easier than the US visa I believe, I didn’t really have to do much apart from collecting all my documents, and dropping them off at Jalandhar’s VFS Visa Application center; along with my getting my biometric data scanned.</p>
+<p>The Visa process went out pretty smooth, and they even return the Visa fees after a while!</p>
+<h3 id="getting-there">Getting there</h3>
+<p>MPI was generous enough to pay for my flights as well as my accomodation there; along with my travel from Frankfurt to Saarbruecken by train (mind you, ICE travel, not cheap); and then from the station to the university by Taxi (perhaps because I would have trouble catching a bus, being new there). What was not nice was, not a lot of people spoke English there, since Saarbruecken isn’t exactly a ‘tourist’ city.</p>
+<h3 id="the-atmosphere-at-mpi">The atmosphere at MPI</h3>
+<p>MPI happens to have a building somewhat similar to our CSE building at IIT Kanpur. Yet, there’s something really refreshing about this. They have glass walled rooms, and an ‘open-door’ policy; to encourage interaction.</p>
+<p>People you pass will inevitably wish you everyday. Everyone (most?) go for lunch together, and talk about almost everything over lunch, and later coffee. There’s just too much of interaction, and in a good way.</p>
+<p>MPI itself has 2 different buildings in 2 different cities, and to encourage (even more varied) interaction, every week, one of the MPI’s people visit the other one for the whole day.</p>
+<p>I must confess that I pestered quite a few PhD students here with long discussions and questions about what they are working on. This was not a futile exercise, and I found that this has really expanded my horizons, giving me a much better idea about research than I ever had before. There’s always so much research going on here, I like to call my stay here as a ‘concentrated dose of research exposure’.</p>
+<p>There are so many talks, invited researchers delivering talks, status meetings, group meetings/discussions, et cetera; you never have an excuse for getting bored! Plus on the non-academic side, they have an XBox (with Kinect, and some games), some guitars, a table tennis table, a fussball table and the likes lying around, if you ever feel like not working.</p>
+<p>Oh, need I mention, there is a huge number of Indians there at MPI!</p>
+<h3 id="my-project">My project</h3>
+<p>My project involved a fair share of programming (thankfully in Functional, using Scala); some research part, and lots of experimentation (which I never realized till I actually began it). My advisor was quite involved with the project herself, and help/advice was never further than an Email or a 30 second walk to her office (I believe this is not too common, so perhaps I’ve been spoilt).</p>
+<h3 id="research-environment">Research environment</h3>
+<p>I’ve been led to believe that MPI happens to have more of a theory-focussed research environment. With nothing to compare to, I’d just pass on this information. But I did see quite a bit of application based research as well; some fundamentral topic research; lots of proofs; a decent share of coding. Overall, I liked the research environment here, they have quite a bit of funds, and quite some interesting research going on all the time.</p>
+<h3 id="social-life">Social life</h3>
+<p>There were quite a few other interns here as well, and we had a lot of fun discussing things, travelling (abroad often :D), or just doing random things (Ping-Pong? :P). I made some really nice friends during my stay here. The PhD people are also super friendly, and I ended up have broad discussions with someone everyday. Infact, even the faculty are super nice, and you can easily get into friendly light conversations with them.</p>
+<h3 id="visiting-places">Visiting places!</h3>
+<p>Yes, I know. Some think of this as the highlight of a foreign intern. It wasn’t really a huge priority for me per-se; but I did quite a bit of travelling. A Euro-Rail pass might have been nice if I had other people who were taking it as well. But since I didn’t have one, we travelled long hours by bus (10 hours doesn’t seem long anymore to me).</p>
+<p>Here’s where some of my eventful weekends were spent: - Paris (France) - Munich and Neuschwannstein Castle (Germany) - Strasbourg (France) - Prague and Vienna (Czech Republic and Austria) - Trier (Germany) - Amsterdam (Netherlands)</p>
+<h3 id="german-language">German language</h3>
+<p>Atleast in Saarbruecken, knowing a bit of German helps out. I’ve heard it’s better in the other MPI campus in Kaiserslautern. Point to be noted: The whole of the University I was in, was in English. You just need German when going out of MPI/University.</p>
+<p>I had just done 2-3 modules of Duolingo when I came here, and didn’t really follow it up much. But I kept Google Translate open whenever I was commuting, translating random things I read, or just finding translations of English sentences which come to mind. I ended up having a decent functional knowledge this way; to an extent that I could describe my requirements at shops, or ask directions, count, understand railway announcements (by now atleast). German isn’t hard! It’s actually quite structured and systematic.</p>
+<p>In fact, I believe English not being the primary language was a really nice thing. This happens to be around the end of the phase where people say picking up a language is possible, and this was a really nice opportunity! Plus, it opens scope for various endless discussions! (I’m tempted to write ‘endless as the ocean’, but it sounds pre-Earth-is-round era).</p>
+<h3 id="money-and-accomodation">Money and accomodation?</h3>
+<p>I wouldn’t want to spoil the fun here, so won’t quote the amount, but it’s more than enough! And they provide accomodation as well, which is quite an awesome thing!</p>
+<h3 id="conclusion">Conclusion?</h3>
+<p>As I type this sitting at the airport, about to board my flight back home, I miss this magnificent summer in Europe. Would I recommend this? Surely!</p>
+</div>
+
+<script src="/js/fb.js"></script>
+<div
+    class="fb-like"
+    data-share="true"
+    data-width="450"
+    data-show-faces="true">
+</div>
+
+<script id="dsq-count-scr" src="//acehack.disqus.com/count.js" async></script>
+
+<div id="disqus_thread"></div>
+<script>
+ // For debugging
+ var disqus_developer = 1;
+ var disqus_shortname = 'acehack';
+ var disqus_config = function () {
+     this.page.url = 'http://acehack.org/2016/07/intern/index.html';
+     this.page.identifier = 'mpi-summer-16';
+     this.page.title = 'Interning at Max Planck Insititute for Software Systems';
+ };
+ (function() {
+     var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+     dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+ })();
+ (function () {
+     var s = document.createElement('script'); s.async = true;
+     s.type = 'text/javascript';
+     s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+     (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+ }());
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+]]></description>
+    <pubDate>Thu, 21 Jul 2016 00:00:00 UT</pubDate>
+    <guid>https://sakshamsharma.com/2016/07/intern/index.html</guid>
+    <dc:creator>Saksham Sharma</dc:creator>
+</item>
+<item>
+    <title>Chrome and Firefox resource usage experiment</title>
+    <link>https://sakshamsharma.com/2016/06/chromeffx/index.html</link>
+    <description><![CDATA[<div>
+    <h2 id="browser-war">Browser WAR!</h2>
+<p>Why bother fighting over features in browsers when you can decide using some hard facts?</p>
+<p>I had recently managed to make Firefox work for me (it still isn’t as fluid as Chrome, but is now close, thanks to using the beta version which has e10s support). Still confused about whether its really better than Chrome, I decided to put them to the test!</p>
+<h2 id="results-first-because..-well.">Results first, because.. well.</h2>
+<p>Since majority would come here for the results, well…</p>
+<p><strong><em>drum roll</em></strong></p>
+<p>Firefox wins <em>hands down</em> here. Personally, this was not a surprise.</p>
+<p>Chrome was always know to be a RAM hog, but it also seems to have a huge lot more power usage as compared to Firefox as well.</p>
+<p><strong>Update</strong> I’m back to Chrome these days. I noticed it works much more smoother, and hangs much less often.</p>
+<h3 id="ram">RAM</h3>
+<p>Not a new thing, but yes, Firefox uses lower RAM than Chrome <em>consistently</em>. For description of the actions during the course of the benchmark, look at the next section.</p>
+<p><img src="/images/articles/ram-plot.png" style="width: 95%; height: auto;"></img></p>
+<blockquote>
+<p>Don’t laugh at the plot :P</p>
+<p>Also, the higher one is Chrome, although it’s not apparent.</p>
+<p>Bad gnuplot skills ^</p>
+</blockquote>
+<h3 id="power">Power</h3>
+<p>I measured the power output of my laptop’s battery while doing various actions on both browsers, and Firefox again demonstrates much lower usage. Really good for people who keep running out of battery and complain they cannot figure out the reason (Yes, I’m also talking about myself). Firefox, good job there!</p>
+<p><img src="/images/articles/power-plot.png" style="width: 95%; height: auto;"></img></p>
+<h2 id="the-experiment">The experiment</h2>
+<p>I designed a casual benchmark for testing the browsers’ resource usage.</p>
+<p>Here’s the timeline of the benchmark:</p>
+<table>
+<thead>
+<tr class="header">
+<th align="center">Start Time</th>
+<th align="center">Duration of step</th>
+<th>Action</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center">0 seconds</td>
+<td align="center">25 seconds</td>
+<td>Startup of browser</td>
+</tr>
+<tr class="even">
+<td align="center">25 seconds</td>
+<td align="center">20 seconds</td>
+<td>Open Viva La Vida video on Youtube</td>
+</tr>
+<tr class="odd">
+<td align="center">45 seconds</td>
+<td align="center">20 seconds</td>
+<td>Open Instant Crush video on Youtube in a new tab</td>
+</tr>
+<tr class="even">
+<td align="center">65 seconds</td>
+<td align="center">20 seconds</td>
+<td>Open The Scientist video on Youtube in a new tab</td>
+</tr>
+<tr class="odd">
+<td align="center">85 seconds</td>
+<td align="center">20 seconds</td>
+<td>Open Facebook in a new tab</td>
+</tr>
+<tr class="even">
+<td align="center">105 seconds</td>
+<td align="center">20 seconds</td>
+<td>Close all tabs but keep browser open</td>
+</tr>
+</tbody>
+</table>
+<p><strong>NOTE</strong> All videos were running simultaneously by 85 seconds. No tab was closed prior to 105 seconds.</p>
+<p>I executed these exact actions on both browsers, taking care to start with exactly the same conditions in both experiments.</p>
+<p>Things done to ensure a clean test environment:</p>
+<ul>
+<li>A fresh boot in both cases.</li>
+<li>No other applications were running, except the light weight window manager (XMonad) and core services.</li>
+<li>Browser was not loaded any time before the start of the test.</li>
+<li>The battery level (95%) and the battery usage rate (power) were same before the start in both cases.</li>
+<li>All plugins (except ad-blocker) were disabled in both browsers prior to the start of the experiment.</li>
+<li>The browsers used were the publicly available binaries, not custom compiled.</li>
+<li>Both browsers did not use dedicated GPU for any purpose (nvidia module was not loaded).</li>
+<li>Yes, both browsers had the same volume set on system as well as Youtube.</li>
+</ul>
+<p><strong>NOTE</strong> I left ad-blocker running in both the browsers since Ads would just introduce variability and delays in video starts.</p>
+<p>Here are the links used for the experiment:</p>
+<ul>
+<li><a href="https://www.youtube.com/watch?v=dvgZkm1xWPE">Viva La Vida</a></li>
+<li><a href="https://www.youtube.com/watch?v=a5uQMwRMHcs">Instant Crush</a></li>
+<li><a href="https://www.youtube.com/watch?v=RB-RcX5DS5A">The Scientist</a></li>
+</ul>
+<p>The experiments were conducted on a Lenovo Y50-70 with a 4 cell (and dismal) battery, 8 GB RAM, and an i7 4705HQ Processor.</p>
+<h2 id="scripts-used">Scripts used</h2>
+<h4 id="data-recording">Data recording</h4>
+<p>Here is the script used to record the data. Feel free to test it on yours as well.</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="co">#!/bin/bash</span>
+
+<span class="kw">if</span><span class="bu"> [</span> <span class="ot">-z</span> <span class="st">&quot;</span><span class="va">$1</span><span class="st">&quot;</span><span class="bu"> ]</span>
+<span class="kw">then</span>
+    <span class="bu">echo</span> <span class="st">&quot;CUSTOM MESSAGE&quot;</span>
+    <span class="bu">echo</span> <span class="st">&quot;Arguement not supplied&quot;</span>
+    <span class="bu">echo</span> <span class="st">&quot;Usage: ./test.sh &lt;file_1&gt; &lt;file_2&quot;</span>
+    <span class="bu">exit</span>
+<span class="kw">fi</span>
+
+<span class="kw">for</span> <span class="ex">i</span> in <span class="dt">{1..125}</span>
+<span class="kw">do</span>
+  <span class="bu">echo</span> <span class="va">$i</span>
+  <span class="va">power=$(</span><span class="fu">cat</span> /sys/class/power_supply/BAT1/power_now<span class="va">)</span>
+  <span class="va">ramFree=$(</span><span class="fu">cat</span> /proc/meminfo <span class="kw">|</span> <span class="fu">grep</span> <span class="st">&#39;MemFree:\ *[0-9]*&#39;</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="st">&#39;[0-9]*&#39;</span> -o<span class="va">)</span>
+  <span class="va">ramAvail=$(</span><span class="fu">cat</span> /proc/meminfo <span class="kw">|</span> <span class="fu">grep</span> <span class="st">&#39;MemAvailable:\ *[0-9]*&#39;</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="st">&#39;[0-9]*&#39;</span> -o<span class="va">)</span>
+  <span class="va">ramUsed=$(($ramAvail</span> - <span class="va">$ramFree))</span>
+  <span class="bu">echo</span> <span class="st">&quot;Power: </span><span class="va">$power</span><span class="st">&quot;</span>
+  <span class="bu">echo</span> <span class="st">&quot;RAM: </span><span class="va">$ramUsed</span><span class="st">&quot;</span>
+  <span class="bu">printf</span> <span class="st">&quot;%s, %s\n&quot;</span> <span class="st">&quot;</span><span class="va">$i</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$power</span><span class="st">&quot;</span> <span class="op">&gt;&gt;</span> <span class="st">&quot;</span><span class="va">$1</span><span class="st">-power&quot;</span>
+  <span class="bu">printf</span> <span class="st">&quot;%s, %s\n&quot;</span> <span class="st">&quot;</span><span class="va">$i</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$ramUsed</span><span class="st">&quot;</span> <span class="op">&gt;&gt;</span> <span class="st">&quot;</span><span class="va">$1</span><span class="st">-ram&quot;</span>
+  <span class="fu">sleep</span> 1
+<span class="kw">done</span></code></pre></div>
+<h4 id="data-format">Data format</h4>
+<p>The output data files were of the format:</p>
+<pre><code>&lt;time&gt;, &lt;ram_used&gt;
+&lt;time2&gt;, &lt;ram_used2&gt;</code></pre>
+<h4 id="plotting-script">Plotting script</h4>
+<p>The (below-par) script used for plotting the plots is here. It takes as argument the 2 files (like: chrome-ram and firefox-ram).</p>
+<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="co">#!/bin/bash</span>
+
+<span class="kw">if</span><span class="bu"> [</span> <span class="va">$#</span> <span class="ot">-eq</span> 0<span class="bu"> ]</span>; <span class="kw">then</span>
+    <span class="bu">echo</span> <span class="st">&quot;No file to be plotted&quot;</span>
+    <span class="bu">exit</span> 1
+<span class="kw">fi</span>
+
+<span class="va">metric=$(</span><span class="bu">echo</span> <span class="va">$1</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="st">&#39;\-.*&#39;</span> -o<span class="va">)</span>
+<span class="va">metric=${metric:1}</span>
+<span class="bu">echo</span> <span class="va">$metric</span>
+
+<span class="co"># Have to pipe to gnuplot via cat otherwise it does not pause</span>
+<span class="kw">(</span><span class="fu">cat</span> &lt;&lt; EOF
+set title &quot;Plot of <span class="va">$metric</span> in Chrome 51 vs Firefox 48&quot;
+set term png
+set output &quot;<span class="va">$metric</span>-plot.png&quot;
+set ylabel &quot;<span class="va">$metric</span>&quot;
+set xlabel &quot;Time (seconds)&quot;
+set autoscale
+
+set style data histogram
+set style histogram gap 1
+set style fill solid border -1
+set boxwidth 1
+
+set datafile separator &quot;,&quot;
+set arrow from 25, graph 0 to 25, graph 1 nohead
+set arrow from 45, graph 0 to 45, graph 1 nohead
+set arrow from 65, graph 0 to 65, graph 1 nohead
+set arrow from 85, graph 0 to 85, graph 1 nohead
+set arrow from 105, graph 0 to 105, graph 1 nohead
+plot &#39;<span class="va">$1</span>&#39; using 2, &#39;<span class="va">$2</span>&#39; using 2
+pause -1 &quot;Press Ctrl+D to exit&quot;
+EOF
+cat /dev/tty) | gnuplot</code></pre></div>
+</div>
+
+<script src="/js/fb.js"></script>
+<div
+    class="fb-like"
+    data-share="true"
+    data-width="450"
+    data-show-faces="true">
+</div>
+
+<script id="dsq-count-scr" src="//acehack.disqus.com/count.js" async></script>
+
+<div id="disqus_thread"></div>
+<script>
+ // For debugging
+ var disqus_developer = 1;
+ var disqus_shortname = 'acehack';
+ var disqus_config = function () {
+     this.page.url = 'http://acehack.org/2016/06/chromeffx/index.html';
+     this.page.identifier = 'chrome-vs-ffx';
+     this.page.title = 'Chrome and Firefox resource usage experiment';
+ };
+ (function() {
+     var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+     dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+ })();
+ (function () {
+     var s = document.createElement('script'); s.async = true;
+     s.type = 'text/javascript';
+     s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+     (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+ }());
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+]]></description>
+    <pubDate>Sun, 12 Jun 2016 00:00:00 UT</pubDate>
+    <guid>https://sakshamsharma.com/2016/06/chromeffx/index.html</guid>
+    <dc:creator>Saksham Sharma</dc:creator>
+</item>
+
+    </channel>
+</rss>
