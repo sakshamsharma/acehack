@@ -60,6 +60,7 @@ main = hakyll $ do
        let postCtx = dateField "date" "%B %e, %Y" `mappend`
              tagsField "tags" tags `mappend`
              tagsField "cats" cats `mappend`
+             dateField "dateMap" "%Y-%m-%d" `mappend`
              defaultContext
        let ctxWithPosts title =
              constField "title" title `mappend`
@@ -119,7 +120,6 @@ main = hakyll $ do
              compile $ do
                pandocCompiler
                      >>= loadAndApplyTemplate "templates/redirect.html" redirectCtx
-
 
        match "templates/**" $ compile templateBodyCompiler
 

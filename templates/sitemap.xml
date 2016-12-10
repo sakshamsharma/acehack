@@ -4,7 +4,7 @@ $for(posts)$
     <url>
       <loc>http://sakshamsharma.com$url$</loc>
         <changefreq>weekly</changefreq>
-        $if(date)$<lastmod>$date$</lastmod>$endif$
+        $if(dateMap)$<lastmod>$dateMap$</lastmod>$endif$
         <priority>0.8</priority>
     </url>
 $endfor$
