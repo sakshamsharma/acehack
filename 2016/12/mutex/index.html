@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en-us">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="generator" content="Hugo">
+        <title>AceHack</title>
+        <meta name="author" content="Saksham Sharma">
+        <meta name="keywords" content="acehack, coding, programming, linux, webdev, hakyll">
+
+        <meta name="description" content="Saksham Sharma's blog">
+        <meta property="og:description" content="Saksham Sharma's blog">
+        <meta property="og:type" content="blog">
+        <meta property="og:title" content="AceHack">
+        <meta property="og:url" content>
+        <meta property="og:site_name" content="AceHack">
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:title" content="AceHack">
+        <meta name="twitter:description" content="Saksham Sharma's blog">
+
+        <meta property="og:image" content="https://avatars3.githubusercontent.com/u/10418596?v=3&s=460">
+
+        <link rel="stylesheet" href="../../../css/hugo.css" />
+        <script src="../../../js/utils.js"></script>
+        <script>
+         moveToHttps();
+        </script>
+    </head>
+
+<body>
+    <!--SCRIPTS-->
+<script src="../../../js/hugo.js" type="text/javascript"></script>
+<!--SCRIPTS END-->
+<script src="../../../js/highlight.js">
+</script>
+
+    <div id="blog">
+        <header id="header" data-behavior="1">
+  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
+  <div class="header-title">
+    <a class="header-title-link" href="../../../">AceHack</a>
+  </div>
+      <a class="header-right-picture " href="../../../about">
+        <img class="header-picture" src="https://avatars3.githubusercontent.com/u/10418596?v=3&amp;s=460" alt="Author's picture" />
+    </a>
+</header>
+
+
+        <nav id="sidebar" data-behavior="1">
+    <div class="sidebar-container">
+        <div class="sidebar-profile">
+            <a href="../../../about">
+                <img class="sidebar-profile-picture" src="https://avatars3.githubusercontent.com/u/10418596?v=3&amp;s=460" alt="Author's picture" />
+            </a>
+            <h4 class="sidebar-profile-name">Saksham Sharma</h4>
+
+            <h5 class="sidebar-profile-bio">Hacker. Programmer. Geek.</h5>
+
+        </div>
+
+        <ul class="sidebar-buttons">
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="../../../">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
+                    <span class="sidebar-button-desc">Home</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="../../../categories">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
+                    <span class="sidebar-button-desc">Categories</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="../../../tags">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
+                    <span class="sidebar-button-desc">Tags</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="../../../archives">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
+                    <span class="sidebar-button-desc">Archives</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="../../../about">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
+                    <span class="sidebar-button-desc">About</span>
+                </a>
+            </li>
+
+        </ul>
+        <ul class="sidebar-buttons">
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="https://github.com/sakshamsharma" target="_blank">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-github"></i>
+                    <span class="sidebar-button-desc">GitHub</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="https://in.linkedin.com/in/saksham-sharma" target="_blank">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-linkedin"></i>
+                    <span class="sidebar-button-desc">LinkedIn</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="../../../cv" target="_blank">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-file-o"></i>
+                    <span class="sidebar-button-desc">Resume</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="../../../rss.xml" target="_blank">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                    <span class="sidebar-button-desc">Rss</span>
+                </a>
+            </li>
+
+            <li class="sidebar-button">
+
+                <a class="sidebar-button-link " href="../../../atom.xml" target="_blank">
+
+                    <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
+                    <span class="sidebar-button-desc">Atom</span>
+                </a>
+            </li>
+
+        </ul>
+        <ul class="sidebar-buttons">
+
+        </ul>
+    </div>
+</nav>
+
+<div id="main" data-behavior="1" class="hasCoverMetaIn">
+    <section class="postShorten-group main-content-wrap">
+
+        <h1>Coding software-based mutex algos for fun</h1>
+
+ Tags: <a href="../../../tags/OS/index.html">OS</a>, <a href="../../../tags/kernel/index.html">kernel</a>, <a href="../../../tags/python/index.html">python</a>  <br><br>
+<div>
+    <p>I learnt a couple of nice scheduling algorithms in my Operating Systems class last semester. They seemed like an interesting bunch, but it was not generally clear whether their performance would be good.</p>
+<p>Now, what better a way to understand them than by coding them up? So it began.</p>
+<p>First off, those who know about <a href="https://en.wikipedia.org/wiki/Global_interpreter_lock">GIL</a> would rather laugh at me when I tell you that I wrote the algorithms in Python.</p>
+<blockquote>
+<p>Multi-threading in Python? But Why ?!?!</p>
+</blockquote>
+<p>Simple reason, I was looking to write code fast. After all, I had an exam I hadn’t studied anything for (yes, this exam). Plus, I don’t know, but might be that GIL isn’t going to affect the output of this test significantly anyway (have not verified this yet).</p>
+<p>So I went, and wrote a few classes (one for each algorithm):</p>
+<h2 id="the-algorithms">The algorithms</h2>
+<h3 id="dekkers-algorithm-2-thread">Dekker’s algorithm (2-thread)</h3>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="kw">class</span> Dekker:
+    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):
+        <span class="va">self</span>.flag <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">0</span>]
+        <span class="va">self</span>.turn <span class="op">=</span> <span class="dv">0</span>
+
+    <span class="kw">def</span> lock(<span class="va">self</span>, i):
+        j <span class="op">=</span> <span class="dv">1</span><span class="op">-</span>i
+        <span class="cf">while</span> <span class="va">self</span>.flag[j]:
+            <span class="cf">if</span> <span class="va">self</span>.turn <span class="op">==</span> j:
+                <span class="va">self</span>.flag[i] <span class="op">=</span> <span class="dv">0</span>
+                <span class="cf">while</span> <span class="va">self</span>.turn <span class="op">==</span> j:
+                    <span class="cf">pass</span>
+                <span class="va">self</span>.flag[i] <span class="op">=</span> <span class="dv">1</span>
+
+    <span class="kw">def</span> unlock(<span class="va">self</span>, i):
+        j <span class="op">=</span> <span class="dv">1</span><span class="op">-</span>i
+        <span class="va">self</span>.turn <span class="op">=</span> j
+        <span class="va">self</span>.flag[i] <span class="op">=</span> <span class="dv">0</span></code></pre></div>
+<h3 id="petersons-algorithm-2-thread">Peterson’s algorithm (2-thread)</h3>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">Peterson:
+    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):
+        <span class="va">self</span>.flag <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">0</span>]
+        <span class="va">self</span>.turn <span class="op">=</span> <span class="dv">0</span>
+
+    <span class="kw">def</span> lock(<span class="va">self</span>, i):
+        j <span class="op">=</span> <span class="dv">1</span><span class="op">-</span>i
+        <span class="va">self</span>.flag[i] <span class="op">=</span> <span class="dv">1</span>
+        <span class="va">self</span>.turn <span class="op">=</span> j
+        <span class="cf">while</span> <span class="va">self</span>.flag[j] <span class="kw">and</span> <span class="va">self</span>.turn <span class="op">==</span> j:
+            <span class="cf">pass</span>
+
+    <span class="kw">def</span> unlock(<span class="va">self</span>, i):
+        <span class="va">self</span>.flag[i] <span class="op">=</span> <span class="dv">0</span></code></pre></div>
+<h3 id="lamports-bakery-algorithm-n-thread">Lamport’s bakery algorithm (n-thread)</h3>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="kw">class</span> Lamport:
+    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, c):
+        <span class="va">self</span>.count <span class="op">=</span> c
+        <span class="va">self</span>.ticket <span class="op">=</span> [<span class="dv">0</span>]<span class="op">*</span>c
+        <span class="va">self</span>.choosing <span class="op">=</span> [<span class="dv">0</span>]<span class="op">*</span>c
+
+    <span class="kw">def</span> lock(<span class="va">self</span>, i):
+        <span class="va">self</span>.choosing[i] <span class="op">=</span> <span class="dv">1</span>
+        <span class="va">self</span>.ticket[i] <span class="op">=</span> <span class="bu">max</span>(<span class="va">self</span>.ticket) <span class="op">+</span> <span class="dv">1</span>
+        <span class="va">self</span>.choosing[i] <span class="op">=</span> <span class="dv">0</span>
+        <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, <span class="va">self</span>.count):
+            <span class="cf">while</span> <span class="va">self</span>.choosing[j]:
+                <span class="cf">pass</span>
+            <span class="cf">while</span> (<span class="va">self</span>.ticket[j] <span class="kw">and</span>
+                   (<span class="va">self</span>.ticket[j], j) <span class="op">&lt;</span> (<span class="va">self</span>.ticket[i], i)):
+                <span class="cf">pass</span>
+
+    <span class="kw">def</span> unlock(<span class="va">self</span>, i):
+        <span class="va">self</span>.ticket[i] <span class="op">=</span> <span class="dv">0</span></code></pre></div>
+<h2 id="testing-how">Testing, how?</h2>
+<p>So I made a simple function. It would grab the lock, increment the thread’s counter (globally placed), print the new total count for all threads, and release the lock.</p>
+<p>I wrote some clever python idioms, but that’s irrelevant. What is relevant is the rate at which the counter increases for each thread. That could be throught of as a metric to quantify the performance of the algorithms.</p>
+<h2 id="results">Results</h2>
+<p>I ran each algorithm for 5 seconds, and looked at the count of iterations of each process. Also, to note the presence of unfairness, or an initial bias, I also ran one for 10 seconds, but it did not have any noticeable effect. Also, since Dekker and Peterson only work for 2 threads, I also tested Lamport on 2 threads (highly unfair, I know).</p>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th>Thread 1</th>
+<th>Thread 2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Dekker</td>
+<td>7415</td>
+<td>7245</td>
+</tr>
+<tr class="even">
+<td>Peterson</td>
+<td>116</td>
+<td>114</td>
+</tr>
+<tr class="odd">
+<td>Lamport</td>
+<td>119</td>
+<td>117</td>
+</tr>
+</tbody>
+</table>
+<p>Through this, it is quite clear who the winner is. Dekker seems to perform much faster than the other 2. Of course, it has the other issues of being more complicated, and of only supporting 2 threads. But the huge performance gap is no doubt remarkable.</p>
+<p>This experiment was never intended to be of very high accuracy; why, it was hardly more than an exam time fun exercise. But a difference of this magnitude is certainly of interest, and what an in-depth look at the algorithms reveals, not completely unexpected.</p>
+</div>
+
+<script src="../../../js/fb.js"></script>
+<div class="fb-like" data-share="true" data-width="450" data-show-faces="true">
+</div>
+
+<script id="dsq-count-scr" src="//acehack.disqus.com/count.js" async></script>
+
+<div id="disqus_thread"></div>
+<script>
+ // For debugging
+ var disqus_developer = 1;
+ var disqus_shortname = 'acehack';
+ var disqus_config = function () {
+     this.page.url = 'http://acehack.org/2016/12/mutex/index.html';
+     this.page.identifier = 'mutex';
+     this.page.title = 'Coding software-based mutex algos for fun';
+ };
+ (function() {
+     var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+     dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+ })();
+ (function () {
+     var s = document.createElement('script'); s.async = true;
+     s.type = 'text/javascript';
+     s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+     (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+ }());
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+
+
+
+    </section>
+    <footer id="footer" class="main-content-wrap">
+  <span class="copyrights">
+      Saksham Sharma
+  </span>
+</footer>
+
+</div>
+
+
+    </div>
+    <div id="about">
+    <div id="about-card">
+        <div id="about-btn-close">
+            <i class="fa fa-remove"></i>
+        </div>
+
+        <img id="about-card-picture" src="https://avatars3.githubusercontent.com/u/10418596?v=3&amp;s=460" alt="Author's picture" />
+
+        <h4 id="about-card-name">Saksham Sharma</h4>
+
+        <div id="about-card-bio">Hacker. Programmer. Geek.</div>
+
+
+        <div id="about-card-job">
+            <i class="fa fa-briefcase"></i>
+            <br />
+            3rd year Undergrad, Computer Science and Engineering
+        </div>
+
+
+        <div id="about-card-location">
+            <i class="fa fa-map-marker"></i>
+            <br />
+            Indian Institute of Technology Kanpur
+        </div>
+
+    </div>
+</div>
+
+    <div id="cover" style="background-image:url('/images/header.jpg');"></div>
+
+    <script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-88802609-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+</body>
+</html>

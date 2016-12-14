@@ -7,8 +7,148 @@
         <description><![CDATA[Reveries of a programmer]]></description>
         <atom:link href="https://sakshamsharma.com/rss.xml" rel="self"
                    type="application/rss+xml" />
-        <lastBuildDate>Fri, 25 Nov 2016 00:00:00 UT</lastBuildDate>
+        <lastBuildDate>Fri, 02 Dec 2016 00:00:00 UT</lastBuildDate>
         <item>
+    <title>Coding software-based mutex algos for fun</title>
+    <link>https://sakshamsharma.com/2016/12/mutex/index.html</link>
+    <description><![CDATA[<div>
+    <p>I learnt a couple of nice scheduling algorithms in my Operating Systems class last semester. They seemed like an interesting bunch, but it was not generally clear whether their performance would be good.</p>
+<p>Now, what better a way to understand them than by coding them up? So it began.</p>
+<p>First off, those who know about <a href="https://en.wikipedia.org/wiki/Global_interpreter_lock">GIL</a> would rather laugh at me when I tell you that I wrote the algorithms in Python.</p>
+<blockquote>
+<p>Multi-threading in Python? But Why ?!?!</p>
+</blockquote>
+<p>Simple reason, I was looking to write code fast. After all, I had an exam I hadn’t studied anything for (yes, this exam). Plus, I don’t know, but might be that GIL isn’t going to affect the output of this test significantly anyway (have not verified this yet).</p>
+<p>So I went, and wrote a few classes (one for each algorithm):</p>
+<h2 id="the-algorithms">The algorithms</h2>
+<h3 id="dekkers-algorithm-2-thread">Dekker’s algorithm (2-thread)</h3>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="kw">class</span> Dekker:
+    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):
+        <span class="va">self</span>.flag <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">0</span>]
+        <span class="va">self</span>.turn <span class="op">=</span> <span class="dv">0</span>
+
+    <span class="kw">def</span> lock(<span class="va">self</span>, i):
+        j <span class="op">=</span> <span class="dv">1</span><span class="op">-</span>i
+        <span class="cf">while</span> <span class="va">self</span>.flag[j]:
+            <span class="cf">if</span> <span class="va">self</span>.turn <span class="op">==</span> j:
+                <span class="va">self</span>.flag[i] <span class="op">=</span> <span class="dv">0</span>
+                <span class="cf">while</span> <span class="va">self</span>.turn <span class="op">==</span> j:
+                    <span class="cf">pass</span>
+                <span class="va">self</span>.flag[i] <span class="op">=</span> <span class="dv">1</span>
+
+    <span class="kw">def</span> unlock(<span class="va">self</span>, i):
+        j <span class="op">=</span> <span class="dv">1</span><span class="op">-</span>i
+        <span class="va">self</span>.turn <span class="op">=</span> j
+        <span class="va">self</span>.flag[i] <span class="op">=</span> <span class="dv">0</span></code></pre></div>
+<h3 id="petersons-algorithm-2-thread">Peterson’s algorithm (2-thread)</h3>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">Peterson:
+    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):
+        <span class="va">self</span>.flag <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">0</span>]
+        <span class="va">self</span>.turn <span class="op">=</span> <span class="dv">0</span>
+
+    <span class="kw">def</span> lock(<span class="va">self</span>, i):
+        j <span class="op">=</span> <span class="dv">1</span><span class="op">-</span>i
+        <span class="va">self</span>.flag[i] <span class="op">=</span> <span class="dv">1</span>
+        <span class="va">self</span>.turn <span class="op">=</span> j
+        <span class="cf">while</span> <span class="va">self</span>.flag[j] <span class="kw">and</span> <span class="va">self</span>.turn <span class="op">==</span> j:
+            <span class="cf">pass</span>
+
+    <span class="kw">def</span> unlock(<span class="va">self</span>, i):
+        <span class="va">self</span>.flag[i] <span class="op">=</span> <span class="dv">0</span></code></pre></div>
+<h3 id="lamports-bakery-algorithm-n-thread">Lamport’s bakery algorithm (n-thread)</h3>
+<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="kw">class</span> Lamport:
+    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, c):
+        <span class="va">self</span>.count <span class="op">=</span> c
+        <span class="va">self</span>.ticket <span class="op">=</span> [<span class="dv">0</span>]<span class="op">*</span>c
+        <span class="va">self</span>.choosing <span class="op">=</span> [<span class="dv">0</span>]<span class="op">*</span>c
+
+    <span class="kw">def</span> lock(<span class="va">self</span>, i):
+        <span class="va">self</span>.choosing[i] <span class="op">=</span> <span class="dv">1</span>
+        <span class="va">self</span>.ticket[i] <span class="op">=</span> <span class="bu">max</span>(<span class="va">self</span>.ticket) <span class="op">+</span> <span class="dv">1</span>
+        <span class="va">self</span>.choosing[i] <span class="op">=</span> <span class="dv">0</span>
+        <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, <span class="va">self</span>.count):
+            <span class="cf">while</span> <span class="va">self</span>.choosing[j]:
+                <span class="cf">pass</span>
+            <span class="cf">while</span> (<span class="va">self</span>.ticket[j] <span class="kw">and</span>
+                   (<span class="va">self</span>.ticket[j], j) <span class="op">&lt;</span> (<span class="va">self</span>.ticket[i], i)):
+                <span class="cf">pass</span>
+
+    <span class="kw">def</span> unlock(<span class="va">self</span>, i):
+        <span class="va">self</span>.ticket[i] <span class="op">=</span> <span class="dv">0</span></code></pre></div>
+<h2 id="testing-how">Testing, how?</h2>
+<p>So I made a simple function. It would grab the lock, increment the thread’s counter (globally placed), print the new total count for all threads, and release the lock.</p>
+<p>I wrote some clever python idioms, but that’s irrelevant. What is relevant is the rate at which the counter increases for each thread. That could be throught of as a metric to quantify the performance of the algorithms.</p>
+<h2 id="results">Results</h2>
+<p>I ran each algorithm for 5 seconds, and looked at the count of iterations of each process. Also, to note the presence of unfairness, or an initial bias, I also ran one for 10 seconds, but it did not have any noticeable effect. Also, since Dekker and Peterson only work for 2 threads, I also tested Lamport on 2 threads (highly unfair, I know).</p>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th>Thread 1</th>
+<th>Thread 2</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Dekker</td>
+<td>7415</td>
+<td>7245</td>
+</tr>
+<tr class="even">
+<td>Peterson</td>
+<td>116</td>
+<td>114</td>
+</tr>
+<tr class="odd">
+<td>Lamport</td>
+<td>119</td>
+<td>117</td>
+</tr>
+</tbody>
+</table>
+<p>Through this, it is quite clear who the winner is. Dekker seems to perform much faster than the other 2. Of course, it has the other issues of being more complicated, and of only supporting 2 threads. But the huge performance gap is no doubt remarkable.</p>
+<p>This experiment was never intended to be of very high accuracy; why, it was hardly more than an exam time fun exercise. But a difference of this magnitude is certainly of interest, and what an in-depth look at the algorithms reveals, not completely unexpected.</p>
+</div>
+
+<script src="/js/fb.js"></script>
+<div
+    class="fb-like"
+    data-share="true"
+    data-width="450"
+    data-show-faces="true">
+</div>
+
+<script id="dsq-count-scr" src="//acehack.disqus.com/count.js" async></script>
+
+<div id="disqus_thread"></div>
+<script>
+ // For debugging
+ var disqus_developer = 1;
+ var disqus_shortname = 'acehack';
+ var disqus_config = function () {
+     this.page.url = 'http://acehack.org/2016/12/mutex/index.html';
+     this.page.identifier = 'mutex';
+     this.page.title = 'Coding software-based mutex algos for fun';
+ };
+ (function() {
+     var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+     dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+ })();
+ (function () {
+     var s = document.createElement('script'); s.async = true;
+     s.type = 'text/javascript';
+     s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+     (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+ }());
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+]]></description>
+    <pubDate>Fri, 02 Dec 2016 00:00:00 UT</pubDate>
+    <guid>https://sakshamsharma.com/2016/12/mutex/index.html</guid>
+    <dc:creator>Saksham Sharma</dc:creator>
+</item>
+<item>
     <title>Zero-trust - Safe and anonymous ANDing bits - Part 2</title>
     <link>https://sakshamsharma.com/2016/11/puppy2/index.html</link>
     <description><![CDATA[<div>
@@ -835,202 +975,6 @@ Target Server</code></pre>
 ]]></description>
     <pubDate>Thu, 21 Jul 2016 00:00:00 UT</pubDate>
     <guid>https://sakshamsharma.com/2016/07/intern/index.html</guid>
-    <dc:creator>Saksham Sharma</dc:creator>
-</item>
-<item>
-    <title>Chrome and Firefox resource usage experiment</title>
-    <link>https://sakshamsharma.com/2016/06/chromeffx/index.html</link>
-    <description><![CDATA[<div>
-    <h2 id="browser-war">Browser WAR!</h2>
-<p>Why bother fighting over features in browsers when you can decide using some hard facts?</p>
-<p>I had recently managed to make Firefox work for me (it still isn’t as fluid as Chrome, but is now close, thanks to using the beta version which has e10s support). Still confused about whether its really better than Chrome, I decided to put them to the test!</p>
-<h2 id="results-first-because..-well.">Results first, because.. well.</h2>
-<p>Since majority would come here for the results, well…</p>
-<p><strong><em>drum roll</em></strong></p>
-<p>Firefox wins <em>hands down</em> here. Personally, this was not a surprise.</p>
-<p>Chrome was always know to be a RAM hog, but it also seems to have a huge lot more power usage as compared to Firefox as well.</p>
-<p><strong>Update</strong> I’m back to Chrome these days. I noticed it works much more smoother, and hangs much less often.</p>
-<h3 id="ram">RAM</h3>
-<p>Not a new thing, but yes, Firefox uses lower RAM than Chrome <em>consistently</em>. For description of the actions during the course of the benchmark, look at the next section.</p>
-<p><img src="/images/articles/ram-plot.png" style="width: 95%; height: auto;"></img></p>
-<blockquote>
-<p>Don’t laugh at the plot :P</p>
-<p>Also, the higher one is Chrome, although it’s not apparent.</p>
-<p>Bad gnuplot skills ^</p>
-</blockquote>
-<h3 id="power">Power</h3>
-<p>I measured the power output of my laptop’s battery while doing various actions on both browsers, and Firefox again demonstrates much lower usage. Really good for people who keep running out of battery and complain they cannot figure out the reason (Yes, I’m also talking about myself). Firefox, good job there!</p>
-<p><img src="/images/articles/power-plot.png" style="width: 95%; height: auto;"></img></p>
-<h2 id="the-experiment">The experiment</h2>
-<p>I designed a casual benchmark for testing the browsers’ resource usage.</p>
-<p>Here’s the timeline of the benchmark:</p>
-<table>
-<thead>
-<tr class="header">
-<th align="center">Start Time</th>
-<th align="center">Duration of step</th>
-<th>Action</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td align="center">0 seconds</td>
-<td align="center">25 seconds</td>
-<td>Startup of browser</td>
-</tr>
-<tr class="even">
-<td align="center">25 seconds</td>
-<td align="center">20 seconds</td>
-<td>Open Viva La Vida video on Youtube</td>
-</tr>
-<tr class="odd">
-<td align="center">45 seconds</td>
-<td align="center">20 seconds</td>
-<td>Open Instant Crush video on Youtube in a new tab</td>
-</tr>
-<tr class="even">
-<td align="center">65 seconds</td>
-<td align="center">20 seconds</td>
-<td>Open The Scientist video on Youtube in a new tab</td>
-</tr>
-<tr class="odd">
-<td align="center">85 seconds</td>
-<td align="center">20 seconds</td>
-<td>Open Facebook in a new tab</td>
-</tr>
-<tr class="even">
-<td align="center">105 seconds</td>
-<td align="center">20 seconds</td>
-<td>Close all tabs but keep browser open</td>
-</tr>
-</tbody>
-</table>
-<p><strong>NOTE</strong> All videos were running simultaneously by 85 seconds. No tab was closed prior to 105 seconds.</p>
-<p>I executed these exact actions on both browsers, taking care to start with exactly the same conditions in both experiments.</p>
-<p>Things done to ensure a clean test environment:</p>
-<ul>
-<li>A fresh boot in both cases.</li>
-<li>No other applications were running, except the light weight window manager (XMonad) and core services.</li>
-<li>Browser was not loaded any time before the start of the test.</li>
-<li>The battery level (95%) and the battery usage rate (power) were same before the start in both cases.</li>
-<li>All plugins (except ad-blocker) were disabled in both browsers prior to the start of the experiment.</li>
-<li>The browsers used were the publicly available binaries, not custom compiled.</li>
-<li>Both browsers did not use dedicated GPU for any purpose (nvidia module was not loaded).</li>
-<li>Yes, both browsers had the same volume set on system as well as Youtube.</li>
-</ul>
-<p><strong>NOTE</strong> I left ad-blocker running in both the browsers since Ads would just introduce variability and delays in video starts.</p>
-<p>Here are the links used for the experiment:</p>
-<ul>
-<li><a href="https://www.youtube.com/watch?v=dvgZkm1xWPE">Viva La Vida</a></li>
-<li><a href="https://www.youtube.com/watch?v=a5uQMwRMHcs">Instant Crush</a></li>
-<li><a href="https://www.youtube.com/watch?v=RB-RcX5DS5A">The Scientist</a></li>
-</ul>
-<p>The experiments were conducted on a Lenovo Y50-70 with a 4 cell (and dismal) battery, 8 GB RAM, and an i7 4705HQ Processor.</p>
-<h2 id="scripts-used">Scripts used</h2>
-<h4 id="data-recording">Data recording</h4>
-<p>Here is the script used to record the data. Feel free to test it on yours as well.</p>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="co">#!/bin/bash</span>
-
-<span class="kw">if</span><span class="bu"> [</span> <span class="ot">-z</span> <span class="st">&quot;</span><span class="va">$1</span><span class="st">&quot;</span><span class="bu"> ]</span>
-<span class="kw">then</span>
-    <span class="bu">echo</span> <span class="st">&quot;CUSTOM MESSAGE&quot;</span>
-    <span class="bu">echo</span> <span class="st">&quot;Arguement not supplied&quot;</span>
-    <span class="bu">echo</span> <span class="st">&quot;Usage: ./test.sh &lt;file_1&gt; &lt;file_2&quot;</span>
-    <span class="bu">exit</span>
-<span class="kw">fi</span>
-
-<span class="kw">for</span> <span class="ex">i</span> in <span class="dt">{1..125}</span>
-<span class="kw">do</span>
-  <span class="bu">echo</span> <span class="va">$i</span>
-  <span class="va">power=$(</span><span class="fu">cat</span> /sys/class/power_supply/BAT1/power_now<span class="va">)</span>
-  <span class="va">ramFree=$(</span><span class="fu">cat</span> /proc/meminfo <span class="kw">|</span> <span class="fu">grep</span> <span class="st">&#39;MemFree:\ *[0-9]*&#39;</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="st">&#39;[0-9]*&#39;</span> -o<span class="va">)</span>
-  <span class="va">ramAvail=$(</span><span class="fu">cat</span> /proc/meminfo <span class="kw">|</span> <span class="fu">grep</span> <span class="st">&#39;MemAvailable:\ *[0-9]*&#39;</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="st">&#39;[0-9]*&#39;</span> -o<span class="va">)</span>
-  <span class="va">ramUsed=$(($ramAvail</span> - <span class="va">$ramFree))</span>
-  <span class="bu">echo</span> <span class="st">&quot;Power: </span><span class="va">$power</span><span class="st">&quot;</span>
-  <span class="bu">echo</span> <span class="st">&quot;RAM: </span><span class="va">$ramUsed</span><span class="st">&quot;</span>
-  <span class="bu">printf</span> <span class="st">&quot;%s, %s\n&quot;</span> <span class="st">&quot;</span><span class="va">$i</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$power</span><span class="st">&quot;</span> <span class="op">&gt;&gt;</span> <span class="st">&quot;</span><span class="va">$1</span><span class="st">-power&quot;</span>
-  <span class="bu">printf</span> <span class="st">&quot;%s, %s\n&quot;</span> <span class="st">&quot;</span><span class="va">$i</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$ramUsed</span><span class="st">&quot;</span> <span class="op">&gt;&gt;</span> <span class="st">&quot;</span><span class="va">$1</span><span class="st">-ram&quot;</span>
-  <span class="fu">sleep</span> 1
-<span class="kw">done</span></code></pre></div>
-<h4 id="data-format">Data format</h4>
-<p>The output data files were of the format:</p>
-<pre><code>&lt;time&gt;, &lt;ram_used&gt;
-&lt;time2&gt;, &lt;ram_used2&gt;</code></pre>
-<h4 id="plotting-script">Plotting script</h4>
-<p>The (below-par) script used for plotting the plots is here. It takes as argument the 2 files (like: chrome-ram and firefox-ram).</p>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="co">#!/bin/bash</span>
-
-<span class="kw">if</span><span class="bu"> [</span> <span class="va">$#</span> <span class="ot">-eq</span> 0<span class="bu"> ]</span>; <span class="kw">then</span>
-    <span class="bu">echo</span> <span class="st">&quot;No file to be plotted&quot;</span>
-    <span class="bu">exit</span> 1
-<span class="kw">fi</span>
-
-<span class="va">metric=$(</span><span class="bu">echo</span> <span class="va">$1</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="st">&#39;\-.*&#39;</span> -o<span class="va">)</span>
-<span class="va">metric=${metric:1}</span>
-<span class="bu">echo</span> <span class="va">$metric</span>
-
-<span class="co"># Have to pipe to gnuplot via cat otherwise it does not pause</span>
-<span class="kw">(</span><span class="fu">cat</span> &lt;&lt; EOF
-set title &quot;Plot of <span class="va">$metric</span> in Chrome 51 vs Firefox 48&quot;
-set term png
-set output &quot;<span class="va">$metric</span>-plot.png&quot;
-set ylabel &quot;<span class="va">$metric</span>&quot;
-set xlabel &quot;Time (seconds)&quot;
-set autoscale
-
-set style data histogram
-set style histogram gap 1
-set style fill solid border -1
-set boxwidth 1
-
-set datafile separator &quot;,&quot;
-set arrow from 25, graph 0 to 25, graph 1 nohead
-set arrow from 45, graph 0 to 45, graph 1 nohead
-set arrow from 65, graph 0 to 65, graph 1 nohead
-set arrow from 85, graph 0 to 85, graph 1 nohead
-set arrow from 105, graph 0 to 105, graph 1 nohead
-plot &#39;<span class="va">$1</span>&#39; using 2, &#39;<span class="va">$2</span>&#39; using 2
-pause -1 &quot;Press Ctrl+D to exit&quot;
-EOF
-cat /dev/tty) | gnuplot</code></pre></div>
-</div>
-
-<script src="/js/fb.js"></script>
-<div
-    class="fb-like"
-    data-share="true"
-    data-width="450"
-    data-show-faces="true">
-</div>
-
-<script id="dsq-count-scr" src="//acehack.disqus.com/count.js" async></script>
-
-<div id="disqus_thread"></div>
-<script>
- // For debugging
- var disqus_developer = 1;
- var disqus_shortname = 'acehack';
- var disqus_config = function () {
-     this.page.url = 'http://acehack.org/2016/06/chromeffx/index.html';
-     this.page.identifier = 'chrome-vs-ffx';
-     this.page.title = 'Chrome and Firefox resource usage experiment';
- };
- (function() {
-     var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-     dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
- })();
- (function () {
-     var s = document.createElement('script'); s.async = true;
-     s.type = 'text/javascript';
-     s.src = '//' + disqus_shortname + '.disqus.com/count.js';
-     (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
- }());
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
-]]></description>
-    <pubDate>Sun, 12 Jun 2016 00:00:00 UT</pubDate>
-    <guid>https://sakshamsharma.com/2016/06/chromeffx/index.html</guid>
     <dc:creator>Saksham Sharma</dc:creator>
 </item>
 
