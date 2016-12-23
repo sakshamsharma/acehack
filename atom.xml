@@ -8,8 +8,105 @@
         <name>Saksham Sharma</name>
         <email>saksham0808@gmail.com</email>
     </author>
-    <updated>2016-12-02T00:00:00Z</updated>
+    <updated>2016-12-21T00:00:00Z</updated>
     <entry>
+    <title>My internship interview saga</title>
+    <link href="https://sakshamsharma.com/2016/12/internsaga/index.html" />
+    <id>https://sakshamsharma.com/2016/12/internsaga/index.html</id>
+    <published>2016-12-21T00:00:00Z</published>
+    <updated>2016-12-21T00:00:00Z</updated>
+    <summary type="html"><![CDATA[<div>
+    <p>So, after months of worrying, I had finally landed an internship position at Google Seattle, in the team of my choice. But before I could stop being lazy and sign the offer letter, something happened which made every remaining day of that offer letter an exercise in surviving confusion. But before that, let’s go to the start.</p>
+<p>Disclaimer: &gt; This article is going to be long, and flaky. I wrote this to clear up my brain, the very day this whacky process finished. Putting it up in case it can help someone.</p>
+<p>Disclaimer 2: &gt; There might be some parts in this which seem accusatory. I tried my best to simply state the facts. If something seems wrong, please understand that it was not intended.</p>
+<h3 id="campus-internships">Campus internships</h3>
+<p>I had landed back from Germany after my summer internship, and faced the immediate prospect of facing the upcoming campus internship season, where you have to sit for a bazillion interviews in a single day. I had this extra pressure of so-called ‘living up to my own expectations’. I had liked my internship in Germany, and would at least want something as good. But being underprepared as I was, and hoping that I could later prepare, and sit for off-campus internships abroad, I left things there, and did not apply for a single company.</p>
+<p>I saw all my friends land handsome interns, and, well … It isn’t too easy, having to sit with uncertainity. Some of them actually landed really nice internships. At one point, I actually regretted not sitting for the interviews.</p>
+<h3 id="first-rejection-or-was-it">First rejection (or was it?)</h3>
+<p>But after 2-3 weeks, somehow Google India showed up on the internship portal. I was quite double minded about that, but somehow applied. My initial plan was to <em>upgrade</em> this offer to a Google US offer, but later learnt that was not possible. Of all the things in the world that could have happened, they did not even shortlist my CV for an interview. This was unexpected, because I (thought) I had a great CV. Many people have told me that my CV showed interest in research, and they might have thought that I would leave the internship. I personally think it just got overlooked, or maybe it was actually bad. Did not really count as an interview rejection, but had to some how survive the disappointment that creeped up. This is not how I would have expected my first application to go.</p>
+<h3 id="second-rejection-or-was-it">Second rejection (or was it?)</h3>
+<p>Anyhow, come September, I had applied to Palantir through a referral, and gave their coding test. That’s when I realized, how bad my interview skills were. I had never prepared for interviews, and suddenly it did not seem easy. This was a jolt to me, and no wonder, I got dropped there and then, in the Palantir process.</p>
+<p>I took this one a bit more positively though, and started practicing competitive programming again. This was not the ideal thing to do, I think in hindsight, but at least it got me started.</p>
+<p>Again, this wasn’t an interview rejection <code>:)</code></p>
+<h3 id="google">Google?</h3>
+<p>I got referred for Google North America around early October, and heard back in about 2 weeks. I had my interviews scheduled for early November. I still did not practice coding for interviews, and rather focussed a bit too much on algorithms. And thus, my preparation was lack-luster to say the least. 24 hours before my interview, I realized that I had once planned to solve the book <em>Cracking the coding interview</em>. It was absolutely hooking, and I regretted not solving it early on. I spent the remaining time going through the whole book. If you’re reading this for some tips (wrong place, buddy), that was wrong too. I should’ve coded. But I learnt that pretty soon.</p>
+<h4 id="the-interviews">The interviews</h4>
+<p>My first interview went horribly. The interviewer could not understand most of the stuff I said, and somehow a misunderstanding led me to code a solution for a slightly different problem, which he later pointed out. The interview ended with him thinking I did not get the correct code on time. Yes, I did not finish even a single question.</p>
+<p>The second interview put some confidence in me though. The phone line was better, and I managed to complete the question, as well as chat for 5 minutes after that. In hindsight, I should have solved 2 questions, judging by interviews of my friends, but I was happy to have not left any clear sign of under-performance.</p>
+<p>After this, I assumed that I shall be rejected. 2 of my friends whose interviews went on nicely, they got called for a third interview. In my opinion, my interviews went horribly.</p>
+<h4 id="result">Result</h4>
+<p>Well, I got put into the host-matching phase directly. I have no idea till date, as to why this happened. Perhaps CV and my approach to the problem saved the day. This was the night before my most important final exam in college, and this helped cheer me up.</p>
+<p>So now, I was in the host matching phase. For those who do not know, this means that Google would put up my CV for project hosts, and they can interview me if they like my profile. If I did not get matched within 6 weeks, my process would be terminated. Some people got offers with a guaranteed project. I do not have any first or second hand information on this, but I assume this depends on your interview performance.</p>
+<h3 id="facebook">Facebook</h3>
+<p>A few days before my Google interview result, I applied for Facebook through a referral. What else would someone do, who is expecting to be rejected by one big company? I also applied to a handful of other companies, Microsoft Redmond, Microsoft Research, VMWare, Cisco to name a few. They never got back to me, despite referrals from employees.</p>
+<p>The Facebook recruiter arranged for an interview at the end of November, which was pretty late. Before that interview, a friend put me in touch with a good friend of his, who would be interning at Facebook London this summers. This super-enthusiastic dude actually offered to give me mock interview practice. I flunked this one too. Managed to barely solve 1 problem in this interview, where I should have been able to do 2 due to the nature of the problem. This was when I had less than 24 hours left for my interview.</p>
+<p>I resolved that I would definitely put in my best, and I picked up <em>Cracking the coding interview</em> again. Somehow, I realized that what went wrong is that I have never solved coding problems for practice. I put in all the time I could, and solved most of the important chapters of the book for practice. But importantly, I actually coded all the important problems this time.</p>
+<p>The result was clear, I solved 2 problems correctly for the first time in an interview scenario. The practice paid off, and I could not be more thankful to that awesome dude who opened my eyes. I did not care about the result now, since I had driven a point, I could actually do this.</p>
+<h3 id="google-host-matching">Google host matching</h3>
+<p>A few days after my Facebook interview, I got a call for a project at Google Seattle, involving, Kubernetes! I had been mentioning that I would love to work on Kubernetes, and I had even tried to implement a feature on it (since it is Open Source). I interviewed immediately, within one day of the email. They noticed that I have worked on it already (a big plus, I think), and asked me a couple of design questions. I think I knew I did well, when after I sketched my solution into words, I got a reply <em>“That’s actually how we do it in production”</em>.</p>
+<p>This was a dream come true for me. And surely enough, I got a reply the very next working day that I would like to move ahead with an offer. I did not waste any time to say that I would too.</p>
+<p>I finally had an offer from Google US!</p>
+<h3 id="facebook-again">Facebook again?</h3>
+<p>I do not know why I did not sign Google’s offer the day I got it. I was given 10 working days to sign it, that meant 20th of December. One fine day (12th December), I get a mail saying that I got into the 2nd and final round of interviews for Facebook London internships. I had no clue what to do now, and wished I had simply signed Google.</p>
+<p>Here was Facebook London, known to offer Pre-Placement offers in London and Menlo Park. The other side, Google US. A higher pay, a confirmed and nice project, but it mostly offers a job in Google India to interns, a place I was not looking forward to joining. I spent the 2 days before my next interview, simply talking to people if leaving a confirmed offer at Google for Facebook would be a good choice.</p>
+<p>I gave the final interview with <em>I’m gonna drop FB anyway</em> in mind. I had again coded some problems from the same book for preparation, and again managed to solve 2 problems, though this time around I had major hiccups, and barely solved the easy problem. Somehow managed in a very short time, the solution for the 2nd, and supposedely tough problem. I think I did make an impression when the interviewer asked me about some nice project I did, and I described the development, algorithm and motivation for <a href="https://github.com/pclubiitk/puppy-love">Puppy Love</a>.</p>
+<p>This ensured that FB would haunt me the next few days.</p>
+<h3 id="decision-making">Decision making</h3>
+<p>Somehow, I spent the remaining days juggling between Facebook and Google. It so happened that I got promised that I would get Facebook’s decision by Tuesday, 20th, the same day I was supposed to sign Google, and the day of ICPC’s Chennai regional round. I would barely have a few hours to decide between Facebook and Google, if I got accepted.</p>
+<p>I was advised to not weigh this too much at the moment, since if I got rejected, it would be a heartbreak. I quote myself:</p>
+<blockquote>
+<p>I would rather be counting my chickens before they hatch and be prepared, than be modest but unprepared</p>
+</blockquote>
+<p>I spent hours talking to people. I made a huge list of points comparing Google and Facebook, and Facebook somehow won there. Mostly because of my desire for a PPO Job Offer abroad. I still shuffled around.</p>
+<h3 id="the-final-day">The final day</h3>
+<p>By the time the actual day came, I had settled on Facebook. I could bear a bad project, lesser pay, for long term benefits at Facebook.</p>
+<p>ICPC was the least important thing to happen that day. I got away as soon as I could, and refreshed my Emails till 6:30 PM IST, but got nothing. I mailed my recruiter, and got a reply saying that a decision would be taken in a meeting about to start (in London), and I would know the result around 9 PM. This was bearable.</p>
+<p>Come 9, 9:30, 10, 10:30, and yet, I did not hear back. I had decided I would drop Google if Facebook extended an offer to me, but for that, I needed an offer. I confirmed that I indeed had to sign my letter by midnight, and sent another mail to the Facebook recruiter, even sent her a message on Facebook. Not receiving a reply, I anxiously waited till much more than I had expected I would be willing.</p>
+<p>It so happened, that she never got back to me. That night at least. I ended up signing Google at 11:45 PM, and congratulated myself on finally having an internship, assuming that I must have been rejected, and thus there was no rush to inform me.</p>
+<p>It turned out the following morning, that I got a mail saying that Facebook has selected me for an internship! I could not believe this. This was early enough to mean that the decision must have been taken the previous working day. Of all the possibilities I had considered, reasons I had weighed for Facebook vs Google, all the interviews, the stress of the past 2 weeks, it all boiled down to a (possibly) sleeping or forgetful recruiter who did not get back to me the previous day. I do not know if the result was actually declared before midnight in India, when I signed my letter (6:30 PM GMT), but I assume that it would have been, since the meeting was scheduled for 2:00 PM GMT. In any case, the result did not get conveyed at the promised date / time.</p>
+<h3 id="what-happened">What happened?</h3>
+<p>I signed Google. It took multiple weird scenarios which built up to this day. As a friend quoted: &gt; Your internship at Google probably serves a much higher purpose</p>
+<p>I finally got back to pondering over the reasons I had loved my Google project, and felt happy about it. It was indeed a great opportunity, and I resolved to make it count.</p>
+<p>Later that day, I got a call from a recruiter in London, describing my offer to me. I could not bear to hear it. I told her that there was some issue with my recruiter yesterday, and I have already signed Google. She arranged for my recruiter in India to call me, and I closed the offer. That’s it.</p>
+<p>All the weeks of pondering over this decision finally got decided by a <em>sleeping recruiter</em>.</p>
+</div>
+
+<script src="/js/fb.js"></script>
+<div
+    class="fb-like"
+    data-share="true"
+    data-width="450"
+    data-show-faces="true">
+</div>
+
+<script id="dsq-count-scr" src="//acehack.disqus.com/count.js" async></script>
+
+<div id="disqus_thread"></div>
+<script>
+ // For debugging
+ var disqus_developer = 1;
+ var disqus_shortname = 'acehack';
+ var disqus_config = function () {
+     this.page.url = 'http://acehack.org/2016/12/internsaga/index.html';
+     this.page.identifier = 'intern-saga';
+     this.page.title = 'My internship interview saga';
+ };
+ (function() {
+     var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+     dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+ })();
+ (function () {
+     var s = document.createElement('script'); s.async = true;
+     s.type = 'text/javascript';
+     s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+     (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+ }());
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+]]></summary>
+</entry>
+<entry>
     <title>Coding software-based mutex algos for fun</title>
     <link href="https://sakshamsharma.com/2016/12/mutex/index.html" />
     <id>https://sakshamsharma.com/2016/12/mutex/index.html</id>
@@ -884,84 +981,6 @@ Target Server</code></pre>
      this.page.url = 'http://acehack.org/2016/09/hop1/index.html';
      this.page.identifier = 'hop-article1';
      this.page.title = 'HTTP-Over-Protocol - Story and lessons';
- };
- (function() {
-     var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-     dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
- })();
- (function () {
-     var s = document.createElement('script'); s.async = true;
-     s.type = 'text/javascript';
-     s.src = '//' + disqus_shortname + '.disqus.com/count.js';
-     (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
- }());
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
-]]></summary>
-</entry>
-<entry>
-    <title>Interning at Max Planck Insititute for Software Systems</title>
-    <link href="https://sakshamsharma.com/2016/07/intern/index.html" />
-    <id>https://sakshamsharma.com/2016/07/intern/index.html</id>
-    <published>2016-07-21T00:00:00Z</published>
-    <updated>2016-07-21T00:00:00Z</updated>
-    <summary type="html"><![CDATA[<div>
-    <p>I recently spent 10 weeks at the Max Planck Insititute for Software Systems in Saarbruecken, Germany; as a research fellow / intern.</p>
-<p>It was an eye-opening and immensely interesting 2.5 months. Since there have been quite a few questions, I’ll detail most of the things here.</p>
-<h3 id="how-i-got-the-internship">How I got the internship</h3>
-<p>Honestly, there was nothing too spectacular in what I did. I was already conversing with one professor there over Email; when a professor at my university sends out an email saying 2 faculty at MPI (the one I was talking to, and Prof. Eva, my advisor for the internship) are looking for interns (of course I jumped at this).</p>
-<p>This being mid december, and having sent just 3 emails, I began talk over Email with Eva as well. I (would like to) believe that my resume helped in getting a prompt reply to begin with. Within 2 days of the first Email, I had a Skype call and had a sort-of confirmation. 2 weeks (and a winter vacation) later, I had received my invitaion letter by post.</p>
-<h3 id="boring-visa-application">(Boring?) Visa application</h3>
-<p>Much easier than the US visa I believe, I didn’t really have to do much apart from collecting all my documents, and dropping them off at Jalandhar’s VFS Visa Application center; along with my getting my biometric data scanned.</p>
-<p>The Visa process went out pretty smooth, and they even return the Visa fees after a while!</p>
-<h3 id="getting-there">Getting there</h3>
-<p>MPI was generous enough to pay for my flights as well as my accomodation there; along with my travel from Frankfurt to Saarbruecken by train (mind you, ICE travel, not cheap); and then from the station to the university by Taxi (perhaps because I would have trouble catching a bus, being new there). What was not nice was, not a lot of people spoke English there, since Saarbruecken isn’t exactly a ‘tourist’ city.</p>
-<h3 id="the-atmosphere-at-mpi">The atmosphere at MPI</h3>
-<p>MPI happens to have a building somewhat similar to our CSE building at IIT Kanpur. Yet, there’s something really refreshing about this. They have glass walled rooms, and an ‘open-door’ policy; to encourage interaction.</p>
-<p>People you pass will inevitably wish you everyday. Everyone (most?) go for lunch together, and talk about almost everything over lunch, and later coffee. There’s just too much of interaction, and in a good way.</p>
-<p>MPI itself has 2 different buildings in 2 different cities, and to encourage (even more varied) interaction, every week, one of the MPI’s people visit the other one for the whole day.</p>
-<p>I must confess that I pestered quite a few PhD students here with long discussions and questions about what they are working on. This was not a futile exercise, and I found that this has really expanded my horizons, giving me a much better idea about research than I ever had before. There’s always so much research going on here, I like to call my stay here as a ‘concentrated dose of research exposure’.</p>
-<p>There are so many talks, invited researchers delivering talks, status meetings, group meetings/discussions, et cetera; you never have an excuse for getting bored! Plus on the non-academic side, they have an XBox (with Kinect, and some games), some guitars, a table tennis table, a fussball table and the likes lying around, if you ever feel like not working.</p>
-<p>Oh, need I mention, there is a huge number of Indians there at MPI!</p>
-<h3 id="my-project">My project</h3>
-<p>My project involved a fair share of programming (thankfully in Functional, using Scala); some research part, and lots of experimentation (which I never realized till I actually began it). My advisor was quite involved with the project herself, and help/advice was never further than an Email or a 30 second walk to her office (I believe this is not too common, so perhaps I’ve been spoilt).</p>
-<h3 id="research-environment">Research environment</h3>
-<p>I’ve been led to believe that MPI happens to have more of a theory-focussed research environment. With nothing to compare to, I’d just pass on this information. But I did see quite a bit of application based research as well; some fundamentral topic research; lots of proofs; a decent share of coding. Overall, I liked the research environment here, they have quite a bit of funds, and quite some interesting research going on all the time.</p>
-<h3 id="social-life">Social life</h3>
-<p>There were quite a few other interns here as well, and we had a lot of fun discussing things, travelling (abroad often :D), or just doing random things (Ping-Pong? :P). I made some really nice friends during my stay here. The PhD people are also super friendly, and I ended up have broad discussions with someone everyday. Infact, even the faculty are super nice, and you can easily get into friendly light conversations with them.</p>
-<h3 id="visiting-places">Visiting places!</h3>
-<p>Yes, I know. Some think of this as the highlight of a foreign intern. It wasn’t really a huge priority for me per-se; but I did quite a bit of travelling. A Euro-Rail pass might have been nice if I had other people who were taking it as well. But since I didn’t have one, we travelled long hours by bus (10 hours doesn’t seem long anymore to me).</p>
-<p>Here’s where some of my eventful weekends were spent: - Paris (France) - Munich and Neuschwannstein Castle (Germany) - Strasbourg (France) - Prague and Vienna (Czech Republic and Austria) - Trier (Germany) - Amsterdam (Netherlands)</p>
-<h3 id="german-language">German language</h3>
-<p>Atleast in Saarbruecken, knowing a bit of German helps out. I’ve heard it’s better in the other MPI campus in Kaiserslautern. Point to be noted: The whole of the University I was in, was in English. You just need German when going out of MPI/University.</p>
-<p>I had just done 2-3 modules of Duolingo when I came here, and didn’t really follow it up much. But I kept Google Translate open whenever I was commuting, translating random things I read, or just finding translations of English sentences which come to mind. I ended up having a decent functional knowledge this way; to an extent that I could describe my requirements at shops, or ask directions, count, understand railway announcements (by now atleast). German isn’t hard! It’s actually quite structured and systematic.</p>
-<p>In fact, I believe English not being the primary language was a really nice thing. This happens to be around the end of the phase where people say picking up a language is possible, and this was a really nice opportunity! Plus, it opens scope for various endless discussions! (I’m tempted to write ‘endless as the ocean’, but it sounds pre-Earth-is-round era).</p>
-<h3 id="money-and-accomodation">Money and accomodation?</h3>
-<p>I wouldn’t want to spoil the fun here, so won’t quote the amount, but it’s more than enough! And they provide accomodation as well, which is quite an awesome thing!</p>
-<h3 id="conclusion">Conclusion?</h3>
-<p>As I type this sitting at the airport, about to board my flight back home, I miss this magnificent summer in Europe. Would I recommend this? Surely!</p>
-</div>
-
-<script src="/js/fb.js"></script>
-<div
-    class="fb-like"
-    data-share="true"
-    data-width="450"
-    data-show-faces="true">
-</div>
-
-<script id="dsq-count-scr" src="//acehack.disqus.com/count.js" async></script>
-
-<div id="disqus_thread"></div>
-<script>
- // For debugging
- var disqus_developer = 1;
- var disqus_shortname = 'acehack';
- var disqus_config = function () {
-     this.page.url = 'http://acehack.org/2016/07/intern/index.html';
-     this.page.identifier = 'mpi-summer-16';
-     this.page.title = 'Interning at Max Planck Insititute for Software Systems';
  };
  (function() {
      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
