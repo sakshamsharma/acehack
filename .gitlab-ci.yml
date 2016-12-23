@@ -10,6 +10,7 @@ pages:
     - apt-get update
     - bash -c "yes | apt-get install git"
     - export STACK_ROOT=`pwd`/.stack
+    - stack setup
     - stack install --only-dependencies
     - stack build
   script:
