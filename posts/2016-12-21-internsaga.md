@@ -10,10 +10,15 @@ author: Saksham Sharma
 So, after months of worrying, I had finally landed an internship position at Google Seattle, in the team of my choice. But before I could stop being lazy and sign the offer letter, something happened which made every remaining day of that offer letter an exercise in surviving confusion. But before that, let's go to the start.
 
 Disclaimer:
+
 > This article is going to be long, and flaky. I wrote this to clear up my brain, the very day this whacky process finished. Putting it up in case it can help someone.
 
+
+<br>
 Disclaimer 2:
+
 > There might be some parts in this which seem accusatory. I tried my best to simply state the facts. If something seems wrong, please understand that it was not intended.
+
 
 ### Campus internships
 I had landed back from Germany after my summer internship, and faced the immediate prospect of facing the upcoming campus internship season, where you have to sit for a bazillion interviews in a single day. I had this extra pressure of so-called 'living up to my own expectations'. I had liked my internship in Germany, and would at least want something as good. But being underprepared as I was, and hoping that I could later prepare, and sit for off-campus internships abroad, I left things there, and did not apply for a single company.
@@ -77,6 +82,7 @@ I was advised to not weigh this too much at the moment, since if I got rejected,
 
 > I would rather be counting my chickens before they hatch and be prepared, than be modest but unprepared
 
+<br>
 I spent hours talking to people. I made a huge list of points comparing Google and Facebook, and Facebook somehow won there. Mostly because of my desire for a PPO Job Offer abroad. I still shuffled around.
 
 ### The final day
@@ -92,8 +98,10 @@ It turned out the following morning, that I got a mail saying that Facebook has 
 
 ### What happened?
 I signed Google. It took multiple weird scenarios which built up to this day. As a friend quoted:
+
 > Your internship at Google probably serves a much higher purpose
 
+<br>
 I finally got back to pondering over the reasons I had loved my Google project, and felt happy about it. It was indeed a great opportunity, and I resolved to make it count.
 
 Later that day, I got a call from a recruiter in London, describing my offer to me. I could not bear to hear it. I told her that there was some issue with my recruiter yesterday, and I have already signed Google. She arranged for my recruiter in India to call me, and I closed the offer. That's it.
