@@ -175,13 +175,14 @@ MathJax.Hub.Config({
 <script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
 </script>
 <p><strong>NOTE:</strong>: The algorithm used has been re-worked, and changed since this article was written. Expect a new article with the formal algorithm soon :)</p>
+<p><strong>Update</strong>: The new article with the latest algorithm is <a href="../../../2016/11/puppy2">here on my blog</a>. Do read that article as a follow up!</p>
 <p>The queerly named <em>Puppy Love</em> platform has been running in my university since 2014, meant to help shy nerds meet their crush, made my the Programming Club (of which, I happen to be the current coordinator). The platform opens 1 week prior to the Valentine’s Day every year, and let’s people choose up to 4 of their crushes, encrypting their choices with their password. At the stroke of the midnight hour, everyone logs back, and their choices are decrypted, and are then matched to other people’s choices. Only the people who matched are informed about it. If your <em>love</em> was unrequited (the other person didn’t like you), you will not get to know. More importantly, if you did not like the other person, you would not know if that person liked you or not.</p>
 <p>The above seemed like a very rosy thing, till people began to find flaws. Some of the issues were with the code, and nothing too serious. But as would have, people began to get doubtful about the trust worthiness of the server admins. This year, being my turn to face the onslaught of accusations of looking at people’s choices, I, with Vinayak Tantia, a friend and fellow Coordinator, came up with a much improved algorithm to implement the same thing.</p>
 <p>Here’s the biggest issue with such a platform:</p>
 <blockquote>
 <p>You do NOT trust me when I say my code on the server is NOT seeing your choices</p>
 </blockquote>
-<p>What is required is, how I call it, a <code>zero-server-trust</code> based algorithm. Regardless of what code is running on the server, the client should be able to prove that any information it sends to the server shall not reveal any information about the client’s choices.</p>
+<p><br> What is required is, how I call it, a <code>zero-server-trust</code> based algorithm. Regardless of what code is running on the server, the client should be able to prove that any information it sends to the server shall not reveal any information about the client’s choices.</p>
 <h3 id="the-algorithm">The algorithm</h3>
 <h4 id="email-based-initial-auth">Email based initial auth</h4>
 <p>Instead of using the campus FTP or proxy based logins, which would have required you to send your password to the server (thus requiring trust), we send an initial email to the person’s official IIT Kanpur email address, and let the person create a password. The password’s hash is sent to the server for storage. The hash will be used for future logins, and thus the plain password never leaves the client.</p>
@@ -192,6 +193,7 @@ MathJax.Hub.Config({
 <h4 id="submission">Submission</h4>
 <p>Finally, when the user is ready to lock his choices, the client fetches the public keys of all the students on campus. This data should be the order of magnitude of a few mega bytes. The client encodes its preference (a boolean) in a string (described later) for each student on the campus, and sends these strings back to the server for storage. Each string is encrypted with the public key of the intended recepient, and thus they are meaningless for the server.</p>
 <h4 id="matching">Matching</h4>
+<p><strong>Note</strong>: This section is deprecated in favor of the algorithm described in the <a href="../../../2016/11/puppy2">follow up post</a>.</p>
 <p>The most tricky part. How does the server match two people, without knowing any of their choices? Turns out, there’s something called Homomorphic computation, which is intended for this very purpose. Here’s a motivating example:</p>
 <p><br /><span class="math display">$$
 m_1^{e} \times m_2^{e} = (m_1 \times m_2)^{e}\\
