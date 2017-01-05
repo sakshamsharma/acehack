@@ -157,7 +157,7 @@
 <div id="main" data-behavior="1" class="hasCoverMetaIn">
     <section class="postShorten-group main-content-wrap">
 
-        <h1>Zero-trust - Safe and anonymous ANDing bits - Part 2</h1>
+        <h1>Limiting 'likes' sent anonymously - Part 3</h1>
 
  Tags: <a href="../../../tags/algorithm/index.html">algorithm</a>, <a href="../../../tags/crypto/index.html">crypto</a>, <a href="../../../tags/puppy/index.html">puppy</a>  <br><br>
 <div>
@@ -170,24 +170,13 @@
 <!--   src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"> -->
 <!-- </script> -->
 <h3 id="recap">Recap</h3>
-<p>For those who haven’t read the <a href="../../../2016/10/puppy1/">previous post</a>, this is a challenge which came up while trying to develop a secure version of a platform called <em>Puppy Love</em>. The introduction and the algorithmic challenge, taken from the previous article:</p>
+<p>For those who haven’t read the previous posts <a href="../../../2016/10/puppy1/">part 1</a> and <a href="../../../2016/11/puppy2/">part 2</a>, this is a challenge which came up while trying to develop a secure version of a platform called <em>Puppy Love</em>. The introduction and the algorithmic challenge, taken from the previous 2 articles:</p>
 <!--more-->
 <p>The queerly named <em>Puppy Love</em> platform has been running in my university since 2014, meant to help shy nerds meet their crush, made my the Programming Club (of which, I happen to be the current coordinator). The platform opens 1 week prior to the Valentine’s Day every year, and let’s people choose up to 4 of their crushes, encrypting their choices with their password. At the stroke of the midnight hour, everyone logs back, and their choices are decrypted, and are then matched to other people’s choices. Only the people who matched are informed about it. If your <em>love</em> was unrequited (the other person didn’t like you), you will not get to know. More importantly, if you did not like the other person, you would not know if that person liked you or not.</p>
-<p>The above seemed like a very rosy thing, till people began to find flaws. Some of the issues were with the code, and nothing too serious. But as would have, people began to get doubtful about the trust worthiness of the server admins. This year, being my turn to face the onslaught of accusations of looking at people’s choices, I, with Vinayak Tantia, a friend and fellow Coordinator, came up with a much improved algorithm to implement the same thing.</p>
-<p>Here’s the biggest issue with such a platform:</p>
-<blockquote>
-<p>You do NOT trust me when I say my code on the server is NOT seeing your choices</p>
-</blockquote>
-<p>What is required is, how I call it, a <code>zero-server-trust</code> based algorithm. Regardless of what code is running on the server, the client should be able to prove that any information it sends to the server shall not reveal any information about the client’s choices.</p>
-<h3 id="possible-algorithms">Possible algorithms</h3>
-<p>We basically need a way to compute the <code>AND</code> of two bit values residing on two hosts (call them Alice and Bob), in the presence of a central server named Eve.</p>
-<ul>
-<li>One simple way is for Alice and Bob to share their bits to Eve, and trust Eve to not store the bits for the eyes of the admin of Eve, and only compute the AND of the bits, and send the AND value back to Alice and Bob. This is simple, but requires you to trust the server to not look at your choices. In case of naming your crushes, this is certainly not an option.</li>
-<li>Use <a href="https://en.wikipedia.org/wiki/Garbled_circuit">Garbled Circuit</a> technique, along with <a href="https://en.wikipedia.org/wiki/Oblivious_transfer">Oblivious Transfer</a>, but modified to keep the last step on the central server. This technique is quite complicated at first, but has a major drawback. There is no guarantee of secrecy of choices if one party does not play by the protocol and cheats instead. This would be outlined in a future article.</li>
-</ul>
-<p>The second solution is promising, but can possibly be exploited to reveal the choice of the other party without them knowing your choice. What is required to prevent that attack is randomness in the case where a party is not interested. We outline the new algorithm in the next section.</p>
-<h3 id="shared-knowledge-based-expected-result-algorithm">Shared knowledge based expected-result algorithm</h3>
-<p>As a preface, I did read a couple of papers on this topic, but did not find a fair, secure and practical solution. This particular algorithm solves a weaker problem than most papers I found, which is: Computing AND of 2 secret bits in presence of an honest-but-curious server. This algorithm was designed originally as a modification of the one based on garbled circuits after I came to know of the violation of secrecy in that, and has been significantly simplied since then. Onto:</p>
+<h3 id="limiting-your-likes-the-challenge">Limiting your likes: The challenge</h3>
+<p>In part 2, we ensured that the server would not get to know the individual choices of the users, and would only know if both of the parties <em>matched</em>. There still exists, an issue with this. Since the server has no idea about your choices, it cannot prevent you from sending a <em>like</em> to everyone you know. Theoretically, you could send one to everyone, and basically find out who likes you. Of course, this comes with the additional baggage of having to explain to the person that you actually cheated and do not like them back.</p>
+<h3 id="algorithm">Algorithm</h3>
+<p>Here is a possible solution to this challenge. To explain that, I shall go over the current algorithm (taken from Part 2):</p>
 <ul>
 <li>Both parties have shared secret values A and B. These are not known to Eve by virtue of public key encryption.</li>
 <li>Parties agree to this protocol:</li>
@@ -199,18 +188,16 @@
 <li>Alice and Bob manually compute <code>hash(A * B)</code>, and send it to server (server can verify malicious behavior if they don’t match)</li>
 <li>It is a match only if the result and the expected value by both parties are the same.</li>
 </ul>
-<h3 id="a-few-comments-about-the-safety-of-the-protocol">A few comments about the safety of the protocol</h3>
-<p>I do plan to formally prove this soon enough, but till then, here are some thoughts.</p>
+<p>Note here, that the server shall not find out more than one of A, B if the two parties did not match. But if they match, this would be a cue for the server that there was a match. Now, this is a good point to ensure that both the users did not send more than 4 likes, and this match, indeed, was expected. Here is a sketch of how this could be done:</p>
 <ul>
-<li>Hash is not invertible. So if there was no match, Alice can not invert the result to get Bob’s sent value.</li>
-<li>The hashing step needs to be secure against brute force attacks, especially because each party already knows one multiplicative factor of the number hashed. Either the values of A and B need to be very large (experiments/data needed), or the hash function has to be very slow computationally (preventing inversion by computational bottleneck).</li>
-<li>Selecting random, and different values for A and B is important because Eve should not be able to see whether the values sent by Alice and Bob are same or different, and thus infer whether they matched or not.</li>
-<li>The protocol itself is fully symmetric. Both Alice and Bob execute the exact same steps, regardless of who starts the protocol.</li>
-<li>If Alice did not send A, she has no way of knowing whether Bob sent B or not, since the hash cannot be inverted (theoretically). The same is true for Bob.</li>
-<li>The server does come to know the result of the computation here. But it should be possible to generalize. More on it later.</li>
+<li>Once you finalize your choices, you need to inform the server about them in a way that it cannot find out unless that choice actually matched.</li>
+<li>If your likes are <em>m1</em>, <em>m2</em>, <em>m3</em> and <em>m4</em>, assume that the negotiated values <code>A</code> and <code>B</code> are: <em>A1</em>, <em>B1</em> and so on.</li>
+<li>You send the value <code>AES_enc('m1')</code> encrypted with a password <code>A1-password-B1</code> or some other function of both <code>A1</code> and <code>B1</code>.</li>
+<li>The server shall accept only 4 of such terms.</li>
+<li>When the server detects a match, it shall look up in the list of terms you sent, and try decrypting them, to ensure that this particular match was among the 4 you had expected. It should ideally find exactly one term which gets decrypted.</li>
+<li>If there is a match which was not intended, it is simply dropped.</li>
 </ul>
-<h3 id="conclusion">Conclusion</h3>
-<p>This algorithm is very simple to say the least, and seems secure to me. A formal proof ought to confirm this as well, though that is untrodden territory for me as of now. Do let me know in the comments or on email if something like this (fair and anonymous AND of bits) has been done before, or if you find a bug in this algorithm (if it is so, I cannot stress how important it is for me to know).</p>
+<p>This way, only 4 of your likes can actually result in matches. The server still cannot detect your choices. Profit <code>:)</code></p>
 </div>
 
 <script src="../../../js/fb.js"></script>
@@ -225,9 +212,9 @@
  var disqus_developer = 1;
  var disqus_shortname = 'acehack';
  var disqus_config = function () {
-     this.page.url = 'http://acehack.org/2016/11/puppy2/index.html';
-     this.page.identifier = 'puppy-2';
-     this.page.title = 'Zero-trust - Safe and anonymous ANDing bits - Part 2';
+     this.page.url = 'http://acehack.org/2016/12/puppy3/index.html';
+     this.page.identifier = 'puppy-3';
+     this.page.title = 'Limiting 'likes' sent anonymously - Part 3';
  };
  (function() {
      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

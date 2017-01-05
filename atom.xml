@@ -8,8 +8,89 @@
         <name>Saksham Sharma</name>
         <email>saksham0808@gmail.com</email>
     </author>
-    <updated>2016-12-21T00:00:00Z</updated>
+    <updated>2016-12-26T00:00:00Z</updated>
     <entry>
+    <title>Limiting 'likes' sent anonymously - Part 3</title>
+    <link href="https://sakshamsharma.com/2016/12/puppy3/index.html" />
+    <id>https://sakshamsharma.com/2016/12/puppy3/index.html</id>
+    <published>2016-12-26T00:00:00Z</published>
+    <updated>2016-12-26T00:00:00Z</updated>
+    <summary type="html"><![CDATA[<div>
+    <!-- <script type="text/x-mathjax-config"> -->
+<!-- MathJax.Hub.Config({ -->
+<!--   tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]} -->
+<!-- }); -->
+<!-- </script> -->
+<!-- <script type="text/javascript" async -->
+<!--   src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"> -->
+<!-- </script> -->
+<h3 id="recap">Recap</h3>
+<p>For those who haven’t read the previous posts <a href="/2016/10/puppy1/">part 1</a> and <a href="/2016/11/puppy2/">part 2</a>, this is a challenge which came up while trying to develop a secure version of a platform called <em>Puppy Love</em>. The introduction and the algorithmic challenge, taken from the previous 2 articles:</p>
+<!--more-->
+<p>The queerly named <em>Puppy Love</em> platform has been running in my university since 2014, meant to help shy nerds meet their crush, made my the Programming Club (of which, I happen to be the current coordinator). The platform opens 1 week prior to the Valentine’s Day every year, and let’s people choose up to 4 of their crushes, encrypting their choices with their password. At the stroke of the midnight hour, everyone logs back, and their choices are decrypted, and are then matched to other people’s choices. Only the people who matched are informed about it. If your <em>love</em> was unrequited (the other person didn’t like you), you will not get to know. More importantly, if you did not like the other person, you would not know if that person liked you or not.</p>
+<h3 id="limiting-your-likes-the-challenge">Limiting your likes: The challenge</h3>
+<p>In part 2, we ensured that the server would not get to know the individual choices of the users, and would only know if both of the parties <em>matched</em>. There still exists, an issue with this. Since the server has no idea about your choices, it cannot prevent you from sending a <em>like</em> to everyone you know. Theoretically, you could send one to everyone, and basically find out who likes you. Of course, this comes with the additional baggage of having to explain to the person that you actually cheated and do not like them back.</p>
+<h3 id="algorithm">Algorithm</h3>
+<p>Here is a possible solution to this challenge. To explain that, I shall go over the current algorithm (taken from Part 2):</p>
+<ul>
+<li>Both parties have shared secret values A and B. These are not known to Eve by virtue of public key encryption.</li>
+<li>Parties agree to this protocol:</li>
+<li>Alice sends value <code>a = A</code> to Eve if she likes Bob.</li>
+<li>Alice sends value <code>a = random</code> to Eve if she does not like Bob.</li>
+<li>Bob sends value <code>b = B</code> to Eve if he likes Alice.</li>
+<li>Bob sends value <code>b = random</code> to Eve if he does not like Alice.</li>
+<li>Eve receives <code>a</code> and <code>b</code>. She stores <code>hash(a*b)</code> as result.</li>
+<li>Alice and Bob manually compute <code>hash(A * B)</code>, and send it to server (server can verify malicious behavior if they don’t match)</li>
+<li>It is a match only if the result and the expected value by both parties are the same.</li>
+</ul>
+<p>Note here, that the server shall not find out more than one of A, B if the two parties did not match. But if they match, this would be a cue for the server that there was a match. Now, this is a good point to ensure that both the users did not send more than 4 likes, and this match, indeed, was expected. Here is a sketch of how this could be done:</p>
+<ul>
+<li>Once you finalize your choices, you need to inform the server about them in a way that it cannot find out unless that choice actually matched.</li>
+<li>If your likes are <em>m1</em>, <em>m2</em>, <em>m3</em> and <em>m4</em>, assume that the negotiated values <code>A</code> and <code>B</code> are: <em>A1</em>, <em>B1</em> and so on.</li>
+<li>You send the value <code>AES_enc('m1')</code> encrypted with a password <code>A1-password-B1</code> or some other function of both <code>A1</code> and <code>B1</code>.</li>
+<li>The server shall accept only 4 of such terms.</li>
+<li>When the server detects a match, it shall look up in the list of terms you sent, and try decrypting them, to ensure that this particular match was among the 4 you had expected. It should ideally find exactly one term which gets decrypted.</li>
+<li>If there is a match which was not intended, it is simply dropped.</li>
+</ul>
+<p>This way, only 4 of your likes can actually result in matches. The server still cannot detect your choices. Profit <code>:)</code></p>
+</div>
+
+<script src="/js/fb.js"></script>
+<div
+    class="fb-like"
+    data-share="true"
+    data-width="450"
+    data-show-faces="true">
+</div>
+
+<script id="dsq-count-scr" src="//acehack.disqus.com/count.js" async></script>
+
+<div id="disqus_thread"></div>
+<script>
+ // For debugging
+ var disqus_developer = 1;
+ var disqus_shortname = 'acehack';
+ var disqus_config = function () {
+     this.page.url = 'http://acehack.org/2016/12/puppy3/index.html';
+     this.page.identifier = 'puppy-3';
+     this.page.title = 'Limiting 'likes' sent anonymously - Part 3';
+ };
+ (function() {
+     var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+     dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+ })();
+ (function () {
+     var s = document.createElement('script'); s.async = true;
+     s.type = 'text/javascript';
+     s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+     (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+ }());
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+]]></summary>
+</entry>
+<entry>
     <title>My internship interview saga</title>
     <link href="https://sakshamsharma.com/2016/12/internsaga/index.html" />
     <id>https://sakshamsharma.com/2016/12/internsaga/index.html</id>
@@ -902,96 +983,6 @@ $$</span><br /></p>
      this.page.url = 'http://acehack.org/2016/09/teamselection/index.html';
      this.page.identifier = 'team-selection';
      this.page.title = 'Pairing up n people into 2 teams';
- };
- (function() {
-     var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-     dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
- })();
- (function () {
-     var s = document.createElement('script'); s.async = true;
-     s.type = 'text/javascript';
-     s.src = '//' + disqus_shortname + '.disqus.com/count.js';
-     (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
- }());
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
-]]></summary>
-</entry>
-<entry>
-    <title>HTTP-Over-Protocol - Story and lessons</title>
-    <link href="https://sakshamsharma.com/2016/09/hop1/index.html" />
-    <id>https://sakshamsharma.com/2016/09/hop1/index.html</id>
-    <published>2016-09-08T00:00:00Z</published>
-    <updated>2016-09-08T00:00:00Z</updated>
-    <summary type="html"><![CDATA[<div>
-    <p>During my time in Germany, a friend once told me that his university’s proxy only lets him use HTTP(S) traffic. I didn’t know much about networks back then to be able to think over this, but when I began my course in Networks, revisiting this problem suggested a solution.</p>
-<p>After a few weeks, and around 6 hours of initial code later, I had the project ready, in the form of <a href="github.com/sakshamsharma/HTTP-Over-Protocol">hop</a>.</p>
-<p><strong>HOP</strong> is a tool meant to tunnel any sort of traffic over a standard HTTP channel.</p>
-<p>Useful for scenarios where there’s a proxy filtering all traffic except standard HTTP(S) traffic. Unlike other tools which either require you to be behind a proxy which let’s you pass arbitrary traffic (possibly after an initial CONNECT request), or tools which work only for SSH, this imposes no such restrictions.</p>
-<h1 id="response">Response</h1>
-<p>I posted a link to <code>hop</code> on reddit for comments, and surprisingly, I received (github) stars at a never-seen-before rate for me. Some people suggested some existing ways to accomplish this. Personally, I knew there would be some. But while coding this, I had stopped myself from checking for such things, so as to not lower my motivation for finishing this code. This actually helped, and despite some generic methods existing already, <code>hop</code> specializes for arbitrary protocols, and I think it is useful in some ways.</p>
-<p>The repository stayed in <strong>top 5</strong> trending C++ repositories for 2 days, and went on to cross <strong>100 stars</strong> after 3 days. This surely felt good :smile:</p>
-<h1 id="working">Working</h1>
-<p>This section tries to tackle a situation where you want to use SSH to connect to a remote machine where you don’t have root privileges.</p>
-<p>There will be 7 entities:</p>
-<ol style="list-style-type: decimal">
-<li>Client (Your computer, behind the proxy)</li>
-<li>Proxy (Evil)</li>
-<li>Target Server (The remote machine you want to SSH to, from Client)</li>
-<li>Client HOP process</li>
-<li>Target HOP process</li>
-<li>Client SSH process</li>
-<li>Target SSH process</li>
-</ol>
-<p>If there was no proxy, the communication would be something like:</p>
-<pre><code>Client -&gt; Client SSH process -&gt; Target Server -&gt; Target SSH process</code></pre>
-<p>In this scenario, here’s the proposed method:</p>
-<pre><code>Client -&gt;
-Client SSH process -&gt;
-Client HOP process -&gt;
-Proxy -&gt;
-Target HOP process -&gt;
-Target SSH process -&gt;
-Target Server</code></pre>
-<p><strong>HOP</strong> simply wraps all the data in HTTP packets, and buffers them accordingly.</p>
-<p>Another even more complicated scenario would be if you have an external utility server, and need to access another server’s resources from behind a proxy. In this case, <em>hop</em> will still run on your external server, but instead of forwarding to <code>localhost</code> from the target HOP process, you should forward to the remote address (hostname) of the target machine which has the SSH process.</p>
-<h1 id="current-state">Current state</h1>
-<p>After the initial release (when I started receiving stars on Github), I found a bug which caused data drops, and thus broke the tunneled SSH connections. Around 10 hours later, and multiple rewrites later (which made the code much more readable too), the bug finally stands fixed. The bug was due to me using 2 different threads to read and write to the same 2 sockets. I realized this while writing an article on bidirectional nature of sockets.</p>
-<p>There had been plenty of memory corruption errors as well, which have been fixed now. I can use <code>hop</code> to SSH to machines over HTTP, or transfer files using <code>nc</code> reliably now.</p>
-<h1 id="lessons">Lessons</h1>
-<ul>
-<li>It is often quite hard to figure out parts which can be abstracted out in a program on the first rewrite. I actually leart a lot during the rewrites of the code.</li>
-<li>You get no prizes for reusing variables in real life. Here I quote a very helpful user on Reddit. This actually helped me clean up my code a lot, and make it much more readable.</li>
-<li>You can never assume thread safety, even for local buffers, or for logging classes.</li>
-<li>Stress testing ought to be mandatory before publishing the project :smile:</li>
-<li>Spend your time working on innovative projects rather than writing config files for packages etc. Helps you learn a lot more.</li>
-<li>Avoid C/C++ if you can :smile: If you cannot, atleast avoid memory corruption errors.</li>
-<li>Think before you begin writing. Think of all the corner cases, and all the errors you want to handle.</li>
-<li>Don’t leave things which you assume will never happen, and thus you don’t handle them. If there’s something like that, put an assert on it. Will save a ton of a time later.</li>
-<li>Remember, sockets are not synced nicely across threads.</li>
-</ul>
-</div>
-
-<script src="/js/fb.js"></script>
-<div
-    class="fb-like"
-    data-share="true"
-    data-width="450"
-    data-show-faces="true">
-</div>
-
-<script id="dsq-count-scr" src="//acehack.disqus.com/count.js" async></script>
-
-<div id="disqus_thread"></div>
-<script>
- // For debugging
- var disqus_developer = 1;
- var disqus_shortname = 'acehack';
- var disqus_config = function () {
-     this.page.url = 'http://acehack.org/2016/09/hop1/index.html';
-     this.page.identifier = 'hop-article1';
-     this.page.title = 'HTTP-Over-Protocol - Story and lessons';
  };
  (function() {
      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
