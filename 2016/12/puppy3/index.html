@@ -175,8 +175,20 @@
 <p>The queerly named <em>Puppy Love</em> platform has been running in my university since 2014, meant to help shy nerds meet their crush, made my the Programming Club (of which, I happen to be the current coordinator). The platform opens 1 week prior to the Valentine’s Day every year, and let’s people choose up to 4 of their crushes, encrypting their choices with their password. At the stroke of the midnight hour, everyone logs back, and their choices are decrypted, and are then matched to other people’s choices. Only the people who matched are informed about it. If your <em>love</em> was unrequited (the other person didn’t like you), you will not get to know. More importantly, if you did not like the other person, you would not know if that person liked you or not.</p>
 <h3 id="limiting-your-likes-the-challenge">Limiting your likes: The challenge</h3>
 <p>In part 2, we ensured that the server would not get to know the individual choices of the users, and would only know if both of the parties <em>matched</em>. There still exists, an issue with this. Since the server has no idea about your choices, it cannot prevent you from sending a <em>like</em> to everyone you know. Theoretically, you could send one to everyone, and basically find out who likes you. Of course, this comes with the additional baggage of having to explain to the person that you actually cheated and do not like them back.</p>
-<h3 id="algorithm">Algorithm</h3>
-<p>Here is a possible solution to this challenge. To explain that, I shall go over the current algorithm (taken from Part 2):</p>
+<p>Interestingly, while solving this issue, I ended up with a solution which reduced the compution and data needed by almost half. The solution used to restrict choices to 4 will also let the server match people.</p>
+<h3 id="updated-algorithm">Updated algorithm:</h3>
+<p>Here is a possible solution to this challenge. To explain that, I shall go over the needed part of the algorithm (taken from Part 2):</p>
+<ul>
+<li>Both parties have public and private key pairs.</li>
+<li>Each party sends a random token to the other party (call these strings <em>t0</em> and <em>t1</em>).</li>
+<li>The server will not know the these values due to asymmetric encryption.</li>
+</ul>
+<p>When the user wants to submit, he/she will look at each of his/her choices, and fetch the corresponding token values. Let them be <em>t0</em> and <em>t1</em>. Now, the user will send the value of <code>hash(t0-t1)</code> to the server (it can be any non-invertible function of the tokens). The user can send up to 4 such values to the server (can be checked on the backend).</p>
+<p>In case 2 people like each other, the values they send will be exactly the same (because the ordering of t0 and t1 is decided by their roll numbers). The server can simply sort the list in the end, and inform all people whose values matched. The matching is accomplished!</p>
+<p>The server will not find out your choices if there was no match. Profit.</p>
+<h4 id="the-old-algorithm-for-this-deprecated">The old algorithm for this (deprecated)</h4>
+<p><strong>Note</strong>: This section is very similar to the above, but contains steps not needed anymore.</p>
+<p>Here is a possible solution to this challenge. To explain that, I shall go over the needed part of the algorithm (taken from Part 2):</p>
 <ul>
 <li>Both parties have shared secret values A and B. These are not known to Eve by virtue of public key encryption.</li>
 <li>Parties agree to this protocol:</li>
