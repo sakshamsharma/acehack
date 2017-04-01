@@ -5,6 +5,7 @@ branches:
 cache:
   directories:
   - $HOME/.stack
+  - .stack-work
 before_install:
   - echo "override before_install"
 install:

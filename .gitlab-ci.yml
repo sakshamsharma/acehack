@@ -6,6 +6,7 @@ pages:
     paths:
       - _cache
       - .stack
+      - .stack-work
   before_script:
     - apt-get update
     - bash -c "yes | apt-get install git"
