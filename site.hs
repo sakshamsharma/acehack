@@ -41,7 +41,7 @@ main = hakyll $ do
              route assetsRoute
              compile copyFileCompiler
 
-       match (fromList ["404.md", "CNAME"]) $ do
+       match (fromList ["404.md", "CNAME", "favicon.ico"]) $ do
              route idRoute
              compile copyFileCompiler
 
