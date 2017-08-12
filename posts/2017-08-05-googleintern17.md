@@ -7,6 +7,26 @@ id: google-intern-17
 author: Saksham Sharma
 ------
 
+<style>
+#container {
+    text-align: center;
+}
+a, figure {
+    display: inline-block;
+}
+figcaption {
+    margin: 10px 0 0 0;
+    font-variant: small-caps;
+    font-family: Arial;
+    font-weight: bold;
+    color: #bb3333;
+    text-align: center;
+}
+figure {
+    padding: 5px;
+}
+</style>
+
 Now that I'm back from the US, the extravaganza that is Google, reminiscing back to those days has made me finally decide to pen down my experience in the Cloud city, working on Cloud.
 
 For context, I interned at Google Seattle, the third largest Google office in the US. The Seattle area is home to Amazon and Microsoft's sprawling offices. Microsoft, Amazon and Google (in that order) being the biggest players in the cloud market these days, Seattle has somehow become, what you could call, "the cloud city".
@@ -15,7 +35,7 @@ I remember how I was completely unaware of the huge tech industry in Seattle, ba
 
 But coming back to today, how was my intern, you ask? Well, I'll let the words do the talking (what other option do I have?).
 
-### The letter from Hogwarts
+## The letter from Hogwarts
 
 #### Birthday
 By the end of December, I'd signed my offer letter and was preparing my documents for a speedy visa process. Apparently things don't move as fast as you'd want, and Google only got my documents ready by mid March. I visited Delhi early April for my visa biometrics and interview. Yes, Indians need to interview for an American visa.
@@ -31,8 +51,12 @@ There are more than 40+ Google cafes in the South Bay Area region. Google offers
 
 Fun fact, you can access the map of the campus on the internal link `disneylandmap`. The buildings with slides to move among floors, sports grounds, random pianos in halls, free food every few yards, hidden game rooms; yes all that is true, and more.
 
-### My Chronicles in America
+<figure><img src="/images/google17/hogwarts.jpg" style="width:100%;"/><figcaption>Hogwarts!!!</figcaption></figure>
+
+## My Chronicles in America
 I'm the kind of person who loves to visit places, and not just enjoy the commercial things available in city. Seattle is an awesome place for that matter. Not only is the city fun and full of things to do, the surrounding countryside is magnificent. I knew how to drive, and had friends who did too, so we rented a car every weekend, to go exploring the nearby natural extravaganza. Oh right, renting a car as a Googler is cheap, very cheap. Even when you're under-21, like I was. And by a car, I mean nice full-size sedans.
+
+<figure><img src="/images/google17/disneyland.jpg" style="width:100%;"/><figcaption>Disneyland!!!</figcaption></figure>
 
 Here's most of the stuff I did in the US, compiled into a list to the best of my memory:
 
@@ -55,7 +79,7 @@ Here's most of the stuff I did in the US, compiled into a list to the best of my
 
 Okay that's a long list. To be honest, (a) I wanted to write it down for my own record, and (b) that wasn't from my memory, I looked up my Google Photos uploads :)
 
-### The Seattley Hollow
+## The Seattley Hollow
 
 #### Hogsmeade
 Seattle is a nice city. It is not huge, or overly populated, but has a lot of things a person would enjoy.
@@ -65,6 +89,8 @@ Seattle is a nice city. It is not huge, or overly populated, but has a lot of th
 * Gas works park offers an incredibly pleasant view of the Lake Union area.
 * Greenwood lake is a fun place to go kayaking on a weekend.
 * The neighboring cities of Bellevue and Redmond are majority tech cities. They're 30-45 minutes by public transport, and you can find lots of fun things to do there as well.
+
+<figure><img src="/images/google17/motorboat.jpg" style="width:100%;"/><figcaption>Driving on roads is just one form of driving</figcaption></figure>
 
 There's plenty of more places I wanted to visit, but did not. I didn't really explore Seattle a lot, actually. There were escape rooms, sky-scraper observation decks, landmark buildings, museums etc like any other city, whatever floats your boat.
 
@@ -77,7 +103,7 @@ The free and awesome food is a common denominator in all of Google's offices I b
 
 The Seattle-Kirkland offices combined are the 3rd largest Google offices in the US, with about 2000 employees working on major teams like Cloud, Maps, Chrome among other things. There's expansion plans which would see Google opening a *huge* new campus in the South Lake Union area nearby by 2019.
 
-### Lord of the cloud
+## Lord of the cloud
 This chit-chat somewhat distracted me from my project. As I said, Seattle happens to be the cloud city, and no wonder Google's Cloud team is there too.
 I was a part of the GKE/Kubernetes Security team. A bit of description:
 
@@ -96,7 +122,7 @@ This also involved adding the configuration options for this feature necessary f
 
 The second part was to integrate the above part with Cloud based encryption-decryption services (called KMS, Key Management Service). Since sending large data for encryption/decryption over a network is not practical and advisable, we use a scheme called envelope encryption, which uses two keys, a Key-Encryption-Key and a Data-Encryption-Key. There were many more concerns, especially about exposing key rotation and management to the user. The end result was to finish integration with Google's in-house Cloud KMS by Kubernetes v1.8.
 
-### A Song of Open-Source and Programming
+## A Song of Open-Source and Programming
 Apparently, open source and programming don't work so well in practice. At least not as well as I had hoped, in my utopian dreams of working in a large open source organization.
 
 You see, Kubernetes is a large organization, involving a large number of companies and contributors. That means it has a certain bureaucratic feel and structure. There's plenty of contributors, but only a handful of 'approvers'. The 2nd part of my project got stuck in reviews, which were awfully slow because the approvers, I quote:
@@ -109,8 +135,10 @@ Although I immensely enjoyed working on Kubernetes, the reviews were the sour in
 
 This internship made me realize that programming is not just about coding. Talking about requirements and solutions occupies a major chunk of the work.
 
-### Adios
+## Adios
 After 12 weeks, the day I left Seattle was sad. Dropping in my Google badge on the final day, one last card game, hugging my friends goodbye, packing up my stuff into luggage bags; I heard melancholy music all day long.
+
+<figure><img src="/images/google17/meatmydesk.jpg" style="width:100%;"/><figcaption>Me at my desk</figcaption></figure>
 
 Waking up from this reminiscing exercise, I'm back in IIT Kanpur, and life's back to the usual old grind. USA is a fun memory for at least an year now.
 
