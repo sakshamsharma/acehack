@@ -169,7 +169,7 @@ main = hakyll $ do
            simplePageCtx <- ctxWithInfo staticPosts
            let pageCtx = simplePageCtx
            pandocCompiler
-             >>= loadAndApplyTemplate "templates/post.html"         pageCtx
+             >>= loadAndApplyTemplate "templates/about.html"        pageCtx
              >>= loadAndApplyTemplate "templates/with-main.html"    pageCtx
              >>= loadAndApplyTemplate "templates/with-sidebar.html" pageCtx
              >>= loadAndApplyTemplate "templates/with-profile.html" pageCtx
