@@ -1,1600 +1,2854 @@
 <!DOCTYPE html>
 <html lang="en-us">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="generator" content="Hugo">
-        <title>AceHack-Reveries of a programmer</title>
-        <meta name="author" content="Saksham Sharma">
-        <meta name="keywords" content="acehack, coding, programming, linux, webdev, hakyll">
+  <head>
+    <!-- <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} &middot; {{ .Site.Title }}{{ end }}</title> -->
+<!-- {{ .Hugo.Generator }} -->
 
-        <meta name="description" content="Saksham Sharma's blog">
-        <meta property="og:description" content="Saksham Sharma's blog">
-        <meta property="og:type" content="blog">
-        <meta property="og:title" content="AceHack">
-        <meta property="og:url" content>
-        <meta property="og:site_name" content="AceHack">
-        <meta name="twitter:card" content="summary">
-        <meta name="twitter:title" content="AceHack">
-        <meta name="twitter:description" content="Saksham Sharma's blog">
+<title>AceHack-index</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<!-- {{ with .Site.Params.author }}<meta name="author" content="{{ . }}">{{ end }} -->
+<!-- {{ with .Description }} -->
+<!--   <meta name="description" content="{{ . }}"> -->
+<!-- {{ else }} -->
+<!--   <meta name="description" content="{{ .Site.Params.site_description }}"> -->
+<!-- {{ end }} -->
+<!-- {{ with .RSSLink }} -->
+<!--   <link href="{{ . }}" rel="alternate" type="application/rss+xml" title="{{ Site.Title }}" /> -->
+<!--   <link href="{{ . }}" rel="feed" type="application/rss+xml" title="{{ Site.Title }}" /> -->
+<!-- {{ end }} -->
 
-        <meta property="og:image" content="https://avatars3.githubusercontent.com/u/10418596?v=3&s=460">
+<meta name="author" content="Saksham Sharma">
+<meta name="keywords" content="acehack, coding, programming, linux, webdev, hakyll">
 
-        <link rel="stylesheet" href="./css/hugo.css" />
-        <script src="./js/utils.js"></script>
-        <script>
-         moveToHttps();
-        </script>
-    </head>
+<!-- <link rel="canonical" href="{{ .Permalink }}"/> -->
+<link rel="icon" href="./favicon.ico">
+<link rel="apple-touch-icon" href="./apple-touch-icon.png" />
+<link rel="stylesheet" href="./css/style.css">
+<link rel="stylesheet" href="./css/font-awesome.min.css">
+<link rel="stylesheet" href="./css/monokai.css">
+<link rel="stylesheet" href="./fancybox/jquery.fancybox.css">
+<!-- ------------- -->
+<!-- FIX IMPORTANT -->
+<!-- ------------- -->
+<!-- {{ range .Site.Params.custom_css }} -->
+<!-- <link rel="stylesheet" href="{{ . | absURL }}"> -->
+<!-- {{ end }} -->
 
-<body>
-    <div id="blog">
-        <header id="header" data-behavior="1">
-  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
-  <div class="header-title">
-    <a class="header-title-link" href="./">AceHack</a>
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:400italic,400,600" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+
+<!-- {{ template "_internal/opengraph.html" . }} -->
+<!-- {{ template "_internal/google_news.html" . }} -->
+<!-- {{ template "_internal/schema.html" . }} -->
+<!-- {{ template "_internal/twitter_cards.html" . }} -->
+
+
+
+<!-- {{ if .Params.disable_profile | and .Params.disable_widgets }} -->
+<!-- <style> -->
+<!--     .full-width { -->
+<!--         width: 100% !important; -->
+<!--     } -->
+<!-- </style> -->
+<!-- {{ end }} -->
+
+<!-- needs to be loaded first for following scripts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+  </head>
+  <body>
+    <header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="https://sakshamsharma.com" id="logo">
+          <!-- {{ if .Site.Params.logo }} -->
+          <i class="logo" style="background-image: url('/images/logo.png')"></i>
+          <!-- {{end}} -->
+          <span class="site-title">AceHack</span>
+      </a>
+      <nav id="main-nav">
+        <a class="main-nav-link" href="./">Home</a>
+        <a class="main-nav-link" href="./about">About</a>
+        
+        <a class="main-nav-link" href="https://github.com/sakshamsharma">GitHub</a>
+        
+        <a class="main-nav-link" href="https://in.linkedin.com/in/saksham-sharma">LinkedIn</a>
+        
+        <a class="main-nav-link" href="./cv">Resume</a>
+        
+        <a class="main-nav-link" href="./rss.xml">Rss</a>
+        
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form">
+          <input type="search" name="q" class="search-form-input" placeholder="Search">
+          <button type="submit" class="search-form-submit">
+          </button>
+          <input type="hidden" name="sitesearch" value="sakshamsharma.com" />
+        </form>
+      </div>
+    </div>
   </div>
-      <a class="header-right-picture " href="./about">
-        <img class="header-picture" src="https://avatars3.githubusercontent.com/u/10418596?v=3&amp;s=460" alt="Author's picture" />
-    </a>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tbody>
+          <tr>
+          <td><a class="main-nav-link" href="./">Home</a></td>
+          <td><a class="main-nav-link" href="./about">About</a></td>
+        <!--   {{ range .Site.Params.menu }} -->
+        <!--   {{ if .before }} -->
+        <!--   <td><a class="main-nav-link" href="{{ .link | absURL }}">{{ .label }}</a></td> -->
+        <!--   {{ end }} -->
+        <!--   {{ end }} -->
+
+        <!--   {{ range .Site.Menus.main }} -->
+        <!--   <td><a class="main-nav-link" href="{{ .URL }}">{{ .Name }}</a></td> -->
+        <!--   {{ end }} -->
+
+        <!--   {{ range .Site.Params.menu }} -->
+        <!--   {{ if not .before }} -->
+        <!--   <td><a class="main-nav-link" href="{{ .link  | absURL }}">{{ .label }}</a></td> -->
+        <!--   {{ end }} -->
+        <!--   {{ end }} -->
+          <td>
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form">
+          <input type="search" name="q" class="search-form-input" placeholder="Search">
+          <input type="hidden" name="sitesearch" value="{{ .Site.BaseURL }}" />
+          </form>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
 </header>
 
-
-        <nav id="sidebar" data-behavior="1">
-    <div class="sidebar-container">
-        <div class="sidebar-profile">
-            <a href="./about">
-                <img class="sidebar-profile-picture" src="https://avatars3.githubusercontent.com/u/10418596?v=3&amp;s=460" alt="Author's picture" />
-            </a>
-            <h4 class="sidebar-profile-name">Saksham Sharma</h4>
-
-            <h5 class="sidebar-profile-bio">Hacker. Programmer. Geek.</h5>
-
-        </div>
-
-        <ul class="sidebar-buttons">
-
-            <li class="sidebar-button">
-
-                <a class="sidebar-button-link " href="./">
-
-                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
-                    <span class="sidebar-button-desc">Home</span>
-                </a>
-            </li>
-
-            <li class="sidebar-button">
-
-                <a class="sidebar-button-link " href="./categories">
-
-                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
-                    <span class="sidebar-button-desc">Categories</span>
-                </a>
-            </li>
-
-            <li class="sidebar-button">
-
-                <a class="sidebar-button-link " href="./tags">
-
-                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
-                    <span class="sidebar-button-desc">Tags</span>
-                </a>
-            </li>
-
-            <li class="sidebar-button">
-
-                <a class="sidebar-button-link " href="./archives">
-
-                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
-                    <span class="sidebar-button-desc">Archives</span>
-                </a>
-            </li>
-
-            <li class="sidebar-button">
-
-                <a class="sidebar-button-link " href="./about">
-
-                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
-                    <span class="sidebar-button-desc">About</span>
-                </a>
-            </li>
-
-        </ul>
-        <ul class="sidebar-buttons">
-
-            <li class="sidebar-button">
-
-                <a class="sidebar-button-link " href="https://github.com/sakshamsharma" target="_blank">
-
-                    <i class="sidebar-button-icon fa fa-lg fa-github"></i>
-                    <span class="sidebar-button-desc">GitHub</span>
-                </a>
-            </li>
-
-            <li class="sidebar-button">
-
-                <a class="sidebar-button-link " href="https://in.linkedin.com/in/saksham-sharma" target="_blank">
-
-                    <i class="sidebar-button-icon fa fa-lg fa-linkedin"></i>
-                    <span class="sidebar-button-desc">LinkedIn</span>
-                </a>
-            </li>
-
-            <li class="sidebar-button">
-
-                <a class="sidebar-button-link " href="./cv" target="_blank">
-
-                    <i class="sidebar-button-icon fa fa-lg fa-file-o"></i>
-                    <span class="sidebar-button-desc">Resume</span>
-                </a>
-            </li>
-
-            <li class="sidebar-button">
-
-                <a class="sidebar-button-link " href="./rss.xml" target="_blank">
-
-                    <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
-                    <span class="sidebar-button-desc">Rss</span>
-                </a>
-            </li>
-
-            <li class="sidebar-button">
-
-                <a class="sidebar-button-link " href="./atom.xml" target="_blank">
-
-                    <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
-                    <span class="sidebar-button-desc">Atom</span>
-                </a>
-            </li>
-
-        </ul>
-        <ul class="sidebar-buttons">
-
-        </ul>
+    <div class="container">
+      <div class="outer">
+        <aside id="profile">
+  <div class="inner profile-inner">
+    <div class="base-info profile-block">
+      <h2 id="name">Saksham Sharma</h2>
+      <h3 id="title">Programmer.</h3>
+      <!-- {{ with .Site.Params.gravatar }} -->
+      <img id="avatar" style="border-radius: 1000px;" src="https://avatars3.githubusercontent.com/u/10418596?v=3&s=460" />
+      <!-- {{ else }} -->
+      <!-- <img id="avatar" src="{{ .Site.Params.avatar | absURL }}"> -->
+      <!-- {{ end }} -->
+      <!-- {{ with .Site.Params.author}}<h2 id="name">{{ . }}</h2>{{ end }} -->
+      <!-- {{ with .Site.Params.bio }}<h3 id="title">{{ . }}</h3>{{ end }} -->
+      <!-- {{ with .Site.Params.location }}<span id="location"><i class="fa fa-map-marker"></i>{{ . }}</span>{{ end }} -->
+      <!-- {{ with .Site.Params.profile.follow_button }} -->
+      <!--     <a id="follow" href="{{ . }}"> -->
+      <!--         {{with Site.Data.l10n.profile.follow_button}}{{.}}{{end}} -->
+      <!--     </a> -->
+      <!-- {{ end }} -->
     </div>
-</nav>
+    <div class="article-info profile-block">
+      <div class="article-info-block">
+        <p>35</p>
+        <span>Posts</span>
+      </div>
+      <div class="article-info-block">
+        <p id="gh-followers">...</p>
+        <span>Followers</span>
+      </div>
+    </div>
+    <div class="profile-block social-links">
+      <table>
+        <tr>
+          
+          <td><a href="https://github.com/sakshamsharma" target="_blank" title="GitHub"><i class="fa fa-github"></i></a></td>
+          
+          <td><a href="https://in.linkedin.com/in/saksham-sharma" target="_blank" title="LinkedIn"><i class="fa fa-linkedin"></i></a></td>
+          
+          <td><a href="./cv" target="_blank" title="Resume"><i class="fa fa-file-pdf-o"></i></a></td>
+          
+          <td><a href="./rss.xml" target="_blank" title="Rss"><i class="fa fa-rss"></i></a></td>
+          
+        </tr>
+      </table>
+    </div>
+  </div>
+</aside>
 
-<div id="main" data-behavior="1" class="hasCoverMetaIn">
-    <section class="postShorten-group main-content-wrap">
+<script>
+  var xmlHttp = new XMLHttpRequest();
+  xmlHttp.onreadystatechange = function() {
+  if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+    document.getElementById("gh-followers").innerHTML = JSON.parse(xmlHttp.responseText).followers;
+  }
+  xmlHttp.open("GET", "https://api.github.com/users/sakshamsharma", true);
+  xmlHttp.send(null);
+</script>
 
-        <h1>Reveries of a programmer</h1>
+<section id="main">
+  
+<article class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+        <!-- <a href="{{ .Permalink }}" itemprop="url"> -->
+        <!--     <img src="{{ .Params.banner | absURL }}" class="article-banner"> -->
+        <!-- {{ end }} -->
+        <!-- </a> -->
 
-<img src="./images/green.jpg" style="max-height: 350px; max-width: 100%; border-radius: 10px;">
+        <header class="article-header">
+  <a href="./2017/08/googleintern17/">
+    <h1 class="article-title" itemprop="name">Interning at Google Seattle</h1>
+  </a>
+  <div class="article-meta">
+    <!-- {{ if not .Params.nodateline }} -->
+    <!-- <div class="article-date"> -->
+    <!--   <i class="fa fa-calendar"></i> -->
+    <!--   <time datetime="{{ .Date }}" itemprop="datePublished">{{ .Date.Format .Site.Params.date_format }}</time> -->
+    <!--   &middot; -->
+    <!--   {{ .WordCount }} -->
+    <!--   {{ with .Site.Data.l10n.articles.words }}{{.}}{{end}} -->
+    <!--   &middot; -->
+    <!--   {{ .ReadingTime }} -->
+    <!--   {{ with .Site.Data.l10n.articles.readingtime }}{{.}}{{end}} -->
+    <!-- </div> -->
+    <!-- {{ end }} -->
+    <!-- {{ if isset .Params "categories" }} -->
+    <!-- {{ categoriesLen := len .Params.categories }} -->
+    <!-- {{ if gt categoriesLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-folder"></i>
+      musings
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
 
-<link rel="stylesheet" href="./css/archive.css">
+    <!-- {{ if isset .Params "tags" }} -->
+    <!-- {{ tagsLen := len .Params.tags }} -->
+    <!-- {{ if gt tagsLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-tags"></i>
+      <a href="./tags/intern.html">intern</a>, <a href="./tags/career.html">career</a>, <a href="./tags/job.html">job</a>, <a href="./tags/google.html">google</a>, <a href="./tags/kubernetes.html">kubernetes</a>
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
+  </div>
+</header>
 
-
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
-
-    <div class="postBlock postShorten-wrap" class="August  5, 2017" id="post-/2017/08/googleintern17/">
-
-        <div class="postShorten-header">
-            <h2 class="postShorten-title" itemprop="headline">
-                <a class="link-unstyled" href="./2017/08/googleintern17/">
-                    Interning at Google Seattle
-                </a>
-            </h2>
-            <div class="post-meta">
-                <time itemprop="datePublished">
-                    August  5, 2017
-                </time>
-
-                <span>in</span>
-
-                <a class="category-link" href="./categories/musings">
-                    musings
-                </a>
-
-            </div>
-
-        </div>
-        <div class="postShorten-excerpt" itemprop="articleBody">
+        <div class="article-entry" itemprop="articleBody">
             <p>
                 
-                    My experiences working in the Kubernetes team, and more
+                    <style>
+#container {
+    text-align: center;
+}
+a, figure {
+    display: inline-block;
+}
+figcaption {
+    margin: 10px 0 0 0;
+    font-variant: small-caps;
+    font-family: Arial;
+    font-weight: bold;
+    color: #bb3333;
+    text-align: center;
+}
+figure {
+    padding: 5px;
+}
+</style>
+<p>Now that I’m back from the US, the extravaganza that is Google, reminiscing back to those days has made me finally decide to pen down my experience in the Cloud city, working on Cloud.</p>
+<p>For context, I interned at Google Seattle, the third largest Google office in the US. The Seattle ...
                 
-                <br>
-
-                <a href="./2017/08/googleintern17/" class="postShorten-excerpt_link link">
-                    Continue reading
-                </a>
+            </p>
+            <p class="article-more-link">
+                <a href="./2017/08/googleintern17/"> Read more </a>
             </p>
         </div>
+
+        <footer class="article-footer">
+          
+              My experiences working in the Kubernetes team, and more
+          
+          <script src="./js/article_footer.js"></script>
+        </footer>
     </div>
 </article>
 
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+<article class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+        <!-- <a href="{{ .Permalink }}" itemprop="url"> -->
+        <!--     <img src="{{ .Params.banner | absURL }}" class="article-banner"> -->
+        <!-- {{ end }} -->
+        <!-- </a> -->
 
-    <div class="postBlock postShorten-wrap" class="December 26, 2016" id="post-/2016/12/puppy3/">
+        <header class="article-header">
+  <a href="./2016/12/puppy3/">
+    <h1 class="article-title" itemprop="name">Limiting 'likes' sent anonymously - Part 3</h1>
+  </a>
+  <div class="article-meta">
+    <!-- {{ if not .Params.nodateline }} -->
+    <!-- <div class="article-date"> -->
+    <!--   <i class="fa fa-calendar"></i> -->
+    <!--   <time datetime="{{ .Date }}" itemprop="datePublished">{{ .Date.Format .Site.Params.date_format }}</time> -->
+    <!--   &middot; -->
+    <!--   {{ .WordCount }} -->
+    <!--   {{ with .Site.Data.l10n.articles.words }}{{.}}{{end}} -->
+    <!--   &middot; -->
+    <!--   {{ .ReadingTime }} -->
+    <!--   {{ with .Site.Data.l10n.articles.readingtime }}{{.}}{{end}} -->
+    <!-- </div> -->
+    <!-- {{ end }} -->
+    <!-- {{ if isset .Params "categories" }} -->
+    <!-- {{ categoriesLen := len .Params.categories }} -->
+    <!-- {{ if gt categoriesLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-folder"></i>
+      project
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
 
-        <div class="postShorten-header">
-            <h2 class="postShorten-title" itemprop="headline">
-                <a class="link-unstyled" href="./2016/12/puppy3/">
-                    Limiting 'likes' sent anonymously - Part 3
-                </a>
-            </h2>
-            <div class="post-meta">
-                <time itemprop="datePublished">
-                    December 26, 2016
-                </time>
+    <!-- {{ if isset .Params "tags" }} -->
+    <!-- {{ tagsLen := len .Params.tags }} -->
+    <!-- {{ if gt tagsLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-tags"></i>
+      <a href="./tags/algorithm.html">algorithm</a>, <a href="./tags/crypto.html">crypto</a>, <a href="./tags/puppy.html">puppy</a>
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
+  </div>
+</header>
 
-                <span>in</span>
-
-                <a class="category-link" href="./categories/project">
-                    project
-                </a>
-
-            </div>
-
-        </div>
-        <div class="postShorten-excerpt" itemprop="articleBody">
+        <div class="article-entry" itemprop="articleBody">
             <p>
                 
-                    The "Puppy-Love" algorithm - Part 3
+                    <!-- <script type="text/x-mathjax-config"> -->
+<!-- MathJax.Hub.Config({ -->
+<!--   tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]} -->
+<!-- }); -->
+<!-- </script> -->
+<!-- <script type="text/javascript" async -->
+<!--   src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"> -->
+<!-- </script> -->
+<h3 id="recap">Recap</h3>
+<p>For those who haven’t read the previous posts <a href="./2016/10/puppy1/">part 1</a> and <a href="./2016/11/puppy2/">part 2</a>, this is a challenge which came up while trying to develop a secure version of a platform called <em>Puppy Love</em>...
                 
-                <br>
-
-                <a href="./2016/12/puppy3/" class="postShorten-excerpt_link link">
-                    Continue reading
-                </a>
+            </p>
+            <p class="article-more-link">
+                <a href="./2016/12/puppy3/"> Read more </a>
             </p>
         </div>
+
+        <footer class="article-footer">
+          
+              The "Puppy-Love" algorithm - Part 3
+          
+          <script src="./js/article_footer.js"></script>
+        </footer>
     </div>
 </article>
 
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+<article class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+        <!-- <a href="{{ .Permalink }}" itemprop="url"> -->
+        <!--     <img src="{{ .Params.banner | absURL }}" class="article-banner"> -->
+        <!-- {{ end }} -->
+        <!-- </a> -->
 
-    <div class="postBlock postShorten-wrap" class="December 21, 2016" id="post-/2016/12/internsaga/">
+        <header class="article-header">
+  <a href="./2016/12/internsaga/">
+    <h1 class="article-title" itemprop="name">My internship interview saga</h1>
+  </a>
+  <div class="article-meta">
+    <!-- {{ if not .Params.nodateline }} -->
+    <!-- <div class="article-date"> -->
+    <!--   <i class="fa fa-calendar"></i> -->
+    <!--   <time datetime="{{ .Date }}" itemprop="datePublished">{{ .Date.Format .Site.Params.date_format }}</time> -->
+    <!--   &middot; -->
+    <!--   {{ .WordCount }} -->
+    <!--   {{ with .Site.Data.l10n.articles.words }}{{.}}{{end}} -->
+    <!--   &middot; -->
+    <!--   {{ .ReadingTime }} -->
+    <!--   {{ with .Site.Data.l10n.articles.readingtime }}{{.}}{{end}} -->
+    <!-- </div> -->
+    <!-- {{ end }} -->
+    <!-- {{ if isset .Params "categories" }} -->
+    <!-- {{ categoriesLen := len .Params.categories }} -->
+    <!-- {{ if gt categoriesLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-folder"></i>
+      musings
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
 
-        <div class="postShorten-header">
-            <h2 class="postShorten-title" itemprop="headline">
-                <a class="link-unstyled" href="./2016/12/internsaga/">
-                    My internship interview saga
-                </a>
-            </h2>
-            <div class="post-meta">
-                <time itemprop="datePublished">
-                    December 21, 2016
-                </time>
+    <!-- {{ if isset .Params "tags" }} -->
+    <!-- {{ tagsLen := len .Params.tags }} -->
+    <!-- {{ if gt tagsLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-tags"></i>
+      <a href="./tags/intern.html">intern</a>, <a href="./tags/career.html">career</a>, <a href="./tags/job.html">job</a>
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
+  </div>
+</header>
 
-                <span>in</span>
-
-                <a class="category-link" href="./categories/musings">
-                    musings
-                </a>
-
-            </div>
-
-        </div>
-        <div class="postShorten-excerpt" itemprop="articleBody">
+        <div class="article-entry" itemprop="articleBody">
             <p>
                 
-                    I finally had a dream internship offer. But something changed...
+                    <p>So, after months of worrying, I had finally landed an internship position at Google Seattle, in the team of my choice. But before I could stop being lazy and sign the offer letter, something happened ...
                 
-                <br>
-
-                <a href="./2016/12/internsaga/" class="postShorten-excerpt_link link">
-                    Continue reading
-                </a>
+            </p>
+            <p class="article-more-link">
+                <a href="./2016/12/internsaga/"> Read more </a>
             </p>
         </div>
+
+        <footer class="article-footer">
+          
+              I finally had a dream internship offer. But something changed...
+          
+          <script src="./js/article_footer.js"></script>
+        </footer>
     </div>
 </article>
 
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+<article class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+        <!-- <a href="{{ .Permalink }}" itemprop="url"> -->
+        <!--     <img src="{{ .Params.banner | absURL }}" class="article-banner"> -->
+        <!-- {{ end }} -->
+        <!-- </a> -->
 
-    <div class="postBlock postShorten-wrap" class="December  2, 2016" id="post-/2016/12/mutex/">
+        <header class="article-header">
+  <a href="./2016/12/mutex/">
+    <h1 class="article-title" itemprop="name">Coding software-based mutex algos for fun</h1>
+  </a>
+  <div class="article-meta">
+    <!-- {{ if not .Params.nodateline }} -->
+    <!-- <div class="article-date"> -->
+    <!--   <i class="fa fa-calendar"></i> -->
+    <!--   <time datetime="{{ .Date }}" itemprop="datePublished">{{ .Date.Format .Site.Params.date_format }}</time> -->
+    <!--   &middot; -->
+    <!--   {{ .WordCount }} -->
+    <!--   {{ with .Site.Data.l10n.articles.words }}{{.}}{{end}} -->
+    <!--   &middot; -->
+    <!--   {{ .ReadingTime }} -->
+    <!--   {{ with .Site.Data.l10n.articles.readingtime }}{{.}}{{end}} -->
+    <!-- </div> -->
+    <!-- {{ end }} -->
+    <!-- {{ if isset .Params "categories" }} -->
+    <!-- {{ categoriesLen := len .Params.categories }} -->
+    <!-- {{ if gt categoriesLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-folder"></i>
+      systems
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
 
-        <div class="postShorten-header">
-            <h2 class="postShorten-title" itemprop="headline">
-                <a class="link-unstyled" href="./2016/12/mutex/">
-                    Coding software-based mutex algos for fun
-                </a>
-            </h2>
-            <div class="post-meta">
-                <time itemprop="datePublished">
-                    December  2, 2016
-                </time>
+    <!-- {{ if isset .Params "tags" }} -->
+    <!-- {{ tagsLen := len .Params.tags }} -->
+    <!-- {{ if gt tagsLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-tags"></i>
+      <a href="./tags/OS.html">OS</a>, <a href="./tags/kernel.html">kernel</a>, <a href="./tags/python.html">python</a>
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
+  </div>
+</header>
 
-                <span>in</span>
-
-                <a class="category-link" href="./categories/systems">
-                    systems
-                </a>
-
-            </div>
-
-        </div>
-        <div class="postShorten-excerpt" itemprop="articleBody">
+        <div class="article-entry" itemprop="articleBody">
             <p>
                 
-                    Rather than memorize the algos for my exam :)
+                    <p>I learnt a couple of nice scheduling algorithms in my Operating Systems class last semester. They seemed like an interesting bunch, but it was not generally clear whether their performance would be good.</p>
+<p>Now, what better a way to understand them than by coding them up? ...
                 
-                <br>
-
-                <a href="./2016/12/mutex/" class="postShorten-excerpt_link link">
-                    Continue reading
-                </a>
+            </p>
+            <p class="article-more-link">
+                <a href="./2016/12/mutex/"> Read more </a>
             </p>
         </div>
+
+        <footer class="article-footer">
+          
+              Rather than memorize the algos for my exam :)
+          
+          <script src="./js/article_footer.js"></script>
+        </footer>
     </div>
 </article>
 
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+<article class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+        <!-- <a href="{{ .Permalink }}" itemprop="url"> -->
+        <!--     <img src="{{ .Params.banner | absURL }}" class="article-banner"> -->
+        <!-- {{ end }} -->
+        <!-- </a> -->
 
-    <div class="postBlock postShorten-wrap" class="November 25, 2016" id="post-/2016/11/puppy2/">
+        <header class="article-header">
+  <a href="./2016/11/puppy2/">
+    <h1 class="article-title" itemprop="name">Zero-trust - Safe and anonymous ANDing bits - Part 2</h1>
+  </a>
+  <div class="article-meta">
+    <!-- {{ if not .Params.nodateline }} -->
+    <!-- <div class="article-date"> -->
+    <!--   <i class="fa fa-calendar"></i> -->
+    <!--   <time datetime="{{ .Date }}" itemprop="datePublished">{{ .Date.Format .Site.Params.date_format }}</time> -->
+    <!--   &middot; -->
+    <!--   {{ .WordCount }} -->
+    <!--   {{ with .Site.Data.l10n.articles.words }}{{.}}{{end}} -->
+    <!--   &middot; -->
+    <!--   {{ .ReadingTime }} -->
+    <!--   {{ with .Site.Data.l10n.articles.readingtime }}{{.}}{{end}} -->
+    <!-- </div> -->
+    <!-- {{ end }} -->
+    <!-- {{ if isset .Params "categories" }} -->
+    <!-- {{ categoriesLen := len .Params.categories }} -->
+    <!-- {{ if gt categoriesLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-folder"></i>
+      project
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
 
-        <div class="postShorten-header">
-            <h2 class="postShorten-title" itemprop="headline">
-                <a class="link-unstyled" href="./2016/11/puppy2/">
-                    Zero-trust - Safe and anonymous ANDing bits - Part 2
-                </a>
-            </h2>
-            <div class="post-meta">
-                <time itemprop="datePublished">
-                    November 25, 2016
-                </time>
+    <!-- {{ if isset .Params "tags" }} -->
+    <!-- {{ tagsLen := len .Params.tags }} -->
+    <!-- {{ if gt tagsLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-tags"></i>
+      <a href="./tags/algorithm.html">algorithm</a>, <a href="./tags/crypto.html">crypto</a>, <a href="./tags/puppy.html">puppy</a>
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
+  </div>
+</header>
 
-                <span>in</span>
-
-                <a class="category-link" href="./categories/project">
-                    project
-                </a>
-
-            </div>
-
-        </div>
-        <div class="postShorten-excerpt" itemprop="articleBody">
+        <div class="article-entry" itemprop="articleBody">
             <p>
                 
-                    The "Puppy-Love" algorithm
+                    <!-- <script type="text/x-mathjax-config"> -->
+<!-- MathJax.Hub.Config({ -->
+<!--   tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]} -->
+<!-- }); -->
+<!-- </script> -->
+<!-- <script type="text/javascript" async -->
+<!--   src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML"> -->
+<!-- </script> -->
+<h3 id="recap">Recap</h3>
+<p>For those who haven’t read the <a href="./2016/10/puppy1/">previous post</a>, this is a challenge which came up while trying to develop a secure version of a platform called <em>Puppy Love</em>. The introduction and the algorithmic challenge, taken from the previous article:</p>
+...
                 
-                <br>
-
-                <a href="./2016/11/puppy2/" class="postShorten-excerpt_link link">
-                    Continue reading
-                </a>
+            </p>
+            <p class="article-more-link">
+                <a href="./2016/11/puppy2/"> Read more </a>
             </p>
         </div>
+
+        <footer class="article-footer">
+          
+              The "Puppy-Love" algorithm
+          
+          <script src="./js/article_footer.js"></script>
+        </footer>
     </div>
 </article>
 
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+<article class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+        <!-- <a href="{{ .Permalink }}" itemprop="url"> -->
+        <!--     <img src="{{ .Params.banner | absURL }}" class="article-banner"> -->
+        <!-- {{ end }} -->
+        <!-- </a> -->
 
-    <div class="postBlock postShorten-wrap" class="October 29, 2016" id="post-/2016/10/cliplay/">
+        <header class="article-header">
+  <a href="./2016/10/cliplay/">
+    <h1 class="article-title" itemprop="name">ZSH globbing to play music</h1>
+  </a>
+  <div class="article-meta">
+    <!-- {{ if not .Params.nodateline }} -->
+    <!-- <div class="article-date"> -->
+    <!--   <i class="fa fa-calendar"></i> -->
+    <!--   <time datetime="{{ .Date }}" itemprop="datePublished">{{ .Date.Format .Site.Params.date_format }}</time> -->
+    <!--   &middot; -->
+    <!--   {{ .WordCount }} -->
+    <!--   {{ with .Site.Data.l10n.articles.words }}{{.}}{{end}} -->
+    <!--   &middot; -->
+    <!--   {{ .ReadingTime }} -->
+    <!--   {{ with .Site.Data.l10n.articles.readingtime }}{{.}}{{end}} -->
+    <!-- </div> -->
+    <!-- {{ end }} -->
+    <!-- {{ if isset .Params "categories" }} -->
+    <!-- {{ categoriesLen := len .Params.categories }} -->
+    <!-- {{ if gt categoriesLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-folder"></i>
+      linux
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
 
-        <div class="postShorten-header">
-            <h2 class="postShorten-title" itemprop="headline">
-                <a class="link-unstyled" href="./2016/10/cliplay/">
-                    ZSH globbing to play music
-                </a>
-            </h2>
-            <div class="post-meta">
-                <time itemprop="datePublished">
-                    October 29, 2016
-                </time>
+    <!-- {{ if isset .Params "tags" }} -->
+    <!-- {{ tagsLen := len .Params.tags }} -->
+    <!-- {{ if gt tagsLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-tags"></i>
+      <a href="./tags/shell.html">shell</a>, <a href="./tags/zsh.html">zsh</a>, <a href="./tags/linux.html">linux</a>, <a href="./tags/music.html">music</a>
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
+  </div>
+</header>
 
-                <span>in</span>
-
-                <a class="category-link" href="./categories/linux">
-                    linux
-                </a>
-
-            </div>
-
-        </div>
-        <div class="postShorten-excerpt" itemprop="articleBody">
+        <div class="article-entry" itemprop="articleBody">
             <p>
                 
-                    Shell scripting for profit :)
+                    <p>Too lazy to learn to use the awesome <a href="https://cmus.github.io/">cmus</a>, and living on an (very regrettably) extremely unorganized music library since I came to IIT Kanpur, yeah that’s me these days when it comes to music. Without the likes of Spotify in India, I’ve been living on YouTube since more than 2 years, when I used to have a fully organized music library back in my school days.</p>
+<p>Having a very dynamic (and mostly incomplete) music library, I was constantly being annoyed having to import folders, sort some, organize others. What would be ideal in such a scenario is a way to live in the shell itself, but have the freedom to easily search for music files and play them. ...
                 
-                <br>
-
-                <a href="./2016/10/cliplay/" class="postShorten-excerpt_link link">
-                    Continue reading
-                </a>
+            </p>
+            <p class="article-more-link">
+                <a href="./2016/10/cliplay/"> Read more </a>
             </p>
         </div>
+
+        <footer class="article-footer">
+          
+              Shell scripting for profit :)
+          
+          <script src="./js/article_footer.js"></script>
+        </footer>
     </div>
 </article>
 
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+<article class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+        <!-- <a href="{{ .Permalink }}" itemprop="url"> -->
+        <!--     <img src="{{ .Params.banner | absURL }}" class="article-banner"> -->
+        <!-- {{ end }} -->
+        <!-- </a> -->
 
-    <div class="postBlock postShorten-wrap" class="October 25, 2016" id="post-/2016/10/puppy1/">
+        <header class="article-header">
+  <a href="./2016/10/puppy1/">
+    <h1 class="article-title" itemprop="name">Anonymous, zero-server-trust couple matching - Part 1</h1>
+  </a>
+  <div class="article-meta">
+    <!-- {{ if not .Params.nodateline }} -->
+    <!-- <div class="article-date"> -->
+    <!--   <i class="fa fa-calendar"></i> -->
+    <!--   <time datetime="{{ .Date }}" itemprop="datePublished">{{ .Date.Format .Site.Params.date_format }}</time> -->
+    <!--   &middot; -->
+    <!--   {{ .WordCount }} -->
+    <!--   {{ with .Site.Data.l10n.articles.words }}{{.}}{{end}} -->
+    <!--   &middot; -->
+    <!--   {{ .ReadingTime }} -->
+    <!--   {{ with .Site.Data.l10n.articles.readingtime }}{{.}}{{end}} -->
+    <!-- </div> -->
+    <!-- {{ end }} -->
+    <!-- {{ if isset .Params "categories" }} -->
+    <!-- {{ categoriesLen := len .Params.categories }} -->
+    <!-- {{ if gt categoriesLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-folder"></i>
+      project
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
 
-        <div class="postShorten-header">
-            <h2 class="postShorten-title" itemprop="headline">
-                <a class="link-unstyled" href="./2016/10/puppy1/">
-                    Anonymous, zero-server-trust couple matching - Part 1
-                </a>
-            </h2>
-            <div class="post-meta">
-                <time itemprop="datePublished">
-                    October 25, 2016
-                </time>
+    <!-- {{ if isset .Params "tags" }} -->
+    <!-- {{ tagsLen := len .Params.tags }} -->
+    <!-- {{ if gt tagsLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-tags"></i>
+      <a href="./tags/algorithm.html">algorithm</a>, <a href="./tags/crypto.html">crypto</a>, <a href="./tags/puppy.html">puppy</a>
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
+  </div>
+</header>
 
-                <span>in</span>
-
-                <a class="category-link" href="./categories/project">
-                    project
-                </a>
-
-            </div>
-
-        </div>
-        <div class="postShorten-excerpt" itemprop="articleBody">
+        <div class="article-entry" itemprop="articleBody">
             <p>
                 
-                    IITK's "Puppy-Love" reborn
+                    <script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+<script type="text/javascript" async src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+<p><strong>NOTE:</strong>: The algorithm used has been re-worked, and changed since this article was written. Expect a new article with the formal algorithm soon :)</p>
+<p><strong>Update</strong>: The new article with the latest algorithm is <a href="./2016/11/puppy2">here on my blog</a>. Do read that article as a follow up!</p>
+<p>The queerly named <em>Puppy Love</em> platform has been running in my university since 2014, meant to help shy nerds meet their crush, made my the Programming Club (of which, I happen to be the current coordinator)...
                 
-                <br>
-
-                <a href="./2016/10/puppy1/" class="postShorten-excerpt_link link">
-                    Continue reading
-                </a>
+            </p>
+            <p class="article-more-link">
+                <a href="./2016/10/puppy1/"> Read more </a>
             </p>
         </div>
+
+        <footer class="article-footer">
+          
+              IITK's "Puppy-Love" reborn
+          
+          <script src="./js/article_footer.js"></script>
+        </footer>
     </div>
 </article>
 
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+<article class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+        <!-- <a href="{{ .Permalink }}" itemprop="url"> -->
+        <!--     <img src="{{ .Params.banner | absURL }}" class="article-banner"> -->
+        <!-- {{ end }} -->
+        <!-- </a> -->
 
-    <div class="postBlock postShorten-wrap" class="October  8, 2016" id="post-/2016/10/movi/">
+        <header class="article-header">
+  <a href="./2016/10/movi/">
+    <h1 class="article-title" itemprop="name">moVi - Mobile video protocol (Part 1)</h1>
+  </a>
+  <div class="article-meta">
+    <!-- {{ if not .Params.nodateline }} -->
+    <!-- <div class="article-date"> -->
+    <!--   <i class="fa fa-calendar"></i> -->
+    <!--   <time datetime="{{ .Date }}" itemprop="datePublished">{{ .Date.Format .Site.Params.date_format }}</time> -->
+    <!--   &middot; -->
+    <!--   {{ .WordCount }} -->
+    <!--   {{ with .Site.Data.l10n.articles.words }}{{.}}{{end}} -->
+    <!--   &middot; -->
+    <!--   {{ .ReadingTime }} -->
+    <!--   {{ with .Site.Data.l10n.articles.readingtime }}{{.}}{{end}} -->
+    <!-- </div> -->
+    <!-- {{ end }} -->
+    <!-- {{ if isset .Params "categories" }} -->
+    <!-- {{ categoriesLen := len .Params.categories }} -->
+    <!-- {{ if gt categoriesLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-folder"></i>
+      networks
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
 
-        <div class="postShorten-header">
-            <h2 class="postShorten-title" itemprop="headline">
-                <a class="link-unstyled" href="./2016/10/movi/">
-                    moVi - Mobile video protocol (Part 1)
-                </a>
-            </h2>
-            <div class="post-meta">
-                <time itemprop="datePublished">
-                    October  8, 2016
-                </time>
+    <!-- {{ if isset .Params "tags" }} -->
+    <!-- {{ tagsLen := len .Params.tags }} -->
+    <!-- {{ if gt tagsLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-tags"></i>
+      <a href="./tags/networks.html">networks</a>, <a href="./tags/video.html">video</a>
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
+  </div>
+</header>
 
-                <span>in</span>
-
-                <a class="category-link" href="./categories/networks">
-                    networks
-                </a>
-
-            </div>
-
-        </div>
-        <div class="postShorten-excerpt" itemprop="articleBody">
+        <div class="article-entry" itemprop="articleBody">
             <p>
                 
-                    My undergraduate project (semester 5)
+                    <p>After a really late start to my undergraduate project (UGP) this semester, I finally started working on something we call <a href="https://github.com/netsecIITK/moVi">moVi</a>.</p>
+<p>First off, if the idea reminds you of <a href="https://mosh.org">mosh - Mobile Shell</a> by Keith Winstein and Hari Balakrishnan of MIT, it is not a coincidence. I’d loved their paper called <em>Mosh: An Interactive Remote Shell for Mobile Clients</em>, and moVi is in a way taking their idea forward...
                 
-                <br>
-
-                <a href="./2016/10/movi/" class="postShorten-excerpt_link link">
-                    Continue reading
-                </a>
+            </p>
+            <p class="article-more-link">
+                <a href="./2016/10/movi/"> Read more </a>
             </p>
         </div>
+
+        <footer class="article-footer">
+          
+              My undergraduate project (semester 5)
+          
+          <script src="./js/article_footer.js"></script>
+        </footer>
     </div>
 </article>
 
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+<article class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+        <!-- <a href="{{ .Permalink }}" itemprop="url"> -->
+        <!--     <img src="{{ .Params.banner | absURL }}" class="article-banner"> -->
+        <!-- {{ end }} -->
+        <!-- </a> -->
 
-    <div class="postBlock postShorten-wrap" class="September 19, 2016" id="post-/2016/09/privtorrent/">
+        <header class="article-header">
+  <a href="./2016/09/privtorrent/">
+    <h1 class="article-title" itemprop="name">Privately send data to host without disclosing IP</h1>
+  </a>
+  <div class="article-meta">
+    <!-- {{ if not .Params.nodateline }} -->
+    <!-- <div class="article-date"> -->
+    <!--   <i class="fa fa-calendar"></i> -->
+    <!--   <time datetime="{{ .Date }}" itemprop="datePublished">{{ .Date.Format .Site.Params.date_format }}</time> -->
+    <!--   &middot; -->
+    <!--   {{ .WordCount }} -->
+    <!--   {{ with .Site.Data.l10n.articles.words }}{{.}}{{end}} -->
+    <!--   &middot; -->
+    <!--   {{ .ReadingTime }} -->
+    <!--   {{ with .Site.Data.l10n.articles.readingtime }}{{.}}{{end}} -->
+    <!-- </div> -->
+    <!-- {{ end }} -->
+    <!-- {{ if isset .Params "categories" }} -->
+    <!-- {{ categoriesLen := len .Params.categories }} -->
+    <!-- {{ if gt categoriesLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-folder"></i>
+      networks
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
 
-        <div class="postShorten-header">
-            <h2 class="postShorten-title" itemprop="headline">
-                <a class="link-unstyled" href="./2016/09/privtorrent/">
-                    Privately send data to host without disclosing IP
-                </a>
-            </h2>
-            <div class="post-meta">
-                <time itemprop="datePublished">
-                    September 19, 2016
-                </time>
+    <!-- {{ if isset .Params "tags" }} -->
+    <!-- {{ tagsLen := len .Params.tags }} -->
+    <!-- {{ if gt tagsLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-tags"></i>
+      <a href="./tags/algorithm.html">algorithm</a>, <a href="./tags/networks.html">networks</a>
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
+  </div>
+</header>
 
-                <span>in</span>
-
-                <a class="category-link" href="./categories/networks">
-                    networks
-                </a>
-
-            </div>
-
-        </div>
-        <div class="postShorten-excerpt" itemprop="articleBody">
+        <div class="article-entry" itemprop="articleBody">
             <p>
                 
                     Distributed network connections :)
                 
-                <br>
-
-                <a href="./2016/09/privtorrent/" class="postShorten-excerpt_link link">
-                    Continue reading
-                </a>
+            </p>
+            <p class="article-more-link">
+                <a href="./2016/09/privtorrent/"> Read more </a>
             </p>
         </div>
+
+        <footer class="article-footer">
+          
+          <script src="./js/article_footer.js"></script>
+        </footer>
     </div>
 </article>
 
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+<article class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+        <!-- <a href="{{ .Permalink }}" itemprop="url"> -->
+        <!--     <img src="{{ .Params.banner | absURL }}" class="article-banner"> -->
+        <!-- {{ end }} -->
+        <!-- </a> -->
 
-    <div class="postBlock postShorten-wrap" class="September 15, 2016" id="post-/2016/09/buffering/">
+        <header class="article-header">
+  <a href="./2016/09/buffering/">
+    <h1 class="article-title" itemprop="name">Buffering packets in a network with a variable source rate</h1>
+  </a>
+  <div class="article-meta">
+    <!-- {{ if not .Params.nodateline }} -->
+    <!-- <div class="article-date"> -->
+    <!--   <i class="fa fa-calendar"></i> -->
+    <!--   <time datetime="{{ .Date }}" itemprop="datePublished">{{ .Date.Format .Site.Params.date_format }}</time> -->
+    <!--   &middot; -->
+    <!--   {{ .WordCount }} -->
+    <!--   {{ with .Site.Data.l10n.articles.words }}{{.}}{{end}} -->
+    <!--   &middot; -->
+    <!--   {{ .ReadingTime }} -->
+    <!--   {{ with .Site.Data.l10n.articles.readingtime }}{{.}}{{end}} -->
+    <!-- </div> -->
+    <!-- {{ end }} -->
+    <!-- {{ if isset .Params "categories" }} -->
+    <!-- {{ categoriesLen := len .Params.categories }} -->
+    <!-- {{ if gt categoriesLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-folder"></i>
+      networks
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
 
-        <div class="postShorten-header">
-            <h2 class="postShorten-title" itemprop="headline">
-                <a class="link-unstyled" href="./2016/09/buffering/">
-                    Buffering packets in a network with a variable source rate
-                </a>
-            </h2>
-            <div class="post-meta">
-                <time itemprop="datePublished">
-                    September 15, 2016
-                </time>
+    <!-- {{ if isset .Params "tags" }} -->
+    <!-- {{ tagsLen := len .Params.tags }} -->
+    <!-- {{ if gt tagsLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-tags"></i>
+      <a href="./tags/algorithm.html">algorithm</a>, <a href="./tags/networks.html">networks</a>
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
+  </div>
+</header>
 
-                <span>in</span>
-
-                <a class="category-link" href="./categories/networks">
-                    networks
-                </a>
-
-            </div>
-
-        </div>
-        <div class="postShorten-excerpt" itemprop="articleBody">
+        <div class="article-entry" itemprop="articleBody">
             <p>
                 
                     Solving a self-posed problem :)
                 
-                <br>
-
-                <a href="./2016/09/buffering/" class="postShorten-excerpt_link link">
-                    Continue reading
-                </a>
+            </p>
+            <p class="article-more-link">
+                <a href="./2016/09/buffering/"> Read more </a>
             </p>
         </div>
+
+        <footer class="article-footer">
+          
+          <script src="./js/article_footer.js"></script>
+        </footer>
     </div>
 </article>
 
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+<article class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+        <!-- <a href="{{ .Permalink }}" itemprop="url"> -->
+        <!--     <img src="{{ .Params.banner | absURL }}" class="article-banner"> -->
+        <!-- {{ end }} -->
+        <!-- </a> -->
 
-    <div class="postBlock postShorten-wrap" class="September 10, 2016" id="post-/2016/09/teamselection/">
+        <header class="article-header">
+  <a href="./2016/09/teamselection/">
+    <h1 class="article-title" itemprop="name">Pairing up n people into 2 teams</h1>
+  </a>
+  <div class="article-meta">
+    <!-- {{ if not .Params.nodateline }} -->
+    <!-- <div class="article-date"> -->
+    <!--   <i class="fa fa-calendar"></i> -->
+    <!--   <time datetime="{{ .Date }}" itemprop="datePublished">{{ .Date.Format .Site.Params.date_format }}</time> -->
+    <!--   &middot; -->
+    <!--   {{ .WordCount }} -->
+    <!--   {{ with .Site.Data.l10n.articles.words }}{{.}}{{end}} -->
+    <!--   &middot; -->
+    <!--   {{ .ReadingTime }} -->
+    <!--   {{ with .Site.Data.l10n.articles.readingtime }}{{.}}{{end}} -->
+    <!-- </div> -->
+    <!-- {{ end }} -->
+    <!-- {{ if isset .Params "categories" }} -->
+    <!-- {{ categoriesLen := len .Params.categories }} -->
+    <!-- {{ if gt categoriesLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-folder"></i>
+      CSinLife
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
 
-        <div class="postShorten-header">
-            <h2 class="postShorten-title" itemprop="headline">
-                <a class="link-unstyled" href="./2016/09/teamselection/">
-                    Pairing up n people into 2 teams
-                </a>
-            </h2>
-            <div class="post-meta">
-                <time itemprop="datePublished">
-                    September 10, 2016
-                </time>
+    <!-- {{ if isset .Params "tags" }} -->
+    <!-- {{ tagsLen := len .Params.tags }} -->
+    <!-- {{ if gt tagsLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-tags"></i>
+      <a href="./tags/algorithm.html">algorithm</a>
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
+  </div>
+</header>
 
-                <span>in</span>
-
-                <a class="category-link" href="./categories/CSinLife">
-                    CSinLife
-                </a>
-
-            </div>
-
-        </div>
-        <div class="postShorten-excerpt" itemprop="articleBody">
+        <div class="article-entry" itemprop="articleBody">
             <p>
                 
                     Try this next time you play pool
                 
-                <br>
-
-                <a href="./2016/09/teamselection/" class="postShorten-excerpt_link link">
-                    Continue reading
-                </a>
+            </p>
+            <p class="article-more-link">
+                <a href="./2016/09/teamselection/"> Read more </a>
             </p>
         </div>
+
+        <footer class="article-footer">
+          
+          <script src="./js/article_footer.js"></script>
+        </footer>
     </div>
 </article>
 
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+<article class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+        <!-- <a href="{{ .Permalink }}" itemprop="url"> -->
+        <!--     <img src="{{ .Params.banner | absURL }}" class="article-banner"> -->
+        <!-- {{ end }} -->
+        <!-- </a> -->
 
-    <div class="postBlock postShorten-wrap" class="September  8, 2016" id="post-/2016/09/hop1/">
+        <header class="article-header">
+  <a href="./2016/09/hop1/">
+    <h1 class="article-title" itemprop="name">HTTP-Over-Protocol - Story and lessons</h1>
+  </a>
+  <div class="article-meta">
+    <!-- {{ if not .Params.nodateline }} -->
+    <!-- <div class="article-date"> -->
+    <!--   <i class="fa fa-calendar"></i> -->
+    <!--   <time datetime="{{ .Date }}" itemprop="datePublished">{{ .Date.Format .Site.Params.date_format }}</time> -->
+    <!--   &middot; -->
+    <!--   {{ .WordCount }} -->
+    <!--   {{ with .Site.Data.l10n.articles.words }}{{.}}{{end}} -->
+    <!--   &middot; -->
+    <!--   {{ .ReadingTime }} -->
+    <!--   {{ with .Site.Data.l10n.articles.readingtime }}{{.}}{{end}} -->
+    <!-- </div> -->
+    <!-- {{ end }} -->
+    <!-- {{ if isset .Params "categories" }} -->
+    <!-- {{ categoriesLen := len .Params.categories }} -->
+    <!-- {{ if gt categoriesLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-folder"></i>
+      networks
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
 
-        <div class="postShorten-header">
-            <h2 class="postShorten-title" itemprop="headline">
-                <a class="link-unstyled" href="./2016/09/hop1/">
-                    HTTP-Over-Protocol - Story and lessons
-                </a>
-            </h2>
-            <div class="post-meta">
-                <time itemprop="datePublished">
-                    September  8, 2016
-                </time>
+    <!-- {{ if isset .Params "tags" }} -->
+    <!-- {{ tagsLen := len .Params.tags }} -->
+    <!-- {{ if gt tagsLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-tags"></i>
+      <a href="./tags/networks.html">networks</a>, <a href="./tags/hop.html">hop</a>, <a href="./tags/github.html">github</a>
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
+  </div>
+</header>
 
-                <span>in</span>
-
-                <a class="category-link" href="./categories/networks">
-                    networks
-                </a>
-
-            </div>
-
-        </div>
-        <div class="postShorten-excerpt" itemprop="articleBody">
+        <div class="article-entry" itemprop="articleBody">
             <p>
                 
                     My first 100+ stars Github project
                 
-                <br>
-
-                <a href="./2016/09/hop1/" class="postShorten-excerpt_link link">
-                    Continue reading
-                </a>
+            </p>
+            <p class="article-more-link">
+                <a href="./2016/09/hop1/"> Read more </a>
             </p>
         </div>
+
+        <footer class="article-footer">
+          
+          <script src="./js/article_footer.js"></script>
+        </footer>
     </div>
 </article>
 
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+<article class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+        <!-- <a href="{{ .Permalink }}" itemprop="url"> -->
+        <!--     <img src="{{ .Params.banner | absURL }}" class="article-banner"> -->
+        <!-- {{ end }} -->
+        <!-- </a> -->
 
-    <div class="postBlock postShorten-wrap" class="July 21, 2016" id="post-/2016/07/intern/">
+        <header class="article-header">
+  <a href="./2016/07/intern/">
+    <h1 class="article-title" itemprop="name">Interning at Max Planck Insititute for Software Systems</h1>
+  </a>
+  <div class="article-meta">
+    <!-- {{ if not .Params.nodateline }} -->
+    <!-- <div class="article-date"> -->
+    <!--   <i class="fa fa-calendar"></i> -->
+    <!--   <time datetime="{{ .Date }}" itemprop="datePublished">{{ .Date.Format .Site.Params.date_format }}</time> -->
+    <!--   &middot; -->
+    <!--   {{ .WordCount }} -->
+    <!--   {{ with .Site.Data.l10n.articles.words }}{{.}}{{end}} -->
+    <!--   &middot; -->
+    <!--   {{ .ReadingTime }} -->
+    <!--   {{ with .Site.Data.l10n.articles.readingtime }}{{.}}{{end}} -->
+    <!-- </div> -->
+    <!-- {{ end }} -->
+    <!-- {{ if isset .Params "categories" }} -->
+    <!-- {{ categoriesLen := len .Params.categories }} -->
+    <!-- {{ if gt categoriesLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-folder"></i>
+      musings
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
 
-        <div class="postShorten-header">
-            <h2 class="postShorten-title" itemprop="headline">
-                <a class="link-unstyled" href="./2016/07/intern/">
-                    Interning at Max Planck Insititute for Software Systems
-                </a>
-            </h2>
-            <div class="post-meta">
-                <time itemprop="datePublished">
-                    July 21, 2016
-                </time>
+    <!-- {{ if isset .Params "tags" }} -->
+    <!-- {{ tagsLen := len .Params.tags }} -->
+    <!-- {{ if gt tagsLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-tags"></i>
+      <a href="./tags/intern.html">intern</a>, <a href="./tags/mpi.html">mpi</a>, <a href="./tags/musings.html">musings</a>
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
+  </div>
+</header>
 
-                <span>in</span>
-
-                <a class="category-link" href="./categories/musings">
-                    musings
-                </a>
-
-            </div>
-
-        </div>
-        <div class="postShorten-excerpt" itemprop="articleBody">
+        <div class="article-entry" itemprop="articleBody">
             <p>
                 
                     Experience and fun abound!
                 
-                <br>
-
-                <a href="./2016/07/intern/" class="postShorten-excerpt_link link">
-                    Continue reading
-                </a>
+            </p>
+            <p class="article-more-link">
+                <a href="./2016/07/intern/"> Read more </a>
             </p>
         </div>
+
+        <footer class="article-footer">
+          
+          <script src="./js/article_footer.js"></script>
+        </footer>
     </div>
 </article>
 
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+<article class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+        <!-- <a href="{{ .Permalink }}" itemprop="url"> -->
+        <!--     <img src="{{ .Params.banner | absURL }}" class="article-banner"> -->
+        <!-- {{ end }} -->
+        <!-- </a> -->
 
-    <div class="postBlock postShorten-wrap" class="June 12, 2016" id="post-/2016/06/chromeffx/">
+        <header class="article-header">
+  <a href="./2016/06/chromeffx/">
+    <h1 class="article-title" itemprop="name">Chrome and Firefox resource usage experiment</h1>
+  </a>
+  <div class="article-meta">
+    <!-- {{ if not .Params.nodateline }} -->
+    <!-- <div class="article-date"> -->
+    <!--   <i class="fa fa-calendar"></i> -->
+    <!--   <time datetime="{{ .Date }}" itemprop="datePublished">{{ .Date.Format .Site.Params.date_format }}</time> -->
+    <!--   &middot; -->
+    <!--   {{ .WordCount }} -->
+    <!--   {{ with .Site.Data.l10n.articles.words }}{{.}}{{end}} -->
+    <!--   &middot; -->
+    <!--   {{ .ReadingTime }} -->
+    <!--   {{ with .Site.Data.l10n.articles.readingtime }}{{.}}{{end}} -->
+    <!-- </div> -->
+    <!-- {{ end }} -->
+    <!-- {{ if isset .Params "categories" }} -->
+    <!-- {{ categoriesLen := len .Params.categories }} -->
+    <!-- {{ if gt categoriesLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-folder"></i>
+      experiment
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
 
-        <div class="postShorten-header">
-            <h2 class="postShorten-title" itemprop="headline">
-                <a class="link-unstyled" href="./2016/06/chromeffx/">
-                    Chrome and Firefox resource usage experiment
-                </a>
-            </h2>
-            <div class="post-meta">
-                <time itemprop="datePublished">
-                    June 12, 2016
-                </time>
+    <!-- {{ if isset .Params "tags" }} -->
+    <!-- {{ tagsLen := len .Params.tags }} -->
+    <!-- {{ if gt tagsLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-tags"></i>
+      <a href="./tags/technical.html">technical</a>, <a href="./tags/browser.html">browser</a>, <a href="./tags/experiment.html">experiment</a>
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
+  </div>
+</header>
 
-                <span>in</span>
-
-                <a class="category-link" href="./categories/experiment">
-                    experiment
-                </a>
-
-            </div>
-
-        </div>
-        <div class="postShorten-excerpt" itemprop="articleBody">
+        <div class="article-entry" itemprop="articleBody">
             <p>
                 
                     Finally put them to the test!
                 
-                <br>
-
-                <a href="./2016/06/chromeffx/" class="postShorten-excerpt_link link">
-                    Continue reading
-                </a>
+            </p>
+            <p class="article-more-link">
+                <a href="./2016/06/chromeffx/"> Read more </a>
             </p>
         </div>
+
+        <footer class="article-footer">
+          
+          <script src="./js/article_footer.js"></script>
+        </footer>
     </div>
 </article>
 
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+<article class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+        <!-- <a href="{{ .Permalink }}" itemprop="url"> -->
+        <!--     <img src="{{ .Params.banner | absURL }}" class="article-banner"> -->
+        <!-- {{ end }} -->
+        <!-- </a> -->
 
-    <div class="postBlock postShorten-wrap" class="May 20, 2016" id="post-/2016/05/gentoo/">
+        <header class="article-header">
+  <a href="./2016/05/gentoo/">
+    <h1 class="article-title" itemprop="name">Gentoo, 8 months and on.</h1>
+  </a>
+  <div class="article-meta">
+    <!-- {{ if not .Params.nodateline }} -->
+    <!-- <div class="article-date"> -->
+    <!--   <i class="fa fa-calendar"></i> -->
+    <!--   <time datetime="{{ .Date }}" itemprop="datePublished">{{ .Date.Format .Site.Params.date_format }}</time> -->
+    <!--   &middot; -->
+    <!--   {{ .WordCount }} -->
+    <!--   {{ with .Site.Data.l10n.articles.words }}{{.}}{{end}} -->
+    <!--   &middot; -->
+    <!--   {{ .ReadingTime }} -->
+    <!--   {{ with .Site.Data.l10n.articles.readingtime }}{{.}}{{end}} -->
+    <!-- </div> -->
+    <!-- {{ end }} -->
+    <!-- {{ if isset .Params "categories" }} -->
+    <!-- {{ categoriesLen := len .Params.categories }} -->
+    <!-- {{ if gt categoriesLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-folder"></i>
+      linux
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
 
-        <div class="postShorten-header">
-            <h2 class="postShorten-title" itemprop="headline">
-                <a class="link-unstyled" href="./2016/05/gentoo/">
-                    Gentoo, 8 months and on.
-                </a>
-            </h2>
-            <div class="post-meta">
-                <time itemprop="datePublished">
-                    May 20, 2016
-                </time>
+    <!-- {{ if isset .Params "tags" }} -->
+    <!-- {{ tagsLen := len .Params.tags }} -->
+    <!-- {{ if gt tagsLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-tags"></i>
+      <a href="./tags/gentoo.html">gentoo</a>, <a href="./tags/experience.html">experience</a>
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
+  </div>
+</header>
 
-                <span>in</span>
-
-                <a class="category-link" href="./categories/linux">
-                    linux
-                </a>
-
-            </div>
-
-        </div>
-        <div class="postShorten-excerpt" itemprop="articleBody">
+        <div class="article-entry" itemprop="articleBody">
             <p>
                 
                     The ups and downs of the most whacky Linux journey I've had
                 
-                <br>
-
-                <a href="./2016/05/gentoo/" class="postShorten-excerpt_link link">
-                    Continue reading
-                </a>
+            </p>
+            <p class="article-more-link">
+                <a href="./2016/05/gentoo/"> Read more </a>
             </p>
         </div>
+
+        <footer class="article-footer">
+          
+          <script src="./js/article_footer.js"></script>
+        </footer>
     </div>
 </article>
 
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+<article class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+        <!-- <a href="{{ .Permalink }}" itemprop="url"> -->
+        <!--     <img src="{{ .Params.banner | absURL }}" class="article-banner"> -->
+        <!-- {{ end }} -->
+        <!-- </a> -->
 
-    <div class="postBlock postShorten-wrap" class="April 29, 2016" id="post-/2016/04/codingprimer/">
+        <header class="article-header">
+  <a href="./2016/04/codingprimer/">
+    <h1 class="article-title" itemprop="name">A Coding Primer</h1>
+  </a>
+  <div class="article-meta">
+    <!-- {{ if not .Params.nodateline }} -->
+    <!-- <div class="article-date"> -->
+    <!--   <i class="fa fa-calendar"></i> -->
+    <!--   <time datetime="{{ .Date }}" itemprop="datePublished">{{ .Date.Format .Site.Params.date_format }}</time> -->
+    <!--   &middot; -->
+    <!--   {{ .WordCount }} -->
+    <!--   {{ with .Site.Data.l10n.articles.words }}{{.}}{{end}} -->
+    <!--   &middot; -->
+    <!--   {{ .ReadingTime }} -->
+    <!--   {{ with .Site.Data.l10n.articles.readingtime }}{{.}}{{end}} -->
+    <!-- </div> -->
+    <!-- {{ end }} -->
+    <!-- {{ if isset .Params "categories" }} -->
+    <!-- {{ categoriesLen := len .Params.categories }} -->
+    <!-- {{ if gt categoriesLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-folder"></i>
+      programming
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
 
-        <div class="postShorten-header">
-            <h2 class="postShorten-title" itemprop="headline">
-                <a class="link-unstyled" href="./2016/04/codingprimer/">
-                    A Coding Primer
-                </a>
-            </h2>
-            <div class="post-meta">
-                <time itemprop="datePublished">
-                    April 29, 2016
-                </time>
+    <!-- {{ if isset .Params "tags" }} -->
+    <!-- {{ tagsLen := len .Params.tags }} -->
+    <!-- {{ if gt tagsLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-tags"></i>
+      <a href="./tags/beginner.html">beginner</a>, <a href="./tags/coding.html">coding</a>
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
+  </div>
+</header>
 
-                <span>in</span>
-
-                <a class="category-link" href="./categories/programming">
-                    programming
-                </a>
-
-            </div>
-
-        </div>
-        <div class="postShorten-excerpt" itemprop="articleBody">
+        <div class="article-entry" itemprop="articleBody">
             <p>
                 
                     Beginner guide to foraying into coding
                 
-                <br>
-
-                <a href="./2016/04/codingprimer/" class="postShorten-excerpt_link link">
-                    Continue reading
-                </a>
+            </p>
+            <p class="article-more-link">
+                <a href="./2016/04/codingprimer/"> Read more </a>
             </p>
         </div>
+
+        <footer class="article-footer">
+          
+          <script src="./js/article_footer.js"></script>
+        </footer>
     </div>
 </article>
 
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+<article class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+        <!-- <a href="{{ .Permalink }}" itemprop="url"> -->
+        <!--     <img src="{{ .Params.banner | absURL }}" class="article-banner"> -->
+        <!-- {{ end }} -->
+        <!-- </a> -->
 
-    <div class="postBlock postShorten-wrap" class="February  4, 2016" id="post-/2016/02/abcd-documentation/">
+        <header class="article-header">
+  <a href="./2016/02/abcd-documentation/">
+    <h1 class="article-title" itemprop="name">abcd-esolang Documentation</h1>
+  </a>
+  <div class="article-meta">
+    <!-- {{ if not .Params.nodateline }} -->
+    <!-- <div class="article-date"> -->
+    <!--   <i class="fa fa-calendar"></i> -->
+    <!--   <time datetime="{{ .Date }}" itemprop="datePublished">{{ .Date.Format .Site.Params.date_format }}</time> -->
+    <!--   &middot; -->
+    <!--   {{ .WordCount }} -->
+    <!--   {{ with .Site.Data.l10n.articles.words }}{{.}}{{end}} -->
+    <!--   &middot; -->
+    <!--   {{ .ReadingTime }} -->
+    <!--   {{ with .Site.Data.l10n.articles.readingtime }}{{.}}{{end}} -->
+    <!-- </div> -->
+    <!-- {{ end }} -->
+    <!-- {{ if isset .Params "categories" }} -->
+    <!-- {{ categoriesLen := len .Params.categories }} -->
+    <!-- {{ if gt categoriesLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-folder"></i>
+      programming
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
 
-        <div class="postShorten-header">
-            <h2 class="postShorten-title" itemprop="headline">
-                <a class="link-unstyled" href="./2016/02/abcd-documentation/">
-                    abcd-esolang Documentation
-                </a>
-            </h2>
-            <div class="post-meta">
-                <time itemprop="datePublished">
-                    February  4, 2016
-                </time>
+    <!-- {{ if isset .Params "tags" }} -->
+    <!-- {{ tagsLen := len .Params.tags }} -->
+    <!-- {{ if gt tagsLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-tags"></i>
+      <a href="./tags/abcd.html">abcd</a>, <a href="./tags/esolang.html">esolang</a>, <a href="./tags/techkriti.html">techkriti</a>, <a href="./tags/chaos.html">chaos</a>, <a href="./tags/programming%20language.html">programming language</a>
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
+  </div>
+</header>
 
-                <span>in</span>
-
-                <a class="category-link" href="./categories/programming">
-                    programming
-                </a>
-
-            </div>
-
-        </div>
-        <div class="postShorten-excerpt" itemprop="articleBody">
+        <div class="article-entry" itemprop="articleBody">
             <p>
                 
                     Documentation for my esolang written for Chaos'16
                 
-                <br>
-
-                <a href="./2016/02/abcd-documentation/" class="postShorten-excerpt_link link">
-                    Continue reading
-                </a>
+            </p>
+            <p class="article-more-link">
+                <a href="./2016/02/abcd-documentation/"> Read more </a>
             </p>
         </div>
+
+        <footer class="article-footer">
+          
+          <script src="./js/article_footer.js"></script>
+        </footer>
     </div>
 </article>
 
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+<article class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+        <!-- <a href="{{ .Permalink }}" itemprop="url"> -->
+        <!--     <img src="{{ .Params.banner | absURL }}" class="article-banner"> -->
+        <!-- {{ end }} -->
+        <!-- </a> -->
 
-    <div class="postBlock postShorten-wrap" class="January 10, 2016" id="post-/2016/01/gentooinstall/">
+        <header class="article-header">
+  <a href="./2016/01/gentooinstall/">
+    <h1 class="article-title" itemprop="name">Mini Gentoo installation log</h1>
+  </a>
+  <div class="article-meta">
+    <!-- {{ if not .Params.nodateline }} -->
+    <!-- <div class="article-date"> -->
+    <!--   <i class="fa fa-calendar"></i> -->
+    <!--   <time datetime="{{ .Date }}" itemprop="datePublished">{{ .Date.Format .Site.Params.date_format }}</time> -->
+    <!--   &middot; -->
+    <!--   {{ .WordCount }} -->
+    <!--   {{ with .Site.Data.l10n.articles.words }}{{.}}{{end}} -->
+    <!--   &middot; -->
+    <!--   {{ .ReadingTime }} -->
+    <!--   {{ with .Site.Data.l10n.articles.readingtime }}{{.}}{{end}} -->
+    <!-- </div> -->
+    <!-- {{ end }} -->
+    <!-- {{ if isset .Params "categories" }} -->
+    <!-- {{ categoriesLen := len .Params.categories }} -->
+    <!-- {{ if gt categoriesLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-folder"></i>
+      linux
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
 
-        <div class="postShorten-header">
-            <h2 class="postShorten-title" itemprop="headline">
-                <a class="link-unstyled" href="./2016/01/gentooinstall/">
-                    Mini Gentoo installation log
-                </a>
-            </h2>
-            <div class="post-meta">
-                <time itemprop="datePublished">
-                    January 10, 2016
-                </time>
+    <!-- {{ if isset .Params "tags" }} -->
+    <!-- {{ tagsLen := len .Params.tags }} -->
+    <!-- {{ if gt tagsLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-tags"></i>
+      <a href="./tags/gentoo.html">gentoo</a>, <a href="./tags/install.html">install</a>
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
+  </div>
+</header>
 
-                <span>in</span>
-
-                <a class="category-link" href="./categories/linux">
-                    linux
-                </a>
-
-            </div>
-
-        </div>
-        <div class="postShorten-excerpt" itemprop="articleBody">
+        <div class="article-entry" itemprop="articleBody">
             <p>
                 
                     Super condensed installation experience
                 
-                <br>
-
-                <a href="./2016/01/gentooinstall/" class="postShorten-excerpt_link link">
-                    Continue reading
-                </a>
+            </p>
+            <p class="article-more-link">
+                <a href="./2016/01/gentooinstall/"> Read more </a>
             </p>
         </div>
+
+        <footer class="article-footer">
+          
+          <script src="./js/article_footer.js"></script>
+        </footer>
     </div>
 </article>
 
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+<article class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+        <!-- <a href="{{ .Permalink }}" itemprop="url"> -->
+        <!--     <img src="{{ .Params.banner | absURL }}" class="article-banner"> -->
+        <!-- {{ end }} -->
+        <!-- </a> -->
 
-    <div class="postBlock postShorten-wrap" class="December 19, 2015" id="post-/2015/12/emacspinky/">
+        <header class="article-header">
+  <a href="./2015/12/emacspinky/">
+    <h1 class="article-title" itemprop="name">Dealing with the Emacs finger strain</h1>
+  </a>
+  <div class="article-meta">
+    <!-- {{ if not .Params.nodateline }} -->
+    <!-- <div class="article-date"> -->
+    <!--   <i class="fa fa-calendar"></i> -->
+    <!--   <time datetime="{{ .Date }}" itemprop="datePublished">{{ .Date.Format .Site.Params.date_format }}</time> -->
+    <!--   &middot; -->
+    <!--   {{ .WordCount }} -->
+    <!--   {{ with .Site.Data.l10n.articles.words }}{{.}}{{end}} -->
+    <!--   &middot; -->
+    <!--   {{ .ReadingTime }} -->
+    <!--   {{ with .Site.Data.l10n.articles.readingtime }}{{.}}{{end}} -->
+    <!-- </div> -->
+    <!-- {{ end }} -->
+    <!-- {{ if isset .Params "categories" }} -->
+    <!-- {{ categoriesLen := len .Params.categories }} -->
+    <!-- {{ if gt categoriesLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-folder"></i>
+      editors
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
 
-        <div class="postShorten-header">
-            <h2 class="postShorten-title" itemprop="headline">
-                <a class="link-unstyled" href="./2015/12/emacspinky/">
-                    Dealing with the Emacs finger strain
-                </a>
-            </h2>
-            <div class="post-meta">
-                <time itemprop="datePublished">
-                    December 19, 2015
-                </time>
+    <!-- {{ if isset .Params "tags" }} -->
+    <!-- {{ tagsLen := len .Params.tags }} -->
+    <!-- {{ if gt tagsLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-tags"></i>
+      <a href="./tags/emacs.html">emacs</a>, <a href="./tags/short.html">short</a>
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
+  </div>
+</header>
 
-                <span>in</span>
-
-                <a class="category-link" href="./categories/editors">
-                    editors
-                </a>
-
-            </div>
-
-        </div>
-        <div class="postShorten-excerpt" itemprop="articleBody">
+        <div class="article-entry" itemprop="articleBody">
             <p>
                 
                     How I got about with the excessive stress on my fingers due to Emacs
                 
-                <br>
-
-                <a href="./2015/12/emacspinky/" class="postShorten-excerpt_link link">
-                    Continue reading
-                </a>
+            </p>
+            <p class="article-more-link">
+                <a href="./2015/12/emacspinky/"> Read more </a>
             </p>
         </div>
+
+        <footer class="article-footer">
+          
+          <script src="./js/article_footer.js"></script>
+        </footer>
     </div>
 </article>
 
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+<article class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+        <!-- <a href="{{ .Permalink }}" itemprop="url"> -->
+        <!--     <img src="{{ .Params.banner | absURL }}" class="article-banner"> -->
+        <!-- {{ end }} -->
+        <!-- </a> -->
 
-    <div class="postBlock postShorten-wrap" class="December  1, 2015" id="post-/2015/12/blog/">
+        <header class="article-header">
+  <a href="./2015/12/blog/">
+    <h1 class="article-title" itemprop="name">The story of my blog v3</h1>
+  </a>
+  <div class="article-meta">
+    <!-- {{ if not .Params.nodateline }} -->
+    <!-- <div class="article-date"> -->
+    <!--   <i class="fa fa-calendar"></i> -->
+    <!--   <time datetime="{{ .Date }}" itemprop="datePublished">{{ .Date.Format .Site.Params.date_format }}</time> -->
+    <!--   &middot; -->
+    <!--   {{ .WordCount }} -->
+    <!--   {{ with .Site.Data.l10n.articles.words }}{{.}}{{end}} -->
+    <!--   &middot; -->
+    <!--   {{ .ReadingTime }} -->
+    <!--   {{ with .Site.Data.l10n.articles.readingtime }}{{.}}{{end}} -->
+    <!-- </div> -->
+    <!-- {{ end }} -->
+    <!-- {{ if isset .Params "categories" }} -->
+    <!-- {{ categoriesLen := len .Params.categories }} -->
+    <!-- {{ if gt categoriesLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-folder"></i>
+      web
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
 
-        <div class="postShorten-header">
-            <h2 class="postShorten-title" itemprop="headline">
-                <a class="link-unstyled" href="./2015/12/blog/">
-                    The story of my blog v3
-                </a>
-            </h2>
-            <div class="post-meta">
-                <time itemprop="datePublished">
-                    December  1, 2015
-                </time>
+    <!-- {{ if isset .Params "tags" }} -->
+    <!-- {{ tagsLen := len .Params.tags }} -->
+    <!-- {{ if gt tagsLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-tags"></i>
+      <a href="./tags/web.html">web</a>, <a href="./tags/blog.html">blog</a>, <a href="./tags/hakyll.html">hakyll</a>
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
+  </div>
+</header>
 
-                <span>in</span>
-
-                <a class="category-link" href="./categories/web">
-                    web
-                </a>
-
-            </div>
-
-        </div>
-        <div class="postShorten-excerpt" itemprop="articleBody">
+        <div class="article-entry" itemprop="articleBody">
             <p>
                 
                     Shifting to Hakyll
                 
-                <br>
-
-                <a href="./2015/12/blog/" class="postShorten-excerpt_link link">
-                    Continue reading
-                </a>
+            </p>
+            <p class="article-more-link">
+                <a href="./2015/12/blog/"> Read more </a>
             </p>
         </div>
+
+        <footer class="article-footer">
+          
+          <script src="./js/article_footer.js"></script>
+        </footer>
     </div>
 </article>
 
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+<article class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+        <!-- <a href="{{ .Permalink }}" itemprop="url"> -->
+        <!--     <img src="{{ .Params.banner | absURL }}" class="article-banner"> -->
+        <!-- {{ end }} -->
+        <!-- </a> -->
 
-    <div class="postBlock postShorten-wrap" class="November 29, 2015" id="post-/2015/11/whereweheaded/">
+        <header class="article-header">
+  <a href="./2015/11/whereweheaded/">
+    <h1 class="article-title" itemprop="name">Where we're headed</h1>
+  </a>
+  <div class="article-meta">
+    <!-- {{ if not .Params.nodateline }} -->
+    <!-- <div class="article-date"> -->
+    <!--   <i class="fa fa-calendar"></i> -->
+    <!--   <time datetime="{{ .Date }}" itemprop="datePublished">{{ .Date.Format .Site.Params.date_format }}</time> -->
+    <!--   &middot; -->
+    <!--   {{ .WordCount }} -->
+    <!--   {{ with .Site.Data.l10n.articles.words }}{{.}}{{end}} -->
+    <!--   &middot; -->
+    <!--   {{ .ReadingTime }} -->
+    <!--   {{ with .Site.Data.l10n.articles.readingtime }}{{.}}{{end}} -->
+    <!-- </div> -->
+    <!-- {{ end }} -->
+    <!-- {{ if isset .Params "categories" }} -->
+    <!-- {{ categoriesLen := len .Params.categories }} -->
+    <!-- {{ if gt categoriesLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-folder"></i>
+      poems
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
 
-        <div class="postShorten-header">
-            <h2 class="postShorten-title" itemprop="headline">
-                <a class="link-unstyled" href="./2015/11/whereweheaded/">
-                    Where we're headed
-                </a>
-            </h2>
-            <div class="post-meta">
-                <time itemprop="datePublished">
-                    November 29, 2015
-                </time>
+    <!-- {{ if isset .Params "tags" }} -->
+    <!-- {{ tagsLen := len .Params.tags }} -->
+    <!-- {{ if gt tagsLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-tags"></i>
+      <a href="./tags/life.html">life</a>
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
+  </div>
+</header>
 
-                <span>in</span>
-
-                <a class="category-link" href="./categories/poems">
-                    poems
-                </a>
-
-            </div>
-
-        </div>
-        <div class="postShorten-excerpt" itemprop="articleBody">
+        <div class="article-entry" itemprop="articleBody">
             <p>
                 
                     The roads still diverge in the woods..
                 
-                <br>
-
-                <a href="./2015/11/whereweheaded/" class="postShorten-excerpt_link link">
-                    Continue reading
-                </a>
+            </p>
+            <p class="article-more-link">
+                <a href="./2015/11/whereweheaded/"> Read more </a>
             </p>
         </div>
+
+        <footer class="article-footer">
+          
+          <script src="./js/article_footer.js"></script>
+        </footer>
     </div>
 </article>
 
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+<article class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+        <!-- <a href="{{ .Permalink }}" itemprop="url"> -->
+        <!--     <img src="{{ .Params.banner | absURL }}" class="article-banner"> -->
+        <!-- {{ end }} -->
+        <!-- </a> -->
 
-    <div class="postBlock postShorten-wrap" class="November 25, 2015" id="post-/2015/11/power/">
+        <header class="article-header">
+  <a href="./2015/11/power/">
+    <h1 class="article-title" itemprop="name">NVIDIA with Bumblebee and improving Battery Backup</h1>
+  </a>
+  <div class="article-meta">
+    <!-- {{ if not .Params.nodateline }} -->
+    <!-- <div class="article-date"> -->
+    <!--   <i class="fa fa-calendar"></i> -->
+    <!--   <time datetime="{{ .Date }}" itemprop="datePublished">{{ .Date.Format .Site.Params.date_format }}</time> -->
+    <!--   &middot; -->
+    <!--   {{ .WordCount }} -->
+    <!--   {{ with .Site.Data.l10n.articles.words }}{{.}}{{end}} -->
+    <!--   &middot; -->
+    <!--   {{ .ReadingTime }} -->
+    <!--   {{ with .Site.Data.l10n.articles.readingtime }}{{.}}{{end}} -->
+    <!-- </div> -->
+    <!-- {{ end }} -->
+    <!-- {{ if isset .Params "categories" }} -->
+    <!-- {{ categoriesLen := len .Params.categories }} -->
+    <!-- {{ if gt categoriesLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-folder"></i>
+      linux
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
 
-        <div class="postShorten-header">
-            <h2 class="postShorten-title" itemprop="headline">
-                <a class="link-unstyled" href="./2015/11/power/">
-                    NVIDIA with Bumblebee and improving Battery Backup
-                </a>
-            </h2>
-            <div class="post-meta">
-                <time itemprop="datePublished">
-                    November 25, 2015
-                </time>
+    <!-- {{ if isset .Params "tags" }} -->
+    <!-- {{ tagsLen := len .Params.tags }} -->
+    <!-- {{ if gt tagsLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-tags"></i>
+      <a href="./tags/nvidia.html">nvidia</a>, <a href="./tags/bumblebee.html">bumblebee</a>, <a href="./tags/battery.html">battery</a>
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
+  </div>
+</header>
 
-                <span>in</span>
-
-                <a class="category-link" href="./categories/linux">
-                    linux
-                </a>
-
-            </div>
-
-        </div>
-        <div class="postShorten-excerpt" itemprop="articleBody">
+        <div class="article-entry" itemprop="articleBody">
             <p>
                 
                     Quickfixes for battery backup on Linux
                 
-                <br>
-
-                <a href="./2015/11/power/" class="postShorten-excerpt_link link">
-                    Continue reading
-                </a>
+            </p>
+            <p class="article-more-link">
+                <a href="./2015/11/power/"> Read more </a>
             </p>
         </div>
+
+        <footer class="article-footer">
+          
+          <script src="./js/article_footer.js"></script>
+        </footer>
     </div>
 </article>
 
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+<article class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+        <!-- <a href="{{ .Permalink }}" itemprop="url"> -->
+        <!--     <img src="{{ .Params.banner | absURL }}" class="article-banner"> -->
+        <!-- {{ end }} -->
+        <!-- </a> -->
 
-    <div class="postBlock postShorten-wrap" class="November 11, 2015" id="post-/2015/11/memory/">
+        <header class="article-header">
+  <a href="./2015/11/memory/">
+    <h1 class="article-title" itemprop="name">The Memory</h1>
+  </a>
+  <div class="article-meta">
+    <!-- {{ if not .Params.nodateline }} -->
+    <!-- <div class="article-date"> -->
+    <!--   <i class="fa fa-calendar"></i> -->
+    <!--   <time datetime="{{ .Date }}" itemprop="datePublished">{{ .Date.Format .Site.Params.date_format }}</time> -->
+    <!--   &middot; -->
+    <!--   {{ .WordCount }} -->
+    <!--   {{ with .Site.Data.l10n.articles.words }}{{.}}{{end}} -->
+    <!--   &middot; -->
+    <!--   {{ .ReadingTime }} -->
+    <!--   {{ with .Site.Data.l10n.articles.readingtime }}{{.}}{{end}} -->
+    <!-- </div> -->
+    <!-- {{ end }} -->
+    <!-- {{ if isset .Params "categories" }} -->
+    <!-- {{ categoriesLen := len .Params.categories }} -->
+    <!-- {{ if gt categoriesLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-folder"></i>
+      poems
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
 
-        <div class="postShorten-header">
-            <h2 class="postShorten-title" itemprop="headline">
-                <a class="link-unstyled" href="./2015/11/memory/">
-                    The Memory
-                </a>
-            </h2>
-            <div class="post-meta">
-                <time itemprop="datePublished">
-                    November 11, 2015
-                </time>
+    <!-- {{ if isset .Params "tags" }} -->
+    <!-- {{ tagsLen := len .Params.tags }} -->
+    <!-- {{ if gt tagsLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-tags"></i>
+      <a href="./tags/life.html">life</a>
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
+  </div>
+</header>
 
-                <span>in</span>
-
-                <a class="category-link" href="./categories/poems">
-                    poems
-                </a>
-
-            </div>
-
-        </div>
-        <div class="postShorten-excerpt" itemprop="articleBody">
+        <div class="article-entry" itemprop="articleBody">
             <p>
                 
                     Moving on to..
                 
-                <br>
-
-                <a href="./2015/11/memory/" class="postShorten-excerpt_link link">
-                    Continue reading
-                </a>
+            </p>
+            <p class="article-more-link">
+                <a href="./2015/11/memory/"> Read more </a>
             </p>
         </div>
+
+        <footer class="article-footer">
+          
+          <script src="./js/article_footer.js"></script>
+        </footer>
     </div>
 </article>
 
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+<article class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+        <!-- <a href="{{ .Permalink }}" itemprop="url"> -->
+        <!--     <img src="{{ .Params.banner | absURL }}" class="article-banner"> -->
+        <!-- {{ end }} -->
+        <!-- </a> -->
 
-    <div class="postBlock postShorten-wrap" class="October 12, 2015" id="post-/2015/10/ambition/">
+        <header class="article-header">
+  <a href="./2015/10/ambition/">
+    <h1 class="article-title" itemprop="name">Ambition and choices</h1>
+  </a>
+  <div class="article-meta">
+    <!-- {{ if not .Params.nodateline }} -->
+    <!-- <div class="article-date"> -->
+    <!--   <i class="fa fa-calendar"></i> -->
+    <!--   <time datetime="{{ .Date }}" itemprop="datePublished">{{ .Date.Format .Site.Params.date_format }}</time> -->
+    <!--   &middot; -->
+    <!--   {{ .WordCount }} -->
+    <!--   {{ with .Site.Data.l10n.articles.words }}{{.}}{{end}} -->
+    <!--   &middot; -->
+    <!--   {{ .ReadingTime }} -->
+    <!--   {{ with .Site.Data.l10n.articles.readingtime }}{{.}}{{end}} -->
+    <!-- </div> -->
+    <!-- {{ end }} -->
+    <!-- {{ if isset .Params "categories" }} -->
+    <!-- {{ categoriesLen := len .Params.categories }} -->
+    <!-- {{ if gt categoriesLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-folder"></i>
+      musings
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
 
-        <div class="postShorten-header">
-            <h2 class="postShorten-title" itemprop="headline">
-                <a class="link-unstyled" href="./2015/10/ambition/">
-                    Ambition and choices
-                </a>
-            </h2>
-            <div class="post-meta">
-                <time itemprop="datePublished">
-                    October 12, 2015
-                </time>
+    <!-- {{ if isset .Params "tags" }} -->
+    <!-- {{ tagsLen := len .Params.tags }} -->
+    <!-- {{ if gt tagsLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-tags"></i>
+      <a href="./tags/life.html">life</a>
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
+  </div>
+</header>
 
-                <span>in</span>
-
-                <a class="category-link" href="./categories/musings">
-                    musings
-                </a>
-
-            </div>
-
-        </div>
-        <div class="postShorten-excerpt" itemprop="articleBody">
+        <div class="article-entry" itemprop="articleBody">
             <p>
                 
                     An outpouring of thoughts about our life-choices
                 
-                <br>
-
-                <a href="./2015/10/ambition/" class="postShorten-excerpt_link link">
-                    Continue reading
-                </a>
+            </p>
+            <p class="article-more-link">
+                <a href="./2015/10/ambition/"> Read more </a>
             </p>
         </div>
+
+        <footer class="article-footer">
+          
+          <script src="./js/article_footer.js"></script>
+        </footer>
     </div>
 </article>
 
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+<article class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+        <!-- <a href="{{ .Permalink }}" itemprop="url"> -->
+        <!--     <img src="{{ .Params.banner | absURL }}" class="article-banner"> -->
+        <!-- {{ end }} -->
+        <!-- </a> -->
 
-    <div class="postBlock postShorten-wrap" class="September 19, 2015" id="post-/2015/09/xmonad/">
+        <header class="article-header">
+  <a href="./2015/09/xmonad/">
+    <h1 class="article-title" itemprop="name">i3 to XMonad - How and why</h1>
+  </a>
+  <div class="article-meta">
+    <!-- {{ if not .Params.nodateline }} -->
+    <!-- <div class="article-date"> -->
+    <!--   <i class="fa fa-calendar"></i> -->
+    <!--   <time datetime="{{ .Date }}" itemprop="datePublished">{{ .Date.Format .Site.Params.date_format }}</time> -->
+    <!--   &middot; -->
+    <!--   {{ .WordCount }} -->
+    <!--   {{ with .Site.Data.l10n.articles.words }}{{.}}{{end}} -->
+    <!--   &middot; -->
+    <!--   {{ .ReadingTime }} -->
+    <!--   {{ with .Site.Data.l10n.articles.readingtime }}{{.}}{{end}} -->
+    <!-- </div> -->
+    <!-- {{ end }} -->
+    <!-- {{ if isset .Params "categories" }} -->
+    <!-- {{ categoriesLen := len .Params.categories }} -->
+    <!-- {{ if gt categoriesLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-folder"></i>
+      linux
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
 
-        <div class="postShorten-header">
-            <h2 class="postShorten-title" itemprop="headline">
-                <a class="link-unstyled" href="./2015/09/xmonad/">
-                    i3 to XMonad - How and why
-                </a>
-            </h2>
-            <div class="post-meta">
-                <time itemprop="datePublished">
-                    September 19, 2015
-                </time>
+    <!-- {{ if isset .Params "tags" }} -->
+    <!-- {{ tagsLen := len .Params.tags }} -->
+    <!-- {{ if gt tagsLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-tags"></i>
+      <a href="./tags/xmonad.html">xmonad</a>, <a href="./tags/i3wm.html">i3wm</a>
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
+  </div>
+</header>
 
-                <span>in</span>
-
-                <a class="category-link" href="./categories/linux">
-                    linux
-                </a>
-
-            </div>
-
-        </div>
-        <div class="postShorten-excerpt" itemprop="articleBody">
+        <div class="article-entry" itemprop="articleBody">
             <p>
                 
                     Haskell + Tiling = Perfection
                 
-                <br>
-
-                <a href="./2015/09/xmonad/" class="postShorten-excerpt_link link">
-                    Continue reading
-                </a>
+            </p>
+            <p class="article-more-link">
+                <a href="./2015/09/xmonad/"> Read more </a>
             </p>
         </div>
+
+        <footer class="article-footer">
+          
+          <script src="./js/article_footer.js"></script>
+        </footer>
     </div>
 </article>
 
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+<article class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+        <!-- <a href="{{ .Permalink }}" itemprop="url"> -->
+        <!--     <img src="{{ .Params.banner | absURL }}" class="article-banner"> -->
+        <!-- {{ end }} -->
+        <!-- </a> -->
 
-    <div class="postBlock postShorten-wrap" class="September  6, 2015" id="post-/2015/09/bootloader/">
+        <header class="article-header">
+  <a href="./2015/09/bootloader/">
+    <h1 class="article-title" itemprop="name">Bootloaders basics</h1>
+  </a>
+  <div class="article-meta">
+    <!-- {{ if not .Params.nodateline }} -->
+    <!-- <div class="article-date"> -->
+    <!--   <i class="fa fa-calendar"></i> -->
+    <!--   <time datetime="{{ .Date }}" itemprop="datePublished">{{ .Date.Format .Site.Params.date_format }}</time> -->
+    <!--   &middot; -->
+    <!--   {{ .WordCount }} -->
+    <!--   {{ with .Site.Data.l10n.articles.words }}{{.}}{{end}} -->
+    <!--   &middot; -->
+    <!--   {{ .ReadingTime }} -->
+    <!--   {{ with .Site.Data.l10n.articles.readingtime }}{{.}}{{end}} -->
+    <!-- </div> -->
+    <!-- {{ end }} -->
+    <!-- {{ if isset .Params "categories" }} -->
+    <!-- {{ categoriesLen := len .Params.categories }} -->
+    <!-- {{ if gt categoriesLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-folder"></i>
+      linux
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
 
-        <div class="postShorten-header">
-            <h2 class="postShorten-title" itemprop="headline">
-                <a class="link-unstyled" href="./2015/09/bootloader/">
-                    Bootloaders basics
-                </a>
-            </h2>
-            <div class="post-meta">
-                <time itemprop="datePublished">
-                    September  6, 2015
-                </time>
+    <!-- {{ if isset .Params "tags" }} -->
+    <!-- {{ tagsLen := len .Params.tags }} -->
+    <!-- {{ if gt tagsLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-tags"></i>
+      <a href="./tags/bootloader.html">bootloader</a>, <a href="./tags/grub.html">grub</a>
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
+  </div>
+</header>
 
-                <span>in</span>
-
-                <a class="category-link" href="./categories/linux">
-                    linux
-                </a>
-
-            </div>
-
-        </div>
-        <div class="postShorten-excerpt" itemprop="articleBody">
+        <div class="article-entry" itemprop="articleBody">
             <p>
                 
                     Installing Syslinux/GRUB2
                 
-                <br>
-
-                <a href="./2015/09/bootloader/" class="postShorten-excerpt_link link">
-                    Continue reading
-                </a>
+            </p>
+            <p class="article-more-link">
+                <a href="./2015/09/bootloader/"> Read more </a>
             </p>
         </div>
+
+        <footer class="article-footer">
+          
+          <script src="./js/article_footer.js"></script>
+        </footer>
     </div>
 </article>
 
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+<article class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+        <!-- <a href="{{ .Permalink }}" itemprop="url"> -->
+        <!--     <img src="{{ .Params.banner | absURL }}" class="article-banner"> -->
+        <!-- {{ end }} -->
+        <!-- </a> -->
 
-    <div class="postBlock postShorten-wrap" class="July 11, 2015" id="post-/2015/07/cse/">
+        <header class="article-header">
+  <a href="./2015/07/cse/">
+    <h1 class="article-title" itemprop="name">About what CSE is and isn't</h1>
+  </a>
+  <div class="article-meta">
+    <!-- {{ if not .Params.nodateline }} -->
+    <!-- <div class="article-date"> -->
+    <!--   <i class="fa fa-calendar"></i> -->
+    <!--   <time datetime="{{ .Date }}" itemprop="datePublished">{{ .Date.Format .Site.Params.date_format }}</time> -->
+    <!--   &middot; -->
+    <!--   {{ .WordCount }} -->
+    <!--   {{ with .Site.Data.l10n.articles.words }}{{.}}{{end}} -->
+    <!--   &middot; -->
+    <!--   {{ .ReadingTime }} -->
+    <!--   {{ with .Site.Data.l10n.articles.readingtime }}{{.}}{{end}} -->
+    <!-- </div> -->
+    <!-- {{ end }} -->
+    <!-- {{ if isset .Params "categories" }} -->
+    <!-- {{ categoriesLen := len .Params.categories }} -->
+    <!-- {{ if gt categoriesLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-folder"></i>
+      musings
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
 
-        <div class="postShorten-header">
-            <h2 class="postShorten-title" itemprop="headline">
-                <a class="link-unstyled" href="./2015/07/cse/">
-                    About what CSE is and isn't
-                </a>
-            </h2>
-            <div class="post-meta">
-                <time itemprop="datePublished">
-                    July 11, 2015
-                </time>
+    <!-- {{ if isset .Params "tags" }} -->
+    <!-- {{ tagsLen := len .Params.tags }} -->
+    <!-- {{ if gt tagsLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-tags"></i>
+      <a href="./tags/cse.html">cse</a>
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
+  </div>
+</header>
 
-                <span>in</span>
-
-                <a class="category-link" href="./categories/musings">
-                    musings
-                </a>
-
-            </div>
-
-        </div>
-        <div class="postShorten-excerpt" itemprop="articleBody">
+        <div class="article-entry" itemprop="articleBody">
             <p>
                 
                     TLDR; It isn't just app-dev
                 
-                <br>
-
-                <a href="./2015/07/cse/" class="postShorten-excerpt_link link">
-                    Continue reading
-                </a>
+            </p>
+            <p class="article-more-link">
+                <a href="./2015/07/cse/"> Read more </a>
             </p>
         </div>
+
+        <footer class="article-footer">
+          
+          <script src="./js/article_footer.js"></script>
+        </footer>
     </div>
 </article>
 
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+<article class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+        <!-- <a href="{{ .Permalink }}" itemprop="url"> -->
+        <!--     <img src="{{ .Params.banner | absURL }}" class="article-banner"> -->
+        <!-- {{ end }} -->
+        <!-- </a> -->
 
-    <div class="postBlock postShorten-wrap" class="July  6, 2015" id="post-/2015/07/leavegnome/">
+        <header class="article-header">
+  <a href="./2015/07/leavegnome/">
+    <h1 class="article-title" itemprop="name">Shifting away from GNOME</h1>
+  </a>
+  <div class="article-meta">
+    <!-- {{ if not .Params.nodateline }} -->
+    <!-- <div class="article-date"> -->
+    <!--   <i class="fa fa-calendar"></i> -->
+    <!--   <time datetime="{{ .Date }}" itemprop="datePublished">{{ .Date.Format .Site.Params.date_format }}</time> -->
+    <!--   &middot; -->
+    <!--   {{ .WordCount }} -->
+    <!--   {{ with .Site.Data.l10n.articles.words }}{{.}}{{end}} -->
+    <!--   &middot; -->
+    <!--   {{ .ReadingTime }} -->
+    <!--   {{ with .Site.Data.l10n.articles.readingtime }}{{.}}{{end}} -->
+    <!-- </div> -->
+    <!-- {{ end }} -->
+    <!-- {{ if isset .Params "categories" }} -->
+    <!-- {{ categoriesLen := len .Params.categories }} -->
+    <!-- {{ if gt categoriesLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-folder"></i>
+      linux
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
 
-        <div class="postShorten-header">
-            <h2 class="postShorten-title" itemprop="headline">
-                <a class="link-unstyled" href="./2015/07/leavegnome/">
-                    Shifting away from GNOME
-                </a>
-            </h2>
-            <div class="post-meta">
-                <time itemprop="datePublished">
-                    July  6, 2015
-                </time>
+    <!-- {{ if isset .Params "tags" }} -->
+    <!-- {{ tagsLen := len .Params.tags }} -->
+    <!-- {{ if gt tagsLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-tags"></i>
+      <a href="./tags/gnome.html">gnome</a>
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
+  </div>
+</header>
 
-                <span>in</span>
-
-                <a class="category-link" href="./categories/linux">
-                    linux
-                </a>
-
-            </div>
-
-        </div>
-        <div class="postShorten-excerpt" itemprop="articleBody">
+        <div class="article-entry" itemprop="articleBody">
             <p>
                 
                     Bloatware goodbye
                 
-                <br>
-
-                <a href="./2015/07/leavegnome/" class="postShorten-excerpt_link link">
-                    Continue reading
-                </a>
+            </p>
+            <p class="article-more-link">
+                <a href="./2015/07/leavegnome/"> Read more </a>
             </p>
         </div>
+
+        <footer class="article-footer">
+          
+          <script src="./js/article_footer.js"></script>
+        </footer>
     </div>
 </article>
 
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+<article class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+        <!-- <a href="{{ .Permalink }}" itemprop="url"> -->
+        <!--     <img src="{{ .Params.banner | absURL }}" class="article-banner"> -->
+        <!-- {{ end }} -->
+        <!-- </a> -->
 
-    <div class="postBlock postShorten-wrap" class="July  4, 2015" id="post-/2015/07/vimsudo/">
+        <header class="article-header">
+  <a href="./2015/07/vimsudo/">
+    <h1 class="article-title" itemprop="name">How to save a file with root-priviledges in a normal Vim session</h1>
+  </a>
+  <div class="article-meta">
+    <!-- {{ if not .Params.nodateline }} -->
+    <!-- <div class="article-date"> -->
+    <!--   <i class="fa fa-calendar"></i> -->
+    <!--   <time datetime="{{ .Date }}" itemprop="datePublished">{{ .Date.Format .Site.Params.date_format }}</time> -->
+    <!--   &middot; -->
+    <!--   {{ .WordCount }} -->
+    <!--   {{ with .Site.Data.l10n.articles.words }}{{.}}{{end}} -->
+    <!--   &middot; -->
+    <!--   {{ .ReadingTime }} -->
+    <!--   {{ with .Site.Data.l10n.articles.readingtime }}{{.}}{{end}} -->
+    <!-- </div> -->
+    <!-- {{ end }} -->
+    <!-- {{ if isset .Params "categories" }} -->
+    <!-- {{ categoriesLen := len .Params.categories }} -->
+    <!-- {{ if gt categoriesLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-folder"></i>
+      editors
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
 
-        <div class="postShorten-header">
-            <h2 class="postShorten-title" itemprop="headline">
-                <a class="link-unstyled" href="./2015/07/vimsudo/">
-                    How to save a file with root-priviledges in a normal Vim session
-                </a>
-            </h2>
-            <div class="post-meta">
-                <time itemprop="datePublished">
-                    July  4, 2015
-                </time>
+    <!-- {{ if isset .Params "tags" }} -->
+    <!-- {{ tagsLen := len .Params.tags }} -->
+    <!-- {{ if gt tagsLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-tags"></i>
+      <a href="./tags/vim.html">vim</a>, <a href="./tags/short.html">short</a>
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
+  </div>
+</header>
 
-                <span>in</span>
-
-                <a class="category-link" href="./categories/editors">
-                    editors
-                </a>
-
-            </div>
-
-        </div>
-        <div class="postShorten-excerpt" itemprop="articleBody">
+        <div class="article-entry" itemprop="articleBody">
             <p>
                 
                     No more 'sudo vim'
                 
-                <br>
-
-                <a href="./2015/07/vimsudo/" class="postShorten-excerpt_link link">
-                    Continue reading
-                </a>
+            </p>
+            <p class="article-more-link">
+                <a href="./2015/07/vimsudo/"> Read more </a>
             </p>
         </div>
+
+        <footer class="article-footer">
+          
+          <script src="./js/article_footer.js"></script>
+        </footer>
     </div>
 </article>
 
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+<article class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+        <!-- <a href="{{ .Permalink }}" itemprop="url"> -->
+        <!--     <img src="{{ .Params.banner | absURL }}" class="article-banner"> -->
+        <!-- {{ end }} -->
+        <!-- </a> -->
 
-    <div class="postBlock postShorten-wrap" class="July  3, 2015" id="post-/2015/07/i3wm/">
+        <header class="article-header">
+  <a href="./2015/07/i3wm/">
+    <h1 class="article-title" itemprop="name">Hopping over to i3wm</h1>
+  </a>
+  <div class="article-meta">
+    <!-- {{ if not .Params.nodateline }} -->
+    <!-- <div class="article-date"> -->
+    <!--   <i class="fa fa-calendar"></i> -->
+    <!--   <time datetime="{{ .Date }}" itemprop="datePublished">{{ .Date.Format .Site.Params.date_format }}</time> -->
+    <!--   &middot; -->
+    <!--   {{ .WordCount }} -->
+    <!--   {{ with .Site.Data.l10n.articles.words }}{{.}}{{end}} -->
+    <!--   &middot; -->
+    <!--   {{ .ReadingTime }} -->
+    <!--   {{ with .Site.Data.l10n.articles.readingtime }}{{.}}{{end}} -->
+    <!-- </div> -->
+    <!-- {{ end }} -->
+    <!-- {{ if isset .Params "categories" }} -->
+    <!-- {{ categoriesLen := len .Params.categories }} -->
+    <!-- {{ if gt categoriesLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-folder"></i>
+      linux
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
 
-        <div class="postShorten-header">
-            <h2 class="postShorten-title" itemprop="headline">
-                <a class="link-unstyled" href="./2015/07/i3wm/">
-                    Hopping over to i3wm
-                </a>
-            </h2>
-            <div class="post-meta">
-                <time itemprop="datePublished">
-                    July  3, 2015
-                </time>
+    <!-- {{ if isset .Params "tags" }} -->
+    <!-- {{ tagsLen := len .Params.tags }} -->
+    <!-- {{ if gt tagsLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-tags"></i>
+      <a href="./tags/i3wm.html">i3wm</a>, <a href="./tags/tilingWM.html">tilingWM</a>
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
+  </div>
+</header>
 
-                <span>in</span>
-
-                <a class="category-link" href="./categories/linux">
-                    linux
-                </a>
-
-            </div>
-
-        </div>
-        <div class="postShorten-excerpt" itemprop="articleBody">
+        <div class="article-entry" itemprop="articleBody">
             <p>
                 
                     Joys of Tiling Window managers
                 
-                <br>
-
-                <a href="./2015/07/i3wm/" class="postShorten-excerpt_link link">
-                    Continue reading
-                </a>
+            </p>
+            <p class="article-more-link">
+                <a href="./2015/07/i3wm/"> Read more </a>
             </p>
         </div>
+
+        <footer class="article-footer">
+          
+          <script src="./js/article_footer.js"></script>
+        </footer>
     </div>
 </article>
 
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+<article class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+        <!-- <a href="{{ .Permalink }}" itemprop="url"> -->
+        <!--     <img src="{{ .Params.banner | absURL }}" class="article-banner"> -->
+        <!-- {{ end }} -->
+        <!-- </a> -->
 
-    <div class="postBlock postShorten-wrap" class="July  1, 2015" id="post-/2015/07/voyage/">
+        <header class="article-header">
+  <a href="./2015/07/voyage/">
+    <h1 class="article-title" itemprop="name">My Voyage through the seas of programming</h1>
+  </a>
+  <div class="article-meta">
+    <!-- {{ if not .Params.nodateline }} -->
+    <!-- <div class="article-date"> -->
+    <!--   <i class="fa fa-calendar"></i> -->
+    <!--   <time datetime="{{ .Date }}" itemprop="datePublished">{{ .Date.Format .Site.Params.date_format }}</time> -->
+    <!--   &middot; -->
+    <!--   {{ .WordCount }} -->
+    <!--   {{ with .Site.Data.l10n.articles.words }}{{.}}{{end}} -->
+    <!--   &middot; -->
+    <!--   {{ .ReadingTime }} -->
+    <!--   {{ with .Site.Data.l10n.articles.readingtime }}{{.}}{{end}} -->
+    <!-- </div> -->
+    <!-- {{ end }} -->
+    <!-- {{ if isset .Params "categories" }} -->
+    <!-- {{ categoriesLen := len .Params.categories }} -->
+    <!-- {{ if gt categoriesLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-folder"></i>
+      musings
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
 
-        <div class="postShorten-header">
-            <h2 class="postShorten-title" itemprop="headline">
-                <a class="link-unstyled" href="./2015/07/voyage/">
-                    My Voyage through the seas of programming
-                </a>
-            </h2>
-            <div class="post-meta">
-                <time itemprop="datePublished">
-                    July  1, 2015
-                </time>
+    <!-- {{ if isset .Params "tags" }} -->
+    <!-- {{ tagsLen := len .Params.tags }} -->
+    <!-- {{ if gt tagsLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-tags"></i>
+      <a href="./tags/musings.html">musings</a>, <a href="./tags/iitk.html">iitk</a>
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
+  </div>
+</header>
 
-                <span>in</span>
-
-                <a class="category-link" href="./categories/musings">
-                    musings
-                </a>
-
-            </div>
-
-        </div>
-        <div class="postShorten-excerpt" itemprop="articleBody">
+        <div class="article-entry" itemprop="articleBody">
             <p>
                 
                     Story of my first year at IITK
                 
-                <br>
-
-                <a href="./2015/07/voyage/" class="postShorten-excerpt_link link">
-                    Continue reading
-                </a>
+            </p>
+            <p class="article-more-link">
+                <a href="./2015/07/voyage/"> Read more </a>
             </p>
         </div>
+
+        <footer class="article-footer">
+          
+          <script src="./js/article_footer.js"></script>
+        </footer>
     </div>
 </article>
 
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+<article class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+        <!-- <a href="{{ .Permalink }}" itemprop="url"> -->
+        <!--     <img src="{{ .Params.banner | absURL }}" class="article-banner"> -->
+        <!-- {{ end }} -->
+        <!-- </a> -->
 
-    <div class="postBlock postShorten-wrap" class="July  1, 2015" id="post-/2015/07/tty/">
+        <header class="article-header">
+  <a href="./2015/07/tty/">
+    <h1 class="article-title" itemprop="name">TTY Tricks in Linux</h1>
+  </a>
+  <div class="article-meta">
+    <!-- {{ if not .Params.nodateline }} -->
+    <!-- <div class="article-date"> -->
+    <!--   <i class="fa fa-calendar"></i> -->
+    <!--   <time datetime="{{ .Date }}" itemprop="datePublished">{{ .Date.Format .Site.Params.date_format }}</time> -->
+    <!--   &middot; -->
+    <!--   {{ .WordCount }} -->
+    <!--   {{ with .Site.Data.l10n.articles.words }}{{.}}{{end}} -->
+    <!--   &middot; -->
+    <!--   {{ .ReadingTime }} -->
+    <!--   {{ with .Site.Data.l10n.articles.readingtime }}{{.}}{{end}} -->
+    <!-- </div> -->
+    <!-- {{ end }} -->
+    <!-- {{ if isset .Params "categories" }} -->
+    <!-- {{ categoriesLen := len .Params.categories }} -->
+    <!-- {{ if gt categoriesLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-folder"></i>
+      linux
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
 
-        <div class="postShorten-header">
-            <h2 class="postShorten-title" itemprop="headline">
-                <a class="link-unstyled" href="./2015/07/tty/">
-                    TTY Tricks in Linux
-                </a>
-            </h2>
-            <div class="post-meta">
-                <time itemprop="datePublished">
-                    July  1, 2015
-                </time>
+    <!-- {{ if isset .Params "tags" }} -->
+    <!-- {{ tagsLen := len .Params.tags }} -->
+    <!-- {{ if gt tagsLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-tags"></i>
+      <a href="./tags/tty.html">tty</a>, <a href="./tags/short.html">short</a>
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
+  </div>
+</header>
 
-                <span>in</span>
-
-                <a class="category-link" href="./categories/linux">
-                    linux
-                </a>
-
-            </div>
-
-        </div>
-        <div class="postShorten-excerpt" itemprop="articleBody">
+        <div class="article-entry" itemprop="articleBody">
             <p>
                 
                     Life in the terminal
                 
-                <br>
-
-                <a href="./2015/07/tty/" class="postShorten-excerpt_link link">
-                    Continue reading
-                </a>
+            </p>
+            <p class="article-more-link">
+                <a href="./2015/07/tty/"> Read more </a>
             </p>
         </div>
+
+        <footer class="article-footer">
+          
+          <script src="./js/article_footer.js"></script>
+        </footer>
     </div>
 </article>
 
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+<article class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+        <!-- <a href="{{ .Permalink }}" itemprop="url"> -->
+        <!--     <img src="{{ .Params.banner | absURL }}" class="article-banner"> -->
+        <!-- {{ end }} -->
+        <!-- </a> -->
 
-    <div class="postBlock postShorten-wrap" class="July  1, 2015" id="post-/2015/07/multigit/">
+        <header class="article-header">
+  <a href="./2015/07/multigit/">
+    <h1 class="article-title" itemprop="name">Multiple Git repos in a single directory</h1>
+  </a>
+  <div class="article-meta">
+    <!-- {{ if not .Params.nodateline }} -->
+    <!-- <div class="article-date"> -->
+    <!--   <i class="fa fa-calendar"></i> -->
+    <!--   <time datetime="{{ .Date }}" itemprop="datePublished">{{ .Date.Format .Site.Params.date_format }}</time> -->
+    <!--   &middot; -->
+    <!--   {{ .WordCount }} -->
+    <!--   {{ with .Site.Data.l10n.articles.words }}{{.}}{{end}} -->
+    <!--   &middot; -->
+    <!--   {{ .ReadingTime }} -->
+    <!--   {{ with .Site.Data.l10n.articles.readingtime }}{{.}}{{end}} -->
+    <!-- </div> -->
+    <!-- {{ end }} -->
+    <!-- {{ if isset .Params "categories" }} -->
+    <!-- {{ categoriesLen := len .Params.categories }} -->
+    <!-- {{ if gt categoriesLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-folder"></i>
+      linux
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
 
-        <div class="postShorten-header">
-            <h2 class="postShorten-title" itemprop="headline">
-                <a class="link-unstyled" href="./2015/07/multigit/">
-                    Multiple Git repos in a single directory
-                </a>
-            </h2>
-            <div class="post-meta">
-                <time itemprop="datePublished">
-                    July  1, 2015
-                </time>
+    <!-- {{ if isset .Params "tags" }} -->
+    <!-- {{ tagsLen := len .Params.tags }} -->
+    <!-- {{ if gt tagsLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-tags"></i>
+      <a href="./tags/git.html">git</a>, <a href="./tags/short.html">short</a>
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
+  </div>
+</header>
 
-                <span>in</span>
-
-                <a class="category-link" href="./categories/linux">
-                    linux
-                </a>
-
-            </div>
-
-        </div>
-        <div class="postShorten-excerpt" itemprop="articleBody">
+        <div class="article-entry" itemprop="articleBody">
             <p>
                 
                     The --git-dir flag
                 
-                <br>
-
-                <a href="./2015/07/multigit/" class="postShorten-excerpt_link link">
-                    Continue reading
-                </a>
+            </p>
+            <p class="article-more-link">
+                <a href="./2015/07/multigit/"> Read more </a>
             </p>
         </div>
+
+        <footer class="article-footer">
+          
+          <script src="./js/article_footer.js"></script>
+        </footer>
     </div>
 </article>
 
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+<article class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+        <!-- <a href="{{ .Permalink }}" itemprop="url"> -->
+        <!--     <img src="{{ .Params.banner | absURL }}" class="article-banner"> -->
+        <!-- {{ end }} -->
+        <!-- </a> -->
 
-    <div class="postBlock postShorten-wrap" class="June 25, 2015" id="post-/2015/06/vbox/">
+        <header class="article-header">
+  <a href="./2015/06/vbox/">
+    <h1 class="article-title" itemprop="name">Running Windows inside Arch (never leaving Arch again)</h1>
+  </a>
+  <div class="article-meta">
+    <!-- {{ if not .Params.nodateline }} -->
+    <!-- <div class="article-date"> -->
+    <!--   <i class="fa fa-calendar"></i> -->
+    <!--   <time datetime="{{ .Date }}" itemprop="datePublished">{{ .Date.Format .Site.Params.date_format }}</time> -->
+    <!--   &middot; -->
+    <!--   {{ .WordCount }} -->
+    <!--   {{ with .Site.Data.l10n.articles.words }}{{.}}{{end}} -->
+    <!--   &middot; -->
+    <!--   {{ .ReadingTime }} -->
+    <!--   {{ with .Site.Data.l10n.articles.readingtime }}{{.}}{{end}} -->
+    <!-- </div> -->
+    <!-- {{ end }} -->
+    <!-- {{ if isset .Params "categories" }} -->
+    <!-- {{ categoriesLen := len .Params.categories }} -->
+    <!-- {{ if gt categoriesLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-folder"></i>
+      linux
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
 
-        <div class="postShorten-header">
-            <h2 class="postShorten-title" itemprop="headline">
-                <a class="link-unstyled" href="./2015/06/vbox/">
-                    Running Windows inside Arch (never leaving Arch again)
-                </a>
-            </h2>
-            <div class="post-meta">
-                <time itemprop="datePublished">
-                    June 25, 2015
-                </time>
+    <!-- {{ if isset .Params "tags" }} -->
+    <!-- {{ tagsLen := len .Params.tags }} -->
+    <!-- {{ if gt tagsLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-tags"></i>
+      <a href="./tags/arch.html">arch</a>, <a href="./tags/virtualbox.html">virtualbox</a>, <a href="./tags/technical.html">technical</a>
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
+  </div>
+</header>
 
-                <span>in</span>
-
-                <a class="category-link" href="./categories/linux">
-                    linux
-                </a>
-
-            </div>
-
-        </div>
-        <div class="postShorten-excerpt" itemprop="articleBody">
+        <div class="article-entry" itemprop="articleBody">
             <p>
                 
                     Getting VirtualBox running in Arch
                 
-                <br>
-
-                <a href="./2015/06/vbox/" class="postShorten-excerpt_link link">
-                    Continue reading
-                </a>
+            </p>
+            <p class="article-more-link">
+                <a href="./2015/06/vbox/"> Read more </a>
             </p>
         </div>
+
+        <footer class="article-footer">
+          
+          <script src="./js/article_footer.js"></script>
+        </footer>
     </div>
 </article>
 
-<article class="postShorten postShorten--thumbnailimg-bottom" itemscope itemType="http://schema.org/BlogPosting">
+<article class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+        <!-- <a href="{{ .Permalink }}" itemprop="url"> -->
+        <!--     <img src="{{ .Params.banner | absURL }}" class="article-banner"> -->
+        <!-- {{ end }} -->
+        <!-- </a> -->
 
-    <div class="postBlock postShorten-wrap" class="June 15, 2015" id="post-/2015/06/vim/">
+        <header class="article-header">
+  <a href="./2015/06/vim/">
+    <h1 class="article-title" itemprop="name">Kickstart to Vim</h1>
+  </a>
+  <div class="article-meta">
+    <!-- {{ if not .Params.nodateline }} -->
+    <!-- <div class="article-date"> -->
+    <!--   <i class="fa fa-calendar"></i> -->
+    <!--   <time datetime="{{ .Date }}" itemprop="datePublished">{{ .Date.Format .Site.Params.date_format }}</time> -->
+    <!--   &middot; -->
+    <!--   {{ .WordCount }} -->
+    <!--   {{ with .Site.Data.l10n.articles.words }}{{.}}{{end}} -->
+    <!--   &middot; -->
+    <!--   {{ .ReadingTime }} -->
+    <!--   {{ with .Site.Data.l10n.articles.readingtime }}{{.}}{{end}} -->
+    <!-- </div> -->
+    <!-- {{ end }} -->
+    <!-- {{ if isset .Params "categories" }} -->
+    <!-- {{ categoriesLen := len .Params.categories }} -->
+    <!-- {{ if gt categoriesLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-folder"></i>
+      editors
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
 
-        <div class="postShorten-header">
-            <h2 class="postShorten-title" itemprop="headline">
-                <a class="link-unstyled" href="./2015/06/vim/">
-                    Kickstart to Vim
-                </a>
-            </h2>
-            <div class="post-meta">
-                <time itemprop="datePublished">
-                    June 15, 2015
-                </time>
+    <!-- {{ if isset .Params "tags" }} -->
+    <!-- {{ tagsLen := len .Params.tags }} -->
+    <!-- {{ if gt tagsLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-tags"></i>
+      <a href="./tags/vim.html">vim</a>, <a href="./tags/beginner.html">beginner</a>
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
+  </div>
+</header>
 
-                <span>in</span>
-
-                <a class="category-link" href="./categories/editors">
-                    editors
-                </a>
-
-            </div>
-
-        </div>
-        <div class="postShorten-excerpt" itemprop="articleBody">
+        <div class="article-entry" itemprop="articleBody">
             <p>
                 
                     A beyond-the-vimtutor tutorial
                 
-                <br>
-
-                <a href="./2015/06/vim/" class="postShorten-excerpt_link link">
-                    Continue reading
-                </a>
+            </p>
+            <p class="article-more-link">
+                <a href="./2015/06/vim/"> Read more </a>
             </p>
         </div>
+
+        <footer class="article-footer">
+          
+          <script src="./js/article_footer.js"></script>
+        </footer>
     </div>
 </article>
 
 
-<script src="./js/archive.js">
-</script>
+
+</section>
+
+<aside id="sidebar">
+    <!-- {{ if .Site.Params.widgets.recent_articles }} -->
+<div class="widget-wrap">
+    <h3 class="widget-title">
+        <!-- {{with .Site.Data.l10n.widgets.recent_articles.title}}{{.}}{{end}} -->
+        Recents
+    </h3>
+    <div class="widget">
+        <ul id="recent-post">
+            <!-- {{ range first 5 (where .Site.RegularPages "Type" "post") }} -->
+            
+            <li>
+                <div class="item-thumbnail">
+                    <a href class="thumbnail">
+                    <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+                    <!--     <span style="background-image:url({{ .Params.banner | absURL }})" alt="{{ .Title }}" class="thumbnail-image"></span> -->
+                    <!-- {{else}} -->
+                        <span class="thumbnail-image thumbnail-none"></span>
+                    <!-- {{ end }} -->
+                    </a>
+                </div>
+                <div class="item-inner">
+                    <!-- {{ if isset .Params "categories" }} -->
+                    <!-- {{ if gt (len .Params.categories) 0 }} -->
+                    <!-- <p class="item-category"> -->
+                    <!--     {{ url := printf "%s/%s" "categories" (index .Params.categories 0 | urlize | lower)}} -->
+                    <!--     <a class="article-category-link" href="{{ url | absURL }}"> -->
+                    <!--     {{ index .Params.categories 0 }} -->
+                    <!--     </a> -->
+                    <!-- </p> -->
+                    <!-- {{ end }} -->
+                    <!-- {{ end }} -->
+                    <p class="item-title"><a href class="title">Interning at Google Seattle</a></p>
+                    <p class="item-date">
+                        <time datetime="August  5, 2017" itemprop="datePublished">August  5, 2017</time>
+                    </p>
+                </div>
+            </li>
+            
+            <li>
+                <div class="item-thumbnail">
+                    <a href class="thumbnail">
+                    <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+                    <!--     <span style="background-image:url({{ .Params.banner | absURL }})" alt="{{ .Title }}" class="thumbnail-image"></span> -->
+                    <!-- {{else}} -->
+                        <span class="thumbnail-image thumbnail-none"></span>
+                    <!-- {{ end }} -->
+                    </a>
+                </div>
+                <div class="item-inner">
+                    <!-- {{ if isset .Params "categories" }} -->
+                    <!-- {{ if gt (len .Params.categories) 0 }} -->
+                    <!-- <p class="item-category"> -->
+                    <!--     {{ url := printf "%s/%s" "categories" (index .Params.categories 0 | urlize | lower)}} -->
+                    <!--     <a class="article-category-link" href="{{ url | absURL }}"> -->
+                    <!--     {{ index .Params.categories 0 }} -->
+                    <!--     </a> -->
+                    <!-- </p> -->
+                    <!-- {{ end }} -->
+                    <!-- {{ end }} -->
+                    <p class="item-title"><a href class="title">Limiting 'likes' sent anonymously - Part 3</a></p>
+                    <p class="item-date">
+                        <time datetime="December 26, 2016" itemprop="datePublished">December 26, 2016</time>
+                    </p>
+                </div>
+            </li>
+            
+            <li>
+                <div class="item-thumbnail">
+                    <a href class="thumbnail">
+                    <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+                    <!--     <span style="background-image:url({{ .Params.banner | absURL }})" alt="{{ .Title }}" class="thumbnail-image"></span> -->
+                    <!-- {{else}} -->
+                        <span class="thumbnail-image thumbnail-none"></span>
+                    <!-- {{ end }} -->
+                    </a>
+                </div>
+                <div class="item-inner">
+                    <!-- {{ if isset .Params "categories" }} -->
+                    <!-- {{ if gt (len .Params.categories) 0 }} -->
+                    <!-- <p class="item-category"> -->
+                    <!--     {{ url := printf "%s/%s" "categories" (index .Params.categories 0 | urlize | lower)}} -->
+                    <!--     <a class="article-category-link" href="{{ url | absURL }}"> -->
+                    <!--     {{ index .Params.categories 0 }} -->
+                    <!--     </a> -->
+                    <!-- </p> -->
+                    <!-- {{ end }} -->
+                    <!-- {{ end }} -->
+                    <p class="item-title"><a href class="title">My internship interview saga</a></p>
+                    <p class="item-date">
+                        <time datetime="December 21, 2016" itemprop="datePublished">December 21, 2016</time>
+                    </p>
+                </div>
+            </li>
+            
+            <li>
+                <div class="item-thumbnail">
+                    <a href class="thumbnail">
+                    <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+                    <!--     <span style="background-image:url({{ .Params.banner | absURL }})" alt="{{ .Title }}" class="thumbnail-image"></span> -->
+                    <!-- {{else}} -->
+                        <span class="thumbnail-image thumbnail-none"></span>
+                    <!-- {{ end }} -->
+                    </a>
+                </div>
+                <div class="item-inner">
+                    <!-- {{ if isset .Params "categories" }} -->
+                    <!-- {{ if gt (len .Params.categories) 0 }} -->
+                    <!-- <p class="item-category"> -->
+                    <!--     {{ url := printf "%s/%s" "categories" (index .Params.categories 0 | urlize | lower)}} -->
+                    <!--     <a class="article-category-link" href="{{ url | absURL }}"> -->
+                    <!--     {{ index .Params.categories 0 }} -->
+                    <!--     </a> -->
+                    <!-- </p> -->
+                    <!-- {{ end }} -->
+                    <!-- {{ end }} -->
+                    <p class="item-title"><a href class="title">Coding software-based mutex algos for fun</a></p>
+                    <p class="item-date">
+                        <time datetime="December  2, 2016" itemprop="datePublished">December  2, 2016</time>
+                    </p>
+                </div>
+            </li>
+            
+            <li>
+                <div class="item-thumbnail">
+                    <a href class="thumbnail">
+                    <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+                    <!--     <span style="background-image:url({{ .Params.banner | absURL }})" alt="{{ .Title }}" class="thumbnail-image"></span> -->
+                    <!-- {{else}} -->
+                        <span class="thumbnail-image thumbnail-none"></span>
+                    <!-- {{ end }} -->
+                    </a>
+                </div>
+                <div class="item-inner">
+                    <!-- {{ if isset .Params "categories" }} -->
+                    <!-- {{ if gt (len .Params.categories) 0 }} -->
+                    <!-- <p class="item-category"> -->
+                    <!--     {{ url := printf "%s/%s" "categories" (index .Params.categories 0 | urlize | lower)}} -->
+                    <!--     <a class="article-category-link" href="{{ url | absURL }}"> -->
+                    <!--     {{ index .Params.categories 0 }} -->
+                    <!--     </a> -->
+                    <!-- </p> -->
+                    <!-- {{ end }} -->
+                    <!-- {{ end }} -->
+                    <p class="item-title"><a href class="title">Zero-trust - Safe and anonymous ANDing bits - Part 2</a></p>
+                    <p class="item-date">
+                        <time datetime="November 25, 2016" itemprop="datePublished">November 25, 2016</time>
+                    </p>
+                </div>
+            </li>
+            
+            <!-- {{ end }} -->
+        </ul>
+    </div>
+</div>
+<!-- {{ end }} -->
+
+    <!-- {{ partial "widgets/categories" . }} -->
+    <!-- {{ partial "widgets/tags" . }} -->
+    <!-- {{ partial "widgets/tag_cloud" . }} -->
+
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
 
 
 
-
-
-    </section>
-    <footer id="footer" class="main-content-wrap">
-  <span class="copyrights">
+      </div>
+    </div>
+    <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
       Saksham Sharma
-  </span>
+      <!-- &copy; {{ now.Format "2006"}} -->
+      <!-- {{ with .Site.Params.copyright }}{{ . | markdownify}}{{ end }} -->
+    </div>
+  </div>
 </footer>
 
-</div>
-
-
-    </div>
-    <!--SCRIPTS-->
-
-<script src="https://code.jquery.com/jquery-3.1.1.min.js" type="text/javascript"></script>
-<script src="./js/hugo.js" type="text/javascript"></script>
-<!--SCRIPTS END-->
-<script src="./js/highlight.js"></script>
-
-    <div id="about">
-    <div id="about-card">
-        <div id="about-btn-close">
-            <i class="fa fa-remove"></i>
-        </div>
-
-        <img id="about-card-picture" src="https://avatars3.githubusercontent.com/u/10418596?v=3&amp;s=460" alt="Author's picture" />
-
-        <h4 id="about-card-name">Saksham Sharma</h4>
-
-        <div id="about-card-bio">Hacker. Programmer. Geek.</div>
-
-
-        <div id="about-card-job">
-            <i class="fa fa-briefcase"></i>
-            <br />
-            3rd year Undergrad, Computer Science and Engineering
-        </div>
-
-
-        <div id="about-card-location">
-            <i class="fa fa-map-marker"></i>
-            <br />
-            Indian Institute of Technology Kanpur
-        </div>
-
-    </div>
-</div>
-
-    <div id="cover" style="background-image:url('/images/header.jpg');"></div>
-
-    <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-88802609-1', 'auto');
-  ga('send', 'pageview');
-</script>
-
-</body>
+<!-- {{ partial "footer_js" . }} -->
+<!-- {{ partial "footer_custom_js" . }} -->
+  </body>
 </html>

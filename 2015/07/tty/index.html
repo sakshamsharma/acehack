@@ -1,167 +1,182 @@
 <!DOCTYPE html>
 <html lang="en-us">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="generator" content="Hugo">
-        <title>AceHack-TTY Tricks in Linux</title>
-        <meta name="author" content="Saksham Sharma">
-        <meta name="keywords" content="acehack, coding, programming, linux, webdev, hakyll">
+  <head>
+    <!-- <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} &middot; {{ .Site.Title }}{{ end }}</title> -->
+<!-- {{ .Hugo.Generator }} -->
 
-        <meta name="description" content="Saksham Sharma's blog">
-        <meta property="og:description" content="Saksham Sharma's blog">
-        <meta property="og:type" content="blog">
-        <meta property="og:title" content="AceHack">
-        <meta property="og:url" content>
-        <meta property="og:site_name" content="AceHack">
-        <meta name="twitter:card" content="summary">
-        <meta name="twitter:title" content="AceHack">
-        <meta name="twitter:description" content="Saksham Sharma's blog">
+<title>AceHack-TTY Tricks in Linux</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<!-- {{ with .Site.Params.author }}<meta name="author" content="{{ . }}">{{ end }} -->
+<!-- {{ with .Description }} -->
+<!--   <meta name="description" content="{{ . }}"> -->
+<!-- {{ else }} -->
+<!--   <meta name="description" content="{{ .Site.Params.site_description }}"> -->
+<!-- {{ end }} -->
+<!-- {{ with .RSSLink }} -->
+<!--   <link href="{{ . }}" rel="alternate" type="application/rss+xml" title="{{ Site.Title }}" /> -->
+<!--   <link href="{{ . }}" rel="feed" type="application/rss+xml" title="{{ Site.Title }}" /> -->
+<!-- {{ end }} -->
 
-        <meta property="og:image" content="https://avatars3.githubusercontent.com/u/10418596?v=3&s=460">
+<meta name="author" content="Saksham Sharma">
+<meta name="keywords" content="acehack, coding, programming, linux, webdev, hakyll">
 
-        <link rel="stylesheet" href="../../../css/hugo.css" />
-        <script src="../../../js/utils.js"></script>
-        <script>
-         moveToHttps();
-        </script>
-    </head>
+<!-- <link rel="canonical" href="{{ .Permalink }}"/> -->
+<link rel="icon" href="../../../favicon.ico">
+<link rel="apple-touch-icon" href="../../../apple-touch-icon.png" />
+<link rel="stylesheet" href="../../../css/style.css">
+<link rel="stylesheet" href="../../../css/font-awesome.min.css">
+<link rel="stylesheet" href="../../../css/monokai.css">
+<link rel="stylesheet" href="../../../fancybox/jquery.fancybox.css">
+<!-- ------------- -->
+<!-- FIX IMPORTANT -->
+<!-- ------------- -->
+<!-- {{ range .Site.Params.custom_css }} -->
+<!-- <link rel="stylesheet" href="{{ . | absURL }}"> -->
+<!-- {{ end }} -->
 
-<body>
-    <div id="blog">
-        <header id="header" data-behavior="1">
-  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
-  <div class="header-title">
-    <a class="header-title-link" href="../../../">AceHack</a>
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:400italic,400,600" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+
+<!-- {{ template "_internal/opengraph.html" . }} -->
+<!-- {{ template "_internal/google_news.html" . }} -->
+<!-- {{ template "_internal/schema.html" . }} -->
+<!-- {{ template "_internal/twitter_cards.html" . }} -->
+
+
+
+<!-- {{ if .Params.disable_profile | and .Params.disable_widgets }} -->
+<!-- <style> -->
+<!--     .full-width { -->
+<!--         width: 100% !important; -->
+<!--     } -->
+<!-- </style> -->
+<!-- {{ end }} -->
+
+<!-- needs to be loaded first for following scripts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+  </head>
+  <body>
+    <header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="https://sakshamsharma.com" id="logo">
+          <!-- {{ if .Site.Params.logo }} -->
+          <i class="logo" style="background-image: url('/images/logo.png')"></i>
+          <!-- {{end}} -->
+          <span class="site-title">AceHack</span>
+      </a>
+      <nav id="main-nav">
+        <a class="main-nav-link" href="../../../">Home</a>
+        <a class="main-nav-link" href="../../../about">About</a>
+        
+        <a class="main-nav-link" href="https://github.com/sakshamsharma">GitHub</a>
+        
+        <a class="main-nav-link" href="https://in.linkedin.com/in/saksham-sharma">LinkedIn</a>
+        
+        <a class="main-nav-link" href="../../../cv">Resume</a>
+        
+        <a class="main-nav-link" href="../../../rss.xml">Rss</a>
+        
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form">
+          <input type="search" name="q" class="search-form-input" placeholder="Search">
+          <button type="submit" class="search-form-submit">
+          </button>
+          <input type="hidden" name="sitesearch" value="sakshamsharma.com" />
+        </form>
+      </div>
+    </div>
   </div>
-      <a class="header-right-picture " href="../../../about">
-        <img class="header-picture" src="https://avatars3.githubusercontent.com/u/10418596?v=3&amp;s=460" alt="Author's picture" />
-    </a>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tbody>
+          <tr>
+          <td><a class="main-nav-link" href="../../../">Home</a></td>
+          <td><a class="main-nav-link" href="../../../about">About</a></td>
+        <!--   {{ range .Site.Params.menu }} -->
+        <!--   {{ if .before }} -->
+        <!--   <td><a class="main-nav-link" href="{{ .link | absURL }}">{{ .label }}</a></td> -->
+        <!--   {{ end }} -->
+        <!--   {{ end }} -->
+
+        <!--   {{ range .Site.Menus.main }} -->
+        <!--   <td><a class="main-nav-link" href="{{ .URL }}">{{ .Name }}</a></td> -->
+        <!--   {{ end }} -->
+
+        <!--   {{ range .Site.Params.menu }} -->
+        <!--   {{ if not .before }} -->
+        <!--   <td><a class="main-nav-link" href="{{ .link  | absURL }}">{{ .label }}</a></td> -->
+        <!--   {{ end }} -->
+        <!--   {{ end }} -->
+          <td>
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form">
+          <input type="search" name="q" class="search-form-input" placeholder="Search">
+          <input type="hidden" name="sitesearch" value="{{ .Site.BaseURL }}" />
+          </form>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
 </header>
 
+    <div class="container">
+      <div class="outer">
+        <section id="widemain">
+  <article id="page-undefined" class="article article-type-page" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+        <!--     <img src="{{ .Params.banner | absURL }}" class="article-banner"> -->
+        <!-- {{ end }} -->
 
-        <nav id="sidebar" data-behavior="1">
-    <div class="sidebar-container">
-        <div class="sidebar-profile">
-            <a href="../../../about">
-                <img class="sidebar-profile-picture" src="https://avatars3.githubusercontent.com/u/10418596?v=3&amp;s=460" alt="Author's picture" />
-            </a>
-            <h4 class="sidebar-profile-name">Saksham Sharma</h4>
-
-            <h5 class="sidebar-profile-bio">Hacker. Programmer. Geek.</h5>
-
-        </div>
-
-        <ul class="sidebar-buttons">
-
-            <li class="sidebar-button">
-
-                <a class="sidebar-button-link " href="../../../">
-
-                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
-                    <span class="sidebar-button-desc">Home</span>
-                </a>
-            </li>
-
-            <li class="sidebar-button">
-
-                <a class="sidebar-button-link " href="../../../categories">
-
-                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
-                    <span class="sidebar-button-desc">Categories</span>
-                </a>
-            </li>
-
-            <li class="sidebar-button">
-
-                <a class="sidebar-button-link " href="../../../tags">
-
-                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
-                    <span class="sidebar-button-desc">Tags</span>
-                </a>
-            </li>
-
-            <li class="sidebar-button">
-
-                <a class="sidebar-button-link " href="../../../archives">
-
-                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
-                    <span class="sidebar-button-desc">Archives</span>
-                </a>
-            </li>
-
-            <li class="sidebar-button">
-
-                <a class="sidebar-button-link " href="../../../about">
-
-                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
-                    <span class="sidebar-button-desc">About</span>
-                </a>
-            </li>
-
-        </ul>
-        <ul class="sidebar-buttons">
-
-            <li class="sidebar-button">
-
-                <a class="sidebar-button-link " href="https://github.com/sakshamsharma" target="_blank">
-
-                    <i class="sidebar-button-icon fa fa-lg fa-github"></i>
-                    <span class="sidebar-button-desc">GitHub</span>
-                </a>
-            </li>
-
-            <li class="sidebar-button">
-
-                <a class="sidebar-button-link " href="https://in.linkedin.com/in/saksham-sharma" target="_blank">
-
-                    <i class="sidebar-button-icon fa fa-lg fa-linkedin"></i>
-                    <span class="sidebar-button-desc">LinkedIn</span>
-                </a>
-            </li>
-
-            <li class="sidebar-button">
-
-                <a class="sidebar-button-link " href="../../../cv" target="_blank">
-
-                    <i class="sidebar-button-icon fa fa-lg fa-file-o"></i>
-                    <span class="sidebar-button-desc">Resume</span>
-                </a>
-            </li>
-
-            <li class="sidebar-button">
-
-                <a class="sidebar-button-link " href="../../../rss.xml" target="_blank">
-
-                    <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
-                    <span class="sidebar-button-desc">Rss</span>
-                </a>
-            </li>
-
-            <li class="sidebar-button">
-
-                <a class="sidebar-button-link " href="../../../atom.xml" target="_blank">
-
-                    <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
-                    <span class="sidebar-button-desc">Atom</span>
-                </a>
-            </li>
-
-        </ul>
-        <ul class="sidebar-buttons">
-
-        </ul>
+        <header class="article-header">
+  <a href="../../../2015/07/tty/index.html">
+    <h1 class="article-title" itemprop="name">TTY Tricks in Linux</h1>
+  </a>
+  <div class="article-meta">
+    <!-- {{ if not .Params.nodateline }} -->
+    <!-- <div class="article-date"> -->
+    <!--   <i class="fa fa-calendar"></i> -->
+    <!--   <time datetime="{{ .Date }}" itemprop="datePublished">{{ .Date.Format .Site.Params.date_format }}</time> -->
+    <!--   &middot; -->
+    <!--   {{ .WordCount }} -->
+    <!--   {{ with .Site.Data.l10n.articles.words }}{{.}}{{end}} -->
+    <!--   &middot; -->
+    <!--   {{ .ReadingTime }} -->
+    <!--   {{ with .Site.Data.l10n.articles.readingtime }}{{.}}{{end}} -->
+    <!-- </div> -->
+    <!-- {{ end }} -->
+    <!-- {{ if isset .Params "categories" }} -->
+    <!-- {{ categoriesLen := len .Params.categories }} -->
+    <!-- {{ if gt categoriesLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-folder"></i>
+      linux
     </div>
-</nav>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
 
-<div id="main" data-behavior="1" class="hasCoverMetaIn">
-    <section class="postShorten-group main-content-wrap">
+    <!-- {{ if isset .Params "tags" }} -->
+    <!-- {{ tagsLen := len .Params.tags }} -->
+    <!-- {{ if gt tagsLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-tags"></i>
+      tty, short
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
+  </div>
+</header>
 
-        <h1>TTY Tricks in Linux</h1>
-
- Tags: <a href="../../../tags/tty/index.html">tty</a>, <a href="../../../tags/short/index.html">short</a>  <br><br>
-<div>
-    <p>I learnt some new things out of curiosity today, regarding working with multiple TTYs. Thought I’d write them down.</p>
+        <div class="article-entry" itemprop="articleBody">
+          <p>I learnt some new things out of curiosity today, regarding working with multiple TTYs. Thought I’d write them down.</p>
 <p>Firstly, multiple TTYs, why would you need them? I for once use them to keep processes running independent of my X session, things like my Wifi Hotspot, things whose output I keep on needing to inspect at times, but don’t want it to hang around inside my X session, incase I close it.</p>
 <p>Also, when experimenting with different Desktop Environments, its actually very useful, because I can have processes running (even Music, thanks MPlayer) and yet close my X session.</p>
 <p>Anyhow, getting down to business:</p>
@@ -175,7 +190,12 @@
 <h3 id="using-tmux-or-screen">Using TMUX or Screen</h3>
 <p>Well, you can also have a TMUX or a Screen session running in another TTY, and send over the command you want to run there by sending it via TMUX/Screen.</p>
 <p>This is it, try out having multiple TTYs if you ever get the need. And keep these tips in mind.</p>
-</div>
+        </div>
+        <!-- partial("templates/partials/article_footer.html") -->
+    </div>
+
+    <!-- {{ partial "prev_next_post" . }} -->
+</article>
 
 <script src="../../../js/fb.js"></script>
 <div class="fb-like" data-share="true" data-width="450" data-show-faces="true">
@@ -207,67 +227,186 @@
 </script>
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
 
+</section>
+
+<aside id="sidebar">
+    <!-- {{ if .Site.Params.widgets.recent_articles }} -->
+<div class="widget-wrap">
+    <h3 class="widget-title">
+        <!-- {{with .Site.Data.l10n.widgets.recent_articles.title}}{{.}}{{end}} -->
+        Recents
+    </h3>
+    <div class="widget">
+        <ul id="recent-post">
+            <!-- {{ range first 5 (where .Site.RegularPages "Type" "post") }} -->
+            
+            <li>
+                <div class="item-thumbnail">
+                    <a href class="thumbnail">
+                    <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+                    <!--     <span style="background-image:url({{ .Params.banner | absURL }})" alt="{{ .Title }}" class="thumbnail-image"></span> -->
+                    <!-- {{else}} -->
+                        <span class="thumbnail-image thumbnail-none"></span>
+                    <!-- {{ end }} -->
+                    </a>
+                </div>
+                <div class="item-inner">
+                    <!-- {{ if isset .Params "categories" }} -->
+                    <!-- {{ if gt (len .Params.categories) 0 }} -->
+                    <!-- <p class="item-category"> -->
+                    <!--     {{ url := printf "%s/%s" "categories" (index .Params.categories 0 | urlize | lower)}} -->
+                    <!--     <a class="article-category-link" href="{{ url | absURL }}"> -->
+                    <!--     {{ index .Params.categories 0 }} -->
+                    <!--     </a> -->
+                    <!-- </p> -->
+                    <!-- {{ end }} -->
+                    <!-- {{ end }} -->
+                    <p class="item-title"><a href class="title">Interning at Google Seattle</a></p>
+                    <p class="item-date">
+                        <time datetime="August  5, 2017" itemprop="datePublished">August  5, 2017</time>
+                    </p>
+                </div>
+            </li>
+            
+            <li>
+                <div class="item-thumbnail">
+                    <a href class="thumbnail">
+                    <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+                    <!--     <span style="background-image:url({{ .Params.banner | absURL }})" alt="{{ .Title }}" class="thumbnail-image"></span> -->
+                    <!-- {{else}} -->
+                        <span class="thumbnail-image thumbnail-none"></span>
+                    <!-- {{ end }} -->
+                    </a>
+                </div>
+                <div class="item-inner">
+                    <!-- {{ if isset .Params "categories" }} -->
+                    <!-- {{ if gt (len .Params.categories) 0 }} -->
+                    <!-- <p class="item-category"> -->
+                    <!--     {{ url := printf "%s/%s" "categories" (index .Params.categories 0 | urlize | lower)}} -->
+                    <!--     <a class="article-category-link" href="{{ url | absURL }}"> -->
+                    <!--     {{ index .Params.categories 0 }} -->
+                    <!--     </a> -->
+                    <!-- </p> -->
+                    <!-- {{ end }} -->
+                    <!-- {{ end }} -->
+                    <p class="item-title"><a href class="title">Limiting 'likes' sent anonymously - Part 3</a></p>
+                    <p class="item-date">
+                        <time datetime="December 26, 2016" itemprop="datePublished">December 26, 2016</time>
+                    </p>
+                </div>
+            </li>
+            
+            <li>
+                <div class="item-thumbnail">
+                    <a href class="thumbnail">
+                    <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+                    <!--     <span style="background-image:url({{ .Params.banner | absURL }})" alt="{{ .Title }}" class="thumbnail-image"></span> -->
+                    <!-- {{else}} -->
+                        <span class="thumbnail-image thumbnail-none"></span>
+                    <!-- {{ end }} -->
+                    </a>
+                </div>
+                <div class="item-inner">
+                    <!-- {{ if isset .Params "categories" }} -->
+                    <!-- {{ if gt (len .Params.categories) 0 }} -->
+                    <!-- <p class="item-category"> -->
+                    <!--     {{ url := printf "%s/%s" "categories" (index .Params.categories 0 | urlize | lower)}} -->
+                    <!--     <a class="article-category-link" href="{{ url | absURL }}"> -->
+                    <!--     {{ index .Params.categories 0 }} -->
+                    <!--     </a> -->
+                    <!-- </p> -->
+                    <!-- {{ end }} -->
+                    <!-- {{ end }} -->
+                    <p class="item-title"><a href class="title">My internship interview saga</a></p>
+                    <p class="item-date">
+                        <time datetime="December 21, 2016" itemprop="datePublished">December 21, 2016</time>
+                    </p>
+                </div>
+            </li>
+            
+            <li>
+                <div class="item-thumbnail">
+                    <a href class="thumbnail">
+                    <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+                    <!--     <span style="background-image:url({{ .Params.banner | absURL }})" alt="{{ .Title }}" class="thumbnail-image"></span> -->
+                    <!-- {{else}} -->
+                        <span class="thumbnail-image thumbnail-none"></span>
+                    <!-- {{ end }} -->
+                    </a>
+                </div>
+                <div class="item-inner">
+                    <!-- {{ if isset .Params "categories" }} -->
+                    <!-- {{ if gt (len .Params.categories) 0 }} -->
+                    <!-- <p class="item-category"> -->
+                    <!--     {{ url := printf "%s/%s" "categories" (index .Params.categories 0 | urlize | lower)}} -->
+                    <!--     <a class="article-category-link" href="{{ url | absURL }}"> -->
+                    <!--     {{ index .Params.categories 0 }} -->
+                    <!--     </a> -->
+                    <!-- </p> -->
+                    <!-- {{ end }} -->
+                    <!-- {{ end }} -->
+                    <p class="item-title"><a href class="title">Coding software-based mutex algos for fun</a></p>
+                    <p class="item-date">
+                        <time datetime="December  2, 2016" itemprop="datePublished">December  2, 2016</time>
+                    </p>
+                </div>
+            </li>
+            
+            <li>
+                <div class="item-thumbnail">
+                    <a href class="thumbnail">
+                    <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+                    <!--     <span style="background-image:url({{ .Params.banner | absURL }})" alt="{{ .Title }}" class="thumbnail-image"></span> -->
+                    <!-- {{else}} -->
+                        <span class="thumbnail-image thumbnail-none"></span>
+                    <!-- {{ end }} -->
+                    </a>
+                </div>
+                <div class="item-inner">
+                    <!-- {{ if isset .Params "categories" }} -->
+                    <!-- {{ if gt (len .Params.categories) 0 }} -->
+                    <!-- <p class="item-category"> -->
+                    <!--     {{ url := printf "%s/%s" "categories" (index .Params.categories 0 | urlize | lower)}} -->
+                    <!--     <a class="article-category-link" href="{{ url | absURL }}"> -->
+                    <!--     {{ index .Params.categories 0 }} -->
+                    <!--     </a> -->
+                    <!-- </p> -->
+                    <!-- {{ end }} -->
+                    <!-- {{ end }} -->
+                    <p class="item-title"><a href class="title">Zero-trust - Safe and anonymous ANDing bits - Part 2</a></p>
+                    <p class="item-date">
+                        <time datetime="November 25, 2016" itemprop="datePublished">November 25, 2016</time>
+                    </p>
+                </div>
+            </li>
+            
+            <!-- {{ end }} -->
+        </ul>
+    </div>
+</div>
+<!-- {{ end }} -->
+
+    <!-- {{ partial "widgets/categories" . }} -->
+    <!-- {{ partial "widgets/tags" . }} -->
+    <!-- {{ partial "widgets/tag_cloud" . }} -->
+
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
 
 
-
-    </section>
-    <footer id="footer" class="main-content-wrap">
-  <span class="copyrights">
+      </div>
+    </div>
+    <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
       Saksham Sharma
-  </span>
+      <!-- &copy; {{ now.Format "2006"}} -->
+      <!-- {{ with .Site.Params.copyright }}{{ . | markdownify}}{{ end }} -->
+    </div>
+  </div>
 </footer>
 
-</div>
-
-
-    </div>
-    <!--SCRIPTS-->
-
-<script src="https://code.jquery.com/jquery-3.1.1.min.js" type="text/javascript"></script>
-<script src="../../../js/hugo.js" type="text/javascript"></script>
-<!--SCRIPTS END-->
-<script src="../../../js/highlight.js"></script>
-
-    <div id="about">
-    <div id="about-card">
-        <div id="about-btn-close">
-            <i class="fa fa-remove"></i>
-        </div>
-
-        <img id="about-card-picture" src="https://avatars3.githubusercontent.com/u/10418596?v=3&amp;s=460" alt="Author's picture" />
-
-        <h4 id="about-card-name">Saksham Sharma</h4>
-
-        <div id="about-card-bio">Hacker. Programmer. Geek.</div>
-
-
-        <div id="about-card-job">
-            <i class="fa fa-briefcase"></i>
-            <br />
-            3rd year Undergrad, Computer Science and Engineering
-        </div>
-
-
-        <div id="about-card-location">
-            <i class="fa fa-map-marker"></i>
-            <br />
-            Indian Institute of Technology Kanpur
-        </div>
-
-    </div>
-</div>
-
-    <div id="cover" style="background-image:url('/images/header.jpg');"></div>
-
-    <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-88802609-1', 'auto');
-  ga('send', 'pageview');
-</script>
-
-</body>
+<!-- {{ partial "footer_js" . }} -->
+<!-- {{ partial "footer_custom_js" . }} -->
+  </body>
 </html>

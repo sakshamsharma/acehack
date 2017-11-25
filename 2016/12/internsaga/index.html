@@ -1,167 +1,182 @@
 <!DOCTYPE html>
 <html lang="en-us">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="generator" content="Hugo">
-        <title>AceHack-My internship interview saga</title>
-        <meta name="author" content="Saksham Sharma">
-        <meta name="keywords" content="acehack, coding, programming, linux, webdev, hakyll">
+  <head>
+    <!-- <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} &middot; {{ .Site.Title }}{{ end }}</title> -->
+<!-- {{ .Hugo.Generator }} -->
 
-        <meta name="description" content="Saksham Sharma's blog">
-        <meta property="og:description" content="Saksham Sharma's blog">
-        <meta property="og:type" content="blog">
-        <meta property="og:title" content="AceHack">
-        <meta property="og:url" content>
-        <meta property="og:site_name" content="AceHack">
-        <meta name="twitter:card" content="summary">
-        <meta name="twitter:title" content="AceHack">
-        <meta name="twitter:description" content="Saksham Sharma's blog">
+<title>AceHack-My internship interview saga</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<!-- {{ with .Site.Params.author }}<meta name="author" content="{{ . }}">{{ end }} -->
+<!-- {{ with .Description }} -->
+<!--   <meta name="description" content="{{ . }}"> -->
+<!-- {{ else }} -->
+<!--   <meta name="description" content="{{ .Site.Params.site_description }}"> -->
+<!-- {{ end }} -->
+<!-- {{ with .RSSLink }} -->
+<!--   <link href="{{ . }}" rel="alternate" type="application/rss+xml" title="{{ Site.Title }}" /> -->
+<!--   <link href="{{ . }}" rel="feed" type="application/rss+xml" title="{{ Site.Title }}" /> -->
+<!-- {{ end }} -->
 
-        <meta property="og:image" content="https://avatars3.githubusercontent.com/u/10418596?v=3&s=460">
+<meta name="author" content="Saksham Sharma">
+<meta name="keywords" content="acehack, coding, programming, linux, webdev, hakyll">
 
-        <link rel="stylesheet" href="../../../css/hugo.css" />
-        <script src="../../../js/utils.js"></script>
-        <script>
-         moveToHttps();
-        </script>
-    </head>
+<!-- <link rel="canonical" href="{{ .Permalink }}"/> -->
+<link rel="icon" href="../../../favicon.ico">
+<link rel="apple-touch-icon" href="../../../apple-touch-icon.png" />
+<link rel="stylesheet" href="../../../css/style.css">
+<link rel="stylesheet" href="../../../css/font-awesome.min.css">
+<link rel="stylesheet" href="../../../css/monokai.css">
+<link rel="stylesheet" href="../../../fancybox/jquery.fancybox.css">
+<!-- ------------- -->
+<!-- FIX IMPORTANT -->
+<!-- ------------- -->
+<!-- {{ range .Site.Params.custom_css }} -->
+<!-- <link rel="stylesheet" href="{{ . | absURL }}"> -->
+<!-- {{ end }} -->
 
-<body>
-    <div id="blog">
-        <header id="header" data-behavior="1">
-  <i id="btn-open-sidebar" class="fa fa-lg fa-bars"></i>
-  <div class="header-title">
-    <a class="header-title-link" href="../../../">AceHack</a>
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:400italic,400,600" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+
+<!-- {{ template "_internal/opengraph.html" . }} -->
+<!-- {{ template "_internal/google_news.html" . }} -->
+<!-- {{ template "_internal/schema.html" . }} -->
+<!-- {{ template "_internal/twitter_cards.html" . }} -->
+
+
+
+<!-- {{ if .Params.disable_profile | and .Params.disable_widgets }} -->
+<!-- <style> -->
+<!--     .full-width { -->
+<!--         width: 100% !important; -->
+<!--     } -->
+<!-- </style> -->
+<!-- {{ end }} -->
+
+<!-- needs to be loaded first for following scripts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+  </head>
+  <body>
+    <header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="https://sakshamsharma.com" id="logo">
+          <!-- {{ if .Site.Params.logo }} -->
+          <i class="logo" style="background-image: url('/images/logo.png')"></i>
+          <!-- {{end}} -->
+          <span class="site-title">AceHack</span>
+      </a>
+      <nav id="main-nav">
+        <a class="main-nav-link" href="../../../">Home</a>
+        <a class="main-nav-link" href="../../../about">About</a>
+        
+        <a class="main-nav-link" href="https://github.com/sakshamsharma">GitHub</a>
+        
+        <a class="main-nav-link" href="https://in.linkedin.com/in/saksham-sharma">LinkedIn</a>
+        
+        <a class="main-nav-link" href="../../../cv">Resume</a>
+        
+        <a class="main-nav-link" href="../../../rss.xml">Rss</a>
+        
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form">
+          <input type="search" name="q" class="search-form-input" placeholder="Search">
+          <button type="submit" class="search-form-submit">
+          </button>
+          <input type="hidden" name="sitesearch" value="sakshamsharma.com" />
+        </form>
+      </div>
+    </div>
   </div>
-      <a class="header-right-picture " href="../../../about">
-        <img class="header-picture" src="https://avatars3.githubusercontent.com/u/10418596?v=3&amp;s=460" alt="Author's picture" />
-    </a>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tbody>
+          <tr>
+          <td><a class="main-nav-link" href="../../../">Home</a></td>
+          <td><a class="main-nav-link" href="../../../about">About</a></td>
+        <!--   {{ range .Site.Params.menu }} -->
+        <!--   {{ if .before }} -->
+        <!--   <td><a class="main-nav-link" href="{{ .link | absURL }}">{{ .label }}</a></td> -->
+        <!--   {{ end }} -->
+        <!--   {{ end }} -->
+
+        <!--   {{ range .Site.Menus.main }} -->
+        <!--   <td><a class="main-nav-link" href="{{ .URL }}">{{ .Name }}</a></td> -->
+        <!--   {{ end }} -->
+
+        <!--   {{ range .Site.Params.menu }} -->
+        <!--   {{ if not .before }} -->
+        <!--   <td><a class="main-nav-link" href="{{ .link  | absURL }}">{{ .label }}</a></td> -->
+        <!--   {{ end }} -->
+        <!--   {{ end }} -->
+          <td>
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form">
+          <input type="search" name="q" class="search-form-input" placeholder="Search">
+          <input type="hidden" name="sitesearch" value="{{ .Site.BaseURL }}" />
+          </form>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
 </header>
 
+    <div class="container">
+      <div class="outer">
+        <section id="widemain">
+  <article id="page-undefined" class="article article-type-page" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+        <!--     <img src="{{ .Params.banner | absURL }}" class="article-banner"> -->
+        <!-- {{ end }} -->
 
-        <nav id="sidebar" data-behavior="1">
-    <div class="sidebar-container">
-        <div class="sidebar-profile">
-            <a href="../../../about">
-                <img class="sidebar-profile-picture" src="https://avatars3.githubusercontent.com/u/10418596?v=3&amp;s=460" alt="Author's picture" />
-            </a>
-            <h4 class="sidebar-profile-name">Saksham Sharma</h4>
-
-            <h5 class="sidebar-profile-bio">Hacker. Programmer. Geek.</h5>
-
-        </div>
-
-        <ul class="sidebar-buttons">
-
-            <li class="sidebar-button">
-
-                <a class="sidebar-button-link " href="../../../">
-
-                    <i class="sidebar-button-icon fa fa-lg fa-home"></i>
-                    <span class="sidebar-button-desc">Home</span>
-                </a>
-            </li>
-
-            <li class="sidebar-button">
-
-                <a class="sidebar-button-link " href="../../../categories">
-
-                    <i class="sidebar-button-icon fa fa-lg fa-bookmark"></i>
-                    <span class="sidebar-button-desc">Categories</span>
-                </a>
-            </li>
-
-            <li class="sidebar-button">
-
-                <a class="sidebar-button-link " href="../../../tags">
-
-                    <i class="sidebar-button-icon fa fa-lg fa-tags"></i>
-                    <span class="sidebar-button-desc">Tags</span>
-                </a>
-            </li>
-
-            <li class="sidebar-button">
-
-                <a class="sidebar-button-link " href="../../../archives">
-
-                    <i class="sidebar-button-icon fa fa-lg fa-archive"></i>
-                    <span class="sidebar-button-desc">Archives</span>
-                </a>
-            </li>
-
-            <li class="sidebar-button">
-
-                <a class="sidebar-button-link " href="../../../about">
-
-                    <i class="sidebar-button-icon fa fa-lg fa-question"></i>
-                    <span class="sidebar-button-desc">About</span>
-                </a>
-            </li>
-
-        </ul>
-        <ul class="sidebar-buttons">
-
-            <li class="sidebar-button">
-
-                <a class="sidebar-button-link " href="https://github.com/sakshamsharma" target="_blank">
-
-                    <i class="sidebar-button-icon fa fa-lg fa-github"></i>
-                    <span class="sidebar-button-desc">GitHub</span>
-                </a>
-            </li>
-
-            <li class="sidebar-button">
-
-                <a class="sidebar-button-link " href="https://in.linkedin.com/in/saksham-sharma" target="_blank">
-
-                    <i class="sidebar-button-icon fa fa-lg fa-linkedin"></i>
-                    <span class="sidebar-button-desc">LinkedIn</span>
-                </a>
-            </li>
-
-            <li class="sidebar-button">
-
-                <a class="sidebar-button-link " href="../../../cv" target="_blank">
-
-                    <i class="sidebar-button-icon fa fa-lg fa-file-o"></i>
-                    <span class="sidebar-button-desc">Resume</span>
-                </a>
-            </li>
-
-            <li class="sidebar-button">
-
-                <a class="sidebar-button-link " href="../../../rss.xml" target="_blank">
-
-                    <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
-                    <span class="sidebar-button-desc">Rss</span>
-                </a>
-            </li>
-
-            <li class="sidebar-button">
-
-                <a class="sidebar-button-link " href="../../../atom.xml" target="_blank">
-
-                    <i class="sidebar-button-icon fa fa-lg fa-rss"></i>
-                    <span class="sidebar-button-desc">Atom</span>
-                </a>
-            </li>
-
-        </ul>
-        <ul class="sidebar-buttons">
-
-        </ul>
+        <header class="article-header">
+  <a href="../../../2016/12/internsaga/index.html">
+    <h1 class="article-title" itemprop="name">My internship interview saga</h1>
+  </a>
+  <div class="article-meta">
+    <!-- {{ if not .Params.nodateline }} -->
+    <!-- <div class="article-date"> -->
+    <!--   <i class="fa fa-calendar"></i> -->
+    <!--   <time datetime="{{ .Date }}" itemprop="datePublished">{{ .Date.Format .Site.Params.date_format }}</time> -->
+    <!--   &middot; -->
+    <!--   {{ .WordCount }} -->
+    <!--   {{ with .Site.Data.l10n.articles.words }}{{.}}{{end}} -->
+    <!--   &middot; -->
+    <!--   {{ .ReadingTime }} -->
+    <!--   {{ with .Site.Data.l10n.articles.readingtime }}{{.}}{{end}} -->
+    <!-- </div> -->
+    <!-- {{ end }} -->
+    <!-- {{ if isset .Params "categories" }} -->
+    <!-- {{ categoriesLen := len .Params.categories }} -->
+    <!-- {{ if gt categoriesLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-folder"></i>
+      musings
     </div>
-</nav>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
 
-<div id="main" data-behavior="1" class="hasCoverMetaIn">
-    <section class="postShorten-group main-content-wrap">
+    <!-- {{ if isset .Params "tags" }} -->
+    <!-- {{ tagsLen := len .Params.tags }} -->
+    <!-- {{ if gt tagsLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-tags"></i>
+      intern, career, job
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
+  </div>
+</header>
 
-        <h1>My internship interview saga</h1>
-
- Tags: <a href="../../../tags/intern/index.html">intern</a>, <a href="../../../tags/career/index.html">career</a>, <a href="../../../tags/job/index.html">job</a>  <br><br>
-<div>
-    <p>So, after months of worrying, I had finally landed an internship position at Google Seattle, in the team of my choice. But before I could stop being lazy and sign the offer letter, something happened which made every remaining day of that offer letter an exercise in surviving confusion. But before that, let’s go to the start.</p>
+        <div class="article-entry" itemprop="articleBody">
+          <p>So, after months of worrying, I had finally landed an internship position at Google Seattle, in the team of my choice. But before I could stop being lazy and sign the offer letter, something happened <!--more--> which made every remaining day of that offer letter an exercise in surviving confusion. But before that, let’s go to the start.</p>
 <p>Disclaimer:</p>
 <blockquote>
 <p>This article is going to be long, and flaky. I wrote this to clear up my brain, the very day this whacky process finished. Putting it up in case it can help someone.</p>
@@ -174,13 +189,13 @@
 <p>I had landed back from Germany after my summer internship, and faced the immediate prospect of facing the upcoming campus internship season, where you have to sit for a bazillion interviews in a single day. I had this extra pressure of so-called ‘living up to my own expectations’. I had liked my internship in Germany, and would at least want something as good. But being underprepared as I was, and hoping that I could later prepare, and sit for off-campus internships abroad, I left things there, and did not apply for a single company.</p>
 <p>I saw all my friends land handsome interns, and, well … It isn’t too easy, having to sit with uncertainity. Some of them actually landed really nice internships. At one point, I actually regretted not sitting for the interviews.</p>
 <h3 id="first-rejection-or-was-it">First rejection (or was it?)</h3>
-<p>But after 2-3 weeks, somehow Google India showed up on the internship portal. I was quite double minded about that, but somehow applied. My initial plan was to <em>upgrade</em> this offer to a Google US offer, but later learnt that was not possible. Of all the things in the world that could have happened, they did not even shortlist my CV for an interview. This was unexpected, because (I thought) I had a great CV. Many people have told me that my CV showed interest in research, and they might have thought that I would leave the internship. I personally think it just got overlooked, or maybe it was actually bad. Did not really count as an interview rejection, but had to some how survive the disappointment that creeped up. This is not how I would have expected my first application to go.</p>
+<p>But after 2-3 weeks, somehow Google India showed up on the internship portal. I was quite double minded about that, but somehow applied. My initial plan was to <em>upgrade</em> this offer to a Google US offer, but later learned that was not possible. Of all the things in the world that could have happened, they did not even shortlist my CV for an interview. This was unexpected, because (I thought) I had a great CV. Many people have told me that my CV showed interest in research, and they might have thought that I would leave the internship. I personally think it just got overlooked, or maybe it was actually bad. Did not really count as an interview rejection, but had to some how survive the disappointment that creeped up. This is not how I would have expected my first application to go.</p>
 <h3 id="second-rejection-or-was-it">Second rejection (or was it?)</h3>
 <p>Anyhow, come September, I had applied to Palantir through a referral, and gave their coding test. That’s when I realized, how bad my interview skills were. I had never prepared for interviews, and suddenly it did not seem easy. This was a jolt to me, and no wonder, I got dropped there and then, in the Palantir process.</p>
 <p>I took this one a bit more positively though, and started practicing competitive programming again. This was not the ideal thing to do, I think in hindsight, but at least it got me started.</p>
 <p>Again, this wasn’t an interview rejection <code>:)</code></p>
 <h3 id="google">Google?</h3>
-<p>I got referred for Google North America around early October, and heard back in about 2 weeks. I had my interviews scheduled for early November. I still did not practice coding for interviews, and rather focussed a bit too much on algorithms. And thus, my preparation was lack-luster to say the least. 24 hours before my interview, I realized that I had once planned to solve the book <em>Cracking the coding interview</em>. It was absolutely hooking, and I regretted not solving it early on. I spent the remaining time going through the whole book. If you’re reading this for some tips (wrong place, buddy), that was wrong too. I should’ve coded. But I learnt that pretty soon.</p>
+<p>I got referred for Google North America around early October, and heard back in about 2 weeks. I had my interviews scheduled for early November. I still did not practice coding for interviews, and rather focused a bit too much on algorithms. And thus, my preparation was lack-luster to say the least. 24 hours before my interview, I realized that I had once planned to solve the book <em>Cracking the coding interview</em>. It was absolutely hooking, and I regretted not solving it early on. I spent the remaining time going through the whole book. If you’re reading this for some tips (wrong place, buddy), that was wrong too. I should have coded. But I found that out pretty soon.</p>
 <h4 id="the-interviews">The interviews</h4>
 <p>My first interview went horribly. The interviewer could not understand most of the stuff I said, and somehow a misunderstanding led me to code a solution for a slightly different problem, which he later pointed out. The interview ended with him thinking I did not get the correct code on time. Yes, I did not finish even a single question.</p>
 <p>The second interview put some confidence in me though. The phone line was better, and I managed to complete the question, as well as chat for 5 minutes after that. In hindsight, I should have solved 2 questions, judging by interviews of my friends, but I was happy to have not left any clear sign of under-performance.</p>
@@ -199,8 +214,8 @@
 <p>I finally had an offer from Google US!</p>
 <h3 id="facebook-again">Facebook again?</h3>
 <p>I do not know why I did not sign Google’s offer the day I got it. I was given 10 working days to sign it, that meant 20th of December. One fine day (12th December), I get a mail saying that I got into the 2nd and final round of interviews for Facebook London internships. I had no clue what to do now, and wished I had simply signed Google.</p>
-<p>Here was Facebook London, known to offer Pre-Placement offers in London and Menlo Park. The other side, Google US. A higher pay, a confirmed and nice project, but it mostly offers a job in Google India to interns, a place I was not looking forward to joining. I spent the 2 days before my next interview, simply talking to people if leaving a confirmed offer at Google for Facebook would be a good choice.</p>
-<p>I gave the final interview with <em>I’m gonna drop FB anyway</em> in mind. I had again coded some problems from the same book for preparation, and again managed to solve 2 problems, though this time around I had major hiccups, and barely solved the easy problem. Somehow managed in a very short time, the solution for the 2nd, and supposedely tough problem. I think I did make an impression when the interviewer asked me about some nice project I did, and I described the development, algorithm and motivation for <a href="https://github.com/pclubiitk/puppy-love">Puppy Love</a>.</p>
+<p>Here was Facebook London, known to offer return offers in London and Menlo Park. The other side, Google US. A higher pay, a confirmed and nice project, but it mostly offers a job in Google India to interns, a place I was not looking forward to joining. I spent the 2 days before my next interview, simply talking to people if leaving a confirmed offer at Google for Facebook would be a good choice.</p>
+<p>I gave the final interview with <em>I’m gonna drop FB anyway</em> in mind. I had again coded some problems from the same book for preparation, and again managed to solve 2 problems, though this time around I had major hiccups, and barely solved the easy problem. Somehow managed in a very short time, the solution for the 2nd, and supposedly tough problem. I think I did make an impression when the interviewer asked me about some nice project I did, and I described the development, algorithm and motivation for <a href="https://github.com/pclubiitk/puppy-love">Puppy Love</a>.</p>
 <p>This ensured that FB would haunt me the next few days.</p>
 <h3 id="decision-making">Decision making</h3>
 <p>Somehow, I spent the remaining days juggling between Facebook and Google. It so happened that I got promised that I would get Facebook’s decision by Tuesday, 20th, the same day I was supposed to sign Google, and the day of ICPC’s Chennai regional round. I would barely have a few hours to decide between Facebook and Google, if I got accepted.</p>
@@ -208,7 +223,7 @@
 <blockquote>
 <p>I would rather be counting my chickens before they hatch and be prepared, than be modest but unprepared</p>
 </blockquote>
-<p><br> I spent hours talking to people. I made a huge list of points comparing Google and Facebook, and Facebook somehow won there. Mostly because of my desire for a PPO Job Offer abroad. I still shuffled around.</p>
+<p><br> I spent hours talking to people. I made a huge list of points comparing Google and Facebook, and Facebook somehow won there. Mostly because of my desire for a return offer abroad. I still shuffled around.</p>
 <h3 id="the-final-day">The final day</h3>
 <p>By the time the actual day came, I had settled on Facebook. I could bear a bad project, lesser pay, for long term benefits at Facebook.</p>
 <p>ICPC was the least important thing to happen that day. I got away as soon as I could, and refreshed my Emails till 6:30 PM IST, but got nothing. I mailed my recruiter, and got a reply saying that a decision would be taken in a meeting about to start (in London), and I would know the result around 9 PM. This was bearable.</p>
@@ -223,7 +238,12 @@
 <p><br> I finally got back to pondering over the reasons I had loved my Google project, and felt happy about it. It was indeed a great opportunity, and I resolved to make it count.</p>
 <p>Later that day, I got a call from a recruiter in London, describing my offer to me. I could not bear to hear it. I told her that there was some issue with my recruiter yesterday, and I have already signed Google. She arranged for my recruiter in India to call me, and I closed the offer. That’s it.</p>
 <p>All the weeks of pondering over this decision finally got decided by a <em>sleeping recruiter</em>.</p>
-</div>
+        </div>
+        <!-- partial("templates/partials/article_footer.html") -->
+    </div>
+
+    <!-- {{ partial "prev_next_post" . }} -->
+</article>
 
 <script src="../../../js/fb.js"></script>
 <div class="fb-like" data-share="true" data-width="450" data-show-faces="true">
@@ -255,67 +275,186 @@
 </script>
 <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
 
+</section>
+
+<aside id="sidebar">
+    <!-- {{ if .Site.Params.widgets.recent_articles }} -->
+<div class="widget-wrap">
+    <h3 class="widget-title">
+        <!-- {{with .Site.Data.l10n.widgets.recent_articles.title}}{{.}}{{end}} -->
+        Recents
+    </h3>
+    <div class="widget">
+        <ul id="recent-post">
+            <!-- {{ range first 5 (where .Site.RegularPages "Type" "post") }} -->
+            
+            <li>
+                <div class="item-thumbnail">
+                    <a href class="thumbnail">
+                    <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+                    <!--     <span style="background-image:url({{ .Params.banner | absURL }})" alt="{{ .Title }}" class="thumbnail-image"></span> -->
+                    <!-- {{else}} -->
+                        <span class="thumbnail-image thumbnail-none"></span>
+                    <!-- {{ end }} -->
+                    </a>
+                </div>
+                <div class="item-inner">
+                    <!-- {{ if isset .Params "categories" }} -->
+                    <!-- {{ if gt (len .Params.categories) 0 }} -->
+                    <!-- <p class="item-category"> -->
+                    <!--     {{ url := printf "%s/%s" "categories" (index .Params.categories 0 | urlize | lower)}} -->
+                    <!--     <a class="article-category-link" href="{{ url | absURL }}"> -->
+                    <!--     {{ index .Params.categories 0 }} -->
+                    <!--     </a> -->
+                    <!-- </p> -->
+                    <!-- {{ end }} -->
+                    <!-- {{ end }} -->
+                    <p class="item-title"><a href class="title">Interning at Google Seattle</a></p>
+                    <p class="item-date">
+                        <time datetime="August  5, 2017" itemprop="datePublished">August  5, 2017</time>
+                    </p>
+                </div>
+            </li>
+            
+            <li>
+                <div class="item-thumbnail">
+                    <a href class="thumbnail">
+                    <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+                    <!--     <span style="background-image:url({{ .Params.banner | absURL }})" alt="{{ .Title }}" class="thumbnail-image"></span> -->
+                    <!-- {{else}} -->
+                        <span class="thumbnail-image thumbnail-none"></span>
+                    <!-- {{ end }} -->
+                    </a>
+                </div>
+                <div class="item-inner">
+                    <!-- {{ if isset .Params "categories" }} -->
+                    <!-- {{ if gt (len .Params.categories) 0 }} -->
+                    <!-- <p class="item-category"> -->
+                    <!--     {{ url := printf "%s/%s" "categories" (index .Params.categories 0 | urlize | lower)}} -->
+                    <!--     <a class="article-category-link" href="{{ url | absURL }}"> -->
+                    <!--     {{ index .Params.categories 0 }} -->
+                    <!--     </a> -->
+                    <!-- </p> -->
+                    <!-- {{ end }} -->
+                    <!-- {{ end }} -->
+                    <p class="item-title"><a href class="title">Limiting 'likes' sent anonymously - Part 3</a></p>
+                    <p class="item-date">
+                        <time datetime="December 26, 2016" itemprop="datePublished">December 26, 2016</time>
+                    </p>
+                </div>
+            </li>
+            
+            <li>
+                <div class="item-thumbnail">
+                    <a href class="thumbnail">
+                    <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+                    <!--     <span style="background-image:url({{ .Params.banner | absURL }})" alt="{{ .Title }}" class="thumbnail-image"></span> -->
+                    <!-- {{else}} -->
+                        <span class="thumbnail-image thumbnail-none"></span>
+                    <!-- {{ end }} -->
+                    </a>
+                </div>
+                <div class="item-inner">
+                    <!-- {{ if isset .Params "categories" }} -->
+                    <!-- {{ if gt (len .Params.categories) 0 }} -->
+                    <!-- <p class="item-category"> -->
+                    <!--     {{ url := printf "%s/%s" "categories" (index .Params.categories 0 | urlize | lower)}} -->
+                    <!--     <a class="article-category-link" href="{{ url | absURL }}"> -->
+                    <!--     {{ index .Params.categories 0 }} -->
+                    <!--     </a> -->
+                    <!-- </p> -->
+                    <!-- {{ end }} -->
+                    <!-- {{ end }} -->
+                    <p class="item-title"><a href class="title">My internship interview saga</a></p>
+                    <p class="item-date">
+                        <time datetime="December 21, 2016" itemprop="datePublished">December 21, 2016</time>
+                    </p>
+                </div>
+            </li>
+            
+            <li>
+                <div class="item-thumbnail">
+                    <a href class="thumbnail">
+                    <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+                    <!--     <span style="background-image:url({{ .Params.banner | absURL }})" alt="{{ .Title }}" class="thumbnail-image"></span> -->
+                    <!-- {{else}} -->
+                        <span class="thumbnail-image thumbnail-none"></span>
+                    <!-- {{ end }} -->
+                    </a>
+                </div>
+                <div class="item-inner">
+                    <!-- {{ if isset .Params "categories" }} -->
+                    <!-- {{ if gt (len .Params.categories) 0 }} -->
+                    <!-- <p class="item-category"> -->
+                    <!--     {{ url := printf "%s/%s" "categories" (index .Params.categories 0 | urlize | lower)}} -->
+                    <!--     <a class="article-category-link" href="{{ url | absURL }}"> -->
+                    <!--     {{ index .Params.categories 0 }} -->
+                    <!--     </a> -->
+                    <!-- </p> -->
+                    <!-- {{ end }} -->
+                    <!-- {{ end }} -->
+                    <p class="item-title"><a href class="title">Coding software-based mutex algos for fun</a></p>
+                    <p class="item-date">
+                        <time datetime="December  2, 2016" itemprop="datePublished">December  2, 2016</time>
+                    </p>
+                </div>
+            </li>
+            
+            <li>
+                <div class="item-thumbnail">
+                    <a href class="thumbnail">
+                    <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+                    <!--     <span style="background-image:url({{ .Params.banner | absURL }})" alt="{{ .Title }}" class="thumbnail-image"></span> -->
+                    <!-- {{else}} -->
+                        <span class="thumbnail-image thumbnail-none"></span>
+                    <!-- {{ end }} -->
+                    </a>
+                </div>
+                <div class="item-inner">
+                    <!-- {{ if isset .Params "categories" }} -->
+                    <!-- {{ if gt (len .Params.categories) 0 }} -->
+                    <!-- <p class="item-category"> -->
+                    <!--     {{ url := printf "%s/%s" "categories" (index .Params.categories 0 | urlize | lower)}} -->
+                    <!--     <a class="article-category-link" href="{{ url | absURL }}"> -->
+                    <!--     {{ index .Params.categories 0 }} -->
+                    <!--     </a> -->
+                    <!-- </p> -->
+                    <!-- {{ end }} -->
+                    <!-- {{ end }} -->
+                    <p class="item-title"><a href class="title">Zero-trust - Safe and anonymous ANDing bits - Part 2</a></p>
+                    <p class="item-date">
+                        <time datetime="November 25, 2016" itemprop="datePublished">November 25, 2016</time>
+                    </p>
+                </div>
+            </li>
+            
+            <!-- {{ end }} -->
+        </ul>
+    </div>
+</div>
+<!-- {{ end }} -->
+
+    <!-- {{ partial "widgets/categories" . }} -->
+    <!-- {{ partial "widgets/tags" . }} -->
+    <!-- {{ partial "widgets/tag_cloud" . }} -->
+
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
 
 
-
-    </section>
-    <footer id="footer" class="main-content-wrap">
-  <span class="copyrights">
+      </div>
+    </div>
+    <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
       Saksham Sharma
-  </span>
+      <!-- &copy; {{ now.Format "2006"}} -->
+      <!-- {{ with .Site.Params.copyright }}{{ . | markdownify}}{{ end }} -->
+    </div>
+  </div>
 </footer>
 
-</div>
-
-
-    </div>
-    <!--SCRIPTS-->
-
-<script src="https://code.jquery.com/jquery-3.1.1.min.js" type="text/javascript"></script>
-<script src="../../../js/hugo.js" type="text/javascript"></script>
-<!--SCRIPTS END-->
-<script src="../../../js/highlight.js"></script>
-
-    <div id="about">
-    <div id="about-card">
-        <div id="about-btn-close">
-            <i class="fa fa-remove"></i>
-        </div>
-
-        <img id="about-card-picture" src="https://avatars3.githubusercontent.com/u/10418596?v=3&amp;s=460" alt="Author's picture" />
-
-        <h4 id="about-card-name">Saksham Sharma</h4>
-
-        <div id="about-card-bio">Hacker. Programmer. Geek.</div>
-
-
-        <div id="about-card-job">
-            <i class="fa fa-briefcase"></i>
-            <br />
-            3rd year Undergrad, Computer Science and Engineering
-        </div>
-
-
-        <div id="about-card-location">
-            <i class="fa fa-map-marker"></i>
-            <br />
-            Indian Institute of Technology Kanpur
-        </div>
-
-    </div>
-</div>
-
-    <div id="cover" style="background-image:url('/images/header.jpg');"></div>
-
-    <script>
-  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
-
-  ga('create', 'UA-88802609-1', 'auto');
-  ga('send', 'pageview');
-</script>
-
-</body>
+<!-- {{ partial "footer_js" . }} -->
+<!-- {{ partial "footer_custom_js" . }} -->
+  </body>
 </html>
