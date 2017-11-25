@@ -9,6 +9,7 @@ import           Data.Text (pack, unpack, replace, empty)
 import           Hakyll
 import           Hakyll.Web.Tags ()
 import qualified System.FilePath.Posix as F
+import           System.IO.Unsafe
 
 data BlogConfig = BlogConfig { root :: String
                              , protocol :: String
@@ -88,18 +89,16 @@ main = hakyll $ do
 
        match "templates/**" $ compile templateBodyCompiler
 
-       let posts = recentFirst =<< loadAll (postPattern .&&. hasVersion "main")
+       let posts = recentFirst =<< loadAll (postPattern .&&. hasNoVersion)
        let staticPosts = recentFirst =<< loadAll (postPattern .&&. hasVersion "static")
        let recentPosts = fmap (take 5) staticPosts
 
-       cats <- buildCategoriesNew postPattern (fromCapture "categories/*.html")
        tags <- buildTags postPattern (fromCapture "tags/*.html")
 
        let postCtx = dateField "date" "%B %e, %Y" <>
              constField "baseURL" ((protocol config) ++ "://" ++ (root config)) <> -- Need this here so we can access it inside for(posts)
              dateField "dateMap" "%Y-%m-%d" <>
              tagsField "tags" tags <>
-             tagsField "cats" cats <>
              teaserField "teaser" "content" <>
              defaultContext
 
@@ -129,7 +128,7 @@ main = hakyll $ do
              >>= relativizeUrls
              >>= cleanIndexHtmls
 
-       match postPattern $ version "main" $ do
+       match postPattern $ do
              route $ postRoute
              compile $ do
                simplePageCtx <- ctxWithInfo staticPosts
@@ -147,16 +146,17 @@ main = hakyll $ do
              compile $ do pandocCompiler
 
        tagsRules tags $ \tag pattern -> do
-         let title = "Posts tagged \"" ++ tag ++ "\""
+         let pagetitle = "Posts tagged \"" ++ tag ++ "\""
          route idRoute
          compile $ do
-           let lessPosts = recentFirst =<< loadAll (pattern .&&. hasVersion "main")
+           lessPosts <- recentFirst =<< loadAll (pattern)
            simplePageCtx <- ctxWithInfo staticPosts
            let pageCtx = simplePageCtx <>
-                         constField "title" title <>
-                         listField "posts" postCtx lessPosts
+                         constField "title" pagetitle <>
+                         constField "pagetitle" pagetitle <>
+                         listField "posts" (postCtx <> constField "pagetitle" pagetitle) (return lessPosts)
            makeItem ""
-               >>= loadAndApplyTemplate "templates/index.html"        pageCtx
+               >>= loadAndApplyTemplate "templates/archive.html"      pageCtx
                >>= loadAndApplyTemplate "templates/with-main.html"    pageCtx
                >>= loadAndApplyTemplate "templates/with-sidebar.html" pageCtx
                >>= loadAndApplyTemplate "templates/with-profile.html" pageCtx
@@ -250,3 +250,7 @@ projectRoute =
   idRoute `composeRoutes`
   (customRoute $ (++ "/index") . takeWhile (/= '.') . drop 9 . toFilePath ) `composeRoutes`
   setExtension "html"
+
+-- | Do not judge me :) I needed these one time.
+debugIO msg result = putStrLn msg >> return result
+debug s r = unsafePerformIO $ debugIO s r
