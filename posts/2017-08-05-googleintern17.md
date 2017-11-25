@@ -29,7 +29,7 @@ figure {
 
 Now that I'm back from the US, the extravaganza that is Google, reminiscing back to those days has made me finally decide to pen down my experience in the Cloud city, working on Cloud.
 
-For context, I interned at Google Seattle, the third largest Google office in the US. The Seattle area is home to Amazon and Microsoft's sprawling offices. Microsoft, Amazon and Google (in that order) being the biggest players in the cloud market these days, Seattle has somehow become, what you could call, "the cloud city".
+For context, I interned at Google Seattle, the third largest Google office in the US. The Seattle <!--more--> area is home to Amazon and Microsoft's sprawling offices. Microsoft, Amazon and Google (in that order) being the biggest players in the cloud market these days, Seattle has somehow become, what you could call, "the cloud city".
 
 I remember how I was completely unaware of the huge tech industry in Seattle, back in December when I accepted this internship offer. That part, my interviews and how I chose to go to Google, is another story, one that's written <a href="/2016/12/internsaga" target="_blank">here</a>.
 

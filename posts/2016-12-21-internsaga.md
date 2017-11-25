@@ -7,7 +7,7 @@ id: intern-saga
 author: Saksham Sharma
 ------
 
-So, after months of worrying, I had finally landed an internship position at Google Seattle, in the team of my choice. But before I could stop being lazy and sign the offer letter, something happened which made every remaining day of that offer letter an exercise in surviving confusion. But before that, let's go to the start.
+So, after months of worrying, I had finally landed an internship position at Google Seattle, in the team of my choice. But before I could stop being lazy and sign the offer letter, something happened <!--more--> which made every remaining day of that offer letter an exercise in surviving confusion. But before that, let's go to the start.
 
 Disclaimer:
 
@@ -26,7 +26,7 @@ I had landed back from Germany after my summer internship, and faced the immedia
 I saw all my friends land handsome interns, and, well ... It isn't too easy, having to sit with uncertainity. Some of them actually landed really nice internships. At one point, I actually regretted not sitting for the interviews.
 
 ### First rejection (or was it?)
-But after 2-3 weeks, somehow Google India showed up on the internship portal. I was quite double minded about that, but somehow applied. My initial plan was to *upgrade* this offer to a Google US offer, but later learnt that was not possible. Of all the things in the world that could have happened, they did not even shortlist my CV for an interview. This was unexpected, because (I thought) I had a great CV. Many people have told me that my CV showed interest in research, and they might have thought that I would leave the internship. I personally think it just got overlooked, or maybe it was actually bad. Did not really count as an interview rejection, but had to some how survive the disappointment that creeped up. This is not how I would have expected my first application to go.
+But after 2-3 weeks, somehow Google India showed up on the internship portal. I was quite double minded about that, but somehow applied. My initial plan was to *upgrade* this offer to a Google US offer, but later learned that was not possible. Of all the things in the world that could have happened, they did not even shortlist my CV for an interview. This was unexpected, because (I thought) I had a great CV. Many people have told me that my CV showed interest in research, and they might have thought that I would leave the internship. I personally think it just got overlooked, or maybe it was actually bad. Did not really count as an interview rejection, but had to some how survive the disappointment that creeped up. This is not how I would have expected my first application to go.
 
 ### Second rejection (or was it?)
 Anyhow, come September, I had applied to Palantir through a referral, and gave their coding test. That's when I realized, how bad my interview skills were. I had never prepared for interviews, and suddenly it did not seem easy. This was a jolt to me, and no wonder, I got dropped there and then, in the Palantir process.
@@ -36,7 +36,7 @@ I took this one a bit more positively though, and started practicing competitive
 Again, this wasn't an interview rejection `:)`
 
 ### Google?
-I got referred for Google North America around early October, and heard back in about 2 weeks. I had my interviews scheduled for early November. I still did not practice coding for interviews, and rather focussed a bit too much on algorithms. And thus, my preparation was lack-luster to say the least. 24 hours before my interview, I realized that I had once planned to solve the book *Cracking the coding interview*. It was absolutely hooking, and I regretted not solving it early on. I spent the remaining time going through the whole book. If you're reading this for some tips (wrong place, buddy), that was wrong too. I should've coded. But I learnt that pretty soon.
+I got referred for Google North America around early October, and heard back in about 2 weeks. I had my interviews scheduled for early November. I still did not practice coding for interviews, and rather focused a bit too much on algorithms. And thus, my preparation was lack-luster to say the least. 24 hours before my interview, I realized that I had once planned to solve the book *Cracking the coding interview*. It was absolutely hooking, and I regretted not solving it early on. I spent the remaining time going through the whole book. If you're reading this for some tips (wrong place, buddy), that was wrong too. I should have coded. But I found that out pretty soon.
 
 #### The interviews
 My first interview went horribly. The interviewer could not understand most of the stuff I said, and somehow a misunderstanding led me to code a solution for a slightly different problem, which he later pointed out. The interview ended with him thinking I did not get the correct code on time. Yes, I did not finish even a single question.
@@ -69,9 +69,9 @@ I finally had an offer from Google US!
 ### Facebook again?
 I do not know why I did not sign Google's offer the day I got it. I was given 10 working days to sign it, that meant 20th of December. One fine day (12th December), I get a mail saying that I got into the 2nd and final round of interviews for Facebook London internships. I had no clue what to do now, and wished I had simply signed Google.
 
-Here was Facebook London, known to offer Pre-Placement offers in London and Menlo Park. The other side, Google US. A higher pay, a confirmed and nice project, but it mostly offers a job in Google India to interns, a place I was not looking forward to joining. I spent the 2 days before my next interview, simply talking to people if leaving a confirmed offer at Google for Facebook would be a good choice.
+Here was Facebook London, known to offer return offers in London and Menlo Park. The other side, Google US. A higher pay, a confirmed and nice project, but it mostly offers a job in Google India to interns, a place I was not looking forward to joining. I spent the 2 days before my next interview, simply talking to people if leaving a confirmed offer at Google for Facebook would be a good choice.
 
-I gave the final interview with *I'm gonna drop FB anyway* in mind. I had again coded some problems from the same book for preparation, and again managed to solve 2 problems, though this time around I had major hiccups, and barely solved the easy problem. Somehow managed in a very short time, the solution for the 2nd, and supposedely tough problem. I think I did make an impression when the interviewer asked me about some nice project I did, and I described the development, algorithm and motivation for [Puppy Love](https://github.com/pclubiitk/puppy-love).
+I gave the final interview with *I'm gonna drop FB anyway* in mind. I had again coded some problems from the same book for preparation, and again managed to solve 2 problems, though this time around I had major hiccups, and barely solved the easy problem. Somehow managed in a very short time, the solution for the 2nd, and supposedly tough problem. I think I did make an impression when the interviewer asked me about some nice project I did, and I described the development, algorithm and motivation for [Puppy Love](https://github.com/pclubiitk/puppy-love).
 
 This ensured that FB would haunt me the next few days.
 
@@ -83,7 +83,7 @@ I was advised to not weigh this too much at the moment, since if I got rejected,
 > I would rather be counting my chickens before they hatch and be prepared, than be modest but unprepared
 
 <br>
-I spent hours talking to people. I made a huge list of points comparing Google and Facebook, and Facebook somehow won there. Mostly because of my desire for a PPO Job Offer abroad. I still shuffled around.
+I spent hours talking to people. I made a huge list of points comparing Google and Facebook, and Facebook somehow won there. Mostly because of my desire for a return offer abroad. I still shuffled around.
 
 ### The final day
 By the time the actual day came, I had settled on Facebook. I could bear a bad project, lesser pay, for long term benefits at Facebook.
