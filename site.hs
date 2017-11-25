@@ -1,29 +1,62 @@
 --------------------------------------------------------------------------------
 {-# LANGUAGE OverloadedStrings #-}
 import           Data.Char
-import           Data.Monoid (mappend)
+import           Data.Monoid ((<>), mconcat)
 import           Data.List ()
 import qualified Data.Map ()
+import           Data.List (isPrefixOf)
+import           Data.Text (pack, unpack, replace, empty)
 import           Hakyll
 import           Hakyll.Web.Tags ()
 import qualified System.FilePath.Posix as F
 
+data BlogConfig = BlogConfig { root :: String
+                             , protocol :: String
+                             , title :: String
+                             , author :: String
+                             , bio :: String
+                             , email :: String
+                             , description :: String
+                             , profilePic :: String
+                             }
+
+data SocialLink = SocialLink { name :: String
+                             , url :: String
+                             , icon :: String
+                             }
+
 --------------------------------------------------------------------------------
-baseUrl :: String
-baseUrl = "sakshamsharma.com"
+
+config :: BlogConfig
+config = BlogConfig
+  { root = "sakshamsharma.com"
+  , protocol = "https"
+  , title = "AceHack"
+  , bio = "Programmer."
+  , author = "Saksham Sharma"
+  , email = "saksham0808@gmail.com"
+  , description = "Reveries of a programmer"
+  , profilePic = "https://avatars3.githubusercontent.com/u/10418596?v=3&s=460"
+  }
 
 myFeedConfiguration :: FeedConfiguration
 myFeedConfiguration = FeedConfiguration
-    { feedTitle       = "AceHack"
-    , feedDescription = "Reveries of a programmer"
-    , feedAuthorName  = "Saksham Sharma"
-    , feedAuthorEmail = "saksham0808@gmail.com"
-    , feedRoot        = "https://sakshamsharma.com"
+    { feedTitle       = title config
+    , feedDescription = description config
+    , feedAuthorName  = author config
+    , feedAuthorEmail = email config
+    , feedRoot        = (protocol config) ++ "://" ++ (root config)
     }
+
+links :: [SocialLink]
+links = [ SocialLink { name = "GitHub", url = "https://github.com/sakshamsharma", icon = "fa-github" }
+        , SocialLink { name = "LinkedIn", url = "https://in.linkedin.com/in/saksham-sharma", icon = "fa-linkedin" }
+        , SocialLink { name = "Resume", url = "/cv", icon = "fa-file-pdf-o" }
+        , SocialLink { name = "Rss", url = "/rss.xml", icon = "fa-rss" }
+        ]
 
 main :: IO ()
 main = hakyll $ do
-
 
        match "assets/js/**" $ do
              route assetsRoute
@@ -53,161 +86,123 @@ main = hakyll $ do
          route idRoute
          compile copyFileCompiler
 
-       tags <- buildTags "posts/**" (fromCapture "tags/*.html")
-       cats <- buildCategoriesNew "posts/**" (fromCapture "categories/*.html")
-
-       let posts = recentFirst =<< loadAll ("posts/**" .&&. hasNoVersion)
-       let postCtx = dateField "date" "%B %e, %Y" `mappend`
-             tagsField "tags" tags `mappend`
-             tagsField "cats" cats `mappend`
-             dateField "dateMap" "%Y-%m-%d" `mappend`
-             defaultContext
-       let ctxWithPosts title =
-             constField "title" title `mappend`
-             listField "posts" postCtx posts `mappend`
-             postCtx
-
-       -- | Add Tags
-       tagsRules tags $ \tag pat -> do
-           route $ cleanRoute False
-           let title = "Posts with tag \"" ++ tag ++ "\""
-           compile $ do
-             lessPosts <- recentFirst =<< loadAll pat
-             let ctx = constField "title" title `mappend`
-                       listField "posts" postCtx (return lessPosts) `mappend`
-                       defaultContext
-             makeItem ""
-               >>= loadAndApplyTemplate "templates/archive.html" ctx
-               >>= loadAndApplyTemplate "templates/with-title.html"   ctx
-               >>= loadAndApplyTemplate "templates/with-sidebar.html" ctx
-               >>= loadAndApplyTemplate "templates/default.html" ctx
-               >>= relativizeUrls
-               >>= cleanIndexHtmls
-
-       -- | Add Categories
-       tagsRules cats $ \tag pat -> do
-           route $ cleanRoute False
-           let title = "Posts in category \"" ++ tag ++ "\""
-           compile $ do
-             lessPosts <- recentFirst =<< loadAll pat
-             let ctx = constField "title" title `mappend`
-                       listField "posts" postCtx (return lessPosts) `mappend`
-                       defaultContext
-             makeItem ""
-               >>= loadAndApplyTemplate "templates/archive.html" ctx
-               >>= loadAndApplyTemplate "templates/with-title.html"   ctx
-               >>= loadAndApplyTemplate "templates/with-sidebar.html" ctx
-               >>= loadAndApplyTemplate "templates/default.html" ctx
-               >>= relativizeUrls
-               >>= cleanIndexHtmls
-
-       match "posts/**" $ do
-             route $ postRoute
-             compile $ do
-               pandocCompiler
-                     >>= loadAndApplyTemplate "templates/post.html"         postCtx
-                     >>= saveSnapshot "content"
-                     >>= loadAndApplyTemplate "templates/with-tags.html"    postCtx
-                     >>= loadAndApplyTemplate "templates/with-title.html"   postCtx
-                     >>= loadAndApplyTemplate "templates/with-sidebar.html" postCtx
-                     >>= loadAndApplyTemplate "templates/default.html"      postCtx
-                     >>= relativizeUrls
-
-       match "posts/**" $ version "source" $ do
-             route $ setExtension "html"
-             let redirectCtx =
-                   functionField "newUrl" (\x _ -> return $ modernPostPath (x !! 0)) `mappend` postCtx
-             compile $ do
-               pandocCompiler
-                     >>= loadAndApplyTemplate "templates/redirect.html" redirectCtx
-
        match "templates/**" $ compile templateBodyCompiler
+
+       let posts = recentFirst =<< loadAll (postPattern .&&. hasVersion "main")
+       let staticPosts = recentFirst =<< loadAll (postPattern .&&. hasVersion "static")
+       let recentPosts = fmap (take 5) staticPosts
+
+       cats <- buildCategoriesNew postPattern (fromCapture "categories/*.html")
+       tags <- buildTags postPattern (fromCapture "tags/*.html")
+
+       let postCtx = dateField "date" "%B %e, %Y" <>
+             constField "baseURL" ((protocol config) ++ "://" ++ (root config)) <> -- Need this here so we can access it inside for(posts)
+             dateField "dateMap" "%Y-%m-%d" <>
+             tagsField "tags" tags <>
+             tagsField "cats" cats <>
+             teaserField "teaser" "content" <>
+             defaultContext
+
+       let ctxWithInfo = fmap $ \rawposts ->
+             constField "blogTitle" (title config) <>
+             constField "bio" (bio config) <>
+             constField "baseURL" ((protocol config) ++ "://" ++ (root config)) <>
+             constField "author" (author config) <>
+             constField "profilePic" (profilePic config) <>
+             listField "recentPosts" postCtx recentPosts <>
+             listField "links" linkCtx (sequence (map (\link -> makeItem(link)) links)) <>
+             constField "postCount" (show $ length rawposts) <>
+             defaultContext
 
        create ["index.html"] $ do
          route idRoute
-         let ctx = ctxWithPosts "Reveries of a programmer" `mappend`
-                   constField "imageUrl" "/images/green.jpg"
          compile $ do
+           simplePageCtx <- ctxWithInfo staticPosts
+           let pageCtx = simplePageCtx <>
+                         listField "posts" postCtx posts
            makeItem ""
-             >>= loadAndApplyTemplate "templates/index.html"        ctx
-             >>= loadAndApplyTemplate "templates/with-image.html"   ctx
-             >>= loadAndApplyTemplate "templates/with-title.html"   ctx
-             >>= loadAndApplyTemplate "templates/with-sidebar.html" ctx
-             >>= loadAndApplyTemplate "templates/default.html"      ctx
+             >>= loadAndApplyTemplate "templates/index.html"        pageCtx
+             >>= loadAndApplyTemplate "templates/with-main.html"    pageCtx
+             >>= loadAndApplyTemplate "templates/with-sidebar.html" pageCtx
+             >>= loadAndApplyTemplate "templates/with-profile.html" pageCtx
+             >>= loadAndApplyTemplate "templates/default.html"      pageCtx
              >>= relativizeUrls
              >>= cleanIndexHtmls
 
-       create ["archives.html"] $ do
-         route $ cleanRoute True
-         let ctx = ctxWithPosts "Archive"
-         compile $ do
-           makeItem ""
-             >>= loadAndApplyTemplate "templates/archive.html"      ctx
-             >>= loadAndApplyTemplate "templates/with-title.html"   ctx
-             >>= loadAndApplyTemplate "templates/with-sidebar.html" ctx
-             >>= loadAndApplyTemplate "templates/default.html"      ctx
-             >>= relativizeUrls
+       match postPattern $ version "main" $ do
+             route $ postRoute
+             compile $ do
+               simplePageCtx <- ctxWithInfo staticPosts
+               let pageCtx = (teaserField "teaser" "content") <> simplePageCtx
+               pandocCompiler
+                     >>= saveSnapshot "content"
+                     >>= loadAndApplyTemplate "templates/post.html"           pageCtx
+                     >>= loadAndApplyTemplate "templates/with-wide-main.html" pageCtx
+                     >>= loadAndApplyTemplate "templates/with-sidebar.html"   pageCtx
+                     >>= loadAndApplyTemplate "templates/default.html"        pageCtx
+                     >>= relativizeUrls
 
-       create ["categories.html"] $ do
-         route $ cleanRoute True
-         let ctx = ctxWithPosts "Categories" `mappend`
-                   field "tagList" (\_ -> renderTagCloud 100 170 cats)
-         compile $ do
-           makeItem ""
-             >>= loadAndApplyTemplate "templates/tags.html"         ctx
-             >>= loadAndApplyTemplate "templates/with-title.html"   ctx
-             >>= loadAndApplyTemplate "templates/with-sidebar.html" ctx
-             >>= loadAndApplyTemplate "templates/default.html"      ctx
-             >>= relativizeUrls
+       -- For recentPosts inside posts
+       match postPattern $ version "static" $ do
+             compile $ do pandocCompiler
 
-       create ["tags.html"] $ do
-         route $ cleanRoute True
-         let ctx = ctxWithPosts "Tags" `mappend`
-                   field "tagList" (\_ -> renderTagCloud 100 170 tags)
+       tagsRules tags $ \tag pattern -> do
+         let title = "Posts tagged \"" ++ tag ++ "\""
+         route idRoute
          compile $ do
+           let lessPosts = recentFirst =<< loadAll (pattern .&&. hasVersion "main")
+           simplePageCtx <- ctxWithInfo staticPosts
+           let pageCtx = simplePageCtx <>
+                         constField "title" title <>
+                         listField "posts" postCtx lessPosts
            makeItem ""
-             >>= loadAndApplyTemplate "templates/tags.html"         ctx
-             >>= loadAndApplyTemplate "templates/with-title.html"   ctx
-             >>= loadAndApplyTemplate "templates/with-sidebar.html" ctx
-             >>= loadAndApplyTemplate "templates/default.html"      ctx
-             >>= relativizeUrls
+               >>= loadAndApplyTemplate "templates/index.html"        pageCtx
+               >>= loadAndApplyTemplate "templates/with-main.html"    pageCtx
+               >>= loadAndApplyTemplate "templates/with-sidebar.html" pageCtx
+               >>= loadAndApplyTemplate "templates/with-profile.html" pageCtx
+               >>= loadAndApplyTemplate "templates/default.html"      pageCtx
+               >>= relativizeUrls
 
        match (fromList ["about.md"])$ do
          route $ cleanRoute True
-         let ctx = ctxWithPosts "About"
          compile $ do
+           simplePageCtx <- ctxWithInfo staticPosts
+           let pageCtx = simplePageCtx
            pandocCompiler
-             >>= loadAndApplyTemplate "templates/with-title.html"   ctx
-             >>= loadAndApplyTemplate "templates/with-sidebar.html" ctx
-             >>= loadAndApplyTemplate "templates/default.html"      ctx
+             >>= loadAndApplyTemplate "templates/post.html"         pageCtx
+             >>= loadAndApplyTemplate "templates/with-main.html"    pageCtx
+             >>= loadAndApplyTemplate "templates/with-sidebar.html" pageCtx
+             >>= loadAndApplyTemplate "templates/with-profile.html" pageCtx
+             >>= loadAndApplyTemplate "templates/default.html"      pageCtx
              >>= relativizeUrls
 
        create ["sitemap.xml"] $ do
               route   idRoute
-              let ctx = constField "baseUrl" baseUrl `mappend`
-                        ctxWithPosts "SiteMap"
               compile $ do
+                simplePageCtx <- ctxWithInfo staticPosts
+                let pageCtx = simplePageCtx <>
+                              listField "posts" postCtx posts
                 makeItem ""
-                 >>= loadAndApplyTemplate "templates/sitemap.xml" ctx
+                 >>= loadAndApplyTemplate "templates/sitemap.xml" pageCtx
                  >>= cleanIndexHtmls
 
        create ["rss.xml"] $ do
            route idRoute
            compile $ do
-               let feedCtx = postCtx `mappend` bodyField "description"
+               simplePageCtx <- ctxWithInfo staticPosts
+               let feedCtx = postCtx <> simplePageCtx <> bodyField "description"
                pPosts <- fmap (take 10) . recentFirst =<<
-                   loadAllSnapshots ("posts/**" .&&. hasNoVersion) "content"
+                   loadAllSnapshots ("posts/**" .&&. hasVersion "main") "content"
                renderRss myFeedConfiguration feedCtx pPosts
 
-       create ["atom.xml"] $ do
-           route idRoute
-           compile $ do
-               let feedCtx = postCtx `mappend` bodyField "description"
-               pPosts <- fmap (take 10) . recentFirst =<<
-                   loadAllSnapshots ("posts/**" .&&. hasNoVersion) "content"
-               renderAtom myFeedConfiguration feedCtx pPosts
-
 --------------------------------------------------------------------------------
+linkCtx = field "linkname" (return . (\x -> name x) . itemBody) <>
+          field "linkurl" (return . (\x -> url x) . itemBody) <>
+          field "linkicon" (return . (\x -> icon x) . itemBody)
+
+postPattern :: Pattern
+postPattern = "posts/**"
+
 cleanIndexHtmls :: Item String -> Compiler (Item String)
 cleanIndexHtmls = return . fmap (replaceAll pattern replacement)
     where

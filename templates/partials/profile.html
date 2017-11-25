@@ -1,0 +1,50 @@
+<aside id="profile">
+  <div class="inner profile-inner">
+    <div class="base-info profile-block">
+      <h2 id="name">$author$</h2>
+      <h3 id="title">$bio$</h3>
+      <!-- {{ with .Site.Params.gravatar }} -->
+      <img id="avatar" style="border-radius: 1000px;" src="$profilePic$"/>
+      <!-- {{ else }} -->
+      <!-- <img id="avatar" src="{{ .Site.Params.avatar | absURL }}"> -->
+      <!-- {{ end }} -->
+      <!-- {{ with .Site.Params.author}}<h2 id="name">{{ . }}</h2>{{ end }} -->
+      <!-- {{ with .Site.Params.bio }}<h3 id="title">{{ . }}</h3>{{ end }} -->
+      <!-- {{ with .Site.Params.location }}<span id="location"><i class="fa fa-map-marker"></i>{{ . }}</span>{{ end }} -->
+      <!-- {{ with .Site.Params.profile.follow_button }} -->
+      <!--     <a id="follow" href="{{ . }}"> -->
+      <!--         {{with Site.Data.l10n.profile.follow_button}}{{.}}{{end}} -->
+      <!--     </a> -->
+      <!-- {{ end }} -->
+    </div>
+    <div class="article-info profile-block">
+      <div class="article-info-block">
+        <p>$postCount$</p>
+        <span>Posts</span>
+      </div>
+      <div class="article-info-block">
+        <p id="gh-followers">...</p>
+        <span>Followers</span>
+      </div>
+    </div>
+    <div class="profile-block social-links">
+      <table>
+        <tr>
+          $for(links)$
+          <td><a href="$linkurl$" target="_blank" title="$linkname$"><i class="fa $linkicon$"></i></a></td>
+          $endfor$
+        </tr>
+      </table>
+    </div>
+  </div>
+</aside>
+
+<script>
+  var xmlHttp = new XMLHttpRequest();
+  xmlHttp.onreadystatechange = function() {
+  if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+    document.getElementById("gh-followers").innerHTML = JSON.parse(xmlHttp.responseText).followers;
+  }
+  xmlHttp.open("GET", "https://api.github.com/users/sakshamsharma", true);
+  xmlHttp.send(null);
+</script>

@@ -9,5 +9,6 @@ executable site
                   , hakyll == 4.9.*
                   , containers
                   , filepath
+                  , text
   ghc-options:      -threaded
   default-language: Haskell2010

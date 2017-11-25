@@ -1,37 +1,23 @@
-<div>
-    $body$
-</div>
+<article id="page-undefined" class="article article-type-page" itemscope="" itemprop="blogPost">
+    <div class="article-inner">
+        <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+        <!--     <img src="{{ .Params.banner | absURL }}" class="article-banner"> -->
+        <!-- {{ end }} -->
 
-<script src="/js/fb.js"></script>
-<div
-    class="fb-like"
-    data-share="true"
-    data-width="450"
-    data-show-faces="true">
-</div>
+        $partial("templates/partials/article_header.html")$
+        <div class="article-entry" itemprop="articleBody">
+          $body$
+        </div>
+        <!-- partial("templates/partials/article_footer.html") -->
+    </div>
 
-<script id="dsq-count-scr" src="//acehack.disqus.com/count.js" async></script>
+    <!-- {{ partial "prev_next_post" . }} -->
+</article>
 
-<div id="disqus_thread"></div>
-<script>
- // For debugging
- var disqus_developer = 1;
- var disqus_shortname = 'acehack';
- var disqus_config = function () {
-     this.page.url = 'http://acehack.org$url$';
-     this.page.identifier = '$id$';
-     this.page.title = '$title$';
- };
- (function() {
-     var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-     dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
- })();
- (function () {
-     var s = document.createElement('script'); s.async = true;
-     s.type = 'text/javascript';
-     s.src = '//' + disqus_shortname + '.disqus.com/count.js';
-     (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
- }());
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+<!-- {{ if and (not (eq .Site.DisqusShortname "")) (not .Params.disable_comments) }} -->
+<!-- <section id="comments"> -->
+<!--     <div id="disqus_thread"> -->
+<!--         {{ template "_internal/disqus.html" . }} -->
+<!--     </div> -->
+<!-- </section> -->
+<!-- {{ end }} -->

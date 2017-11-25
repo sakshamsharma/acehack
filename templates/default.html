@@ -1,14 +1,17 @@
-$partial("templates/partials/head.html")$
-<body>
-    <div id="blog">
-        $partial("templates/partials/header.html")$
-
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    $partial("templates/partials/head.html")$
+  </head>
+  <body>
+    $partial("templates/partials/header.html")$
+    <div class="container">
+      <div class="outer">
         $body$
-
+      </div>
     </div>
-    $partial("templates/partials/script.html")$
-    $partial("templates/partials/about.html")$
-    $partial("templates/partials/cover.html")$
-    $partial("templates/partials/googleanalytics.html")$
-</body>
+    $partial("templates/partials/footer.html")$
+<!-- {{ partial "footer_js" . }} -->
+<!-- {{ partial "footer_custom_js" . }} -->
+  </body>
 </html>

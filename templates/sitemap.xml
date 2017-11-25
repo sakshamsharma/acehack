@@ -2,7 +2,7 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 $for(posts)$
     <url>
-      <loc>http://sakshamsharma.com$url$</loc>
+      <loc>$baseURL$$url$</loc>
         <changefreq>weekly</changefreq>
         $if(dateMap)$<lastmod>$dateMap$</lastmod>$endif$
         <priority>0.8</priority>

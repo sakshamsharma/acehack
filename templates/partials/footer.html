@@ -1,5 +1,9 @@
-<footer id="footer" class="main-content-wrap">
-  <span class="copyrights">
+<footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
       Saksham Sharma
-  </span>
+      <!-- &copy; {{ now.Format "2006"}} -->
+      <!-- {{ with .Site.Params.copyright }}{{ . | markdownify}}{{ end }} -->
+    </div>
+  </div>
 </footer>
