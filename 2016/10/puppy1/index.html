@@ -179,14 +179,7 @@
 </header>
 
         <div class="article-entry" itemprop="articleBody">
-          <script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
-});
-</script>
-<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
-</script>
-<p><strong>NOTE:</strong>: The algorithm used has been re-worked, and changed since this article was written. Expect a new article with the formal algorithm soon :)</p>
+          <p><strong>NOTE:</strong>: The algorithm used has been re-worked, and changed since this article was written. Expect a new article with the formal algorithm soon :)</p>
 <p><strong>Update</strong>: The new article with the latest algorithm is <a href="../../../2016/11/puppy2">here on my blog</a>. Do read that article as a follow up!</p>
 <p>The queerly named <em>Puppy Love</em> platform has been running in my university since 2014, meant to help shy nerds meet their crush, made my the Programming Club (of which, I happen to be the current coordinator)<!--more-->.The platform opens 1 week prior to the Valentine’s Day every year, and let’s people choose up to 4 of their crushes, encrypting their choices with their password. At the stroke of the midnight hour, everyone logs back, and their choices are decrypted, and are then matched to other people’s choices. Only the people who matched are informed about it. If your <em>love</em> was unrequited (the other person didn’t like you), you will not get to know. More importantly, if you did not like the other person, you would not know if that person liked you or not.</p>
 <p>The above seemed like a very rosy thing, till people began to find flaws. Some of the issues were with the code, and nothing too serious. But as would have, people began to get doubtful about the trust worthiness of the server admins. This year, being my turn to face the onslaught of accusations of looking at people’s choices, I, with Vinayak Tantia, a friend and fellow Coordinator, came up with a much improved algorithm to implement the same thing.</p>
@@ -218,6 +211,13 @@ $$</span><br /></p>
 <p>There shall be a large number of entries in the database. For each pair of people, there shall be one entry in the database storing their messages, and their shared secret. The server is only expected to be providing the service it is claiming to provide, that is, letting people match. Thus, we only assume that the server shall not be trying to jeopardize the whole matching game by not playing its part. At no point is the server expected to maintain any level of trust.</p>
 <h3 id="conclusion">Conclusion</h3>
 <p>The project is being written using Node and JavaScript, and the source code is publicly available on <a href="https://github.com/pclubiitk/puppy-love">Github here</a>. We hope to finish it within a month, considering that the semester is on.</p>
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+<script type="text/javascript" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
         </div>
         <!-- partial("templates/partials/article_footer.html") -->
     </div>
