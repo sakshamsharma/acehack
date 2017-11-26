@@ -53,7 +53,7 @@ links :: [SocialLink]
 links = [ SocialLink { name = "GitHub", url = "https://github.com/sakshamsharma", icon = "fa-github" }
         , SocialLink { name = "LinkedIn", url = "https://in.linkedin.com/in/saksham-sharma", icon = "fa-linkedin" }
         , SocialLink { name = "Resume", url = "/cv", icon = "fa-file-pdf-o" }
-        , SocialLink { name = "Rss", url = "/rss.xml", icon = "fa-rss" }
+        , SocialLink { name = "RSS", url = "/rss.xml", icon = "fa-rss" }
         ]
 
 main :: IO ()
@@ -194,7 +194,7 @@ main = hakyll $ do
                simplePageCtx <- ctxWithInfo staticPosts
                let feedCtx = postCtx <> simplePageCtx <> bodyField "description"
                pPosts <- fmap (take 10) . recentFirst =<<
-                   loadAllSnapshots ("posts/**" .&&. hasVersion "main") "content"
+                   loadAllSnapshots ("posts/**" .&&. hasNoVersion) "content"
                renderRss myFeedConfiguration feedCtx pPosts
 
 --------------------------------------------------------------------------------
