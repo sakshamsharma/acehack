@@ -2,7 +2,7 @@
 title: abcd-esolang Documentation
 summary: Documentation for my esolang written for Chaos'16
 tags: abcd, esolang, techkriti, chaos, programming language
-category: programming
+category: projects
 author: Saksham Sharma
 id: abcd-docs
 image: /images/articles/abcd-esolang.png

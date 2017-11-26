@@ -2,7 +2,7 @@
 title: Interning at Google Seattle
 summary: My experiences working in the Kubernetes team, and more
 tags: intern, career, job, google, kubernetes
-category: musings
+category: career
 id: google-intern-17
 author: Saksham Sharma
 ------

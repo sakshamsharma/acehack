@@ -2,7 +2,7 @@
 title: My internship interview saga
 summary: I finally had a dream internship offer. But something changed...
 tags: intern, career, job
-category: musings
+category: career
 id: intern-saga
 author: Saksham Sharma
 ------

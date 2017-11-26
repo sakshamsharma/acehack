@@ -6,7 +6,7 @@ author: Saksham Sharma
 image: http://media2.giga.de/2015/05/chrome-vs-firefox2-rcm992x0.jpg
 tags: technical, browser, experiment
 id: chrome-vs-ffx
-category: experiment
+category: experiments
 ------
 
 ## Browser WAR!
