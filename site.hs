@@ -118,12 +118,10 @@ main = hakyll $ do
          compile $ do
            simplePageCtx <- ctxWithInfo staticPosts
            let pageCtx = simplePageCtx <>
+                         constField "showProfile" "" <>
                          listField "posts" postCtx posts
            makeItem ""
              >>= loadAndApplyTemplate "templates/index.html"        pageCtx
-             >>= loadAndApplyTemplate "templates/with-main.html"    pageCtx
-             >>= loadAndApplyTemplate "templates/with-sidebar.html" pageCtx
-             >>= loadAndApplyTemplate "templates/with-profile.html" pageCtx
              >>= loadAndApplyTemplate "templates/default.html"      pageCtx
              >>= relativizeUrls
              >>= cleanIndexHtmls
@@ -136,8 +134,6 @@ main = hakyll $ do
                pandocCompiler
                      >>= saveSnapshot "content"
                      >>= loadAndApplyTemplate "templates/post.html"           pageCtx
-                     >>= loadAndApplyTemplate "templates/with-wide-main.html" pageCtx
-                     >>= loadAndApplyTemplate "templates/with-sidebar.html"   pageCtx
                      >>= loadAndApplyTemplate "templates/default.html"        pageCtx
                      >>= relativizeUrls
 
@@ -152,14 +148,12 @@ main = hakyll $ do
            lessPosts <- recentFirst =<< loadAll (pattern)
            simplePageCtx <- ctxWithInfo staticPosts
            let pageCtx = simplePageCtx <>
+                         constField "showProfile" "lala" <>
                          constField "title" pagetitle <>
                          constField "pagetitle" pagetitle <>
                          listField "posts" (postCtx <> constField "pagetitle" pagetitle) (return lessPosts)
            makeItem ""
                >>= loadAndApplyTemplate "templates/archive.html"      pageCtx
-               >>= loadAndApplyTemplate "templates/with-main.html"    pageCtx
-               >>= loadAndApplyTemplate "templates/with-sidebar.html" pageCtx
-               >>= loadAndApplyTemplate "templates/with-profile.html" pageCtx
                >>= loadAndApplyTemplate "templates/default.html"      pageCtx
                >>= relativizeUrls
 
@@ -167,12 +161,10 @@ main = hakyll $ do
          route $ cleanRoute True
          compile $ do
            simplePageCtx <- ctxWithInfo staticPosts
-           let pageCtx = simplePageCtx
+           let pageCtx = simplePageCtx <>
+                         constField "showProfile" ""
            pandocCompiler
              >>= loadAndApplyTemplate "templates/about.html"        pageCtx
-             >>= loadAndApplyTemplate "templates/with-main.html"    pageCtx
-             >>= loadAndApplyTemplate "templates/with-sidebar.html" pageCtx
-             >>= loadAndApplyTemplate "templates/with-profile.html" pageCtx
              >>= loadAndApplyTemplate "templates/default.html"      pageCtx
              >>= relativizeUrls
 

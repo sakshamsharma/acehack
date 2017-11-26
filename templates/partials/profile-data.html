@@ -1,0 +1,26 @@
+<div class="inner profile-inner">
+  <div class="base-info profile-block">
+    <h2 id="name">$author$</h2>
+    <h3 id="title">$bio$</h3>
+    <img id="avatar" style="border-radius: 1000px;" src="$profilePic$"/>
+  </div>
+  <div class="article-info profile-block">
+    <div class="article-info-block">
+      <p>$postCount$</p>
+      <span>Posts</span>
+    </div>
+    <div class="article-info-block">
+      <p class="gh-followers">...</p>
+      <span>Followers</span>
+    </div>
+  </div>
+  <div class="profile-block social-links">
+    <table>
+      <tr>
+        $for(links)$
+        <td><a href="$linkurl$" target="_blank" title="$linkname$"><i class="fa $linkicon$"></i></a></td>
+        $endfor$
+      </tr>
+    </table>
+  </div>
+</div>
