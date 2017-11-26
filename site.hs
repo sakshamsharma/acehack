@@ -94,6 +94,7 @@ main = hakyll $ do
        let recentPosts = fmap (take 5) staticPosts
 
        tags <- buildTags postPattern (fromCapture "tags/*.html")
+       cats <- buildCategoriesNew "posts/**" (fromCapture "categories/*.html")
 
        let postCtx = dateField "date" "%B %e, %Y" <>
              constField "baseURL" ((protocol config) ++ "://" ++ (root config)) <> -- Need this here so we can access it inside for(posts)
@@ -108,6 +109,8 @@ main = hakyll $ do
              constField "baseURL" ((protocol config) ++ "://" ++ (root config)) <>
              constField "author" (author config) <>
              constField "profilePic" (profilePic config) <>
+             listField "allCats" postCtx (return (collectTags cats)) <>
+             listField "allTags" postCtx (return (collectTags tags)) <>
              listField "recentPosts" postCtx recentPosts <>
              listField "links" linkCtx (sequence (map (\link -> makeItem(link)) links)) <>
              constField "postCount" (show $ length rawposts) <>
@@ -141,21 +144,28 @@ main = hakyll $ do
        match postPattern $ version "static" $ do
              compile $ do pandocCompiler
 
-       tagsRules tags $ \tag pattern -> do
-         let pagetitle = "Posts tagged \"" ++ tag ++ "\""
-         route idRoute
-         compile $ do
-           lessPosts <- recentFirst =<< loadAll (pattern)
-           simplePageCtx <- ctxWithInfo staticPosts
-           let pageCtx = simplePageCtx <>
-                         constField "showProfile" "lala" <>
-                         constField "title" pagetitle <>
-                         constField "pagetitle" pagetitle <>
-                         listField "posts" (postCtx <> constField "pagetitle" pagetitle) (return lessPosts)
-           makeItem ""
+       let tagPageGen = \pagetitle pattern -> do
+             lessPosts <- recentFirst =<< loadAll (pattern)
+             simplePageCtx <- ctxWithInfo staticPosts
+             let pageCtx = simplePageCtx <>
+                           constField "showProfile" "lala" <>
+                           constField "title" pagetitle <>
+                           constField "pagetitle" pagetitle <>
+                           listField "posts" (postCtx <> constField "pagetitle" pagetitle) (return lessPosts)
+             makeItem ""
                >>= loadAndApplyTemplate "templates/archive.html"      pageCtx
                >>= loadAndApplyTemplate "templates/default.html"      pageCtx
                >>= relativizeUrls
+
+       tagsRules cats $ \tag pattern -> do
+         let pagetitle = "Posts in category \"" ++ tag ++ "\""
+         route idRoute
+         compile $ tagPageGen pagetitle pattern
+
+       tagsRules tags $ \tag pattern -> do
+         let pagetitle = "Posts tagged \"" ++ tag ++ "\""
+         route idRoute
+         compile $ tagPageGen pagetitle pattern
 
        match (fromList ["about.md"])$ do
          route $ cleanRoute True
@@ -191,6 +201,8 @@ main = hakyll $ do
 linkCtx = field "linkname" (return . (\x -> name x) . itemBody) <>
           field "linkurl" (return . (\x -> url x) . itemBody) <>
           field "linkicon" (return . (\x -> icon x) . itemBody)
+
+collectTags tags = map (\(t, _) -> Item (tagsMakeId tags t) t) (tagsMap tags)
 
 postPattern :: Pattern
 postPattern = "posts/**"
