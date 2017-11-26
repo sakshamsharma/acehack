@@ -125,69 +125,108 @@
 
     <div class="container">
       <div class="outer">
-        <aside id="profile">
+
+        
+
+        <aside class="profile" id="profile">
   <div class="inner profile-inner">
-    <div class="base-info profile-block">
-      <h2 id="name">Saksham Sharma</h2>
-      <h3 id="title">Programmer.</h3>
-      <!-- {{ with .Site.Params.gravatar }} -->
-      <img id="avatar" style="border-radius: 1000px;" src="https://avatars3.githubusercontent.com/u/10418596?v=3&s=460" />
-      <!-- {{ else }} -->
-      <!-- <img id="avatar" src="{{ .Site.Params.avatar | absURL }}"> -->
-      <!-- {{ end }} -->
-      <!-- {{ with .Site.Params.author}}<h2 id="name">{{ . }}</h2>{{ end }} -->
-      <!-- {{ with .Site.Params.bio }}<h3 id="title">{{ . }}</h3>{{ end }} -->
-      <!-- {{ with .Site.Params.location }}<span id="location"><i class="fa fa-map-marker"></i>{{ . }}</span>{{ end }} -->
-      <!-- {{ with .Site.Params.profile.follow_button }} -->
-      <!--     <a id="follow" href="{{ . }}"> -->
-      <!--         {{with Site.Data.l10n.profile.follow_button}}{{.}}{{end}} -->
-      <!--     </a> -->
-      <!-- {{ end }} -->
+  <div class="base-info profile-block">
+    <h2 id="name">Saksham Sharma</h2>
+    <h3 id="title">Programmer.</h3>
+    <img id="avatar" style="border-radius: 1000px;" src="https://avatars3.githubusercontent.com/u/10418596?v=3&s=460" />
+  </div>
+  <div class="article-info profile-block">
+    <div class="article-info-block">
+      <p>35</p>
+      <span>Posts</span>
     </div>
-    <div class="article-info profile-block">
-      <div class="article-info-block">
-        <p>35</p>
-        <span>Posts</span>
-      </div>
-      <div class="article-info-block">
-        <p id="gh-followers">...</p>
-        <span>Followers</span>
-      </div>
-    </div>
-    <div class="profile-block social-links">
-      <table>
-        <tr>
-          
-          <td><a href="https://github.com/sakshamsharma" target="_blank" title="GitHub"><i class="fa fa-github"></i></a></td>
-          
-          <td><a href="https://in.linkedin.com/in/saksham-sharma" target="_blank" title="LinkedIn"><i class="fa fa-linkedin"></i></a></td>
-          
-          <td><a href="../cv" target="_blank" title="Resume"><i class="fa fa-file-pdf-o"></i></a></td>
-          
-          <td><a href="../rss.xml" target="_blank" title="Rss"><i class="fa fa-rss"></i></a></td>
-          
-        </tr>
-      </table>
+    <div class="article-info-block">
+      <p class="gh-followers">...</p>
+      <span>Followers</span>
     </div>
   </div>
+  <div class="profile-block social-links">
+    <table>
+      <tr>
+        
+        <td><a href="https://github.com/sakshamsharma" target="_blank" title="GitHub"><i class="fa fa-github"></i></a></td>
+        
+        <td><a href="https://in.linkedin.com/in/saksham-sharma" target="_blank" title="LinkedIn"><i class="fa fa-linkedin"></i></a></td>
+        
+        <td><a href="../cv" target="_blank" title="Resume"><i class="fa fa-file-pdf-o"></i></a></td>
+        
+        <td><a href="../rss.xml" target="_blank" title="Rss"><i class="fa fa-rss"></i></a></td>
+        
+      </tr>
+    </table>
+  </div>
+</div>
+
 </aside>
 
 <script>
   var xmlHttp = new XMLHttpRequest();
   xmlHttp.onreadystatechange = function() {
-  if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
-    document.getElementById("gh-followers").innerHTML = JSON.parse(xmlHttp.responseText).followers;
+    if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+      var elems = document.getElementsByClassName("gh-followers");
+      for (var i=0; i<elems.length; i++) {
+        elems[i].innerHTML = JSON.parse(xmlHttp.responseText).followers;
+      }
+    }
   }
   xmlHttp.open("GET", "https://api.github.com/users/sakshamsharma", true);
   xmlHttp.send(null);
 </script>
 
-<section id="main">
-  <header class="article-header" style="text-align:center; margin-top: 14px;">
+        <section id="main">
+          <header class="article-header" style="text-align:center; margin-top: 14px;">
   <a>
     <h1 class="article-title" itemprop="name">Posts tagged "gnome"</h1>
   </a>
 </header>
+
+
+<article class="article article-type-post" id="profile-article-div">
+    <div class="article-inner">
+        <aside class="profile" id="profile-article">
+  <div class="inner profile-inner">
+  <div class="base-info profile-block">
+    <h2 id="name">Saksham Sharma</h2>
+    <h3 id="title">Programmer.</h3>
+    <img id="avatar" style="border-radius: 1000px;" src="https://avatars3.githubusercontent.com/u/10418596?v=3&s=460" />
+  </div>
+  <div class="article-info profile-block">
+    <div class="article-info-block">
+      <p>35</p>
+      <span>Posts</span>
+    </div>
+    <div class="article-info-block">
+      <p class="gh-followers">...</p>
+      <span>Followers</span>
+    </div>
+  </div>
+  <div class="profile-block social-links">
+    <table>
+      <tr>
+        
+        <td><a href="https://github.com/sakshamsharma" target="_blank" title="GitHub"><i class="fa fa-github"></i></a></td>
+        
+        <td><a href="https://in.linkedin.com/in/saksham-sharma" target="_blank" title="LinkedIn"><i class="fa fa-linkedin"></i></a></td>
+        
+        <td><a href="../cv" target="_blank" title="Resume"><i class="fa fa-file-pdf-o"></i></a></td>
+        
+        <td><a href="../rss.xml" target="_blank" title="Rss"><i class="fa fa-rss"></i></a></td>
+        
+      </tr>
+    </table>
+  </div>
+</div>
+
+</aside>
+
+    </div>
+</article>
+
 
 
 <article class="article article-type-post" itemscope itemprop="blogPost">
@@ -261,7 +300,48 @@
 
 
 
-</section>
+        </section>
+
+        
+
+        
+<aside class="profile" id="profile-widget">
+  <div class="inner profile-inner">
+  <div class="base-info profile-block">
+    <h2 id="name">Saksham Sharma</h2>
+    <h3 id="title">Programmer.</h3>
+    <img id="avatar" style="border-radius: 1000px;" src="https://avatars3.githubusercontent.com/u/10418596?v=3&s=460" />
+  </div>
+  <div class="article-info profile-block">
+    <div class="article-info-block">
+      <p>35</p>
+      <span>Posts</span>
+    </div>
+    <div class="article-info-block">
+      <p class="gh-followers">...</p>
+      <span>Followers</span>
+    </div>
+  </div>
+  <div class="profile-block social-links">
+    <table>
+      <tr>
+        
+        <td><a href="https://github.com/sakshamsharma" target="_blank" title="GitHub"><i class="fa fa-github"></i></a></td>
+        
+        <td><a href="https://in.linkedin.com/in/saksham-sharma" target="_blank" title="LinkedIn"><i class="fa fa-linkedin"></i></a></td>
+        
+        <td><a href="../cv" target="_blank" title="Resume"><i class="fa fa-file-pdf-o"></i></a></td>
+        
+        <td><a href="../rss.xml" target="_blank" title="Rss"><i class="fa fa-rss"></i></a></td>
+        
+      </tr>
+    </table>
+  </div>
+</div>
+
+</aside>
+
+
 
 <aside id="sidebar">
     <!-- {{ if .Site.Params.widgets.recent_articles }} -->
@@ -426,7 +506,6 @@
 
     <div id="toTop" class="fa fa-angle-up"></div>
 </aside>
-
 
 
       </div>
