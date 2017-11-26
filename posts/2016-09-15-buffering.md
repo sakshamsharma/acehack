@@ -9,15 +9,6 @@ id: buffering-1
 author: Saksham Sharma
 ------
 
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
-});
-</script>
-<script type="text/javascript" async
-  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
-</script>
-
 As a natural extension my project [hop](https://github.com/sakshamsharma/HTTP-Over-Protocol), I decided to try and optimize it's buffering technique. Here is the problem formalized a bit:
 
 * A source which is capable of writing bytes at the rate of `S bytes/sec`.
@@ -108,3 +99,12 @@ So if it is possible to slow down the sender this much (or simply read slowly, h
 
 ## Conclusion
 Already having spent quite a bit on this article (and now wanting to go back to my other ideas related to networks), I'll leave this post here, unfinished. There can be quite a few conclusions from this, which would possibly have been written down in some paper or the other for sure. But I believe being so nascent in this field, trying out things on your own has its own charm! Will probably work some more on this if I get time.
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
+});
+</script>
+<script type="text/javascript" async
+  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
