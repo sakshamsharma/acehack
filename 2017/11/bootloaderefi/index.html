@@ -189,9 +189,9 @@
 <h2 id="how-does-an-efi-installation-work">How does an EFI installation work?</h2>
 <p>We first need to see how Linux boot works. The bootloader’s job is to load up the Linux kernel. Grub usually has a configuration which stores some preset ways to load into your well-settled installations, but here’s what actually happens. You can boot using these steps to boot using grub a grub shell:</p>
 <pre><code>&gt; insmod ext2
-&gt; set root=(hd0,gpt5)
-&gt; linux /vmlinuz-4.10.4-generic root=/dev/sda6 init=/usr/lib/systemd/systemd
-&gt; boot</code></pre>
+ &gt; set root=(hd0,gpt5)
+ &gt; linux /vmlinuz-4.10.4-generic root=/dev/sda6 init=/usr/lib/systemd/systemd
+ &gt; boot</code></pre>
 <p>Let’s see some step by step explanations:</p>
 <ol style="list-style-type: decimal">
 <li>We need to load the ext2 module for this (don’t ask me why).</li>
