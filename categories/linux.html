@@ -137,7 +137,7 @@
   </div>
   <div class="article-info profile-block">
     <div class="article-info-block">
-      <p>35</p>
+      <p>36</p>
       <span>Posts</span>
     </div>
     <div class="article-info-block">
@@ -197,7 +197,7 @@
   </div>
   <div class="article-info profile-block">
     <div class="article-info-block">
-      <p>35</p>
+      <p>36</p>
       <span>Posts</span>
     </div>
     <div class="article-info-block">
@@ -228,6 +228,74 @@
 </article>
 
 
+
+<article class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+        <!-- <a href="{{ .Permalink }}" itemprop="url"> -->
+        <!--     <img src="{{ .Params.banner | absURL }}" class="article-banner"> -->
+        <!-- {{ end }} -->
+        <!-- </a> -->
+
+        <header class="article-header">
+  <a href="../2017/11/bootloaderefi/index.html">
+    <h1 class="article-title" itemprop="name">Things no one told me about EFI</h1>
+  </a>
+  <div class="article-meta">
+    <!-- {{ if not .Params.nodateline }} -->
+    <!-- <div class="article-date"> -->
+    <!--   <i class="fa fa-calendar"></i> -->
+    <!--   <time datetime="{{ .Date }}" itemprop="datePublished">{{ .Date.Format .Site.Params.date_format }}</time> -->
+    <!--   &middot; -->
+    <!--   {{ .WordCount }} -->
+    <!--   {{ with .Site.Data.l10n.articles.words }}{{.}}{{end}} -->
+    <!--   &middot; -->
+    <!--   {{ .ReadingTime }} -->
+    <!--   {{ with .Site.Data.l10n.articles.readingtime }}{{.}}{{end}} -->
+    <!-- </div> -->
+    <!-- {{ end }} -->
+    <!-- {{ if isset .Params "categories" }} -->
+    <!-- {{ categoriesLen := len .Params.categories }} -->
+    <!-- {{ if gt categoriesLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-folder"></i>
+      linux
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
+
+    <!-- {{ if isset .Params "tags" }} -->
+    <!-- {{ tagsLen := len .Params.tags }} -->
+    <!-- {{ if gt tagsLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-tags"></i>
+      <a href="../tags/bootloader.html">bootloader</a>, <a href="../tags/grub.html">grub</a>, <a href="../tags/EFI.html">EFI</a>
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
+  </div>
+</header>
+
+        <div class="article-entry" itemprop="articleBody">
+            <p>
+                
+                    Fixing up my laptop's bootloader and partitions
+                
+            </p>
+            <p class="article-more-link">
+                <a href="../2017/11/bootloaderefi/index.html"> Read more </a>
+            </p>
+        </div>
+
+        <footer class="article-footer">
+          
+        </footer>
+    </div>
+</article>
 
 <article class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
@@ -998,7 +1066,7 @@
   </div>
   <div class="article-info profile-block">
     <div class="article-info-block">
-      <p>35</p>
+      <p>36</p>
       <span>Posts</span>
     </div>
     <div class="article-info-block">
@@ -1102,6 +1170,13 @@
     <div class="widget">
         <ul class="category-list">
           
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../tags/EFI.html">
+                  EFI
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
             <li class="category-list-item mydata">
                 <a class="category-list-link" href="../tags/OS.html">
                   OS
@@ -1531,6 +1606,34 @@
                     <!-- </p> -->
                     <!-- {{ end }} -->
                     <!-- {{ end }} -->
+                    <p class="item-title"><a href class="title">Things no one told me about EFI</a></p>
+                    <p class="item-date">
+                        <time datetime="November 27, 2017" itemprop="datePublished">November 27, 2017</time>
+                    </p>
+                </div>
+            </li>
+            
+            <li>
+                <div class="item-thumbnail">
+                    <a href class="thumbnail">
+                    <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+                    <!--     <span style="background-image:url({{ .Params.banner | absURL }})" alt="{{ .Title }}" class="thumbnail-image"></span> -->
+                    <!-- {{else}} -->
+                        <span class="thumbnail-image thumbnail-none"></span>
+                    <!-- {{ end }} -->
+                    </a>
+                </div>
+                <div class="item-inner">
+                    <!-- {{ if isset .Params "categories" }} -->
+                    <!-- {{ if gt (len .Params.categories) 0 }} -->
+                    <!-- <p class="item-category"> -->
+                    <!--     {{ url := printf "%s/%s" "categories" (index .Params.categories 0 | urlize | lower)}} -->
+                    <!--     <a class="article-category-link" href="{{ url | absURL }}"> -->
+                    <!--     {{ index .Params.categories 0 }} -->
+                    <!--     </a> -->
+                    <!-- </p> -->
+                    <!-- {{ end }} -->
+                    <!-- {{ end }} -->
                     <p class="item-title"><a href class="title">Interning at Google Seattle</a></p>
                     <p class="item-date">
                         <time datetime="August  5, 2017" itemprop="datePublished">August  5, 2017</time>
@@ -1618,34 +1721,6 @@
                     <p class="item-title"><a href class="title">Coding software-based mutex algos for fun</a></p>
                     <p class="item-date">
                         <time datetime="December  2, 2016" itemprop="datePublished">December  2, 2016</time>
-                    </p>
-                </div>
-            </li>
-            
-            <li>
-                <div class="item-thumbnail">
-                    <a href class="thumbnail">
-                    <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
-                    <!--     <span style="background-image:url({{ .Params.banner | absURL }})" alt="{{ .Title }}" class="thumbnail-image"></span> -->
-                    <!-- {{else}} -->
-                        <span class="thumbnail-image thumbnail-none"></span>
-                    <!-- {{ end }} -->
-                    </a>
-                </div>
-                <div class="item-inner">
-                    <!-- {{ if isset .Params "categories" }} -->
-                    <!-- {{ if gt (len .Params.categories) 0 }} -->
-                    <!-- <p class="item-category"> -->
-                    <!--     {{ url := printf "%s/%s" "categories" (index .Params.categories 0 | urlize | lower)}} -->
-                    <!--     <a class="article-category-link" href="{{ url | absURL }}"> -->
-                    <!--     {{ index .Params.categories 0 }} -->
-                    <!--     </a> -->
-                    <!-- </p> -->
-                    <!-- {{ end }} -->
-                    <!-- {{ end }} -->
-                    <p class="item-title"><a href class="title">Zero-trust - Safe and anonymous ANDing bits - Part 2</a></p>
-                    <p class="item-date">
-                        <time datetime="November 25, 2016" itemprop="datePublished">November 25, 2016</time>
                     </p>
                 </div>
             </li>

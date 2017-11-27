@@ -4,7 +4,7 @@
     <!-- <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} &middot; {{ .Site.Title }}{{ end }}</title> -->
 <!-- {{ .Hugo.Generator }} -->
 
-<title>AceHack-browser</title>
+<title>AceHack-Things no one told me about EFI</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <!-- {{ with .Site.Params.author }}<meta name="author" content="{{ . }}">{{ end }} -->
@@ -22,12 +22,12 @@
 <meta name="keywords" content="acehack, coding, programming, linux, webdev, hakyll">
 
 <!-- <link rel="canonical" href="{{ .Permalink }}"/> -->
-<link rel="icon" href="../favicon.ico">
-<link rel="apple-touch-icon" href="../apple-touch-icon.png" />
-<link rel="stylesheet" href="../css/style.css">
-<link rel="stylesheet" href="../css/font-awesome.min.css">
-<link rel="stylesheet" href="../css/monokai.css">
-<link rel="stylesheet" href="../fancybox/jquery.fancybox.css">
+<link rel="icon" href="../../../favicon.ico">
+<link rel="apple-touch-icon" href="../../../apple-touch-icon.png" />
+<link rel="stylesheet" href="../../../css/style.css">
+<link rel="stylesheet" href="../../../css/font-awesome.min.css">
+<link rel="stylesheet" href="../../../css/monokai.css">
+<link rel="stylesheet" href="../../../fancybox/jquery.fancybox.css">
 <!-- ------------- -->
 <!-- FIX IMPORTANT -->
 <!-- ------------- -->
@@ -68,16 +68,16 @@
           <span class="site-title">AceHack</span>
       </a>
       <nav id="main-nav">
-        <a class="main-nav-link" href="../">Home</a>
-        <a class="main-nav-link" href="../about">About</a>
+        <a class="main-nav-link" href="../../../">Home</a>
+        <a class="main-nav-link" href="../../../about">About</a>
         
         <a class="main-nav-link" href="https://github.com/sakshamsharma">GitHub</a>
         
         <a class="main-nav-link" href="https://in.linkedin.com/in/saksham-sharma">LinkedIn</a>
         
-        <a class="main-nav-link" href="../cv">Resume</a>
+        <a class="main-nav-link" href="../../../cv">Resume</a>
         
-        <a class="main-nav-link" href="../rss.xml">RSS</a>
+        <a class="main-nav-link" href="../../../rss.xml">RSS</a>
         
       </nav>
       <div id="search-form-wrap">
@@ -94,8 +94,8 @@
     <table class="menu outer">
       <tbody>
           <tr>
-          <td><a class="main-nav-link" href="../">Home</a></td>
-          <td><a class="main-nav-link" href="../about">About</a></td>
+          <td><a class="main-nav-link" href="../../../">Home</a></td>
+          <td><a class="main-nav-link" href="../../../about">About</a></td>
         <!--   {{ range .Site.Params.menu }} -->
         <!--   {{ if .before }} -->
         <!--   <td><a class="main-nav-link" href="{{ .link | absURL }}">{{ .label }}</a></td> -->
@@ -128,118 +128,16 @@
 
         
 
-        <aside class="profile" id="profile">
-  <div class="inner profile-inner">
-  <div class="base-info profile-block">
-    <h2 id="name">Saksham Sharma</h2>
-    <h3 id="title">Programmer.</h3>
-    <img id="avatar" style="border-radius: 1000px;" src="https://avatars3.githubusercontent.com/u/10418596?v=3&s=460" />
-  </div>
-  <div class="article-info profile-block">
-    <div class="article-info-block">
-      <p>36</p>
-      <span>Posts</span>
-    </div>
-    <div class="article-info-block">
-      <p class="gh-followers">...</p>
-      <span>Followers</span>
-    </div>
-  </div>
-  <div class="profile-block social-links">
-    <table>
-      <tr>
-        
-        <td><a href="https://github.com/sakshamsharma" target="_blank" title="GitHub"><i class="fa fa-github"></i></a></td>
-        
-        <td><a href="https://in.linkedin.com/in/saksham-sharma" target="_blank" title="LinkedIn"><i class="fa fa-linkedin"></i></a></td>
-        
-        <td><a href="../cv" target="_blank" title="Resume"><i class="fa fa-file-pdf-o"></i></a></td>
-        
-        <td><a href="../rss.xml" target="_blank" title="RSS"><i class="fa fa-rss"></i></a></td>
-        
-      </tr>
-    </table>
-  </div>
-</div>
-
-</aside>
-
-<script>
-  var xmlHttp = new XMLHttpRequest();
-  xmlHttp.onreadystatechange = function() {
-    if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
-      var elems = document.getElementsByClassName("gh-followers");
-      for (var i=0; i<elems.length; i++) {
-        elems[i].innerHTML = JSON.parse(xmlHttp.responseText).followers;
-      }
-    }
-  }
-  xmlHttp.open("GET", "https://api.github.com/users/sakshamsharma", true);
-  xmlHttp.send(null);
-</script>
-
-        <section id="main">
-          <header class="article-header" style="text-align:center; margin-top: 14px;">
-  <a>
-    <h1 class="article-title" itemprop="name">Posts tagged "browser"</h1>
-  </a>
-</header>
-
-
-<article class="article article-type-post" id="profile-article-div">
-    <div class="article-inner">
-        <aside class="profile" id="profile-article">
-  <div class="inner profile-inner">
-  <div class="base-info profile-block">
-    <h2 id="name">Saksham Sharma</h2>
-    <h3 id="title">Programmer.</h3>
-    <img id="avatar" style="border-radius: 1000px;" src="https://avatars3.githubusercontent.com/u/10418596?v=3&s=460" />
-  </div>
-  <div class="article-info profile-block">
-    <div class="article-info-block">
-      <p>36</p>
-      <span>Posts</span>
-    </div>
-    <div class="article-info-block">
-      <p class="gh-followers">...</p>
-      <span>Followers</span>
-    </div>
-  </div>
-  <div class="profile-block social-links">
-    <table>
-      <tr>
-        
-        <td><a href="https://github.com/sakshamsharma" target="_blank" title="GitHub"><i class="fa fa-github"></i></a></td>
-        
-        <td><a href="https://in.linkedin.com/in/saksham-sharma" target="_blank" title="LinkedIn"><i class="fa fa-linkedin"></i></a></td>
-        
-        <td><a href="../cv" target="_blank" title="Resume"><i class="fa fa-file-pdf-o"></i></a></td>
-        
-        <td><a href="../rss.xml" target="_blank" title="RSS"><i class="fa fa-rss"></i></a></td>
-        
-      </tr>
-    </table>
-  </div>
-</div>
-
-</aside>
-
-    </div>
-</article>
-
-
-
-<article class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="widemain">
+          <article id="page-undefined" class="article article-type-page" itemscope itemprop="blogPost">
     <div class="article-inner">
         <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
-        <!-- <a href="{{ .Permalink }}" itemprop="url"> -->
         <!--     <img src="{{ .Params.banner | absURL }}" class="article-banner"> -->
         <!-- {{ end }} -->
-        <!-- </a> -->
 
         <header class="article-header">
-  <a href="../2016/06/chromeffx/index.html">
-    <h1 class="article-title" itemprop="name">Chrome and Firefox resource usage experiment</h1>
+  <a href="../../../2017/11/bootloaderefi/index.html">
+    <h1 class="article-title" itemprop="name">Things no one told me about EFI</h1>
   </a>
   <div class="article-meta">
     <!-- {{ if not .Params.nodateline }} -->
@@ -260,7 +158,7 @@
     
     <div class="article-category">
       <i class="fa fa-folder"></i>
-      experiments
+      linux
     </div>
     
     <!-- {{ end }} -->
@@ -272,7 +170,7 @@
     
     <div class="article-category">
       <i class="fa fa-tags"></i>
-      <a href="../tags/technical.html">technical</a>, <a href="../tags/browser.html">browser</a>, <a href="../tags/experiment.html">experiment</a>
+      bootloader, grub, EFI
     </div>
     
     <!-- {{ end }} -->
@@ -281,68 +179,82 @@
 </header>
 
         <div class="article-entry" itemprop="articleBody">
-            <p>
-                
-                    Finally put them to the test!
-                
-            </p>
-            <p class="article-more-link">
-                <a href="../2016/06/chromeffx/index.html"> Read more </a>
-            </p>
+          <p>About one and a half years later, I finally thought it is time to reinstall Windows for completeness sake (don’t judge me please). Little did I know that I would be opening a pandora’s box.</p>
+<p>So I never really understood the concept of EFI, or the difference between BIOS/UEFI; and yet, I have played around with bootloaders for quite a while now. I somehow managed to survive by trying all possible variants of grub commands, every time. This caused more havoc on my hard disk than I knew.</p>
+<p>So, here’s what I learnt later, once everything was fixed:</p>
+<h2 id="efi-vs-legacy">EFI vs Legacy</h2>
+<p>Legacy bootloaders reside in some bytes at the beginning of each partition. During legacy boot, the BIOS reads data off the start of each partition.</p>
+<p>Instead, in the case of EFI, there’s supposed to be a single partition on your hard disk, which contains all the bootloaders. The BIOS is configured to read data from this partition.</p>
+<p>Now, it is recommended to have only one EFI partition. I had 3 at some point, somehow, and it caused quite a few troubles while installing Windows.</p>
+<h2 id="how-does-an-efi-installation-work">How does an EFI installation work?</h2>
+<p>We first need to see how Linux boot works. The bootloader’s job is to load up the Linux kernel. Grub usually has a configuration which stores some preset ways to load into your well-settled installations, but here’s what actually happens. You can boot using these steps to boot using grub a grub shell:</p>
+<pre><code>&gt; insmod ext2
+&gt; set root=(hd0,gpt5)
+&gt; linux /vmlinuz-4.10.4-generic root=/dev/sda6 init=/usr/lib/systemd/systemd
+&gt; boot</code></pre>
+<p>Let’s see some step by step explanations:</p>
+<ol style="list-style-type: decimal">
+<li>We need to load the ext2 module for this (don’t ask me why).</li>
+<li>This <em>root</em> that we mention here, that’s the partition where <code>/boot</code> is often mounted. The strict requirement is that this partition should have the linux kernel (<code>vmlinuz-&lt;something&gt;</code>). It may be your root partition, or the one where you mount <code>/boot</code>.</li>
+<li>We specify the kernel we want to use. There are a couple of arguments:</li>
+<li>Notice how the path used is <code>/vmlinuz-...</code>. The path is relative to the root mentioned in step 2. It would’ve been <code>/boot/vmlinuz-...</code> if you don’t have a separate boot partition.</li>
+<li>The root variable (a different one, you say?) is now set to the location of your <strong>root</strong> partition.</li>
+<li>I chose to set <code>init</code> to systemd, since I use Gentoo and it defaults to OpenRC. You may not need this.</li>
+<li>Boot. Profit.</li>
+</ol>
+<p>The take-away is that the booting pretty much involves providing a kernel, and a root partition.</p>
+<p>Now how did the bootloader start up? Inside your EFI partition, there shall be a binary of the type: <code>/EFI/&lt;your-os-name&gt;/grub64x.efi</code>. That’s how BIOS finds the bootloader.</p>
+<h2 id="things-i-learned">Things I learned</h2>
+<p>Well, so ideally, for a EFI installation, here’s some things you need to keep in mind.</p>
+<ul>
+<li><p>Make sure there’s only one EFI partition. Open up gparted, and look at the partitions with the <code>esp</code> flag set. <strong>ESP</strong> stands for <strong>EFI System Partition</strong>. If there are other partitions than the one you’d want to be your EFI partition, you should unset the <code>esp</code> flag on those.</p></li>
+<li><p>Grub configuration is created using <code>grub-mkconfig -o /boot/grub/grub.cfg</code>. Now, your kernel, grub configuration, and any other bootloader-specific things should stay in the same partition.</p></li>
+<li><p>Now about installation of the bootloader into the EFI partition. Grub defaults to the assumption that you have mounted the ESP at <code>/boot/efi</code>. So if that’s done, you can simply use <code>grub-install</code> and it should automatically copy the <code>.efi</code> file to the correct location. Otherwise, you can point to the installation location (it has <code>/EFI/&lt;bootloader-names&gt;</code> directories). The way to do it is <code>grub-install --efi-directory=/place/where/you/mounted/EFI</code>.</p></li>
+<li><p>I was under the impression that my hard disk was using a GPT partition table. Well, it was using MBR. I first converted it to GPT (no data loss usually), after which the remaining pieces fell into place, and I could finally proceed with my Windows installation without much issue.</p></li>
+<li><p>If you already have a few partitions, don’t create the partition for the windows installation from the windows installer. It creates lots of wasteful extra partitions (I had most of them already, due to this being a reinstallation). I created an NTFS partition manually for Windows using parted on Linux.</p></li>
+</ul>
         </div>
-
-        <footer class="article-footer">
-          
-        </footer>
+        <!-- partial("templates/partials/article_footer.html") -->
     </div>
+
+    <!-- {{ partial "prev_next_post" . }} -->
 </article>
 
+<script src="../../../js/fb.js"></script>
+<div class="fb-like" data-share="true" data-width="450" data-show-faces="true">
+</div>
 
-<script src="../js/article_footer.js"></script>
+<script id="dsq-count-scr" src="//acehack.disqus.com/count.js" async></script>
 
+<div id="disqus_thread"></div>
+<script>
+ // For debugging
+ var disqus_developer = 1;
+ var disqus_shortname = 'acehack';
+ var disqus_config = function () {
+     this.page.url = 'http://acehack.org/2017/11/bootloaderefi/index.html';
+     this.page.identifier = 'bootloader-efi';
+     this.page.title = 'Things no one told me about EFI';
+ };
+ (function() {
+     var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+     dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+ })();
+ (function () {
+     var s = document.createElement('script'); s.async = true;
+     s.type = 'text/javascript';
+     s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+     (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+ }());
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
 
         </section>
 
         
 
         
-<aside class="profile" id="profile-widget">
-  <div class="inner profile-inner">
-  <div class="base-info profile-block">
-    <h2 id="name">Saksham Sharma</h2>
-    <h3 id="title">Programmer.</h3>
-    <img id="avatar" style="border-radius: 1000px;" src="https://avatars3.githubusercontent.com/u/10418596?v=3&s=460" />
-  </div>
-  <div class="article-info profile-block">
-    <div class="article-info-block">
-      <p>36</p>
-      <span>Posts</span>
-    </div>
-    <div class="article-info-block">
-      <p class="gh-followers">...</p>
-      <span>Followers</span>
-    </div>
-  </div>
-  <div class="profile-block social-links">
-    <table>
-      <tr>
-        
-        <td><a href="https://github.com/sakshamsharma" target="_blank" title="GitHub"><i class="fa fa-github"></i></a></td>
-        
-        <td><a href="https://in.linkedin.com/in/saksham-sharma" target="_blank" title="LinkedIn"><i class="fa fa-linkedin"></i></a></td>
-        
-        <td><a href="../cv" target="_blank" title="Resume"><i class="fa fa-file-pdf-o"></i></a></td>
-        
-        <td><a href="../rss.xml" target="_blank" title="RSS"><i class="fa fa-rss"></i></a></td>
-        
-      </tr>
-    </table>
-  </div>
-</div>
-
-</aside>
-
-
 
 <aside id="sidebar">
     <div class="widget-wrap">
@@ -351,61 +263,61 @@
         <ul class="category-list">
           
             <li class="category-list-item">
-                <a class="category-list-link" href="../categories/abstract-thoughts.html">
+                <a class="category-list-link" href="../../../categories/abstract-thoughts.html">
                   abstract-thoughts
                 </a>
             </li>
             
             <li class="category-list-item">
-                <a class="category-list-link" href="../categories/algorithm.html">
+                <a class="category-list-link" href="../../../categories/algorithm.html">
                   algorithm
                 </a>
             </li>
             
             <li class="category-list-item">
-                <a class="category-list-link" href="../categories/career.html">
+                <a class="category-list-link" href="../../../categories/career.html">
                   career
                 </a>
             </li>
             
             <li class="category-list-item">
-                <a class="category-list-link" href="../categories/editors.html">
+                <a class="category-list-link" href="../../../categories/editors.html">
                   editors
                 </a>
             </li>
             
             <li class="category-list-item">
-                <a class="category-list-link" href="../categories/experiments.html">
+                <a class="category-list-link" href="../../../categories/experiments.html">
                   experiments
                 </a>
             </li>
             
             <li class="category-list-item">
-                <a class="category-list-link" href="../categories/linux.html">
+                <a class="category-list-link" href="../../../categories/linux.html">
                   linux
                 </a>
             </li>
             
             <li class="category-list-item">
-                <a class="category-list-link" href="../categories/networks.html">
+                <a class="category-list-link" href="../../../categories/networks.html">
                   networks
                 </a>
             </li>
             
             <li class="category-list-item">
-                <a class="category-list-link" href="../categories/poems.html">
+                <a class="category-list-link" href="../../../categories/poems.html">
                   poems
                 </a>
             </li>
             
             <li class="category-list-item">
-                <a class="category-list-link" href="../categories/programming.html">
+                <a class="category-list-link" href="../../../categories/programming.html">
                   programming
                 </a>
             </li>
             
             <li class="category-list-item">
-                <a class="category-list-link" href="../categories/projects.html">
+                <a class="category-list-link" href="../../../categories/projects.html">
                   projects
                 </a>
             </li>
@@ -420,399 +332,399 @@
         <ul class="category-list">
           
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../tags/EFI.html">
+                <a class="category-list-link" href="../../../tags/EFI.html">
                   EFI
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../tags/OS.html">
+                <a class="category-list-link" href="../../../tags/OS.html">
                   OS
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../tags/abcd.html">
+                <a class="category-list-link" href="../../../tags/abcd.html">
                   abcd
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../tags/algorithm.html">
+                <a class="category-list-link" href="../../../tags/algorithm.html">
                   algorithm
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../tags/arch.html">
+                <a class="category-list-link" href="../../../tags/arch.html">
                   arch
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../tags/battery.html">
+                <a class="category-list-link" href="../../../tags/battery.html">
                   battery
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../tags/beginner.html">
+                <a class="category-list-link" href="../../../tags/beginner.html">
                   beginner
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../tags/blog.html">
+                <a class="category-list-link" href="../../../tags/blog.html">
                   blog
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../tags/bootloader.html">
+                <a class="category-list-link" href="../../../tags/bootloader.html">
                   bootloader
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../tags/browser.html">
+                <a class="category-list-link" href="../../../tags/browser.html">
                   browser
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../tags/bumblebee.html">
+                <a class="category-list-link" href="../../../tags/bumblebee.html">
                   bumblebee
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../tags/career.html">
+                <a class="category-list-link" href="../../../tags/career.html">
                   career
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../tags/chaos.html">
+                <a class="category-list-link" href="../../../tags/chaos.html">
                   chaos
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../tags/coding.html">
+                <a class="category-list-link" href="../../../tags/coding.html">
                   coding
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../tags/crypto.html">
+                <a class="category-list-link" href="../../../tags/crypto.html">
                   crypto
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../tags/cse.html">
+                <a class="category-list-link" href="../../../tags/cse.html">
                   cse
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../tags/emacs.html">
+                <a class="category-list-link" href="../../../tags/emacs.html">
                   emacs
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../tags/esolang.html">
+                <a class="category-list-link" href="../../../tags/esolang.html">
                   esolang
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../tags/experience.html">
+                <a class="category-list-link" href="../../../tags/experience.html">
                   experience
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../tags/experiment.html">
+                <a class="category-list-link" href="../../../tags/experiment.html">
                   experiment
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../tags/gentoo.html">
+                <a class="category-list-link" href="../../../tags/gentoo.html">
                   gentoo
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../tags/git.html">
+                <a class="category-list-link" href="../../../tags/git.html">
                   git
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../tags/github.html">
+                <a class="category-list-link" href="../../../tags/github.html">
                   github
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../tags/gnome.html">
+                <a class="category-list-link" href="../../../tags/gnome.html">
                   gnome
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../tags/google.html">
+                <a class="category-list-link" href="../../../tags/google.html">
                   google
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../tags/grub.html">
+                <a class="category-list-link" href="../../../tags/grub.html">
                   grub
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../tags/hakyll.html">
+                <a class="category-list-link" href="../../../tags/hakyll.html">
                   hakyll
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../tags/hop.html">
+                <a class="category-list-link" href="../../../tags/hop.html">
                   hop
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../tags/i3wm.html">
+                <a class="category-list-link" href="../../../tags/i3wm.html">
                   i3wm
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../tags/iitk.html">
+                <a class="category-list-link" href="../../../tags/iitk.html">
                   iitk
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../tags/install.html">
+                <a class="category-list-link" href="../../../tags/install.html">
                   install
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../tags/intern.html">
+                <a class="category-list-link" href="../../../tags/intern.html">
                   intern
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../tags/job.html">
+                <a class="category-list-link" href="../../../tags/job.html">
                   job
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../tags/kernel.html">
+                <a class="category-list-link" href="../../../tags/kernel.html">
                   kernel
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../tags/kubernetes.html">
+                <a class="category-list-link" href="../../../tags/kubernetes.html">
                   kubernetes
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../tags/life.html">
+                <a class="category-list-link" href="../../../tags/life.html">
                   life
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../tags/linux.html">
+                <a class="category-list-link" href="../../../tags/linux.html">
                   linux
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../tags/mpi.html">
+                <a class="category-list-link" href="../../../tags/mpi.html">
                   mpi
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../tags/music.html">
+                <a class="category-list-link" href="../../../tags/music.html">
                   music
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../tags/musings.html">
+                <a class="category-list-link" href="../../../tags/musings.html">
                   musings
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../tags/networks.html">
+                <a class="category-list-link" href="../../../tags/networks.html">
                   networks
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../tags/nvidia.html">
+                <a class="category-list-link" href="../../../tags/nvidia.html">
                   nvidia
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../tags/programming%20language.html">
+                <a class="category-list-link" href="../../../tags/programming%20language.html">
                   programming language
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../tags/puppy.html">
+                <a class="category-list-link" href="../../../tags/puppy.html">
                   puppy
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../tags/python.html">
+                <a class="category-list-link" href="../../../tags/python.html">
                   python
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../tags/shell.html">
+                <a class="category-list-link" href="../../../tags/shell.html">
                   shell
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../tags/short.html">
+                <a class="category-list-link" href="../../../tags/short.html">
                   short
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../tags/techkriti.html">
+                <a class="category-list-link" href="../../../tags/techkriti.html">
                   techkriti
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../tags/technical.html">
+                <a class="category-list-link" href="../../../tags/technical.html">
                   technical
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../tags/tilingWM.html">
+                <a class="category-list-link" href="../../../tags/tilingWM.html">
                   tilingWM
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../tags/tty.html">
+                <a class="category-list-link" href="../../../tags/tty.html">
                   tty
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../tags/video.html">
+                <a class="category-list-link" href="../../../tags/video.html">
                   video
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../tags/vim.html">
+                <a class="category-list-link" href="../../../tags/vim.html">
                   vim
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../tags/virtualbox.html">
+                <a class="category-list-link" href="../../../tags/virtualbox.html">
                   virtualbox
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../tags/web.html">
+                <a class="category-list-link" href="../../../tags/web.html">
                   web
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../tags/xmonad.html">
+                <a class="category-list-link" href="../../../tags/xmonad.html">
                   xmonad
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../tags/zsh.html">
+                <a class="category-list-link" href="../../../tags/zsh.html">
                   zsh
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
@@ -822,7 +734,7 @@
     </div>
 </div>
 
-<script src="../js/tags.js"> </script>
+<script src="../../../js/tags.js"> </script>
 
     <!-- {{ if .Site.Params.widgets.recent_articles }} -->
 <div class="widget-wrap">

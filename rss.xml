@@ -7,8 +7,49 @@
         <description><![CDATA[Reveries of a programmer]]></description>
         <atom:link href="https://sakshamsharma.com/rss.xml" rel="self"
                    type="application/rss+xml" />
-        <lastBuildDate>Sat, 05 Aug 2017 00:00:00 UT</lastBuildDate>
+        <lastBuildDate>Mon, 27 Nov 2017 00:00:00 UT</lastBuildDate>
         <item>
+    <title>Things no one told me about EFI</title>
+    <link>https://sakshamsharma.com/2017/11/bootloaderefi/index.html</link>
+    <description><![CDATA[<p>About one and a half years later, I finally thought it is time to reinstall Windows for completeness sake (don’t judge me please). Little did I know that I would be opening a pandora’s box.</p>
+<p>So I never really understood the concept of EFI, or the difference between BIOS/UEFI; and yet, I have played around with bootloaders for quite a while now. I somehow managed to survive by trying all possible variants of grub commands, every time. This caused more havoc on my hard disk than I knew.</p>
+<p>So, here’s what I learnt later, once everything was fixed:</p>
+<h2 id="efi-vs-legacy">EFI vs Legacy</h2>
+<p>Legacy bootloaders reside in some bytes at the beginning of each partition. During legacy boot, the BIOS reads data off the start of each partition.</p>
+<p>Instead, in the case of EFI, there’s supposed to be a single partition on your hard disk, which contains all the bootloaders. The BIOS is configured to read data from this partition.</p>
+<p>Now, it is recommended to have only one EFI partition. I had 3 at some point, somehow, and it caused quite a few troubles while installing Windows.</p>
+<h2 id="how-does-an-efi-installation-work">How does an EFI installation work?</h2>
+<p>We first need to see how Linux boot works. The bootloader’s job is to load up the Linux kernel. Grub usually has a configuration which stores some preset ways to load into your well-settled installations, but here’s what actually happens. You can boot using these steps to boot using grub a grub shell:</p>
+<pre><code>&gt; insmod ext2
+&gt; set root=(hd0,gpt5)
+&gt; linux /vmlinuz-4.10.4-generic root=/dev/sda6 init=/usr/lib/systemd/systemd
+&gt; boot</code></pre>
+<p>Let’s see some step by step explanations:</p>
+<ol style="list-style-type: decimal">
+<li>We need to load the ext2 module for this (don’t ask me why).</li>
+<li>This <em>root</em> that we mention here, that’s the partition where <code>/boot</code> is often mounted. The strict requirement is that this partition should have the linux kernel (<code>vmlinuz-&lt;something&gt;</code>). It may be your root partition, or the one where you mount <code>/boot</code>.</li>
+<li>We specify the kernel we want to use. There are a couple of arguments:</li>
+<li>Notice how the path used is <code>/vmlinuz-...</code>. The path is relative to the root mentioned in step 2. It would’ve been <code>/boot/vmlinuz-...</code> if you don’t have a separate boot partition.</li>
+<li>The root variable (a different one, you say?) is now set to the location of your <strong>root</strong> partition.</li>
+<li>I chose to set <code>init</code> to systemd, since I use Gentoo and it defaults to OpenRC. You may not need this.</li>
+<li>Boot. Profit.</li>
+</ol>
+<p>The take-away is that the booting pretty much involves providing a kernel, and a root partition.</p>
+<p>Now how did the bootloader start up? Inside your EFI partition, there shall be a binary of the type: <code>/EFI/&lt;your-os-name&gt;/grub64x.efi</code>. That’s how BIOS finds the bootloader.</p>
+<h2 id="things-i-learned">Things I learned</h2>
+<p>Well, so ideally, for a EFI installation, here’s some things you need to keep in mind.</p>
+<ul>
+<li><p>Make sure there’s only one EFI partition. Open up gparted, and look at the partitions with the <code>esp</code> flag set. <strong>ESP</strong> stands for <strong>EFI System Partition</strong>. If there are other partitions than the one you’d want to be your EFI partition, you should unset the <code>esp</code> flag on those.</p></li>
+<li><p>Grub configuration is created using <code>grub-mkconfig -o /boot/grub/grub.cfg</code>. Now, your kernel, grub configuration, and any other bootloader-specific things should stay in the same partition.</p></li>
+<li><p>Now about installation of the bootloader into the EFI partition. Grub defaults to the assumption that you have mounted the ESP at <code>/boot/efi</code>. So if that’s done, you can simply use <code>grub-install</code> and it should automatically copy the <code>.efi</code> file to the correct location. Otherwise, you can point to the installation location (it has <code>/EFI/&lt;bootloader-names&gt;</code> directories). The way to do it is <code>grub-install --efi-directory=/place/where/you/mounted/EFI</code>.</p></li>
+<li><p>I was under the impression that my hard disk was using a GPT partition table. Well, it was using MBR. I first converted it to GPT (no data loss usually), after which the remaining pieces fell into place, and I could finally proceed with my Windows installation without much issue.</p></li>
+<li><p>If you already have a few partitions, don’t create the partition for the windows installation from the windows installer. It creates lots of wasteful extra partitions (I had most of them already, due to this being a reinstallation). I created an NTFS partition manually for Windows using parted on Linux.</p></li>
+</ul>]]></description>
+    <pubDate>Mon, 27 Nov 2017 00:00:00 UT</pubDate>
+    <guid>https://sakshamsharma.com/2017/11/bootloaderefi/index.html</guid>
+    <dc:creator>Saksham Sharma</dc:creator>
+</item>
+<item>
     <title>Interning at Google Seattle</title>
     <link>https://sakshamsharma.com/2017/08/googleintern17/index.html</link>
     <description><![CDATA[<style>
@@ -579,91 +620,6 @@ MathJax.Hub.Config({
 </ul>]]></description>
     <pubDate>Mon, 19 Sep 2016 00:00:00 UT</pubDate>
     <guid>https://sakshamsharma.com/2016/09/privtorrent/index.html</guid>
-    <dc:creator>Saksham Sharma</dc:creator>
-</item>
-<item>
-    <title>Buffering packets in a network with a variable source rate</title>
-    <link>https://sakshamsharma.com/2016/09/buffering/index.html</link>
-    <description><![CDATA[<p>As a natural extension my project <a href="https://github.com/sakshamsharma/HTTP-Over-Protocol">hop</a>, I decided to try and optimize it’s buffering technique. Here is the problem formalized a bit:</p>
-<ul>
-<li>A source which is capable of writing bytes at the rate of <code>S bytes/sec</code>.</li>
-<li>A network channel which can carry bytes at a bandwidth or rate of <code>B bytes/sec</code>. <code>B</code> is almost always slower than <code>S</code>.</li>
-<li>You can choose to read the data from the source slower than it can write, but that will cause delays.</li>
-<li>Maximum delay for any byte is bounded by the value <code>D</code>.</li>
-<li>To send <code>k</code> bytes in an IP packet, you need to attach a header of size <code>h</code>.</li>
-<li><code>h</code> does not depend on <code>k</code>, but <code>k</code> is limited to the size of an IP packet minus <code>h</code>. Thus, <code>k</code> can be expected to be around 65000 bytes at max.</li>
-<li>An IP packet is received as an atomic entity. So <code>k</code> chunked bytes will be received at the same time.</li>
-</ul>
-<p>I tried to find an optimal solution for this, or a related problem. It turns out that this problem doesn’t even present a solution, and modifying the problem seems to help provide a workable problem. For the following section, I will assume that there is an added condition to the problem:</p>
-<ul>
-<li>You can afford to lose bytes at some rate.</li>
-</ul>
-<p>With this information, I set on to try find something interesting in this problem (and end up using the found solution for another problem).</p>
-<p><strong>Note</strong>: Although assumed that the source can write at the speed of <code>S bytes/sec</code>, this will be considered only as an upper limit.</p>
-<h3 id="losses-are-allowed">Losses are allowed</h3>
-<p>Here we are assuming (for the sake of keeping the problem well-defined) that the receiver does not mind random byte losses.</p>
-<p>We first note a few key ideas regarding the optimal solution here:</p>
-<ul>
-<li>It is wasteful to not be using the network channel at any point of time. Better read and keep some bytes ready beforehand</li>
-<li>Sending too large chunks would increase delay</li>
-<li>Sending small chunks would cause the packet header size overhead to become significant</li>
-</ul>
-<h4 id="async-reading">Async reading</h4>
-<p>We have 2 client side processes/threads. One of them handles reading from the input source, while the other handles writing to the network socket. For sake of convenience, we will now assume <span class="math inline"><em>s</em><sub><em>r</em></sub></span> to be the speed of reading from the source asynchonously.</p>
-<p>In the given scenario, this would follow:</p>
-<ul>
-<li>The last read <code>k</code> bytes take <span class="math inline">$\frac{h+h}{B}$</span> time to be sent.</li>
-<li>Meanwhile, the reader accumulates <code>k</code> bytes to be sent once the above send is done.</li>
-<li>While reading at the rate <span class="math inline"><em>s</em><sub><em>r</em></sub></span>, this takes <span class="math inline">$\frac{k}{s_r}$</span> time.</li>
-<li>The remaining bytes written by the source during the time of send are lost.</li>
-<li>This loss time is <span class="math inline">$\frac{h+k}{B} - \frac{k}{s}$</span>.</li>
-<li>These newly read bytes are sent once the previous send is finished.</li>
-</ul>
-<p>Now we have the condition that any packet which reaches the receiver should not be too old (at max <code>D</code> seconds old). In that case, it is favorable to send only the packets read just before the next send (the most latest packets, since they are more valuable than the old ones). The figure describes this (green is reading from source, blue is sending over network):</p>
-<div class="figure">
-<img src="/images/articles/drawing1.png" />
-
-</div>
-<p>Now note that we are trying to minimize the losses, while keeping the delay in check. Total loss is <span class="math inline"><em>N</em>/<em>k</em></span> times the loss per <code>k</code> bytes, where <code>N</code> is the total amount of data to be sent (just an asymptotic constant for this case). We try find an expression for the total loss. Here, wasted means bytes which were not read, and thus never sent.</p>
-<p><br /><span class="math display">$$
-wasted\ time\ per\ k\ bytes = \frac{h+k}{B} - \frac{k}{s_r}\\
-wasted\ bytes\ per\ k\ bytes\ sent = (\frac{h+k}{B} - \frac{k}{s_r})\times s_r\\
-total\ wastage\ in\ N\ bytes = (\frac{h+k}{B} - \frac{k}{s_r})\times s_r \times \frac{N}{k} \leq D
-$$</span><br /></p>
-<p>Also <br /><span class="math display">$$
-delay\ of\ max\ delayed\ byte = \frac{h+k}{B} + \frac{k}{s_r} \leq D\\
-\Rightarrow k \leq {D - \frac{h}{B}} \times \frac{Bs_r}{B+s_r}
-$$</span><br /></p>
-<p>Using the constraint on <code>k</code>, we get:</p>
-<p><br /><span class="math display">$$
-Wastage\ ratio = \frac{Wastage}{N} = (\frac{hs_r}{B} \times \frac{B+s_r}{DB-h}) + \frac{s_r - B}{B}
-$$</span><br /></p>
-<p>This whole discussion assumed that old packets are considered useless. So our source should either find a way to not send packets for a while, or it should be robust enough to be able to tolerate some fractions of losses.</p>
-<p>For Video streaming, one can envision a scenario where the source sends packets frame by frame, with the gap (the one we considered the loss) as a small fraction less than the frame gap in the desired frame rate.</p>
-<h4 id="non-jerky-data-loss">Non-jerky data loss</h4>
-<p>Now what if it is surely a video stream, but we don’t want jerks in the data? (We’re still okay with losses). In that case, almost the whole analysis is the same as above, with the exception that now the oldest packet reaching the other side will not have been sent so late. The sending buffer will randomly drop packets with a probability of <span class="math inline">$1 - \frac{B}{h+k} \times \frac{k}{S}$</span>. In the end, these packets will be sent over to the other side, but they will include packets close to the start of the blue region (above figure) too. So, the inequality for <code>k</code> will now be:</p>
-<p><br /><span class="math display">$$
-delay\ of\ max\ delayed\ byte = 2\times\frac{h+k}{B} \leq D\\
-\Rightarrow k \leq {\frac{DB}{2} - h}
-$$</span><br /></p>
-<p>Of course, this will worsen our possible wastage ratio at a particular reading speed, since we increased the constraint on the delay.</p>
-<h3 id="losses-are-not-allowed">Losses are NOT allowed</h3>
-<p>Using the above section’s results (The jerky data loss), we can actually get a solution such that the wastage is 0 (for the case when data is transmitted jerkily).</p>
-<p>We need to slow down the sender quite a bit though:</p>
-<p><br /><span class="math display">$$s_r = B - \frac{2h}{D}$$</span><br /></p>
-<p>So if it is possible to slow down the sender this much (or simply read slowly, helpful in cases when you’re basically sending bytes written by a human, or sending a file), we know how fast we can afford to read. Of course, we could have solved this taking delay as 0 right from the start, but that would deprive us of the observations in the previous section :smile:</p>
-<h2 id="conclusion">Conclusion</h2>
-<p>Already having spent quite a bit on this article (and now wanting to go back to my other ideas related to networks), I’ll leave this post here, unfinished. There can be quite a few conclusions from this, which would possibly have been written down in some paper or the other for sure. But I believe being so nascent in this field, trying out things on your own has its own charm! Will probably work some more on this if I get time.</p>
-<script type="text/x-mathjax-config">
-MathJax.Hub.Config({
-  tex2jax: {inlineMath: [['$','$'], ['\\(','\\)']]}
-});
-</script>
-<script type="text/javascript" async
-  src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML">
-</script>]]></description>
-    <pubDate>Thu, 15 Sep 2016 00:00:00 UT</pubDate>
-    <guid>https://sakshamsharma.com/2016/09/buffering/index.html</guid>
     <dc:creator>Saksham Sharma</dc:creator>
 </item>
 
