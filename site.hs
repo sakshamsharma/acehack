@@ -133,7 +133,7 @@ main = hakyll $ do
              route $ postRoute
              compile $ do
                simplePageCtx <- ctxWithInfo staticPosts
-               let pageCtx = (teaserField "teaser" "content") <> simplePageCtx
+               let pageCtx = (teaserField "teaser" "content") <> postCtx <> simplePageCtx
                pandocCompiler
                      >>= saveSnapshot "content"
                      >>= loadAndApplyTemplate "templates/post.html"           pageCtx
