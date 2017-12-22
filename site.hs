@@ -142,6 +142,7 @@ main = hakyll $ do
 
        -- For recentPosts inside posts
        match postPattern $ version "static" $ do
+             route $ postRoute
              compile $ do pandocCompiler
 
        let tagPageGen = \pagetitle pattern -> do
@@ -205,7 +206,7 @@ linkCtx = field "linkname" (return . (\x -> name x) . itemBody) <>
 collectTags tags = map (\(t, _) -> Item (tagsMakeId tags t) t) (tagsMap tags)
 
 postPattern :: Pattern
-postPattern = "posts/**"
+postPattern = "posts/**.md"
 
 cleanIndexHtmls :: Item String -> Compiler (Item String)
 cleanIndexHtmls = return . fmap (replaceAll pattern replacement)
