@@ -178,8 +178,9 @@ executables:
 ```
 
 This will allow the code to compile, but running poses an issue.
-```
-$HOME/code/ffi/.stack-work/install/x86_64-linux/lts-10.5/8.2.2/bin/ffi-exe: error while loading shared libraries: libmytest.so: cannot open shared object file: No such file or directory
+```shell
+$ stack exec ffi
+/home/saksham/code/ffi/.stack-work/install/x86_64-linux/lts-10.5/8.2.2/bin/ffi-exe: error while loading shared libraries: libmytest.so: cannot open shared object file: No such file or directory
 ```
 
 There is an extra step involved in this case. The generated binary somehow does not want to look in the `golang` folder, and you need to bring the library into the current folder. You could either move it to the project root, or you could run `ln -sf mytest.so .` to create a soft link to the library in the project root.
