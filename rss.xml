@@ -139,7 +139,8 @@ strFxn <span class="fu">=</span> runStrFxn go_StrFxn</code></pre></div>
   <span class="kw">-</span> -dynamic
   <span class="kw">-</span> ....</code></pre></div>
 <p>This will allow the code to compile, but running poses an issue.</p>
-<pre><code>$HOME/code/ffi/.stack-work/install/x86_64-linux/lts-10.5/8.2.2/bin/ffi-exe: error while loading shared libraries: libmytest.so: cannot open shared object file: No such file or directory</code></pre>
+<pre class="shell"><code>$ stack exec ffi
+/home/saksham/code/ffi/.stack-work/install/x86_64-linux/lts-10.5/8.2.2/bin/ffi-exe: error while loading shared libraries: libmytest.so: cannot open shared object file: No such file or directory</code></pre>
 <p>There is an extra step involved in this case. The generated binary somehow does not want to look in the <code>golang</code> folder, and you need to bring the library into the current folder. You could either move it to the project root, or you could run <code>ln -sf mytest.so .</code> to create a soft link to the library in the project root.</p>
 <h3 id="ffi-in-the-haskell-library-the-difficult-scenario">FFI in the Haskell Library: The difficult scenario</h3>
 <p>What if you want to do a FFI call inside a Haskell library you’re writing? This gets tricky, since <code>ghc-pkg</code> does not like relative paths in <code>extra-lib-dirs</code>, but this is only when those paths are in the <code>library</code> section. Using them in <code>executables</code> seems to work just fine, as we saw in the section above.</p>
