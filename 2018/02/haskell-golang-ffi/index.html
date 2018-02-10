@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <!-- <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} &middot; {{ .Site.Title }}{{ end }}</title> -->
+<!-- {{ .Hugo.Generator }} -->
+
+<title>AceHack-Calling Golang functions from Haskell</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<!-- {{ with .Site.Params.author }}<meta name="author" content="{{ . }}">{{ end }} -->
+<!-- {{ with .Description }} -->
+<!--   <meta name="description" content="{{ . }}"> -->
+<!-- {{ else }} -->
+<!--   <meta name="description" content="{{ .Site.Params.site_description }}"> -->
+<!-- {{ end }} -->
+<!-- {{ with .RSSLink }} -->
+<!--   <link href="{{ . }}" rel="alternate" type="application/rss+xml" title="{{ Site.Title }}" /> -->
+<!--   <link href="{{ . }}" rel="feed" type="application/rss+xml" title="{{ Site.Title }}" /> -->
+<!-- {{ end }} -->
+
+<meta name="author" content="Saksham Sharma">
+<meta name="keywords" content="acehack, coding, programming, linux, webdev, hakyll">
+
+<!-- <link rel="canonical" href="{{ .Permalink }}"/> -->
+<link rel="icon" href="../../../favicon.ico">
+<link rel="apple-touch-icon" href="../../../apple-touch-icon.png" />
+<link rel="stylesheet" href="../../../css/style.css">
+<link rel="stylesheet" href="../../../css/font-awesome.min.css">
+<link rel="stylesheet" href="../../../css/monokai.css">
+<link rel="stylesheet" href="../../../fancybox/jquery.fancybox.css">
+<!-- ------------- -->
+<!-- FIX IMPORTANT -->
+<!-- ------------- -->
+<!-- {{ range .Site.Params.custom_css }} -->
+<!-- <link rel="stylesheet" href="{{ . | absURL }}"> -->
+<!-- {{ end }} -->
+
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:400italic,400,600" rel="stylesheet" type="text/css">
+<link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+
+<!-- {{ template "_internal/opengraph.html" . }} -->
+<!-- {{ template "_internal/google_news.html" . }} -->
+<!-- {{ template "_internal/schema.html" . }} -->
+<!-- {{ template "_internal/twitter_cards.html" . }} -->
+
+
+
+<!-- {{ if .Params.disable_profile | and .Params.disable_widgets }} -->
+<!-- <style> -->
+<!--     .full-width { -->
+<!--         width: 100% !important; -->
+<!--     } -->
+<!-- </style> -->
+<!-- {{ end }} -->
+
+<!-- needs to be loaded first for following scripts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+
+  </head>
+  <body>
+    <header id="header">
+  <div id="header-main" class="header-inner">
+    <div class="outer">
+      <a href="https://sakshamsharma.com" id="logo">
+          <!-- {{ if .Site.Params.logo }} -->
+          <i class="logo" style="background-image: url('/images/logo.png')"></i>
+          <!-- {{end}} -->
+          <span class="site-title">AceHack</span>
+      </a>
+      <nav id="main-nav">
+        <a class="main-nav-link" href="../../../">Home</a>
+        <a class="main-nav-link" href="../../../about">About</a>
+        
+        <a class="main-nav-link" href="https://github.com/sakshamsharma">GitHub</a>
+        
+        <a class="main-nav-link" href="https://in.linkedin.com/in/saksham-sharma">LinkedIn</a>
+        
+        <a class="main-nav-link" href="../../../cv">Resume</a>
+        
+        <a class="main-nav-link" href="../../../rss.xml">RSS</a>
+        
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form">
+          <input type="search" name="q" class="search-form-input" placeholder="Search">
+          <button type="submit" class="search-form-submit">
+          </button>
+          <input type="hidden" name="sitesearch" value="sakshamsharma.com" />
+        </form>
+      </div>
+    </div>
+  </div>
+  <div id="main-nav-mobile" class="header-sub header-inner">
+    <table class="menu outer">
+      <tbody>
+          <tr>
+          <td><a class="main-nav-link" href="../../../">Home</a></td>
+          <td><a class="main-nav-link" href="../../../about">About</a></td>
+        <!--   {{ range .Site.Params.menu }} -->
+        <!--   {{ if .before }} -->
+        <!--   <td><a class="main-nav-link" href="{{ .link | absURL }}">{{ .label }}</a></td> -->
+        <!--   {{ end }} -->
+        <!--   {{ end }} -->
+
+        <!--   {{ range .Site.Menus.main }} -->
+        <!--   <td><a class="main-nav-link" href="{{ .URL }}">{{ .Name }}</a></td> -->
+        <!--   {{ end }} -->
+
+        <!--   {{ range .Site.Params.menu }} -->
+        <!--   {{ if not .before }} -->
+        <!--   <td><a class="main-nav-link" href="{{ .link  | absURL }}">{{ .label }}</a></td> -->
+        <!--   {{ end }} -->
+        <!--   {{ end }} -->
+          <td>
+          <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form">
+          <input type="search" name="q" class="search-form-input" placeholder="Search">
+          <input type="hidden" name="sitesearch" value="{{ .Site.BaseURL }}" />
+          </form>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</header>
+
+    <div class="container">
+      <div class="outer">
+
+        
+
+        <section id="widemain">
+          <article id="page-undefined" class="article article-type-page" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+        <!--     <img src="{{ .Params.banner | absURL }}" class="article-banner"> -->
+        <!-- {{ end }} -->
+
+        <header class="article-header">
+  <a href="../../../2018/02/haskell-golang-ffi/index.html">
+    <h1 class="article-title" itemprop="name">Calling Golang functions from Haskell</h1>
+  </a>
+  <div class="article-meta">
+    <!-- {{ if not .Params.nodateline }} -->
+    <!-- <div class="article-date"> -->
+    <!--   <i class="fa fa-calendar"></i> -->
+    <!--   <time datetime="{{ .Date }}" itemprop="datePublished">{{ .Date.Format .Site.Params.date_format }}</time> -->
+    <!--   &middot; -->
+    <!--   {{ .WordCount }} -->
+    <!--   {{ with .Site.Data.l10n.articles.words }}{{.}}{{end}} -->
+    <!--   &middot; -->
+    <!--   {{ .ReadingTime }} -->
+    <!--   {{ with .Site.Data.l10n.articles.readingtime }}{{.}}{{end}} -->
+    <!-- </div> -->
+    <!-- {{ end }} -->
+    <!-- {{ if isset .Params "categories" }} -->
+    <!-- {{ categoriesLen := len .Params.categories }} -->
+    <!-- {{ if gt categoriesLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-folder"></i>
+      programming
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
+
+    <!-- {{ if isset .Params "tags" }} -->
+    <!-- {{ tagsLen := len .Params.tags }} -->
+    <!-- {{ if gt tagsLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-tags"></i>
+      <a href="../../../tags/haskell.html">haskell</a>, <a href="../../../tags/golang.html">golang</a>, <a href="../../../tags/ffi.html">ffi</a>, <a href="../../../tags/linking.html">linking</a>, <a href="../../../tags/static.html">static</a>, <a href="../../../tags/dynamic.html">dynamic</a>
+    </div>
+    
+
+    <p style="float:right;">February 10, 2018</p>
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
+  </div>
+</header>
+
+        <div class="article-entry" itemprop="articleBody">
+          <p>Calling C from Haskell is easy. Calling Golang from C is easy too. Then why should calling Golang from Haskell be tough? Yet, I could not find a single document / blog on this topic. While doing this, I also explored the possibility domain of library linking in Haskell.</p>
+<p>My latest project (in Haskell) required a cryptographic protocol (Verifiable Random Function), whose implementation I could only find in Golang and C. The Golang ones seemed better maintained, self-contained, and understandable. So, I took the easy way out, and wrote a binary using that source code, allowing me to call the binary from Haskell (taking care to marshall the input and output binary data as base64 strings). Of course, this was ugly, and I got a (mostly) satisfying solution working, which did not have to launch a separate process for this simple task.<!--more--></p>
+<h2 id="types-of-linking">Types of linking</h2>
+<p>There are only a handful of ways to link to a library on Linux systems. The major ones are:</p>
+<ul>
+<li><code>.so</code>: Shared Object files</li>
+<li><code>.a</code>: Archive files</li>
+</ul>
+<h3 id="shared-objects">Shared Objects</h3>
+<p>Shared Objects are dynamically linked libraries, much like <code>.dll</code> files in Windows. Their path is deduced from environment variables / linker arguments, and these are fetched when the binary is run. By default, if you run the binary from a particular directory, that directory is also searched to resolve the library, which is a relief.</p>
+<p>These libraries are only loaded in memory once, even if there are <code>n</code> processes running which are linked against that <code>.so</code> file. This is super helpful if the library is something like <code>libc</code>, which is used by a huge number of programs.</p>
+<h3 id="archive-files">Archive Files</h3>
+<p>These are, unambiguously, archives of binaries. These contain library code which is meant to be linked into a binary during compile time, statically. This is helpful because this lets the binary be standalone to some level, and the user does not have to copy a file along with the binary everywhere. Of course, this has an overhead in terms of file size.</p>
+<h2 id="state-of-ffi-in-haskell-and-golang">State of FFI in Haskell and Golang</h2>
+<p>Unfortunately, I could not find any material on Foreign Function Interface between Haskell and Golang. What I did find was how to run C from Haskell, and how to run Golang from C. This led to the idea of using a C-compatible intermediate form to mediate between Haskell and Golang.</p>
+<h2 id="golang-to-c">Golang to C</h2>
+<h3 id="compiling-golang-to-a-c-style-library">Compiling Golang to a C-style library</h3>
+<p>Go has an amazing support for such nifty things. <a href="https://stackoverflow.com/questions/32215509">This is the link I followed to get this to work</a>.</p>
+<p>In short, you need to modify your source Golang file(s) as follows (almost-verbatim copied from the above linked answer on SO):</p>
+<ul>
+<li>The package needs to be called <code>main</code>.</li>
+<li>A <code>main</code> function must exist, albeit empty.</li>
+<li>There needs to be a <code>import &quot;C&quot;</code> statement at the top of the file which has functions to be exported.</li>
+<li>Each function that has to be exported, has to have a comment <code>//export &lt;NameToExportAs&gt;</code> <em>exactly</em> above its definition.</li>
+</ul>
+<p>An example file looks like the following:</p>
+<div class="sourceCode"><pre class="sourceCode go"><code class="sourceCode go"><span class="kw">package</span> main
+
+<span class="kw">import</span> <span class="st">&quot;C&quot;</span>
+
+<span class="co">//export Testing</span>
+<span class="kw">func</span> Testing(a <span class="dt">int</span>) <span class="dt">int</span> {
+    <span class="kw">return</span> a<span class="dv">+1</span>
+}</code></pre></div>
+<p>Now, we need to get a library from this which can be used later. The following commands work: * Generate a shared object: <code>go build -buildmode=c-shared -o lib&lt;LIBNAME&gt;.so *.go</code> * Generate an archive file: <code>go build -buildmode=c-archive -o lib&lt;LIBNAME&gt;.a *.go</code></p>
+<h3 id="converting-golang-types-to-c-types">Converting Golang types to C types</h3>
+<p>This step is necessary because Haskell does not know about Golang types. The above program is very simple, but what if you had to use strings?</p>
+<p>A naive function:</p>
+<div class="sourceCode"><pre class="sourceCode go"><code class="sourceCode go"><span class="co">//export StrFxn</span>
+<span class="kw">func</span> StrFxn(input <span class="dt">string</span>) <span class="dt">string</span> {
+    <span class="kw">return</span> <span class="st">&quot;Hello &quot;</span> + input + <span class="st">&quot; World&quot;</span>
+}</code></pre></div>
+<p>This would generate the following few lines in the file <code>lib&lt;LIBNAME&gt;.h</code>:</p>
+<pre><code>...
+typedef struct { const char *p; GoInt n; } GoString;
+...
+extern GoString StrFxn(GoString p0);
+...</code></pre>
+<p>As you can see, there’s a magical type GoString being used here, which we won’t like later. So we modify the Go code as follows:</p>
+<div class="sourceCode"><pre class="sourceCode go"><code class="sourceCode go"><span class="kw">import</span> <span class="st">&quot;C&quot;</span>
+
+<span class="kw">func</span> strFxn(input <span class="dt">string</span>) <span class="dt">string</span> {
+    <span class="kw">return</span> <span class="st">&quot;Hello &quot;</span> + input + <span class="st">&quot; World&quot;</span>
+}
+
+<span class="co">//export StrFxn</span>
+<span class="kw">func</span> StrFxn(cinput *C.char) *C.char {
+    <span class="co">// C data needs to be manually managed in memory.</span>
+    <span class="co">// But we will do it from Haskell.</span>
+    input := C.GoString(cinput)
+    <span class="kw">return</span> C.CString(strFxn(input))
+}
+
+<span class="kw">func</span> main() {}</code></pre></div>
+<p>Now the exported function would behave as if it is just a C function!</p>
+<h2 id="load-c-library-from-haskell">Load C library from Haskell</h2>
+<p>This is pretty straitforward. Assuming that the linker finds your built library, you write a file like the following:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">{-# LANGUAGE ForeignFunctionInterface #-}</span>
+<span class="co">-- The above PRAGMA used to be required for FFI, but the code</span>
+<span class="co">-- seems to work without it on recent GHC versions.</span>
+
+<span class="kw">import </span><span class="dt">Foreign.C.String</span>
+<span class="kw">import </span><span class="dt">Foreign.Marshal.Alloc</span>
+
+<span class="co">-- | The call which brings the Foreign function into scope, with manually</span>
+<span class="co">--   declared type. This type is not checked at compile time.</span>
+<span class="co">--   ccall means C-calling-convention, which is usually what you want.</span>
+foreign <span class="kw">import </span>ccall &quot;<span class="dt">StrFxn</span>&quot; go_StrFxn :: <span class="dt">CString</span> -&gt; <span class="dt">IO</span> <span class="dt">CString</span>
+
+<span class="co">-- | Custom function to make CString-based FFI functions user-friendly.</span>
+<span class="ot">runStrFxn ::</span> (<span class="dt">CString</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> <span class="dt">CString</span>) <span class="ot">-&gt;</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> <span class="dt">String</span>
+runStrFxn f input <span class="fu">=</span> <span class="kw">do</span>
+  cinput <span class="ot">&lt;-</span> newCString input
+  coutput <span class="ot">&lt;-</span> f cinput
+  res <span class="ot">&lt;-</span> peekCString coutput
+  _ <span class="ot">&lt;-</span> free cinput
+  _ <span class="ot">&lt;-</span> free coutput
+  return res
+
+<span class="co">-- | User friendly function for profit :)</span>
+<span class="ot">strFxn ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> <span class="dt">String</span>
+strFxn <span class="fu">=</span> runStrFxn go_StrFxn</code></pre></div>
+<p>This was pretty straighforward!</p>
+<h2 id="linking">Linking</h2>
+<p>The above part was pretty neat and simple. Alas, the linking part is not so. Since we’re trying to link a custom library, it would be nice to be able to link it at compile time, and then forget about it. Yet, some constraints may make it difficult to do.</p>
+<p>The following sections are also valid for linking C libraries.</p>
+<h3 id="ffi-in-the-haskell-executable-package-the-easy-scenario">FFI in the Haskell Executable package: The easy scenario</h3>
+<p>I’ll first begin with the easier solution. If the haskell code requiring the FFI is in your executable source files (and not the library files), you’re in luck.</p>
+<p>Let’s assume that your Golang source (as well as the output library) is in <code>./golang</code> folder from the root of your Haskell project.</p>
+<h4 id="statically-linking-a-haskell-library-with-an-archive-file">Statically Linking a Haskell Library with an Archive File</h4>
+<p>This is useful if you want your binary to be portable in terms of this Golang library at least.</p>
+<p>Your Cabal file would now see the following sections in the section called <code>executable &lt;executable-name&gt;</code>:</p>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span class="fu">executables:</span>
+  <span class="fu">ffi-exe:</span>
+  ...
+  <span class="fu">extra-lib-dirs:</span>
+      golang
+  <span class="fu">extra-libraries:</span>
+      &lt;LIBNAME&gt;
+  <span class="fu">ghc-options:</span>
+  <span class="kw">-</span> -threaded
+  <span class="kw">-</span> -optl-static -optl-pthread
+  <span class="kw">-</span> ....</code></pre></div>
+<p>Note that there might be many other <code>ghc-options</code> already.</p>
+<h4 id="dynamically-linking-a-haskell-executable-with-a-shared-object-file">Dynamically Linking a Haskell executable with a Shared Object File</h4>
+<p>Your Cabal file would now see the following sections in the section called <code>executable &lt;executable-name&gt;</code>:</p>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span class="fu">executables:</span>
+  <span class="fu">ffi-exe:</span>
+  ...
+  <span class="fu">extra-lib-dirs:</span>
+      golang
+  <span class="fu">extra-libraries:</span>
+      &lt;LIBNAME&gt;
+  <span class="fu">ghc-options:</span>
+  <span class="kw">-</span> -threaded
+  <span class="kw">-</span> -dynamic
+  <span class="kw">-</span> ....</code></pre></div>
+<p>This will allow the code to compile, but running poses an issue.</p>
+<pre><code>$HOME/code/ffi/.stack-work/install/x86_64-linux/lts-10.5/8.2.2/bin/ffi-exe: error while loading shared libraries: libmytest.so: cannot open shared object file: No such file or directory</code></pre>
+<p>There is an extra step involved in this case. The generated binary somehow does not want to look in the <code>golang</code> folder, and you need to bring the library into the current folder. You could either move it to the project root, or you could run <code>ln -sf mytest.so .</code> to create a soft link to the library in the project root.</p>
+<h3 id="ffi-in-the-haskell-library-the-difficult-scenario">FFI in the Haskell Library: The difficult scenario</h3>
+<p>What if you want to do a FFI call inside a Haskell library you’re writing? This gets tricky, since <code>ghc-pkg</code> does not like relative paths in <code>extra-lib-dirs</code>, but this is only when those paths are in the <code>library</code> section. Using them in <code>executables</code> seems to work just fine, as we saw in the section above.</p>
+<h4 id="dynamically-linking-a-haskell-library-with-a-shared-object-file">Dynamically Linking a Haskell Library with a Shared Object File</h4>
+<p>This seems to work in almost the same manner as the Linking-a-Haskell-Executable-with-A-Shared-Object. See the above section for details on how to do this.</p>
+<p><em>Fun Fact</em>: You do not even need to add the <code>extra-libraries</code> to the <code>library</code> section, even though the Haskell library is the one depending on shared object. Since the library is loaded at run time (dynamically), the binary will find <code>libmytest.so</code> during startup. Thus, there is no point in it knowing the dependency during compile time.</p>
+<p><em>Fun Fact 2</em>: Moving the <code>extra-libraries</code> and <code>extra-lib-dirs</code> to the <code>libraries</code> section seems to actually break the build. For reasons, refer to the next section.</p>
+<h4 id="statically-linking-a-haskell-library-with-an-archive-file-1">Statically Linking a Haskell Library with an Archive File</h4>
+<p>This is a case which does not work nicely with relative paths. Any help in this regards would be appreciated. Anyhow, this is what I could understand about this:</p>
+<ul>
+<li>The Haskell library depends on the archive file placed in the project root (for simplicity).</li>
+<li>The user wants the build program to find the archive file during build, and statically link during compile time, to keep the binary portable.</li>
+<li>The ideal scenario would be to add <code>-optl-static -optl-pthread</code> to ghc-options, and provide a relative path (<code>.</code>) in the <code>extra-lib-dirs</code> key of the library configuration in the build file. Or, maybe, allow us to provide a <code>-L.</code> flag to the build tool, or a similar flag to the linker. None of these works.</li>
+<li>Somehow, somewhere in time, someone thought that relative library paths should be forbidden during build time. As far as I could trace right now, this appears to be an issue in <code>ghc-pkg</code>.</li>
+<li>The above behavior is different in the cases of building a haskell executable and a haskell library. This makes me think that this behavior is buggy.</li>
+<li>IMHO, relative build-time library paths should be allowed, because of such a use case for FFI.</li>
+</ul>
+<p>So, currently, I could not find a way to statically link an archive placed in the project folder, to a haskell library. Things may change in the future, as I plan to pursue this as a bug. If you know of a way to get this done, do point it out in the comments below.</p>
+        </div>
+        <!-- partial("templates/partials/article_footer.html") -->
+    </div>
+
+    <!-- {{ partial "prev_next_post" . }} -->
+</article>
+
+<script src="../../../js/fb.js"></script>
+<div class="fb-like" data-share="true" data-width="450" data-show-faces="true">
+</div>
+
+<script id="dsq-count-scr" src="//acehack.disqus.com/count.js" async></script>
+
+<div id="disqus_thread"></div>
+<script>
+ // For debugging
+ var disqus_developer = 1;
+ var disqus_shortname = 'acehack';
+ var disqus_config = function () {
+     this.page.url = 'http://acehack.org/2018/02/haskell-golang-ffi/index.html';
+     this.page.identifier = 'haskell-golang-ffi';
+     this.page.title = 'Calling Golang functions from Haskell';
+ };
+ (function() {
+     var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+     dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+ })();
+ (function () {
+     var s = document.createElement('script'); s.async = true;
+     s.type = 'text/javascript';
+     s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+     (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+ }());
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
+
+        </section>
+
+        
+
+        
+
+<aside id="sidebar">
+    <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+        <ul class="category-list">
+          
+            <li class="category-list-item">
+                <a class="category-list-link" href="../../../categories/abstract-thoughts.html">
+                  abstract-thoughts
+                </a>
+            </li>
+            
+            <li class="category-list-item">
+                <a class="category-list-link" href="../../../categories/algorithm.html">
+                  algorithm
+                </a>
+            </li>
+            
+            <li class="category-list-item">
+                <a class="category-list-link" href="../../../categories/career.html">
+                  career
+                </a>
+            </li>
+            
+            <li class="category-list-item">
+                <a class="category-list-link" href="../../../categories/editors.html">
+                  editors
+                </a>
+            </li>
+            
+            <li class="category-list-item">
+                <a class="category-list-link" href="../../../categories/experiments.html">
+                  experiments
+                </a>
+            </li>
+            
+            <li class="category-list-item">
+                <a class="category-list-link" href="../../../categories/linux.html">
+                  linux
+                </a>
+            </li>
+            
+            <li class="category-list-item">
+                <a class="category-list-link" href="../../../categories/networks.html">
+                  networks
+                </a>
+            </li>
+            
+            <li class="category-list-item">
+                <a class="category-list-link" href="../../../categories/poems.html">
+                  poems
+                </a>
+            </li>
+            
+            <li class="category-list-item">
+                <a class="category-list-link" href="../../../categories/programming.html">
+                  programming
+                </a>
+            </li>
+            
+            <li class="category-list-item">
+                <a class="category-list-link" href="../../../categories/projects.html">
+                  projects
+                </a>
+            </li>
+            
+        </ul>
+    </div>
+</div>
+
+    <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+        <ul class="category-list">
+          
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/EFI.html">
+                  EFI
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/OS.html">
+                  OS
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/abcd.html">
+                  abcd
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/algorithm.html">
+                  algorithm
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/arch.html">
+                  arch
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/battery.html">
+                  battery
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/beginner.html">
+                  beginner
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/blog.html">
+                  blog
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/bootloader.html">
+                  bootloader
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/browser.html">
+                  browser
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/bumblebee.html">
+                  bumblebee
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/career.html">
+                  career
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/chaos.html">
+                  chaos
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/coding.html">
+                  coding
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/crypto.html">
+                  crypto
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/cse.html">
+                  cse
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/dynamic.html">
+                  dynamic
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/emacs.html">
+                  emacs
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/esolang.html">
+                  esolang
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/experience.html">
+                  experience
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/experiment.html">
+                  experiment
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/ffi.html">
+                  ffi
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/gentoo.html">
+                  gentoo
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/git.html">
+                  git
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/github.html">
+                  github
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/gnome.html">
+                  gnome
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/golang.html">
+                  golang
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/google.html">
+                  google
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/grub.html">
+                  grub
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/hakyll.html">
+                  hakyll
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/haskell.html">
+                  haskell
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/hop.html">
+                  hop
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/i3wm.html">
+                  i3wm
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/iitk.html">
+                  iitk
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/install.html">
+                  install
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/intern.html">
+                  intern
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/job.html">
+                  job
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/kernel.html">
+                  kernel
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/kubernetes.html">
+                  kubernetes
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/life.html">
+                  life
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/linking.html">
+                  linking
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/linux.html">
+                  linux
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/mpi.html">
+                  mpi
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/music.html">
+                  music
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/musings.html">
+                  musings
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/networks.html">
+                  networks
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/nvidia.html">
+                  nvidia
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/programming%20language.html">
+                  programming language
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/puppy.html">
+                  puppy
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/python.html">
+                  python
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/shell.html">
+                  shell
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/short.html">
+                  short
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/static.html">
+                  static
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/techkriti.html">
+                  techkriti
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/technical.html">
+                  technical
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/tilingWM.html">
+                  tilingWM
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/tty.html">
+                  tty
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/video.html">
+                  video
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/vim.html">
+                  vim
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/virtualbox.html">
+                  virtualbox
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/web.html">
+                  web
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/xmonad.html">
+                  xmonad
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/zsh.html">
+                  zsh
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+        </ul>
+    </div>
+</div>
+
+<script src="../../../js/tags.js"> </script>
+
+    <!-- {{ if .Site.Params.widgets.recent_articles }} -->
+<div class="widget-wrap">
+    <h3 class="widget-title">
+        <!-- {{with .Site.Data.l10n.widgets.recent_articles.title}}{{.}}{{end}} -->
+        Recents
+    </h3>
+    <div class="widget">
+        <ul id="recent-post">
+            <!-- {{ range first 5 (where .Site.RegularPages "Type" "post") }} -->
+            
+            <li>
+                <div class="item-thumbnail">
+                    <a href="../../../2018/02/haskell-golang-ffi/index.html" class="thumbnail">
+                    <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+                    <!--     <span style="background-image:url({{ .Params.banner | absURL }})" alt="{{ .Title }}" class="thumbnail-image"></span> -->
+                    <!-- {{else}} -->
+                        <span class="thumbnail-image thumbnail-none"></span>
+                    <!-- {{ end }} -->
+                    </a>
+                </div>
+                <div class="item-inner">
+                    <!-- {{ if isset .Params "categories" }} -->
+                    <!-- {{ if gt (len .Params.categories) 0 }} -->
+                    <!-- <p class="item-category"> -->
+                    <!--     {{ url := printf "%s/%s" "categories" (index .Params.categories 0 | urlize | lower)}} -->
+                    <!--     <a class="article-category-link" href="{{ url | absURL }}"> -->
+                    <!--     {{ index .Params.categories 0 }} -->
+                    <!--     </a> -->
+                    <!-- </p> -->
+                    <!-- {{ end }} -->
+                    <!-- {{ end }} -->
+                    <p class="item-title"><a href="../../../2018/02/haskell-golang-ffi/index.html" class="title">Calling Golang functions from Haskell</a></p>
+                    <p class="item-date">
+                        <time datetime="February 10, 2018" itemprop="datePublished">February 10, 2018</time>
+                    </p>
+                </div>
+            </li>
+            
+            <li>
+                <div class="item-thumbnail">
+                    <a href="../../../2017/11/bootloaderefi/index.html" class="thumbnail">
+                    <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+                    <!--     <span style="background-image:url({{ .Params.banner | absURL }})" alt="{{ .Title }}" class="thumbnail-image"></span> -->
+                    <!-- {{else}} -->
+                        <span class="thumbnail-image thumbnail-none"></span>
+                    <!-- {{ end }} -->
+                    </a>
+                </div>
+                <div class="item-inner">
+                    <!-- {{ if isset .Params "categories" }} -->
+                    <!-- {{ if gt (len .Params.categories) 0 }} -->
+                    <!-- <p class="item-category"> -->
+                    <!--     {{ url := printf "%s/%s" "categories" (index .Params.categories 0 | urlize | lower)}} -->
+                    <!--     <a class="article-category-link" href="{{ url | absURL }}"> -->
+                    <!--     {{ index .Params.categories 0 }} -->
+                    <!--     </a> -->
+                    <!-- </p> -->
+                    <!-- {{ end }} -->
+                    <!-- {{ end }} -->
+                    <p class="item-title"><a href="../../../2017/11/bootloaderefi/index.html" class="title">Things no one told me about EFI</a></p>
+                    <p class="item-date">
+                        <time datetime="November 27, 2017" itemprop="datePublished">November 27, 2017</time>
+                    </p>
+                </div>
+            </li>
+            
+            <li>
+                <div class="item-thumbnail">
+                    <a href="../../../2017/08/googleintern17/index.html" class="thumbnail">
+                    <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+                    <!--     <span style="background-image:url({{ .Params.banner | absURL }})" alt="{{ .Title }}" class="thumbnail-image"></span> -->
+                    <!-- {{else}} -->
+                        <span class="thumbnail-image thumbnail-none"></span>
+                    <!-- {{ end }} -->
+                    </a>
+                </div>
+                <div class="item-inner">
+                    <!-- {{ if isset .Params "categories" }} -->
+                    <!-- {{ if gt (len .Params.categories) 0 }} -->
+                    <!-- <p class="item-category"> -->
+                    <!--     {{ url := printf "%s/%s" "categories" (index .Params.categories 0 | urlize | lower)}} -->
+                    <!--     <a class="article-category-link" href="{{ url | absURL }}"> -->
+                    <!--     {{ index .Params.categories 0 }} -->
+                    <!--     </a> -->
+                    <!-- </p> -->
+                    <!-- {{ end }} -->
+                    <!-- {{ end }} -->
+                    <p class="item-title"><a href="../../../2017/08/googleintern17/index.html" class="title">Interning at Google Seattle</a></p>
+                    <p class="item-date">
+                        <time datetime="August  5, 2017" itemprop="datePublished">August  5, 2017</time>
+                    </p>
+                </div>
+            </li>
+            
+            <li>
+                <div class="item-thumbnail">
+                    <a href="../../../2016/12/puppy3/index.html" class="thumbnail">
+                    <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+                    <!--     <span style="background-image:url({{ .Params.banner | absURL }})" alt="{{ .Title }}" class="thumbnail-image"></span> -->
+                    <!-- {{else}} -->
+                        <span class="thumbnail-image thumbnail-none"></span>
+                    <!-- {{ end }} -->
+                    </a>
+                </div>
+                <div class="item-inner">
+                    <!-- {{ if isset .Params "categories" }} -->
+                    <!-- {{ if gt (len .Params.categories) 0 }} -->
+                    <!-- <p class="item-category"> -->
+                    <!--     {{ url := printf "%s/%s" "categories" (index .Params.categories 0 | urlize | lower)}} -->
+                    <!--     <a class="article-category-link" href="{{ url | absURL }}"> -->
+                    <!--     {{ index .Params.categories 0 }} -->
+                    <!--     </a> -->
+                    <!-- </p> -->
+                    <!-- {{ end }} -->
+                    <!-- {{ end }} -->
+                    <p class="item-title"><a href="../../../2016/12/puppy3/index.html" class="title">Limiting 'likes' sent anonymously - Part 3</a></p>
+                    <p class="item-date">
+                        <time datetime="December 26, 2016" itemprop="datePublished">December 26, 2016</time>
+                    </p>
+                </div>
+            </li>
+            
+            <li>
+                <div class="item-thumbnail">
+                    <a href="../../../2016/12/internsaga/index.html" class="thumbnail">
+                    <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+                    <!--     <span style="background-image:url({{ .Params.banner | absURL }})" alt="{{ .Title }}" class="thumbnail-image"></span> -->
+                    <!-- {{else}} -->
+                        <span class="thumbnail-image thumbnail-none"></span>
+                    <!-- {{ end }} -->
+                    </a>
+                </div>
+                <div class="item-inner">
+                    <!-- {{ if isset .Params "categories" }} -->
+                    <!-- {{ if gt (len .Params.categories) 0 }} -->
+                    <!-- <p class="item-category"> -->
+                    <!--     {{ url := printf "%s/%s" "categories" (index .Params.categories 0 | urlize | lower)}} -->
+                    <!--     <a class="article-category-link" href="{{ url | absURL }}"> -->
+                    <!--     {{ index .Params.categories 0 }} -->
+                    <!--     </a> -->
+                    <!-- </p> -->
+                    <!-- {{ end }} -->
+                    <!-- {{ end }} -->
+                    <p class="item-title"><a href="../../../2016/12/internsaga/index.html" class="title">My internship interview saga</a></p>
+                    <p class="item-date">
+                        <time datetime="December 21, 2016" itemprop="datePublished">December 21, 2016</time>
+                    </p>
+                </div>
+            </li>
+            
+            <!-- {{ end }} -->
+        </ul>
+    </div>
+</div>
+<!-- {{ end }} -->
+
+    <!-- {{ partial "widgets/tag_cloud" . }} -->
+
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+
+
+      </div>
+    </div>
+    <footer id="footer">
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      Saksham Sharma
+      <!-- &copy; {{ now.Format "2006"}} -->
+      <!-- {{ with .Site.Params.copyright }}{{ . | markdownify}}{{ end }} -->
+    </div>
+  </div>
+</footer>
+
+<!-- {{ partial "footer_js" . }} -->
+<!-- {{ partial "footer_custom_js" . }} -->
+  </body>
+</html>

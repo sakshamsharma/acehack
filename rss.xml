@@ -7,8 +7,162 @@
         <description><![CDATA[Reveries of a programmer]]></description>
         <atom:link href="https://sakshamsharma.com/rss.xml" rel="self"
                    type="application/rss+xml" />
-        <lastBuildDate>Mon, 27 Nov 2017 00:00:00 UT</lastBuildDate>
+        <lastBuildDate>Sat, 10 Feb 2018 00:00:00 UT</lastBuildDate>
         <item>
+    <title>Calling Golang functions from Haskell</title>
+    <link>https://sakshamsharma.com/2018/02/haskell-golang-ffi/index.html</link>
+    <description><![CDATA[<p>Calling C from Haskell is easy. Calling Golang from C is easy too. Then why should calling Golang from Haskell be tough? Yet, I could not find a single document / blog on this topic. While doing this, I also explored the possibility domain of library linking in Haskell.</p>
+<p>My latest project (in Haskell) required a cryptographic protocol (Verifiable Random Function), whose implementation I could only find in Golang and C. The Golang ones seemed better maintained, self-contained, and understandable. So, I took the easy way out, and wrote a binary using that source code, allowing me to call the binary from Haskell (taking care to marshall the input and output binary data as base64 strings). Of course, this was ugly, and I got a (mostly) satisfying solution working, which did not have to launch a separate process for this simple task.<!--more--></p>
+<h2 id="types-of-linking">Types of linking</h2>
+<p>There are only a handful of ways to link to a library on Linux systems. The major ones are:</p>
+<ul>
+<li><code>.so</code>: Shared Object files</li>
+<li><code>.a</code>: Archive files</li>
+</ul>
+<h3 id="shared-objects">Shared Objects</h3>
+<p>Shared Objects are dynamically linked libraries, much like <code>.dll</code> files in Windows. Their path is deduced from environment variables / linker arguments, and these are fetched when the binary is run. By default, if you run the binary from a particular directory, that directory is also searched to resolve the library, which is a relief.</p>
+<p>These libraries are only loaded in memory once, even if there are <code>n</code> processes running which are linked against that <code>.so</code> file. This is super helpful if the library is something like <code>libc</code>, which is used by a huge number of programs.</p>
+<h3 id="archive-files">Archive Files</h3>
+<p>These are, unambiguously, archives of binaries. These contain library code which is meant to be linked into a binary during compile time, statically. This is helpful because this lets the binary be standalone to some level, and the user does not have to copy a file along with the binary everywhere. Of course, this has an overhead in terms of file size.</p>
+<h2 id="state-of-ffi-in-haskell-and-golang">State of FFI in Haskell and Golang</h2>
+<p>Unfortunately, I could not find any material on Foreign Function Interface between Haskell and Golang. What I did find was how to run C from Haskell, and how to run Golang from C. This led to the idea of using a C-compatible intermediate form to mediate between Haskell and Golang.</p>
+<h2 id="golang-to-c">Golang to C</h2>
+<h3 id="compiling-golang-to-a-c-style-library">Compiling Golang to a C-style library</h3>
+<p>Go has an amazing support for such nifty things. <a href="https://stackoverflow.com/questions/32215509">This is the link I followed to get this to work</a>.</p>
+<p>In short, you need to modify your source Golang file(s) as follows (almost-verbatim copied from the above linked answer on SO):</p>
+<ul>
+<li>The package needs to be called <code>main</code>.</li>
+<li>A <code>main</code> function must exist, albeit empty.</li>
+<li>There needs to be a <code>import &quot;C&quot;</code> statement at the top of the file which has functions to be exported.</li>
+<li>Each function that has to be exported, has to have a comment <code>//export &lt;NameToExportAs&gt;</code> <em>exactly</em> above its definition.</li>
+</ul>
+<p>An example file looks like the following:</p>
+<div class="sourceCode"><pre class="sourceCode go"><code class="sourceCode go"><span class="kw">package</span> main
+
+<span class="kw">import</span> <span class="st">&quot;C&quot;</span>
+
+<span class="co">//export Testing</span>
+<span class="kw">func</span> Testing(a <span class="dt">int</span>) <span class="dt">int</span> {
+    <span class="kw">return</span> a<span class="dv">+1</span>
+}</code></pre></div>
+<p>Now, we need to get a library from this which can be used later. The following commands work: * Generate a shared object: <code>go build -buildmode=c-shared -o lib&lt;LIBNAME&gt;.so *.go</code> * Generate an archive file: <code>go build -buildmode=c-archive -o lib&lt;LIBNAME&gt;.a *.go</code></p>
+<h3 id="converting-golang-types-to-c-types">Converting Golang types to C types</h3>
+<p>This step is necessary because Haskell does not know about Golang types. The above program is very simple, but what if you had to use strings?</p>
+<p>A naive function:</p>
+<div class="sourceCode"><pre class="sourceCode go"><code class="sourceCode go"><span class="co">//export StrFxn</span>
+<span class="kw">func</span> StrFxn(input <span class="dt">string</span>) <span class="dt">string</span> {
+    <span class="kw">return</span> <span class="st">&quot;Hello &quot;</span> + input + <span class="st">&quot; World&quot;</span>
+}</code></pre></div>
+<p>This would generate the following few lines in the file <code>lib&lt;LIBNAME&gt;.h</code>:</p>
+<pre><code>...
+typedef struct { const char *p; GoInt n; } GoString;
+...
+extern GoString StrFxn(GoString p0);
+...</code></pre>
+<p>As you can see, there’s a magical type GoString being used here, which we won’t like later. So we modify the Go code as follows:</p>
+<div class="sourceCode"><pre class="sourceCode go"><code class="sourceCode go"><span class="kw">import</span> <span class="st">&quot;C&quot;</span>
+
+<span class="kw">func</span> strFxn(input <span class="dt">string</span>) <span class="dt">string</span> {
+    <span class="kw">return</span> <span class="st">&quot;Hello &quot;</span> + input + <span class="st">&quot; World&quot;</span>
+}
+
+<span class="co">//export StrFxn</span>
+<span class="kw">func</span> StrFxn(cinput *C.char) *C.char {
+    <span class="co">// C data needs to be manually managed in memory.</span>
+    <span class="co">// But we will do it from Haskell.</span>
+    input := C.GoString(cinput)
+    <span class="kw">return</span> C.CString(strFxn(input))
+}
+
+<span class="kw">func</span> main() {}</code></pre></div>
+<p>Now the exported function would behave as if it is just a C function!</p>
+<h2 id="load-c-library-from-haskell">Load C library from Haskell</h2>
+<p>This is pretty straitforward. Assuming that the linker finds your built library, you write a file like the following:</p>
+<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">{-# LANGUAGE ForeignFunctionInterface #-}</span>
+<span class="co">-- The above PRAGMA used to be required for FFI, but the code</span>
+<span class="co">-- seems to work without it on recent GHC versions.</span>
+
+<span class="kw">import </span><span class="dt">Foreign.C.String</span>
+<span class="kw">import </span><span class="dt">Foreign.Marshal.Alloc</span>
+
+<span class="co">-- | The call which brings the Foreign function into scope, with manually</span>
+<span class="co">--   declared type. This type is not checked at compile time.</span>
+<span class="co">--   ccall means C-calling-convention, which is usually what you want.</span>
+foreign <span class="kw">import </span>ccall &quot;<span class="dt">StrFxn</span>&quot; go_StrFxn :: <span class="dt">CString</span> -&gt; <span class="dt">IO</span> <span class="dt">CString</span>
+
+<span class="co">-- | Custom function to make CString-based FFI functions user-friendly.</span>
+<span class="ot">runStrFxn ::</span> (<span class="dt">CString</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> <span class="dt">CString</span>) <span class="ot">-&gt;</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> <span class="dt">String</span>
+runStrFxn f input <span class="fu">=</span> <span class="kw">do</span>
+  cinput <span class="ot">&lt;-</span> newCString input
+  coutput <span class="ot">&lt;-</span> f cinput
+  res <span class="ot">&lt;-</span> peekCString coutput
+  _ <span class="ot">&lt;-</span> free cinput
+  _ <span class="ot">&lt;-</span> free coutput
+  return res
+
+<span class="co">-- | User friendly function for profit :)</span>
+<span class="ot">strFxn ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> <span class="dt">String</span>
+strFxn <span class="fu">=</span> runStrFxn go_StrFxn</code></pre></div>
+<p>This was pretty straighforward!</p>
+<h2 id="linking">Linking</h2>
+<p>The above part was pretty neat and simple. Alas, the linking part is not so. Since we’re trying to link a custom library, it would be nice to be able to link it at compile time, and then forget about it. Yet, some constraints may make it difficult to do.</p>
+<p>The following sections are also valid for linking C libraries.</p>
+<h3 id="ffi-in-the-haskell-executable-package-the-easy-scenario">FFI in the Haskell Executable package: The easy scenario</h3>
+<p>I’ll first begin with the easier solution. If the haskell code requiring the FFI is in your executable source files (and not the library files), you’re in luck.</p>
+<p>Let’s assume that your Golang source (as well as the output library) is in <code>./golang</code> folder from the root of your Haskell project.</p>
+<h4 id="statically-linking-a-haskell-library-with-an-archive-file">Statically Linking a Haskell Library with an Archive File</h4>
+<p>This is useful if you want your binary to be portable in terms of this Golang library at least.</p>
+<p>Your Cabal file would now see the following sections in the section called <code>executable &lt;executable-name&gt;</code>:</p>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span class="fu">executables:</span>
+  <span class="fu">ffi-exe:</span>
+  ...
+  <span class="fu">extra-lib-dirs:</span>
+      golang
+  <span class="fu">extra-libraries:</span>
+      &lt;LIBNAME&gt;
+  <span class="fu">ghc-options:</span>
+  <span class="kw">-</span> -threaded
+  <span class="kw">-</span> -optl-static -optl-pthread
+  <span class="kw">-</span> ....</code></pre></div>
+<p>Note that there might be many other <code>ghc-options</code> already.</p>
+<h4 id="dynamically-linking-a-haskell-executable-with-a-shared-object-file">Dynamically Linking a Haskell executable with a Shared Object File</h4>
+<p>Your Cabal file would now see the following sections in the section called <code>executable &lt;executable-name&gt;</code>:</p>
+<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span class="fu">executables:</span>
+  <span class="fu">ffi-exe:</span>
+  ...
+  <span class="fu">extra-lib-dirs:</span>
+      golang
+  <span class="fu">extra-libraries:</span>
+      &lt;LIBNAME&gt;
+  <span class="fu">ghc-options:</span>
+  <span class="kw">-</span> -threaded
+  <span class="kw">-</span> -dynamic
+  <span class="kw">-</span> ....</code></pre></div>
+<p>This will allow the code to compile, but running poses an issue.</p>
+<pre><code>$HOME/code/ffi/.stack-work/install/x86_64-linux/lts-10.5/8.2.2/bin/ffi-exe: error while loading shared libraries: libmytest.so: cannot open shared object file: No such file or directory</code></pre>
+<p>There is an extra step involved in this case. The generated binary somehow does not want to look in the <code>golang</code> folder, and you need to bring the library into the current folder. You could either move it to the project root, or you could run <code>ln -sf mytest.so .</code> to create a soft link to the library in the project root.</p>
+<h3 id="ffi-in-the-haskell-library-the-difficult-scenario">FFI in the Haskell Library: The difficult scenario</h3>
+<p>What if you want to do a FFI call inside a Haskell library you’re writing? This gets tricky, since <code>ghc-pkg</code> does not like relative paths in <code>extra-lib-dirs</code>, but this is only when those paths are in the <code>library</code> section. Using them in <code>executables</code> seems to work just fine, as we saw in the section above.</p>
+<h4 id="dynamically-linking-a-haskell-library-with-a-shared-object-file">Dynamically Linking a Haskell Library with a Shared Object File</h4>
+<p>This seems to work in almost the same manner as the Linking-a-Haskell-Executable-with-A-Shared-Object. See the above section for details on how to do this.</p>
+<p><em>Fun Fact</em>: You do not even need to add the <code>extra-libraries</code> to the <code>library</code> section, even though the Haskell library is the one depending on shared object. Since the library is loaded at run time (dynamically), the binary will find <code>libmytest.so</code> during startup. Thus, there is no point in it knowing the dependency during compile time.</p>
+<p><em>Fun Fact 2</em>: Moving the <code>extra-libraries</code> and <code>extra-lib-dirs</code> to the <code>libraries</code> section seems to actually break the build. For reasons, refer to the next section.</p>
+<h4 id="statically-linking-a-haskell-library-with-an-archive-file-1">Statically Linking a Haskell Library with an Archive File</h4>
+<p>This is a case which does not work nicely with relative paths. Any help in this regards would be appreciated. Anyhow, this is what I could understand about this:</p>
+<ul>
+<li>The Haskell library depends on the archive file placed in the project root (for simplicity).</li>
+<li>The user wants the build program to find the archive file during build, and statically link during compile time, to keep the binary portable.</li>
+<li>The ideal scenario would be to add <code>-optl-static -optl-pthread</code> to ghc-options, and provide a relative path (<code>.</code>) in the <code>extra-lib-dirs</code> key of the library configuration in the build file. Or, maybe, allow us to provide a <code>-L.</code> flag to the build tool, or a similar flag to the linker. None of these works.</li>
+<li>Somehow, somewhere in time, someone thought that relative library paths should be forbidden during build time. As far as I could trace right now, this appears to be an issue in <code>ghc-pkg</code>.</li>
+<li>The above behavior is different in the cases of building a haskell executable and a haskell library. This makes me think that this behavior is buggy.</li>
+<li>IMHO, relative build-time library paths should be allowed, because of such a use case for FFI.</li>
+</ul>
+<p>So, currently, I could not find a way to statically link an archive placed in the project folder, to a haskell library. Things may change in the future, as I plan to pursue this as a bug. If you know of a way to get this done, do point it out in the comments below.</p>]]></description>
+    <pubDate>Sat, 10 Feb 2018 00:00:00 UT</pubDate>
+    <guid>https://sakshamsharma.com/2018/02/haskell-golang-ffi/index.html</guid>
+    <dc:creator>Saksham Sharma</dc:creator>
+</item>
+<item>
     <title>Things no one told me about EFI</title>
     <link>https://sakshamsharma.com/2017/11/bootloaderefi/index.html</link>
     <description><![CDATA[<p>About one and a half years later, I finally thought it is time to reinstall Windows for completeness sake (don’t judge me please). Little did I know that I would be opening a pandora’s box.</p>
@@ -576,50 +730,6 @@ MathJax.Hub.Config({
 <p>The code is <a href="https://github.com/netsecIITK/moVi">here (moVi)</a> on Github. It is still in progress, but we do hope this comes out to be something interesting! We’ve still got a quarter of the semester left with us.</p>]]></description>
     <pubDate>Sat, 08 Oct 2016 00:00:00 UT</pubDate>
     <guid>https://sakshamsharma.com/2016/10/movi/index.html</guid>
-    <dc:creator>Saksham Sharma</dc:creator>
-</item>
-<item>
-    <title>Privately send data to host without disclosing IP</title>
-    <link>https://sakshamsharma.com/2016/09/privtorrent/index.html</link>
-    <description><![CDATA[<p>While thinking on some lines related to networks and security, I recently came up with an idea of having a distributed network connection without disclosing your identity to the sender. The idea is still nascent, and requires you to have root access to your machine (and a custom kernel module, which I’m miles away from writing in the middle of my semester). I’d nevertheless appreciate comments on this idea :)</p>
-<h3 id="tcp">TCP</h3>
-<p>A brief look at the relevant parts of TCP/IP needed for this:</p>
-<ul>
-<li>The sender opens a TCP connection with the client. This connection is over IP packets, which are stateless.</li>
-<li>IP can be spoofed easily. It is possible to send a packet to someone which has a misleading ‘source’ header set in the IP packet.</li>
-<li>Spoofing your identity over a TCP connection is not easy, since the response is sent to the host with the IP you set in the source.</li>
-<li>TCP prevents someone else from sending packets as you by setting up a random sequence number initially during the handshaking with the client.</li>
-</ul>
-<h3 id="basic-idea">Basic idea</h3>
-<p>I’ll take the example of torrent here, and assume that there are <code>n</code> senders (peers) in the torrent connection, who are uploading, let’s say, ubuntu’s iso file to a host <code>cl</code> (client); and the senders don’t want their IP to be known to <code>cl</code>. I will not attempt to get into the technical details of torrent here though.</p>
-<p>Imagine that there is a service like tor which let’s you talk to hosts anonymously. This would be somewhat of a proxy server. Call it <code>p</code>.</p>
-<p>A possible way would be for all the <code>n</code> senders to route their traffic through <code>p</code>. This is not a scalable idea perhaps, since many senders sending data via <code>p</code> would consume a lot of network resources over <code>p</code>.</p>
-<p>Here is a possibly better way. Host <code>p</code> sets up a TCP connection with the client <code>cl</code>. It gets a certain receive buffer. The <code>n</code> senders decide among themselves about how they wish to communicate the data to the client. One way is for each sender to send every <code>n</code>th byte. So sender <code>i</code> sends the <code>i</code>th, <code>(i+1)</code>th and so on bytes. The host <code>p</code> lets all the senders know the relevant TCP packet numbers. Now the host <code>p</code> only has to communicate with the client <code>cl</code> mostly, receiving it’s responses on the TCP connection it set up. All the senders spoof their packets by sending the packets with the source marked as <code>p</code>. The client will get the packets in the right order (due the senders deciding, and using the right TCP sequence number), and will respond to <code>p</code>, which can later inspect the response and let the senders know accordingly if it is something they should know.</p>
-<h3 id="details">Details</h3>
-<ul>
-<li>Senders need to honor the receive window of the client. Perhaps each one treats the effective receive window as the <code>1/n</code>th fraction of the actual receive window.</li>
-<li>There is no need to send every ACK to the senders, except to help with fast retransmits, and for them to know the network state. There might exist ways to avoid sending all responses from <code>p</code> to the senders (which puts load on <code>p</code>).</li>
-<li>If the network has low packet loss rate, it <em>may</em> be advantageous to not communicate all ACKs to the senders. It would only slow down responses when there’s a packet loss.</li>
-<li>If the host <code>p</code> detects a dropped packet, it communicates that to the sender who was supposed to send that packet.</li>
-<li>If host <code>p</code> detects network congestion (triple duplicate ACK, or ECN etc), it communicates this with all the senders.</li>
-</ul>
-<h3 id="advantages">Advantages</h3>
-<ul>
-<li>The client <code>cl</code> cannot find out which IP sent the actual packet.</li>
-<li>You do not need as high network resources as tor on the host machine <code>p</code> for this to work.</li>
-<li>Possibly inspire ideas related to private distributed network communication.</li>
-<li>One could possibly send part data from one host, and part from the other host via this mechanism. Thus, someone doing a man-in-the-middle on one sender would only see partial data being sent. So you could open a connection to a website, and a listener would see you sending <code>GET / HTTP/1.0</code> to that website, while there would be another machine which sent the remaining request (maybe some password in clear-text, which was mandated by the website. I know, not a good example).</li>
-</ul>
-<h3 id="cons-and-limitations">Cons and limitations</h3>
-<p>After discussion with some other people, there are a few things to this approach which make it impractical in use.</p>
-<ul>
-<li>Unless ACKs are sent to the actual sender, the idea would actually slow down the network quite some bit, since that would mean reimplementing TCP without a lot of information from the network.</li>
-<li>This is only suited for large sending. Receiving data over this mechanism would be highly impractical.</li>
-<li>Some routers may not forward plain IP packets without a TCP connection set up (Details and comments welcome on this). You may need to own the network so be able to employ such a mechanism.</li>
-<li>Requires root privileges on the hosts.</li>
-</ul>]]></description>
-    <pubDate>Mon, 19 Sep 2016 00:00:00 UT</pubDate>
-    <guid>https://sakshamsharma.com/2016/09/privtorrent/index.html</guid>
     <dc:creator>Saksham Sharma</dc:creator>
 </item>
 

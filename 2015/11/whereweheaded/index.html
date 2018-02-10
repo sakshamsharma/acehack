@@ -418,6 +418,13 @@
             </li>
             
             <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/dynamic.html">
+                  dynamic
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
                 <a class="category-list-link" href="../../../tags/emacs.html">
                   emacs
                 </a>
@@ -441,6 +448,13 @@
             <li class="category-list-item mydata">
                 <a class="category-list-link" href="../../../tags/experiment.html">
                   experiment
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/ffi.html">
+                  ffi
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
@@ -474,6 +488,13 @@
             </li>
             
             <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/golang.html">
+                  golang
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
                 <a class="category-list-link" href="../../../tags/google.html">
                   google
                 </a>
@@ -490,6 +511,13 @@
             <li class="category-list-item mydata">
                 <a class="category-list-link" href="../../../tags/hakyll.html">
                   hakyll
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/haskell.html">
+                  haskell
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
@@ -553,6 +581,13 @@
             <li class="category-list-item mydata">
                 <a class="category-list-link" href="../../../tags/life.html">
                   life
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/linking.html">
+                  linking
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
@@ -630,6 +665,13 @@
             <li class="category-list-item mydata">
                 <a class="category-list-link" href="../../../tags/short.html">
                   short
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/static.html">
+                  static
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
@@ -719,6 +761,34 @@
     <div class="widget">
         <ul id="recent-post">
             <!-- {{ range first 5 (where .Site.RegularPages "Type" "post") }} -->
+            
+            <li>
+                <div class="item-thumbnail">
+                    <a href="../../../2018/02/haskell-golang-ffi/index.html" class="thumbnail">
+                    <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+                    <!--     <span style="background-image:url({{ .Params.banner | absURL }})" alt="{{ .Title }}" class="thumbnail-image"></span> -->
+                    <!-- {{else}} -->
+                        <span class="thumbnail-image thumbnail-none"></span>
+                    <!-- {{ end }} -->
+                    </a>
+                </div>
+                <div class="item-inner">
+                    <!-- {{ if isset .Params "categories" }} -->
+                    <!-- {{ if gt (len .Params.categories) 0 }} -->
+                    <!-- <p class="item-category"> -->
+                    <!--     {{ url := printf "%s/%s" "categories" (index .Params.categories 0 | urlize | lower)}} -->
+                    <!--     <a class="article-category-link" href="{{ url | absURL }}"> -->
+                    <!--     {{ index .Params.categories 0 }} -->
+                    <!--     </a> -->
+                    <!-- </p> -->
+                    <!-- {{ end }} -->
+                    <!-- {{ end }} -->
+                    <p class="item-title"><a href="../../../2018/02/haskell-golang-ffi/index.html" class="title">Calling Golang functions from Haskell</a></p>
+                    <p class="item-date">
+                        <time datetime="February 10, 2018" itemprop="datePublished">February 10, 2018</time>
+                    </p>
+                </div>
+            </li>
             
             <li>
                 <div class="item-thumbnail">
@@ -828,34 +898,6 @@
                     <p class="item-title"><a href="../../../2016/12/internsaga/index.html" class="title">My internship interview saga</a></p>
                     <p class="item-date">
                         <time datetime="December 21, 2016" itemprop="datePublished">December 21, 2016</time>
-                    </p>
-                </div>
-            </li>
-            
-            <li>
-                <div class="item-thumbnail">
-                    <a href="../../../2016/12/mutex/index.html" class="thumbnail">
-                    <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
-                    <!--     <span style="background-image:url({{ .Params.banner | absURL }})" alt="{{ .Title }}" class="thumbnail-image"></span> -->
-                    <!-- {{else}} -->
-                        <span class="thumbnail-image thumbnail-none"></span>
-                    <!-- {{ end }} -->
-                    </a>
-                </div>
-                <div class="item-inner">
-                    <!-- {{ if isset .Params "categories" }} -->
-                    <!-- {{ if gt (len .Params.categories) 0 }} -->
-                    <!-- <p class="item-category"> -->
-                    <!--     {{ url := printf "%s/%s" "categories" (index .Params.categories 0 | urlize | lower)}} -->
-                    <!--     <a class="article-category-link" href="{{ url | absURL }}"> -->
-                    <!--     {{ index .Params.categories 0 }} -->
-                    <!--     </a> -->
-                    <!-- </p> -->
-                    <!-- {{ end }} -->
-                    <!-- {{ end }} -->
-                    <p class="item-title"><a href="../../../2016/12/mutex/index.html" class="title">Coding software-based mutex algos for fun</a></p>
-                    <p class="item-date">
-                        <time datetime="December  2, 2016" itemprop="datePublished">December  2, 2016</time>
                     </p>
                 </div>
             </li>
