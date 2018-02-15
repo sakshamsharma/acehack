@@ -139,7 +139,7 @@ I'll first begin with the easier solution. If the haskell code requiring the FFI
 
 Let's assume that your Golang source (as well as the output library) is in `./golang` folder from the root of your Haskell project.
 
-#### Statically Linking a Haskell Library with an Archive File
+#### Statically Linking a Haskell executable with an Archive File
 This is useful if you want your binary to be portable in terms of this Golang library at least.
 
 Your Cabal file would now see the following sections in the section called `executable <executable-name>`:
