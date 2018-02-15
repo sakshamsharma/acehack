@@ -282,7 +282,7 @@ strFxn <span class="fu">=</span> runStrFxn go_StrFxn</code></pre></div>
 <h3 id="ffi-in-the-haskell-executable-package-the-easy-scenario">FFI in the Haskell Executable package: The easy scenario</h3>
 <p>I’ll first begin with the easier solution. If the haskell code requiring the FFI is in your executable source files (and not the library files), you’re in luck.</p>
 <p>Let’s assume that your Golang source (as well as the output library) is in <code>./golang</code> folder from the root of your Haskell project.</p>
-<h4 id="statically-linking-a-haskell-library-with-an-archive-file">Statically Linking a Haskell Library with an Archive File</h4>
+<h4 id="statically-linking-a-haskell-executable-with-an-archive-file">Statically Linking a Haskell executable with an Archive File</h4>
 <p>This is useful if you want your binary to be portable in terms of this Golang library at least.</p>
 <p>Your Cabal file would now see the following sections in the section called <code>executable &lt;executable-name&gt;</code>:</p>
 <div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span class="fu">executables:</span>
@@ -320,7 +320,7 @@ strFxn <span class="fu">=</span> runStrFxn go_StrFxn</code></pre></div>
 <p>This seems to work in almost the same manner as the Linking-a-Haskell-Executable-with-A-Shared-Object. See the above section for details on how to do this.</p>
 <p><em>Fun Fact</em>: You do not even need to add the <code>extra-libraries</code> to the <code>library</code> section, even though the Haskell library is the one depending on shared object. Since the library is loaded at run time (dynamically), the binary will find <code>libmytest.so</code> during startup. Thus, there is no point in it knowing the dependency during compile time.</p>
 <p><em>Fun Fact 2</em>: Moving the <code>extra-libraries</code> and <code>extra-lib-dirs</code> to the <code>libraries</code> section seems to actually break the build. For reasons, refer to the next section.</p>
-<h4 id="statically-linking-a-haskell-library-with-an-archive-file-1">Statically Linking a Haskell Library with an Archive File</h4>
+<h4 id="statically-linking-a-haskell-library-with-an-archive-file">Statically Linking a Haskell Library with an Archive File</h4>
 <p>This is a case which does not work nicely with relative paths. Any help in this regards would be appreciated. Anyhow, this is what I could understand about this:</p>
 <ul>
 <li>The Haskell library depends on the archive file placed in the project root (for simplicity).</li>
