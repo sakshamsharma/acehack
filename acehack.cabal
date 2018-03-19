@@ -5,8 +5,8 @@ cabal-version:      >= 1.10
 
 executable site
   main-is:          site.hs
-  build-depends:    base == 4.*
-                  , hakyll == 4.9.*
+  build-depends:    base
+                  , hakyll
                   , containers
                   , filepath
                   , text

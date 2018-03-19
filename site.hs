@@ -1,28 +1,27 @@
 --------------------------------------------------------------------------------
 {-# LANGUAGE OverloadedStrings #-}
 import           Data.Char
-import           Data.Monoid ((<>), mconcat)
-import           Data.List ()
-import qualified Data.Map ()
-import           Data.List (isPrefixOf)
-import           Data.Text (pack, unpack, replace, empty)
+import qualified Data.Map              ()
+import           Data.Monoid           (mconcat, (<>))
+import           Data.Text             (empty, pack, replace, unpack)
+import qualified GHC.IO.Encoding       as E
 import           Hakyll
-import           Hakyll.Web.Tags ()
+import           Hakyll.Web.Tags       ()
 import qualified System.FilePath.Posix as F
 import           System.IO.Unsafe
 
-data BlogConfig = BlogConfig { root :: String
-                             , protocol :: String
-                             , title :: String
-                             , author :: String
-                             , bio :: String
-                             , email :: String
+data BlogConfig = BlogConfig { root        :: String
+                             , protocol    :: String
+                             , title       :: String
+                             , author      :: String
+                             , bio         :: String
+                             , email       :: String
                              , description :: String
-                             , profilePic :: String
+                             , profilePic  :: String
                              }
 
 data SocialLink = SocialLink { name :: String
-                             , url :: String
+                             , url  :: String
                              , icon :: String
                              }
 
@@ -46,7 +45,7 @@ myFeedConfiguration = FeedConfiguration
     , feedDescription = description config
     , feedAuthorName  = author config
     , feedAuthorEmail = email config
-    , feedRoot        = (protocol config) ++ "://" ++ (root config)
+    , feedRoot        = protocol config ++ "://" ++ root config
     }
 
 links :: [SocialLink]
@@ -57,7 +56,9 @@ links = [ SocialLink { name = "GitHub", url = "https://github.com/sakshamsharma"
         ]
 
 main :: IO ()
-main = hakyll $ do
+main = do
+  E.setLocaleEncoding E.utf8
+  hakyll $ do
 
        match "assets/js/**" $ do
              route assetsRoute
@@ -97,7 +98,7 @@ main = hakyll $ do
        cats <- buildCategoriesNew "posts/**" (fromCapture "categories/*.html")
 
        let postCtx = dateField "date" "%B %e, %Y" <>
-             constField "baseURL" ((protocol config) ++ "://" ++ (root config)) <> -- Need this here so we can access it inside for(posts)
+             constField "baseURL" (protocol config ++ "://" ++ root config) <> -- Need this here so we can access it inside for(posts)
              dateField "dateMap" "%Y-%m-%d" <>
              tagsField "tags" tags <>
              teaserField "teaser" "content" <>
@@ -106,13 +107,13 @@ main = hakyll $ do
        let ctxWithInfo = fmap $ \rawposts ->
              constField "blogTitle" (title config) <>
              constField "bio" (bio config) <>
-             constField "baseURL" ((protocol config) ++ "://" ++ (root config)) <>
+             constField "baseURL" (protocol config ++ "://" ++ root config) <>
              constField "author" (author config) <>
              constField "profilePic" (profilePic config) <>
              listField "allCats" postCtx (return (collectTags cats)) <>
              listField "allTags" postCtx (return (collectTags tags)) <>
              listField "recentPosts" postCtx recentPosts <>
-             listField "links" linkCtx (sequence (map (\link -> makeItem(link)) links)) <>
+             listField "links" linkCtx (mapM makeItem links) <>
              constField "postCount" (show $ length rawposts) <>
              defaultContext
 
@@ -130,10 +131,10 @@ main = hakyll $ do
              >>= cleanIndexHtmls
 
        match postPattern $ do
-             route $ postRoute
+             route postRoute
              compile $ do
                simplePageCtx <- ctxWithInfo staticPosts
-               let pageCtx = (teaserField "teaser" "content") <> postCtx <> simplePageCtx
+               let pageCtx = teaserField "teaser" "content" <> postCtx <> simplePageCtx
                pandocCompiler
                      >>= saveSnapshot "content"
                      >>= loadAndApplyTemplate "templates/post.html"           pageCtx
@@ -142,11 +143,11 @@ main = hakyll $ do
 
        -- For recentPosts inside posts
        match postPattern $ version "static" $ do
-             route $ postRoute
-             compile $ do pandocCompiler
+             route postRoute
+             compile pandocCompiler
 
-       let tagPageGen = \pagetitle pattern -> do
-             lessPosts <- recentFirst =<< loadAll (pattern)
+       let tagPageGen = \pagetitle pat -> do
+             lessPosts <- recentFirst =<< loadAll pat
              simplePageCtx <- ctxWithInfo staticPosts
              let pageCtx = simplePageCtx <>
                            constField "showProfile" "lala" <>
@@ -158,15 +159,15 @@ main = hakyll $ do
                >>= loadAndApplyTemplate "templates/default.html"      pageCtx
                >>= relativizeUrls
 
-       tagsRules cats $ \tag pattern -> do
+       tagsRules cats $ \tag pat -> do
          let pagetitle = "Posts in category \"" ++ tag ++ "\""
          route idRoute
-         compile $ tagPageGen pagetitle pattern
+         compile $ tagPageGen pagetitle pat
 
-       tagsRules tags $ \tag pattern -> do
+       tagsRules tags $ \tag pat -> do
          let pagetitle = "Posts tagged \"" ++ tag ++ "\""
          route idRoute
-         compile $ tagPageGen pagetitle pattern
+         compile $ tagPageGen pagetitle pat
 
        match (fromList ["about.md"])$ do
          route $ cleanRoute True
@@ -199,19 +200,19 @@ main = hakyll $ do
                renderRss myFeedConfiguration feedCtx pPosts
 
 --------------------------------------------------------------------------------
-linkCtx = field "linkname" (return . (\x -> name x) . itemBody) <>
-          field "linkurl" (return . (\x -> url x) . itemBody) <>
-          field "linkicon" (return . (\x -> icon x) . itemBody)
+linkCtx = field "linkname" (return . name . itemBody) <>
+          field "linkurl" (return . url . itemBody) <>
+          field "linkicon" (return . icon . itemBody)
 
 collectTags tags = map (\(t, _) -> Item (tagsMakeId tags t) t) (tagsMap tags)
 
 postPattern :: Pattern
-postPattern = "posts/**.md"
+postPattern = "posts/**.md" .||. "posts/**.org"
 
 cleanIndexHtmls :: Item String -> Compiler (Item String)
-cleanIndexHtmls = return . fmap (replaceAll pattern replacement)
+cleanIndexHtmls = return . fmap (replaceAll pat replacement)
     where
-      pattern = "/index.html"
+      pat = "/index.html"
 
 replacement :: String -> String
 replacement = const "/"
@@ -221,21 +222,21 @@ modernPostPath path =
   year ++ "/" ++ month ++ "/" ++ rest
   where
     fileName = F.takeBaseName path
-    year = takeWhile (/= '-') $ fileName
+    year = takeWhile (/= '-') fileName
     month = takeWhile (/= '-') . drop 1 . dropWhile (/= '-') $ fileName
-    rest = dropWhile (\x -> isDigit x || x == '-') $ fileName
+    rest = dropWhile (\x -> isDigit x || x == '-') fileName
 
 postRoute :: Routes
-postRoute = (customRoute $ (\path -> modernPostPath $ toFilePath path))
+postRoute = customRoute (modernPostPath . toFilePath)
   `composeRoutes` cleanRoute False
 
 cleanRoute :: Bool -> Routes
 cleanRoute isTopLevel =
   customRoute $
-  (++ "/index.html") . takeWhile (/= '.') . (adjustPath isTopLevel) . toFilePath
+  (++ "/index.html") . takeWhile (/= '.') . adjustPath isTopLevel . toFilePath
   where
     adjustPath False = id
-    adjustPath True = reverse . takeWhile (/= '/') . reverse
+    adjustPath True  = reverse . takeWhile (/= '/') . reverse
 
 assetsRoute :: Routes
 assetsRoute = customRoute $ (\x -> x :: String) . drop 7 . toFilePath
@@ -253,7 +254,7 @@ buildCategoriesNew = buildTagsWith getCustomCat
 projectRoute :: Routes
 projectRoute =
   idRoute `composeRoutes`
-  (customRoute $ (++ "/index") . takeWhile (/= '.') . drop 9 . toFilePath ) `composeRoutes`
+  customRoute ((++ "/index") . takeWhile (/= '.') . drop 9 . toFilePath) `composeRoutes`
   setExtension "html"
 
 -- | Do not judge me :) I needed these one time.
