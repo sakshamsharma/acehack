@@ -1,4 +1,4 @@
-image: haskell:8.0.1
+image: haskell:8.2.1
 
 variables:
   STACK_ROOT: "${CI_PROJECT_DIR}/.stack"
@@ -11,12 +11,13 @@ pages:
       - .stack-work
   before_script:
     - apt-get update
-    - bash -c "yes | apt-get install git"
-    - stack install --only-dependencies --install-ghc
-    - stack build
+    - bash -c "yes | apt-get install git xz-utils make"
+    - stack upgrade
+    - $HOME/.local/bin/stack install --only-dependencies --install-ghc
+    - $HOME/.local/bin/stack build
   script:
-    - stack exec site clean
-    - stack exec site build
+    - $HOME/.local/bin/stack exec site clean
+    - $HOME/.local/bin/stack exec site build
   after_script:
     - mv _site public
   artifacts:
