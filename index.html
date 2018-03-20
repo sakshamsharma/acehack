@@ -281,7 +281,10 @@
         <div class="article-entry" itemprop="articleBody">
             <p>
                 
-                    Definitely not trivial
+                    <h2 id="situation">Situation</h2>
+<p>If you’re using ElasticSearch, <a href="https://github.com/sksamuel/elastic4s">elastic4s</a> is among the most neat DSLs out there. Recently, ElasticSearch decided to deprecate the Transport client, and remove it from v7.0.0 onwards. This also meant that HTTP Client became the preferred client since v6.0.0.</p>
+<p>ElasticSearch also defaults to using SSL for the HTTP connections nowadays. It is also the (non-configurable) default when you’re using <a href="https://github.com/upmc-enterprises/ElasticSearch-operator">ElasticSearch-operator</a> for easy deployment on Kubernetes. What’s worse is that it generates certificates for ES automatically, but doesn’t export the Certificate Authority keys used for the same. elastic4s does not allow using insecure SSL easily right now.</p>
+...
                 
             </p>
             <p class="article-more-link">
@@ -290,6 +293,8 @@
         </div>
 
         <footer class="article-footer">
+          
+              Definitely not trivial
           
         </footer>
     </div>
