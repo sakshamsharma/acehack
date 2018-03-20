@@ -139,7 +139,7 @@
   </div>
   <div class="article-info profile-block">
     <div class="article-info-block">
-      <p>37</p>
+      <p>38</p>
       <span>Posts</span>
     </div>
     <div class="article-info-block">
@@ -199,7 +199,7 @@
   </div>
   <div class="article-info profile-block">
     <div class="article-info-block">
-      <p>37</p>
+      <p>38</p>
       <span>Posts</span>
     </div>
     <div class="article-info-block">
@@ -680,7 +680,7 @@
   </div>
   <div class="article-info profile-block">
     <div class="article-info-block">
-      <p>37</p>
+      <p>38</p>
       <span>Posts</span>
     </div>
     <div class="article-info-block">
@@ -899,6 +899,13 @@
             <li class="category-list-item mydata">
                 <a class="category-list-link" href="../tags/dynamic.html">
                   dynamic
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../tags/elasticsearch.html">
+                  elasticsearch
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
@@ -1135,6 +1142,13 @@
             </li>
             
             <li class="category-list-item mydata">
+                <a class="category-list-link" href="../tags/scala.html">
+                  scala
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
                 <a class="category-list-link" href="../tags/shell.html">
                   shell
                 </a>
@@ -1240,6 +1254,34 @@
     <div class="widget">
         <ul id="recent-post">
             <!-- {{ range first 5 (where .Site.RegularPages "Type" "post") }} -->
+            
+            <li>
+                <div class="item-thumbnail">
+                    <a href="../2018/03/es-insecure-http/index.html" class="thumbnail">
+                    <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+                    <!--     <span style="background-image:url({{ .Params.banner | absURL }})" alt="{{ .Title }}" class="thumbnail-image"></span> -->
+                    <!-- {{else}} -->
+                        <span class="thumbnail-image thumbnail-none"></span>
+                    <!-- {{ end }} -->
+                    </a>
+                </div>
+                <div class="item-inner">
+                    <!-- {{ if isset .Params "categories" }} -->
+                    <!-- {{ if gt (len .Params.categories) 0 }} -->
+                    <!-- <p class="item-category"> -->
+                    <!--     {{ url := printf "%s/%s" "categories" (index .Params.categories 0 | urlize | lower)}} -->
+                    <!--     <a class="article-category-link" href="{{ url | absURL }}"> -->
+                    <!--     {{ index .Params.categories 0 }} -->
+                    <!--     </a> -->
+                    <!-- </p> -->
+                    <!-- {{ end }} -->
+                    <!-- {{ end }} -->
+                    <p class="item-title"><a href="../2018/03/es-insecure-http/index.html" class="title">Using self-signed certificates with ElasticSearch on Scala/Java</a></p>
+                    <p class="item-date">
+                        <time datetime="March 20, 2018" itemprop="datePublished">March 20, 2018</time>
+                    </p>
+                </div>
+            </li>
             
             <li>
                 <div class="item-thumbnail">
@@ -1349,34 +1391,6 @@
                     <p class="item-title"><a href="../2016/12/puppy3/index.html" class="title">Limiting 'likes' sent anonymously - Part 3</a></p>
                     <p class="item-date">
                         <time datetime="December 26, 2016" itemprop="datePublished">December 26, 2016</time>
-                    </p>
-                </div>
-            </li>
-            
-            <li>
-                <div class="item-thumbnail">
-                    <a href="../2016/12/internsaga/index.html" class="thumbnail">
-                    <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
-                    <!--     <span style="background-image:url({{ .Params.banner | absURL }})" alt="{{ .Title }}" class="thumbnail-image"></span> -->
-                    <!-- {{else}} -->
-                        <span class="thumbnail-image thumbnail-none"></span>
-                    <!-- {{ end }} -->
-                    </a>
-                </div>
-                <div class="item-inner">
-                    <!-- {{ if isset .Params "categories" }} -->
-                    <!-- {{ if gt (len .Params.categories) 0 }} -->
-                    <!-- <p class="item-category"> -->
-                    <!--     {{ url := printf "%s/%s" "categories" (index .Params.categories 0 | urlize | lower)}} -->
-                    <!--     <a class="article-category-link" href="{{ url | absURL }}"> -->
-                    <!--     {{ index .Params.categories 0 }} -->
-                    <!--     </a> -->
-                    <!-- </p> -->
-                    <!-- {{ end }} -->
-                    <!-- {{ end }} -->
-                    <p class="item-title"><a href="../2016/12/internsaga/index.html" class="title">My internship interview saga</a></p>
-                    <p class="item-date">
-                        <time datetime="December 21, 2016" itemprop="datePublished">December 21, 2016</time>
                     </p>
                 </div>
             </li>

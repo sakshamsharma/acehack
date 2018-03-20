@@ -186,7 +186,7 @@
           <p>Never thought I’d see this day, but I actually found a new Tiling Window Manager for my Linux system, I went past i3wm for once just to experiment, and don’t see myself coming back any soon. So yeah, XMonad it is.</p>
 <p>Never heard of it? Very probable. If 1-10% of the PC users are capable of using a Linux system properly, out of those about 1-10% are capable of using i3wm; then out of the remaining few, I guess again only 1-10% would gain anything from using XMonad, for if you want to be able to make XMonad better than i3wm, you need to <em>Code</em>, and I mean actual code. Not just scribbling in a plaintext file with some default keywords you google or read on the i3wm website. What’s more daunting is that this isn’t Python code, its Haskell, probably one of the most tough languages to code in for average people.</p>
 <p>Still here? Good news, no more scaring! I’ll jump to the reasons why you should try out XMonad:</p>
-<ol style="list-style-type: decimal">
+<ol type="1">
 <li>A really nice way to learn Haskell (Ha! Yeah, I installed it just to be able to start somewhere in Haskell.)</li>
 <li>Much more configurable than i3wm and perhaps most other tiling window Managers (haven’t tried awesome and dwm)</li>
 <li>Tiling at its best. i3wm offers manual tiling, you tile windows the way you want to. XMonad does it itself. You can define your layouts and XMonad tiles the windows in those layouts. ‘Automatic Tiling’.</li>
@@ -460,6 +460,13 @@ myBorderWidth = 3</code></pre>
             </li>
             
             <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/elasticsearch.html">
+                  elasticsearch
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
                 <a class="category-list-link" href="../../../tags/emacs.html">
                   emacs
                 </a>
@@ -691,6 +698,13 @@ myBorderWidth = 3</code></pre>
             </li>
             
             <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/scala.html">
+                  scala
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
                 <a class="category-list-link" href="../../../tags/shell.html">
                   shell
                 </a>
@@ -796,6 +810,34 @@ myBorderWidth = 3</code></pre>
     <div class="widget">
         <ul id="recent-post">
             <!-- {{ range first 5 (where .Site.RegularPages "Type" "post") }} -->
+            
+            <li>
+                <div class="item-thumbnail">
+                    <a href="../../../2018/03/es-insecure-http/index.html" class="thumbnail">
+                    <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+                    <!--     <span style="background-image:url({{ .Params.banner | absURL }})" alt="{{ .Title }}" class="thumbnail-image"></span> -->
+                    <!-- {{else}} -->
+                        <span class="thumbnail-image thumbnail-none"></span>
+                    <!-- {{ end }} -->
+                    </a>
+                </div>
+                <div class="item-inner">
+                    <!-- {{ if isset .Params "categories" }} -->
+                    <!-- {{ if gt (len .Params.categories) 0 }} -->
+                    <!-- <p class="item-category"> -->
+                    <!--     {{ url := printf "%s/%s" "categories" (index .Params.categories 0 | urlize | lower)}} -->
+                    <!--     <a class="article-category-link" href="{{ url | absURL }}"> -->
+                    <!--     {{ index .Params.categories 0 }} -->
+                    <!--     </a> -->
+                    <!-- </p> -->
+                    <!-- {{ end }} -->
+                    <!-- {{ end }} -->
+                    <p class="item-title"><a href="../../../2018/03/es-insecure-http/index.html" class="title">Using self-signed certificates with ElasticSearch on Scala/Java</a></p>
+                    <p class="item-date">
+                        <time datetime="March 20, 2018" itemprop="datePublished">March 20, 2018</time>
+                    </p>
+                </div>
+            </li>
             
             <li>
                 <div class="item-thumbnail">
@@ -905,34 +947,6 @@ myBorderWidth = 3</code></pre>
                     <p class="item-title"><a href="../../../2016/12/puppy3/index.html" class="title">Limiting 'likes' sent anonymously - Part 3</a></p>
                     <p class="item-date">
                         <time datetime="December 26, 2016" itemprop="datePublished">December 26, 2016</time>
-                    </p>
-                </div>
-            </li>
-            
-            <li>
-                <div class="item-thumbnail">
-                    <a href="../../../2016/12/internsaga/index.html" class="thumbnail">
-                    <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
-                    <!--     <span style="background-image:url({{ .Params.banner | absURL }})" alt="{{ .Title }}" class="thumbnail-image"></span> -->
-                    <!-- {{else}} -->
-                        <span class="thumbnail-image thumbnail-none"></span>
-                    <!-- {{ end }} -->
-                    </a>
-                </div>
-                <div class="item-inner">
-                    <!-- {{ if isset .Params "categories" }} -->
-                    <!-- {{ if gt (len .Params.categories) 0 }} -->
-                    <!-- <p class="item-category"> -->
-                    <!--     {{ url := printf "%s/%s" "categories" (index .Params.categories 0 | urlize | lower)}} -->
-                    <!--     <a class="article-category-link" href="{{ url | absURL }}"> -->
-                    <!--     {{ index .Params.categories 0 }} -->
-                    <!--     </a> -->
-                    <!-- </p> -->
-                    <!-- {{ end }} -->
-                    <!-- {{ end }} -->
-                    <p class="item-title"><a href="../../../2016/12/internsaga/index.html" class="title">My internship interview saga</a></p>
-                    <p class="item-date">
-                        <time datetime="December 21, 2016" itemprop="datePublished">December 21, 2016</time>
                     </p>
                 </div>
             </li>

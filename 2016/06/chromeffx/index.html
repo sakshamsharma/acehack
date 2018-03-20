@@ -209,40 +209,40 @@
 <table>
 <thead>
 <tr class="header">
-<th align="center">Start Time</th>
-<th align="center">Duration of step</th>
+<th style="text-align: center;">Start Time</th>
+<th style="text-align: center;">Duration of step</th>
 <th>Action</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td align="center">0 seconds</td>
-<td align="center">25 seconds</td>
+<td style="text-align: center;">0 seconds</td>
+<td style="text-align: center;">25 seconds</td>
 <td>Startup of browser</td>
 </tr>
 <tr class="even">
-<td align="center">25 seconds</td>
-<td align="center">20 seconds</td>
+<td style="text-align: center;">25 seconds</td>
+<td style="text-align: center;">20 seconds</td>
 <td>Open Viva La Vida video on Youtube</td>
 </tr>
 <tr class="odd">
-<td align="center">45 seconds</td>
-<td align="center">20 seconds</td>
+<td style="text-align: center;">45 seconds</td>
+<td style="text-align: center;">20 seconds</td>
 <td>Open Instant Crush video on Youtube in a new tab</td>
 </tr>
 <tr class="even">
-<td align="center">65 seconds</td>
-<td align="center">20 seconds</td>
+<td style="text-align: center;">65 seconds</td>
+<td style="text-align: center;">20 seconds</td>
 <td>Open The Scientist video on Youtube in a new tab</td>
 </tr>
 <tr class="odd">
-<td align="center">85 seconds</td>
-<td align="center">20 seconds</td>
+<td style="text-align: center;">85 seconds</td>
+<td style="text-align: center;">20 seconds</td>
 <td>Open Facebook in a new tab</td>
 </tr>
 <tr class="even">
-<td align="center">105 seconds</td>
-<td align="center">20 seconds</td>
+<td style="text-align: center;">105 seconds</td>
+<td style="text-align: center;">20 seconds</td>
 <td>Close all tabs but keep browser open</td>
 </tr>
 </tbody>
@@ -271,70 +271,70 @@
 <h2 id="scripts-used">Scripts used</h2>
 <h4 id="data-recording">Data recording</h4>
 <p>Here is the script used to record the data. Feel free to test it on yours as well.</p>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="co">#!/bin/bash</span>
-
-<span class="kw">if</span><span class="bu"> [</span> <span class="ot">-z</span> <span class="st">&quot;</span><span class="va">$1</span><span class="st">&quot;</span><span class="bu"> ]</span>
-<span class="kw">then</span>
-    <span class="bu">echo</span> <span class="st">&quot;CUSTOM MESSAGE&quot;</span>
-    <span class="bu">echo</span> <span class="st">&quot;Arguement not supplied&quot;</span>
-    <span class="bu">echo</span> <span class="st">&quot;Usage: ./test.sh &lt;file_1&gt; &lt;file_2&quot;</span>
-    <span class="bu">exit</span>
-<span class="kw">fi</span>
-
-<span class="kw">for</span> <span class="ex">i</span> in <span class="dt">{1..125}</span>
-<span class="kw">do</span>
-  <span class="bu">echo</span> <span class="va">$i</span>
-  <span class="va">power=$(</span><span class="fu">cat</span> /sys/class/power_supply/BAT1/power_now<span class="va">)</span>
-  <span class="va">ramFree=$(</span><span class="fu">cat</span> /proc/meminfo <span class="kw">|</span> <span class="fu">grep</span> <span class="st">'MemFree:\ *[0-9]*'</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="st">'[0-9]*'</span> -o<span class="va">)</span>
-  <span class="va">ramAvail=$(</span><span class="fu">cat</span> /proc/meminfo <span class="kw">|</span> <span class="fu">grep</span> <span class="st">'MemAvailable:\ *[0-9]*'</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="st">'[0-9]*'</span> -o<span class="va">)</span>
-  <span class="va">ramUsed=$(($ramAvail</span> - <span class="va">$ramFree))</span>
-  <span class="bu">echo</span> <span class="st">&quot;Power: </span><span class="va">$power</span><span class="st">&quot;</span>
-  <span class="bu">echo</span> <span class="st">&quot;RAM: </span><span class="va">$ramUsed</span><span class="st">&quot;</span>
-  <span class="bu">printf</span> <span class="st">&quot;%s, %s\n&quot;</span> <span class="st">&quot;</span><span class="va">$i</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$power</span><span class="st">&quot;</span> <span class="op">&gt;&gt;</span> <span class="st">&quot;</span><span class="va">$1</span><span class="st">-power&quot;</span>
-  <span class="bu">printf</span> <span class="st">&quot;%s, %s\n&quot;</span> <span class="st">&quot;</span><span class="va">$i</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$ramUsed</span><span class="st">&quot;</span> <span class="op">&gt;&gt;</span> <span class="st">&quot;</span><span class="va">$1</span><span class="st">-ram&quot;</span>
-  <span class="fu">sleep</span> 1
-<span class="kw">done</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="co">#!/bin/bash</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw">if</span><span class="bu"> [</span> <span class="ot">-z</span> <span class="st">&quot;</span><span class="va">$1</span><span class="st">&quot;</span><span class="bu"> ]</span></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="kw">then</span></a>
+<a class="sourceLine" id="cb1-5" data-line-number="5">    <span class="bu">echo</span> <span class="st">&quot;CUSTOM MESSAGE&quot;</span></a>
+<a class="sourceLine" id="cb1-6" data-line-number="6">    <span class="bu">echo</span> <span class="st">&quot;Arguement not supplied&quot;</span></a>
+<a class="sourceLine" id="cb1-7" data-line-number="7">    <span class="bu">echo</span> <span class="st">&quot;Usage: ./test.sh &lt;file_1&gt; &lt;file_2&quot;</span></a>
+<a class="sourceLine" id="cb1-8" data-line-number="8">    <span class="bu">exit</span></a>
+<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="kw">fi</span></a>
+<a class="sourceLine" id="cb1-10" data-line-number="10"></a>
+<a class="sourceLine" id="cb1-11" data-line-number="11"><span class="kw">for</span> <span class="ex">i</span> in <span class="dt">{1..125}</span></a>
+<a class="sourceLine" id="cb1-12" data-line-number="12"><span class="kw">do</span></a>
+<a class="sourceLine" id="cb1-13" data-line-number="13">  <span class="bu">echo</span> <span class="va">$i</span></a>
+<a class="sourceLine" id="cb1-14" data-line-number="14">  <span class="va">power=$(</span><span class="fu">cat</span> /sys/class/power_supply/BAT1/power_now<span class="va">)</span></a>
+<a class="sourceLine" id="cb1-15" data-line-number="15">  <span class="va">ramFree=$(</span><span class="fu">cat</span> /proc/meminfo <span class="kw">|</span> <span class="fu">grep</span> <span class="st">'MemFree:\ *[0-9]*'</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="st">'[0-9]*'</span> -o<span class="va">)</span></a>
+<a class="sourceLine" id="cb1-16" data-line-number="16">  <span class="va">ramAvail=$(</span><span class="fu">cat</span> /proc/meminfo <span class="kw">|</span> <span class="fu">grep</span> <span class="st">'MemAvailable:\ *[0-9]*'</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="st">'[0-9]*'</span> -o<span class="va">)</span></a>
+<a class="sourceLine" id="cb1-17" data-line-number="17">  <span class="va">ramUsed=$(($ramAvail</span> - <span class="va">$ramFree))</span></a>
+<a class="sourceLine" id="cb1-18" data-line-number="18">  <span class="bu">echo</span> <span class="st">&quot;Power: </span><span class="va">$power</span><span class="st">&quot;</span></a>
+<a class="sourceLine" id="cb1-19" data-line-number="19">  <span class="bu">echo</span> <span class="st">&quot;RAM: </span><span class="va">$ramUsed</span><span class="st">&quot;</span></a>
+<a class="sourceLine" id="cb1-20" data-line-number="20">  <span class="bu">printf</span> <span class="st">&quot;%s, %s\n&quot;</span> <span class="st">&quot;</span><span class="va">$i</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$power</span><span class="st">&quot;</span> <span class="op">&gt;&gt;</span> <span class="st">&quot;</span><span class="va">$1</span><span class="st">-power&quot;</span></a>
+<a class="sourceLine" id="cb1-21" data-line-number="21">  <span class="bu">printf</span> <span class="st">&quot;%s, %s\n&quot;</span> <span class="st">&quot;</span><span class="va">$i</span><span class="st">&quot;</span> <span class="st">&quot;</span><span class="va">$ramUsed</span><span class="st">&quot;</span> <span class="op">&gt;&gt;</span> <span class="st">&quot;</span><span class="va">$1</span><span class="st">-ram&quot;</span></a>
+<a class="sourceLine" id="cb1-22" data-line-number="22">  <span class="fu">sleep</span> 1</a>
+<a class="sourceLine" id="cb1-23" data-line-number="23"><span class="kw">done</span></a></code></pre></div>
 <h4 id="data-format">Data format</h4>
 <p>The output data files were of the format:</p>
 <pre><code>&lt;time&gt;, &lt;ram_used&gt;
 &lt;time2&gt;, &lt;ram_used2&gt;</code></pre>
 <h4 id="plotting-script">Plotting script</h4>
 <p>The (below-par) script used for plotting the plots is here. It takes as argument the 2 files (like: chrome-ram and firefox-ram).</p>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="co">#!/bin/bash</span>
-
-<span class="kw">if</span><span class="bu"> [</span> <span class="va">$#</span> <span class="ot">-eq</span> 0<span class="bu"> ]</span>; <span class="kw">then</span>
-    <span class="bu">echo</span> <span class="st">&quot;No file to be plotted&quot;</span>
-    <span class="bu">exit</span> 1
-<span class="kw">fi</span>
-
-<span class="va">metric=$(</span><span class="bu">echo</span> <span class="va">$1</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="st">'\-.*'</span> -o<span class="va">)</span>
-<span class="va">metric=${metric:1}</span>
-<span class="bu">echo</span> <span class="va">$metric</span>
-
-<span class="co"># Have to pipe to gnuplot via cat otherwise it does not pause</span>
-<span class="kw">(</span><span class="fu">cat</span> &lt;&lt; EOF
-set title &quot;Plot of <span class="va">$metric</span> in Chrome 51 vs Firefox 48&quot;
-set term png
-set output &quot;<span class="va">$metric</span>-plot.png&quot;
-set ylabel &quot;<span class="va">$metric</span>&quot;
-set xlabel &quot;Time (seconds)&quot;
-set autoscale
-
-set style data histogram
-set style histogram gap 1
-set style fill solid border -1
-set boxwidth 1
-
-set datafile separator &quot;,&quot;
-set arrow from 25, graph 0 to 25, graph 1 nohead
-set arrow from 45, graph 0 to 45, graph 1 nohead
-set arrow from 65, graph 0 to 65, graph 1 nohead
-set arrow from 85, graph 0 to 85, graph 1 nohead
-set arrow from 105, graph 0 to 105, graph 1 nohead
-plot '<span class="va">$1</span>' using 2, '<span class="va">$2</span>' using 2
-pause -1 &quot;Press Ctrl+D to exit&quot;
-EOF
-cat /dev/tty) | gnuplot</code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="co">#!/bin/bash</span></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="kw">if</span><span class="bu"> [</span> <span class="va">$#</span> <span class="ot">-eq</span> 0<span class="bu"> ]</span>; <span class="kw">then</span></a>
+<a class="sourceLine" id="cb3-4" data-line-number="4">    <span class="bu">echo</span> <span class="st">&quot;No file to be plotted&quot;</span></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5">    <span class="bu">exit</span> 1</a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="kw">fi</span></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="va">metric=$(</span><span class="bu">echo</span> <span class="va">$1</span> <span class="kw">|</span> <span class="fu">grep</span> <span class="st">'\-.*'</span> -o<span class="va">)</span></a>
+<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="va">metric=${metric:1}</span></a>
+<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="bu">echo</span> <span class="va">$metric</span></a>
+<a class="sourceLine" id="cb3-11" data-line-number="11"></a>
+<a class="sourceLine" id="cb3-12" data-line-number="12"><span class="co"># Have to pipe to gnuplot via cat otherwise it does not pause</span></a>
+<a class="sourceLine" id="cb3-13" data-line-number="13"><span class="kw">(</span><span class="fu">cat</span> <span class="op">&lt;&lt; EOF</span></a>
+<a class="sourceLine" id="cb3-14" data-line-number="14">set title &quot;Plot of <span class="va">$metric</span> in Chrome 51 vs Firefox 48&quot;</a>
+<a class="sourceLine" id="cb3-15" data-line-number="15">set term png</a>
+<a class="sourceLine" id="cb3-16" data-line-number="16">set output &quot;<span class="va">$metric</span>-plot.png&quot;</a>
+<a class="sourceLine" id="cb3-17" data-line-number="17">set ylabel &quot;<span class="va">$metric</span>&quot;</a>
+<a class="sourceLine" id="cb3-18" data-line-number="18">set xlabel &quot;Time (seconds)&quot;</a>
+<a class="sourceLine" id="cb3-19" data-line-number="19">set autoscale</a>
+<a class="sourceLine" id="cb3-20" data-line-number="20"></a>
+<a class="sourceLine" id="cb3-21" data-line-number="21">set style data histogram</a>
+<a class="sourceLine" id="cb3-22" data-line-number="22">set style histogram gap 1</a>
+<a class="sourceLine" id="cb3-23" data-line-number="23">set style fill solid border -1</a>
+<a class="sourceLine" id="cb3-24" data-line-number="24">set boxwidth 1</a>
+<a class="sourceLine" id="cb3-25" data-line-number="25"></a>
+<a class="sourceLine" id="cb3-26" data-line-number="26">set datafile separator &quot;,&quot;</a>
+<a class="sourceLine" id="cb3-27" data-line-number="27">set arrow from 25, graph 0 to 25, graph 1 nohead</a>
+<a class="sourceLine" id="cb3-28" data-line-number="28">set arrow from 45, graph 0 to 45, graph 1 nohead</a>
+<a class="sourceLine" id="cb3-29" data-line-number="29">set arrow from 65, graph 0 to 65, graph 1 nohead</a>
+<a class="sourceLine" id="cb3-30" data-line-number="30">set arrow from 85, graph 0 to 85, graph 1 nohead</a>
+<a class="sourceLine" id="cb3-31" data-line-number="31">set arrow from 105, graph 0 to 105, graph 1 nohead</a>
+<a class="sourceLine" id="cb3-32" data-line-number="32">plot '<span class="va">$1</span>' using 2, '<span class="va">$2</span>' using 2</a>
+<a class="sourceLine" id="cb3-33" data-line-number="33">pause -1 &quot;Press Ctrl+D to exit&quot;</a>
+<a class="sourceLine" id="cb3-34" data-line-number="34">EOF</a>
+<a class="sourceLine" id="cb3-35" data-line-number="35">cat /dev/tty) | gnuplot</a></code></pre></div>
         </div>
         <!-- partial("templates/partials/article_footer.html") -->
     </div>
@@ -573,6 +573,13 @@ cat /dev/tty) | gnuplot</code></pre></div>
             </li>
             
             <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/elasticsearch.html">
+                  elasticsearch
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
                 <a class="category-list-link" href="../../../tags/emacs.html">
                   emacs
                 </a>
@@ -804,6 +811,13 @@ cat /dev/tty) | gnuplot</code></pre></div>
             </li>
             
             <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/scala.html">
+                  scala
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
                 <a class="category-list-link" href="../../../tags/shell.html">
                   shell
                 </a>
@@ -909,6 +923,34 @@ cat /dev/tty) | gnuplot</code></pre></div>
     <div class="widget">
         <ul id="recent-post">
             <!-- {{ range first 5 (where .Site.RegularPages "Type" "post") }} -->
+            
+            <li>
+                <div class="item-thumbnail">
+                    <a href="../../../2018/03/es-insecure-http/index.html" class="thumbnail">
+                    <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+                    <!--     <span style="background-image:url({{ .Params.banner | absURL }})" alt="{{ .Title }}" class="thumbnail-image"></span> -->
+                    <!-- {{else}} -->
+                        <span class="thumbnail-image thumbnail-none"></span>
+                    <!-- {{ end }} -->
+                    </a>
+                </div>
+                <div class="item-inner">
+                    <!-- {{ if isset .Params "categories" }} -->
+                    <!-- {{ if gt (len .Params.categories) 0 }} -->
+                    <!-- <p class="item-category"> -->
+                    <!--     {{ url := printf "%s/%s" "categories" (index .Params.categories 0 | urlize | lower)}} -->
+                    <!--     <a class="article-category-link" href="{{ url | absURL }}"> -->
+                    <!--     {{ index .Params.categories 0 }} -->
+                    <!--     </a> -->
+                    <!-- </p> -->
+                    <!-- {{ end }} -->
+                    <!-- {{ end }} -->
+                    <p class="item-title"><a href="../../../2018/03/es-insecure-http/index.html" class="title">Using self-signed certificates with ElasticSearch on Scala/Java</a></p>
+                    <p class="item-date">
+                        <time datetime="March 20, 2018" itemprop="datePublished">March 20, 2018</time>
+                    </p>
+                </div>
+            </li>
             
             <li>
                 <div class="item-thumbnail">
@@ -1018,34 +1060,6 @@ cat /dev/tty) | gnuplot</code></pre></div>
                     <p class="item-title"><a href="../../../2016/12/puppy3/index.html" class="title">Limiting 'likes' sent anonymously - Part 3</a></p>
                     <p class="item-date">
                         <time datetime="December 26, 2016" itemprop="datePublished">December 26, 2016</time>
-                    </p>
-                </div>
-            </li>
-            
-            <li>
-                <div class="item-thumbnail">
-                    <a href="../../../2016/12/internsaga/index.html" class="thumbnail">
-                    <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
-                    <!--     <span style="background-image:url({{ .Params.banner | absURL }})" alt="{{ .Title }}" class="thumbnail-image"></span> -->
-                    <!-- {{else}} -->
-                        <span class="thumbnail-image thumbnail-none"></span>
-                    <!-- {{ end }} -->
-                    </a>
-                </div>
-                <div class="item-inner">
-                    <!-- {{ if isset .Params "categories" }} -->
-                    <!-- {{ if gt (len .Params.categories) 0 }} -->
-                    <!-- <p class="item-category"> -->
-                    <!--     {{ url := printf "%s/%s" "categories" (index .Params.categories 0 | urlize | lower)}} -->
-                    <!--     <a class="article-category-link" href="{{ url | absURL }}"> -->
-                    <!--     {{ index .Params.categories 0 }} -->
-                    <!--     </a> -->
-                    <!-- </p> -->
-                    <!-- {{ end }} -->
-                    <!-- {{ end }} -->
-                    <p class="item-title"><a href="../../../2016/12/internsaga/index.html" class="title">My internship interview saga</a></p>
-                    <p class="item-date">
-                        <time datetime="December 21, 2016" itemprop="datePublished">December 21, 2016</time>
                     </p>
                 </div>
             </li>

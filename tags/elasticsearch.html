@@ -4,7 +4,7 @@
     <!-- <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} &middot; {{ .Site.Title }}{{ end }}</title> -->
 <!-- {{ .Hugo.Generator }} -->
 
-<title>AceHack-Ambition and choices</title>
+<title>AceHack-elasticsearch</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <!-- {{ with .Site.Params.author }}<meta name="author" content="{{ . }}">{{ end }} -->
@@ -22,11 +22,11 @@
 <meta name="keywords" content="acehack, coding, programming, linux, webdev, hakyll">
 
 <!-- <link rel="canonical" href="{{ .Permalink }}"/> -->
-<link rel="icon" href="../../../favicon.ico">
-<link rel="apple-touch-icon" href="../../../apple-touch-icon.png" />
-<link rel="stylesheet" href="../../../css/style.css">
-<link rel="stylesheet" href="../../../css/font-awesome.min.css">
-<link rel="stylesheet" href="../../../css/monokai.css">
+<link rel="icon" href="../favicon.ico">
+<link rel="apple-touch-icon" href="../apple-touch-icon.png" />
+<link rel="stylesheet" href="../css/style.css">
+<link rel="stylesheet" href="../css/font-awesome.min.css">
+<link rel="stylesheet" href="../css/monokai.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/solarized-light.min.css">
 <!-- ------------- -->
 <!-- FIX IMPORTANT -->
@@ -35,7 +35,7 @@
 <!-- <link rel="stylesheet" href="{{ . | absURL }}"> -->
 <!-- {{ end }} -->
 
-<script src="../../../js/highlight/highlight.pack.js"></script>
+<script src="../js/highlight/highlight.pack.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
 <link href="https://fonts.googleapis.com/css?family=Open+Sans:400italic,400,600" rel="stylesheet" type="text/css">
 <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
@@ -70,16 +70,16 @@
           <span class="site-title">AceHack</span>
       </a>
       <nav id="main-nav">
-        <a class="main-nav-link" href="../../../">Home</a>
-        <a class="main-nav-link" href="../../../about">About</a>
+        <a class="main-nav-link" href="../">Home</a>
+        <a class="main-nav-link" href="../about">About</a>
         
         <a class="main-nav-link" href="https://github.com/sakshamsharma">GitHub</a>
         
         <a class="main-nav-link" href="https://in.linkedin.com/in/saksham-sharma">LinkedIn</a>
         
-        <a class="main-nav-link" href="../../../cv">Resume</a>
+        <a class="main-nav-link" href="../cv">Resume</a>
         
-        <a class="main-nav-link" href="../../../rss.xml">RSS</a>
+        <a class="main-nav-link" href="../rss.xml">RSS</a>
         
       </nav>
       <div id="search-form-wrap">
@@ -96,8 +96,8 @@
     <table class="menu outer">
       <tbody>
           <tr>
-          <td><a class="main-nav-link" href="../../../">Home</a></td>
-          <td><a class="main-nav-link" href="../../../about">About</a></td>
+          <td><a class="main-nav-link" href="../">Home</a></td>
+          <td><a class="main-nav-link" href="../about">About</a></td>
         <!--   {{ range .Site.Params.menu }} -->
         <!--   {{ if .before }} -->
         <!--   <td><a class="main-nav-link" href="{{ .link | absURL }}">{{ .label }}</a></td> -->
@@ -130,16 +130,118 @@
 
         
 
-        <section id="widemain">
-          <article id="page-undefined" class="article article-type-page" itemscope itemprop="blogPost">
+        <aside class="profile" id="profile">
+  <div class="inner profile-inner">
+  <div class="base-info profile-block">
+    <h2 id="name">Saksham Sharma</h2>
+    <h3 id="title">Programmer.</h3>
+    <img id="avatar" style="border-radius: 1000px;" src="https://avatars3.githubusercontent.com/u/10418596?v=3&s=460" />
+  </div>
+  <div class="article-info profile-block">
+    <div class="article-info-block">
+      <p>38</p>
+      <span>Posts</span>
+    </div>
+    <div class="article-info-block">
+      <p class="gh-followers">...</p>
+      <span>Followers</span>
+    </div>
+  </div>
+  <div class="profile-block social-links">
+    <table>
+      <tr>
+        
+        <td><a href="https://github.com/sakshamsharma" target="_blank" title="GitHub"><i class="fa fa-github"></i></a></td>
+        
+        <td><a href="https://in.linkedin.com/in/saksham-sharma" target="_blank" title="LinkedIn"><i class="fa fa-linkedin"></i></a></td>
+        
+        <td><a href="../cv" target="_blank" title="Resume"><i class="fa fa-file-pdf-o"></i></a></td>
+        
+        <td><a href="../rss.xml" target="_blank" title="RSS"><i class="fa fa-rss"></i></a></td>
+        
+      </tr>
+    </table>
+  </div>
+</div>
+
+</aside>
+
+<script>
+  var xmlHttp = new XMLHttpRequest();
+  xmlHttp.onreadystatechange = function() {
+    if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
+      var elems = document.getElementsByClassName("gh-followers");
+      for (var i=0; i<elems.length; i++) {
+        elems[i].innerHTML = JSON.parse(xmlHttp.responseText).followers;
+      }
+    }
+  }
+  xmlHttp.open("GET", "https://api.github.com/users/sakshamsharma", true);
+  xmlHttp.send(null);
+</script>
+
+        <section id="main">
+          <header class="article-header" style="text-align:center; margin-top: 14px;">
+  <a>
+    <h1 class="article-title" itemprop="name">Posts tagged "elasticsearch"</h1>
+  </a>
+</header>
+
+
+<article class="article article-type-post" id="profile-article-div">
+    <div class="article-inner">
+        <aside class="profile" id="profile-article">
+  <div class="inner profile-inner">
+  <div class="base-info profile-block">
+    <h2 id="name">Saksham Sharma</h2>
+    <h3 id="title">Programmer.</h3>
+    <img id="avatar" style="border-radius: 1000px;" src="https://avatars3.githubusercontent.com/u/10418596?v=3&s=460" />
+  </div>
+  <div class="article-info profile-block">
+    <div class="article-info-block">
+      <p>38</p>
+      <span>Posts</span>
+    </div>
+    <div class="article-info-block">
+      <p class="gh-followers">...</p>
+      <span>Followers</span>
+    </div>
+  </div>
+  <div class="profile-block social-links">
+    <table>
+      <tr>
+        
+        <td><a href="https://github.com/sakshamsharma" target="_blank" title="GitHub"><i class="fa fa-github"></i></a></td>
+        
+        <td><a href="https://in.linkedin.com/in/saksham-sharma" target="_blank" title="LinkedIn"><i class="fa fa-linkedin"></i></a></td>
+        
+        <td><a href="../cv" target="_blank" title="Resume"><i class="fa fa-file-pdf-o"></i></a></td>
+        
+        <td><a href="../rss.xml" target="_blank" title="RSS"><i class="fa fa-rss"></i></a></td>
+        
+      </tr>
+    </table>
+  </div>
+</div>
+
+</aside>
+
+    </div>
+</article>
+
+
+
+<article class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+        <!-- <a href="{{ .Permalink }}" itemprop="url"> -->
         <!--     <img src="{{ .Params.banner | absURL }}" class="article-banner"> -->
         <!-- {{ end }} -->
+        <!-- </a> -->
 
         <header class="article-header">
-  <a href="../../../2015/10/ambition/index.html">
-    <h1 class="article-title" itemprop="name">Ambition and choices</h1>
+  <a href="../2018/03/es-insecure-http/index.html">
+    <h1 class="article-title" itemprop="name">Using self-signed certificates with ElasticSearch on Scala/Java</h1>
   </a>
   <div class="article-meta">
     <!-- {{ if not .Params.nodateline }} -->
@@ -160,7 +262,7 @@
     
     <div class="article-category">
       <i class="fa fa-folder"></i>
-      abstract-thoughts
+      programming
     </div>
     
     <!-- {{ end }} -->
@@ -172,69 +274,79 @@
     
     <div class="article-category">
       <i class="fa fa-tags"></i>
-      <a href="../../../tags/life.html">life</a>
+      <a href="../tags/scala.html">scala</a>, <a href="../tags/elasticsearch.html">elasticsearch</a>
     </div>
     
 
-    <p style="float:right;">October 12, 2015</p>
+    <p style="float:right;">March 20, 2018</p>
     <!-- {{ end }} -->
     <!-- {{ end }} -->
   </div>
 </header>
 
         <div class="article-entry" itemprop="articleBody">
-          <p>Been just more than an year since I joined college, since (I claim :P ) I actually started programming seriously. It’s been an enjoyable journey so far, and I’ve seen myself change as a person, as a student; seen my choices change, my goals change, my social behaviour change. Collecting some thoughts here:</p>
-<h3 id="ambition-versus-life">Ambition versus ‘life’</h3>
-<p>Aah the good old dilemma. Whether to work day and night, whether to live the study.code.read.sleep cycle, in hope of becoming the next {insert-famous-researcher-or-skilled-programmer-name-here}, or whether to scale it down to a level but also “have a life” as they say. Hanging out with friends, watching movies and TV shows, and so many other things to do. This 3rd semester started off a bit easy, I “had a life” and also was doing enough to keep progressing towards my goal (which, to mention, is still hazy). But as courses got tough, responsibilities became more; and among other things, keeping up with such a schedule became tough.</p>
-<p>What choice we make defines our mindset and goal, but how we stick to them defines our conviction to reach it. Choosing your goal over other things is what reflects your conviction. I’m shamelessly guilty of not doing this too, I too bend my time plan without a second thought when approached with any decent opportunity for fun. And I don’t regret it. But of course, taking out a decent amount of time for your goals during the day is imperative if you have an ambition. I’m happy that I have a goal, even if it means <em>ambition</em> has somewhat higher priority than <em>life</em>.</p>
-<h3 id="choices-we-make">Choices we make</h3>
-<p>I remember the day I made a choice, around this time of the year in 2014, that I’ll focus on one thing, and only one. I wanted to join the English Literary Society, then the Photography Club, along with programming. That fine day, I decided against going to a club meet and stayed to code instead. This attitude has stuck with me since.</p>
-<p><em>There are opportunities, and then there are priorities.</em></p>
-<p>Choices keep dropping in, and you need to resist the temptation. As I mention in another article, App dev isn’t among my top priorities. Rejecting 4 freelancing opportunities in a week, because of priorities, well that’s one fine example I guess. I learnt the importance of having priorities very late, how grabbing everything (greedy algorithm :p) you can isn’t the optimal way and sometimes you need to prioritize and look ahead (Knapsack algorithm :p).</p>
-<p>One fear which took me long to overcome was the fear of making <em>wrong</em> choices. It took me long enough to realize that it was a just reflection of low confidence. Its okay to fail a few times, just to learn how to get back up. The feeling of finally being able to make your own choices is something you’d relish if you have this fear too.</p>
-<p>Live life on your own terms. Don’t regret what you do. Enjoy what you get youself into.</p>
+            <p>
+                
+                    Definitely not trivial
+                
+            </p>
+            <p class="article-more-link">
+                <a href="../2018/03/es-insecure-http/index.html"> Read more </a>
+            </p>
         </div>
-        <!-- partial("templates/partials/article_footer.html") -->
-    </div>
 
-    <!-- {{ partial "prev_next_post" . }} -->
+        <footer class="article-footer">
+          
+        </footer>
+    </div>
 </article>
 
-<script src="../../../js/fb.js"></script>
-<div class="fb-like" data-share="true" data-width="450" data-show-faces="true">
-</div>
 
-<script id="dsq-count-scr" src="//acehack.disqus.com/count.js" async></script>
+<script src="../js/article_footer.js"></script>
 
-<div id="disqus_thread"></div>
-<script>
- // For debugging
- var disqus_developer = 1;
- var disqus_shortname = 'acehack';
- var disqus_config = function () {
-     this.page.url = 'http://acehack.org/2015/10/ambition/index.html';
-     this.page.identifier = 'ambition-vs-life';
-     this.page.title = 'Ambition and choices';
- };
- (function() {
-     var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-     dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
-     (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
- })();
- (function () {
-     var s = document.createElement('script'); s.async = true;
-     s.type = 'text/javascript';
-     s.src = '//' + disqus_shortname + '.disqus.com/count.js';
-     (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
- }());
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments powered by Disqus.</a></noscript>
 
         </section>
 
         
 
         
+<aside class="profile" id="profile-widget">
+  <div class="inner profile-inner">
+  <div class="base-info profile-block">
+    <h2 id="name">Saksham Sharma</h2>
+    <h3 id="title">Programmer.</h3>
+    <img id="avatar" style="border-radius: 1000px;" src="https://avatars3.githubusercontent.com/u/10418596?v=3&s=460" />
+  </div>
+  <div class="article-info profile-block">
+    <div class="article-info-block">
+      <p>38</p>
+      <span>Posts</span>
+    </div>
+    <div class="article-info-block">
+      <p class="gh-followers">...</p>
+      <span>Followers</span>
+    </div>
+  </div>
+  <div class="profile-block social-links">
+    <table>
+      <tr>
+        
+        <td><a href="https://github.com/sakshamsharma" target="_blank" title="GitHub"><i class="fa fa-github"></i></a></td>
+        
+        <td><a href="https://in.linkedin.com/in/saksham-sharma" target="_blank" title="LinkedIn"><i class="fa fa-linkedin"></i></a></td>
+        
+        <td><a href="../cv" target="_blank" title="Resume"><i class="fa fa-file-pdf-o"></i></a></td>
+        
+        <td><a href="../rss.xml" target="_blank" title="RSS"><i class="fa fa-rss"></i></a></td>
+        
+      </tr>
+    </table>
+  </div>
+</div>
+
+</aside>
+
+
 
 <aside id="sidebar">
     <div class="widget-wrap">
@@ -243,61 +355,61 @@
         <ul class="category-list">
           
             <li class="category-list-item">
-                <a class="category-list-link" href="../../../categories/abstract-thoughts.html">
+                <a class="category-list-link" href="../categories/abstract-thoughts.html">
                   abstract-thoughts
                 </a>
             </li>
             
             <li class="category-list-item">
-                <a class="category-list-link" href="../../../categories/algorithm.html">
+                <a class="category-list-link" href="../categories/algorithm.html">
                   algorithm
                 </a>
             </li>
             
             <li class="category-list-item">
-                <a class="category-list-link" href="../../../categories/career.html">
+                <a class="category-list-link" href="../categories/career.html">
                   career
                 </a>
             </li>
             
             <li class="category-list-item">
-                <a class="category-list-link" href="../../../categories/editors.html">
+                <a class="category-list-link" href="../categories/editors.html">
                   editors
                 </a>
             </li>
             
             <li class="category-list-item">
-                <a class="category-list-link" href="../../../categories/experiments.html">
+                <a class="category-list-link" href="../categories/experiments.html">
                   experiments
                 </a>
             </li>
             
             <li class="category-list-item">
-                <a class="category-list-link" href="../../../categories/linux.html">
+                <a class="category-list-link" href="../categories/linux.html">
                   linux
                 </a>
             </li>
             
             <li class="category-list-item">
-                <a class="category-list-link" href="../../../categories/networks.html">
+                <a class="category-list-link" href="../categories/networks.html">
                   networks
                 </a>
             </li>
             
             <li class="category-list-item">
-                <a class="category-list-link" href="../../../categories/poems.html">
+                <a class="category-list-link" href="../categories/poems.html">
                   poems
                 </a>
             </li>
             
             <li class="category-list-item">
-                <a class="category-list-link" href="../../../categories/programming.html">
+                <a class="category-list-link" href="../categories/programming.html">
                   programming
                 </a>
             </li>
             
             <li class="category-list-item">
-                <a class="category-list-link" href="../../../categories/projects.html">
+                <a class="category-list-link" href="../categories/projects.html">
                   projects
                 </a>
             </li>
@@ -312,455 +424,455 @@
         <ul class="category-list">
           
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../../../tags/EFI.html">
+                <a class="category-list-link" href="../tags/EFI.html">
                   EFI
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../../../tags/OS.html">
+                <a class="category-list-link" href="../tags/OS.html">
                   OS
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../../../tags/abcd.html">
+                <a class="category-list-link" href="../tags/abcd.html">
                   abcd
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../../../tags/algorithm.html">
+                <a class="category-list-link" href="../tags/algorithm.html">
                   algorithm
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../../../tags/arch.html">
+                <a class="category-list-link" href="../tags/arch.html">
                   arch
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../../../tags/battery.html">
+                <a class="category-list-link" href="../tags/battery.html">
                   battery
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../../../tags/beginner.html">
+                <a class="category-list-link" href="../tags/beginner.html">
                   beginner
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../../../tags/blog.html">
+                <a class="category-list-link" href="../tags/blog.html">
                   blog
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../../../tags/bootloader.html">
+                <a class="category-list-link" href="../tags/bootloader.html">
                   bootloader
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../../../tags/browser.html">
+                <a class="category-list-link" href="../tags/browser.html">
                   browser
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../../../tags/bumblebee.html">
+                <a class="category-list-link" href="../tags/bumblebee.html">
                   bumblebee
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../../../tags/career.html">
+                <a class="category-list-link" href="../tags/career.html">
                   career
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../../../tags/chaos.html">
+                <a class="category-list-link" href="../tags/chaos.html">
                   chaos
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../../../tags/coding.html">
+                <a class="category-list-link" href="../tags/coding.html">
                   coding
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../../../tags/crypto.html">
+                <a class="category-list-link" href="../tags/crypto.html">
                   crypto
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../../../tags/cse.html">
+                <a class="category-list-link" href="../tags/cse.html">
                   cse
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../../../tags/dynamic.html">
+                <a class="category-list-link" href="../tags/dynamic.html">
                   dynamic
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../../../tags/elasticsearch.html">
+                <a class="category-list-link" href="../tags/elasticsearch.html">
                   elasticsearch
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../../../tags/emacs.html">
+                <a class="category-list-link" href="../tags/emacs.html">
                   emacs
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../../../tags/esolang.html">
+                <a class="category-list-link" href="../tags/esolang.html">
                   esolang
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../../../tags/experience.html">
+                <a class="category-list-link" href="../tags/experience.html">
                   experience
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../../../tags/experiment.html">
+                <a class="category-list-link" href="../tags/experiment.html">
                   experiment
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../../../tags/ffi.html">
+                <a class="category-list-link" href="../tags/ffi.html">
                   ffi
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../../../tags/gentoo.html">
+                <a class="category-list-link" href="../tags/gentoo.html">
                   gentoo
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../../../tags/git.html">
+                <a class="category-list-link" href="../tags/git.html">
                   git
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../../../tags/github.html">
+                <a class="category-list-link" href="../tags/github.html">
                   github
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../../../tags/gnome.html">
+                <a class="category-list-link" href="../tags/gnome.html">
                   gnome
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../../../tags/golang.html">
+                <a class="category-list-link" href="../tags/golang.html">
                   golang
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../../../tags/google.html">
+                <a class="category-list-link" href="../tags/google.html">
                   google
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../../../tags/grub.html">
+                <a class="category-list-link" href="../tags/grub.html">
                   grub
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../../../tags/hakyll.html">
+                <a class="category-list-link" href="../tags/hakyll.html">
                   hakyll
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../../../tags/haskell.html">
+                <a class="category-list-link" href="../tags/haskell.html">
                   haskell
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../../../tags/hop.html">
+                <a class="category-list-link" href="../tags/hop.html">
                   hop
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../../../tags/i3wm.html">
+                <a class="category-list-link" href="../tags/i3wm.html">
                   i3wm
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../../../tags/iitk.html">
+                <a class="category-list-link" href="../tags/iitk.html">
                   iitk
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../../../tags/install.html">
+                <a class="category-list-link" href="../tags/install.html">
                   install
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../../../tags/intern.html">
+                <a class="category-list-link" href="../tags/intern.html">
                   intern
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../../../tags/job.html">
+                <a class="category-list-link" href="../tags/job.html">
                   job
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../../../tags/kernel.html">
+                <a class="category-list-link" href="../tags/kernel.html">
                   kernel
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../../../tags/kubernetes.html">
+                <a class="category-list-link" href="../tags/kubernetes.html">
                   kubernetes
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../../../tags/life.html">
+                <a class="category-list-link" href="../tags/life.html">
                   life
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../../../tags/linking.html">
+                <a class="category-list-link" href="../tags/linking.html">
                   linking
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../../../tags/linux.html">
+                <a class="category-list-link" href="../tags/linux.html">
                   linux
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../../../tags/mpi.html">
+                <a class="category-list-link" href="../tags/mpi.html">
                   mpi
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../../../tags/music.html">
+                <a class="category-list-link" href="../tags/music.html">
                   music
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../../../tags/musings.html">
+                <a class="category-list-link" href="../tags/musings.html">
                   musings
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../../../tags/networks.html">
+                <a class="category-list-link" href="../tags/networks.html">
                   networks
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../../../tags/nvidia.html">
+                <a class="category-list-link" href="../tags/nvidia.html">
                   nvidia
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../../../tags/programming%20language.html">
+                <a class="category-list-link" href="../tags/programming%20language.html">
                   programming language
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../../../tags/puppy.html">
+                <a class="category-list-link" href="../tags/puppy.html">
                   puppy
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../../../tags/python.html">
+                <a class="category-list-link" href="../tags/python.html">
                   python
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../../../tags/scala.html">
+                <a class="category-list-link" href="../tags/scala.html">
                   scala
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../../../tags/shell.html">
+                <a class="category-list-link" href="../tags/shell.html">
                   shell
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../../../tags/short.html">
+                <a class="category-list-link" href="../tags/short.html">
                   short
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../../../tags/static.html">
+                <a class="category-list-link" href="../tags/static.html">
                   static
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../../../tags/techkriti.html">
+                <a class="category-list-link" href="../tags/techkriti.html">
                   techkriti
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../../../tags/technical.html">
+                <a class="category-list-link" href="../tags/technical.html">
                   technical
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../../../tags/tilingWM.html">
+                <a class="category-list-link" href="../tags/tilingWM.html">
                   tilingWM
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../../../tags/tty.html">
+                <a class="category-list-link" href="../tags/tty.html">
                   tty
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../../../tags/video.html">
+                <a class="category-list-link" href="../tags/video.html">
                   video
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../../../tags/vim.html">
+                <a class="category-list-link" href="../tags/vim.html">
                   vim
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../../../tags/virtualbox.html">
+                <a class="category-list-link" href="../tags/virtualbox.html">
                   virtualbox
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../../../tags/web.html">
+                <a class="category-list-link" href="../tags/web.html">
                   web
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../../../tags/xmonad.html">
+                <a class="category-list-link" href="../tags/xmonad.html">
                   xmonad
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
             </li>
             
             <li class="category-list-item mydata">
-                <a class="category-list-link" href="../../../tags/zsh.html">
+                <a class="category-list-link" href="../tags/zsh.html">
                   zsh
                 </a>
                 <!-- <span class="category-list-count">{{ len items }}</span> -->
@@ -770,7 +882,7 @@
     </div>
 </div>
 
-<script src="../../../js/tags.js"> </script>
+<script src="../js/tags.js"> </script>
 
     <!-- {{ if .Site.Params.widgets.recent_articles }} -->
 <div class="widget-wrap">
@@ -784,7 +896,7 @@
             
             <li>
                 <div class="item-thumbnail">
-                    <a href="../../../2018/03/es-insecure-http/index.html" class="thumbnail">
+                    <a href="../2018/03/es-insecure-http/index.html" class="thumbnail">
                     <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
                     <!--     <span style="background-image:url({{ .Params.banner | absURL }})" alt="{{ .Title }}" class="thumbnail-image"></span> -->
                     <!-- {{else}} -->
@@ -803,7 +915,7 @@
                     <!-- </p> -->
                     <!-- {{ end }} -->
                     <!-- {{ end }} -->
-                    <p class="item-title"><a href="../../../2018/03/es-insecure-http/index.html" class="title">Using self-signed certificates with ElasticSearch on Scala/Java</a></p>
+                    <p class="item-title"><a href="../2018/03/es-insecure-http/index.html" class="title">Using self-signed certificates with ElasticSearch on Scala/Java</a></p>
                     <p class="item-date">
                         <time datetime="March 20, 2018" itemprop="datePublished">March 20, 2018</time>
                     </p>
@@ -812,7 +924,7 @@
             
             <li>
                 <div class="item-thumbnail">
-                    <a href="../../../2018/02/haskell-golang-ffi/index.html" class="thumbnail">
+                    <a href="../2018/02/haskell-golang-ffi/index.html" class="thumbnail">
                     <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
                     <!--     <span style="background-image:url({{ .Params.banner | absURL }})" alt="{{ .Title }}" class="thumbnail-image"></span> -->
                     <!-- {{else}} -->
@@ -831,7 +943,7 @@
                     <!-- </p> -->
                     <!-- {{ end }} -->
                     <!-- {{ end }} -->
-                    <p class="item-title"><a href="../../../2018/02/haskell-golang-ffi/index.html" class="title">Calling Golang functions from Haskell</a></p>
+                    <p class="item-title"><a href="../2018/02/haskell-golang-ffi/index.html" class="title">Calling Golang functions from Haskell</a></p>
                     <p class="item-date">
                         <time datetime="February 10, 2018" itemprop="datePublished">February 10, 2018</time>
                     </p>
@@ -840,7 +952,7 @@
             
             <li>
                 <div class="item-thumbnail">
-                    <a href="../../../2017/11/bootloaderefi/index.html" class="thumbnail">
+                    <a href="../2017/11/bootloaderefi/index.html" class="thumbnail">
                     <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
                     <!--     <span style="background-image:url({{ .Params.banner | absURL }})" alt="{{ .Title }}" class="thumbnail-image"></span> -->
                     <!-- {{else}} -->
@@ -859,7 +971,7 @@
                     <!-- </p> -->
                     <!-- {{ end }} -->
                     <!-- {{ end }} -->
-                    <p class="item-title"><a href="../../../2017/11/bootloaderefi/index.html" class="title">Things no one told me about EFI</a></p>
+                    <p class="item-title"><a href="../2017/11/bootloaderefi/index.html" class="title">Things no one told me about EFI</a></p>
                     <p class="item-date">
                         <time datetime="November 27, 2017" itemprop="datePublished">November 27, 2017</time>
                     </p>
@@ -868,7 +980,7 @@
             
             <li>
                 <div class="item-thumbnail">
-                    <a href="../../../2017/08/googleintern17/index.html" class="thumbnail">
+                    <a href="../2017/08/googleintern17/index.html" class="thumbnail">
                     <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
                     <!--     <span style="background-image:url({{ .Params.banner | absURL }})" alt="{{ .Title }}" class="thumbnail-image"></span> -->
                     <!-- {{else}} -->
@@ -887,7 +999,7 @@
                     <!-- </p> -->
                     <!-- {{ end }} -->
                     <!-- {{ end }} -->
-                    <p class="item-title"><a href="../../../2017/08/googleintern17/index.html" class="title">Interning at Google Seattle</a></p>
+                    <p class="item-title"><a href="../2017/08/googleintern17/index.html" class="title">Interning at Google Seattle</a></p>
                     <p class="item-date">
                         <time datetime="August  5, 2017" itemprop="datePublished">August  5, 2017</time>
                     </p>
@@ -896,7 +1008,7 @@
             
             <li>
                 <div class="item-thumbnail">
-                    <a href="../../../2016/12/puppy3/index.html" class="thumbnail">
+                    <a href="../2016/12/puppy3/index.html" class="thumbnail">
                     <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
                     <!--     <span style="background-image:url({{ .Params.banner | absURL }})" alt="{{ .Title }}" class="thumbnail-image"></span> -->
                     <!-- {{else}} -->
@@ -915,7 +1027,7 @@
                     <!-- </p> -->
                     <!-- {{ end }} -->
                     <!-- {{ end }} -->
-                    <p class="item-title"><a href="../../../2016/12/puppy3/index.html" class="title">Limiting 'likes' sent anonymously - Part 3</a></p>
+                    <p class="item-title"><a href="../2016/12/puppy3/index.html" class="title">Limiting 'likes' sent anonymously - Part 3</a></p>
                     <p class="item-date">
                         <time datetime="December 26, 2016" itemprop="datePublished">December 26, 2016</time>
                     </p>

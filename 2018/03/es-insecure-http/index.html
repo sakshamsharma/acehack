@@ -4,7 +4,7 @@
     <!-- <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} &middot; {{ .Site.Title }}{{ end }}</title> -->
 <!-- {{ .Hugo.Generator }} -->
 
-<title>AceHack-Ambition and choices</title>
+<title>AceHack-Using self-signed certificates with ElasticSearch on Scala/Java</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <!-- {{ with .Site.Params.author }}<meta name="author" content="{{ . }}">{{ end }} -->
@@ -138,8 +138,8 @@
         <!-- {{ end }} -->
 
         <header class="article-header">
-  <a href="../../../2015/10/ambition/index.html">
-    <h1 class="article-title" itemprop="name">Ambition and choices</h1>
+  <a href="../../../2018/03/es-insecure-http/index.html">
+    <h1 class="article-title" itemprop="name">Using self-signed certificates with ElasticSearch on Scala/Java</h1>
   </a>
   <div class="article-meta">
     <!-- {{ if not .Params.nodateline }} -->
@@ -160,7 +160,7 @@
     
     <div class="article-category">
       <i class="fa fa-folder"></i>
-      abstract-thoughts
+      programming
     </div>
     
     <!-- {{ end }} -->
@@ -172,27 +172,81 @@
     
     <div class="article-category">
       <i class="fa fa-tags"></i>
-      <a href="../../../tags/life.html">life</a>
+      <a href="../../../tags/scala.html">scala</a>, <a href="../../../tags/elasticsearch.html">elasticsearch</a>
     </div>
     
 
-    <p style="float:right;">October 12, 2015</p>
+    <p style="float:right;">March 20, 2018</p>
     <!-- {{ end }} -->
     <!-- {{ end }} -->
   </div>
 </header>
 
         <div class="article-entry" itemprop="articleBody">
-          <p>Been just more than an year since I joined college, since (I claim :P ) I actually started programming seriously. It’s been an enjoyable journey so far, and I’ve seen myself change as a person, as a student; seen my choices change, my goals change, my social behaviour change. Collecting some thoughts here:</p>
-<h3 id="ambition-versus-life">Ambition versus ‘life’</h3>
-<p>Aah the good old dilemma. Whether to work day and night, whether to live the study.code.read.sleep cycle, in hope of becoming the next {insert-famous-researcher-or-skilled-programmer-name-here}, or whether to scale it down to a level but also “have a life” as they say. Hanging out with friends, watching movies and TV shows, and so many other things to do. This 3rd semester started off a bit easy, I “had a life” and also was doing enough to keep progressing towards my goal (which, to mention, is still hazy). But as courses got tough, responsibilities became more; and among other things, keeping up with such a schedule became tough.</p>
-<p>What choice we make defines our mindset and goal, but how we stick to them defines our conviction to reach it. Choosing your goal over other things is what reflects your conviction. I’m shamelessly guilty of not doing this too, I too bend my time plan without a second thought when approached with any decent opportunity for fun. And I don’t regret it. But of course, taking out a decent amount of time for your goals during the day is imperative if you have an ambition. I’m happy that I have a goal, even if it means <em>ambition</em> has somewhat higher priority than <em>life</em>.</p>
-<h3 id="choices-we-make">Choices we make</h3>
-<p>I remember the day I made a choice, around this time of the year in 2014, that I’ll focus on one thing, and only one. I wanted to join the English Literary Society, then the Photography Club, along with programming. That fine day, I decided against going to a club meet and stayed to code instead. This attitude has stuck with me since.</p>
-<p><em>There are opportunities, and then there are priorities.</em></p>
-<p>Choices keep dropping in, and you need to resist the temptation. As I mention in another article, App dev isn’t among my top priorities. Rejecting 4 freelancing opportunities in a week, because of priorities, well that’s one fine example I guess. I learnt the importance of having priorities very late, how grabbing everything (greedy algorithm :p) you can isn’t the optimal way and sometimes you need to prioritize and look ahead (Knapsack algorithm :p).</p>
-<p>One fear which took me long to overcome was the fear of making <em>wrong</em> choices. It took me long enough to realize that it was a just reflection of low confidence. Its okay to fail a few times, just to learn how to get back up. The feeling of finally being able to make your own choices is something you’d relish if you have this fear too.</p>
-<p>Live life on your own terms. Don’t regret what you do. Enjoy what you get youself into.</p>
+          <h2 id="situation">Situation</h2>
+<p>If you’re using ElasticSearch, <a href="https://github.com/sksamuel/elastic4s">elastic4s</a> is among the most neat DSLs out there. Recently, ElasticSearch decided to deprecate the Transport client, and remove it from v7.0.0 onwards. This also meant that HTTP Client became the preferred client since v6.0.0.</p>
+<p>ElasticSearch also defaults to using SSL for the HTTP connections nowadays. It is also the (non-configurable) default when you’re using <a href="https://github.com/upmc-enterprises/ElasticSearch-operator">ElasticSearch-operator</a> for easy deployment on Kubernetes. What’s worse is that it generates certificates for ES automatically, but doesn’t export the Certificate Authority keys used for the same. Thus, communication with such an ElasticSearch node is only possible in the following methods:</p>
+<ul>
+<li>Provide your own certificate to the ElasticSearch docker, and trust that certificate’s signing authority manually on your ElasticSearch client.</li>
+<li>Use a certificate signed by a well-known CA (LetsEncrypt?).</li>
+<li>Somehow manage to configure your ElasticSearch client to allow insecure SSL (do not check for validity of the server certificate).</li>
+</ul>
+<p>Of course, the first two methods are obviously more secure in the general sense. But if your ES is inside an well-configured Kubernetes cluster, it may be acceptable to use plain HTTP, or use HTTPS with insecure SSL.</p>
+<h2 id="elastic4s-httpclient">Elastic4s HttpClient</h2>
+<p>Elastic4s provides a <code>HttpClient</code> which is pretty cool and allows you to enable/disable SSL easily.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">val</span> uri = <span class="fu">ElasticsearchClientUri</span>(s<span class="st">&quot;elasticsearch://${host}:${port}?ssl=${ssl}&quot;</span>)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="fu">HttpClient</span>(uri)</a></code></pre></div>
+<p>Yet, there is no neat configuration for allowing insecure SSL available right now.</p>
+<p>On the bright side, it allows you to pass two other optional variables to the constructor. One of them is <code>httpClientConfigCallback</code>. This is a callback which is called on the HttpAsyncClient’s (underlying class) builder (<code>HttpAsyncClientBuilder</code>). The idea is to use this callback to override the low level socket’s configuration and allow all certificates.</p>
+<h2 id="the-code">The code</h2>
+<p>The following code can be used to create an ElasticSearch <code>HttpClient</code> which uses insecure SSL.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">val</span> uri = <span class="fu">ElasticsearchClientUri</span>(s<span class="st">&quot;elasticsearch://${host}:${port}?ssl=${ssl}&quot;</span>)</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="kw">if</span> (!(ssl &amp;&amp; insecure)) {</a>
+<a class="sourceLine" id="cb2-4" data-line-number="4">  <span class="co">// No need to meddle with defaults if secure SSL.</span></a>
+<a class="sourceLine" id="cb2-5" data-line-number="5">  <span class="fu">HttpClient</span>(uri)</a>
+<a class="sourceLine" id="cb2-6" data-line-number="6">}</a>
+<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="kw">else</span> {</a>
+<a class="sourceLine" id="cb2-8" data-line-number="8">  <span class="co">// We need an SSL context which trusts self signed certificates.</span></a>
+<a class="sourceLine" id="cb2-9" data-line-number="9">  <span class="co">// Somehow this alone is not enough and hostname verifier is needed.</span></a>
+<a class="sourceLine" id="cb2-10" data-line-number="10">  <span class="kw">val</span> sslContext = SSLContexts</a>
+<a class="sourceLine" id="cb2-11" data-line-number="11">    .<span class="fu">custom</span>()</a>
+<a class="sourceLine" id="cb2-12" data-line-number="12">    .<span class="fu">loadTrustMaterial</span>(<span class="kw">new</span> <span class="fu">TrustSelfSignedStrategy</span>())</a>
+<a class="sourceLine" id="cb2-13" data-line-number="13">    .<span class="fu">build</span>()</a>
+<a class="sourceLine" id="cb2-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb2-15" data-line-number="15">  <span class="co">// A hostname verifier which trusts all hostnames in all ssl sessions.</span></a>
+<a class="sourceLine" id="cb2-16" data-line-number="16">  <span class="kw">object</span> trustAllHostnameVerifier <span class="kw">extends</span> javax.<span class="fu">net</span>.<span class="fu">ssl</span>.<span class="fu">HostnameVerifier</span> {</a>
+<a class="sourceLine" id="cb2-17" data-line-number="17">    <span class="kw">def</span> <span class="fu">verify</span>(h: String, s: SSLSession) = <span class="kw">true</span></a>
+<a class="sourceLine" id="cb2-18" data-line-number="18">  }</a>
+<a class="sourceLine" id="cb2-19" data-line-number="19"></a>
+<a class="sourceLine" id="cb2-20" data-line-number="20">  <span class="co">// We cannot simply use the hostname verifier since the SSL strategy overrides</span></a>
+<a class="sourceLine" id="cb2-21" data-line-number="21">  <span class="co">// the hostname verifier when HttpAsyncClient is built.</span></a>
+<a class="sourceLine" id="cb2-22" data-line-number="22">  <span class="kw">val</span> sslSessionStrategy = <span class="kw">new</span> <span class="fu">SSLIOSessionStrategy</span>(</a>
+<a class="sourceLine" id="cb2-23" data-line-number="23">    sslContext,</a>
+<a class="sourceLine" id="cb2-24" data-line-number="24">    trustAllHostnameVerifier</a>
+<a class="sourceLine" id="cb2-25" data-line-number="25">  )</a>
+<a class="sourceLine" id="cb2-26" data-line-number="26"></a>
+<a class="sourceLine" id="cb2-27" data-line-number="27">  <span class="co">// Elasticsearch allows configuring the REST client using this form of callbacks.</span></a>
+<a class="sourceLine" id="cb2-28" data-line-number="28">  <span class="kw">val</span> myHttpAsyncClientCallback = <span class="kw">new</span> RestClientBuilder.<span class="fu">HttpClientConfigCallback</span>() {</a>
+<a class="sourceLine" id="cb2-29" data-line-number="29">    <span class="kw">override</span> <span class="kw">def</span> <span class="fu">customizeHttpClient</span>(httpClientBuilder: HttpAsyncClientBuilder) = {</a>
+<a class="sourceLine" id="cb2-30" data-line-number="30">      httpClientBuilder.<span class="fu">setSSLStrategy</span>(sslSessionStrategy)</a>
+<a class="sourceLine" id="cb2-31" data-line-number="31">    }</a>
+<a class="sourceLine" id="cb2-32" data-line-number="32">  }</a>
+<a class="sourceLine" id="cb2-33" data-line-number="33"></a>
+<a class="sourceLine" id="cb2-34" data-line-number="34">  <span class="fu">HttpClient</span>(uri, httpClientConfigCallback = myHttpAsyncClientCallback)</a>
+<a class="sourceLine" id="cb2-35" data-line-number="35">}</a></code></pre></div>
+<p>You would need the following imports for it (all packages are included with <code>elastic4s</code>):</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">import</span> com.<span class="fu">sksamuel</span>.<span class="fu">elastic4s</span>.<span class="fu">ElasticsearchClientUri</span></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw">import</span> com.<span class="fu">sksamuel</span>.<span class="fu">elastic4s</span>.<span class="fu">http</span>.<span class="fu">settings</span>._</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="kw">import</span> com.<span class="fu">sksamuel</span>.<span class="fu">elastic4s</span>.<span class="fu">http</span>.<span class="fu">HttpClient</span></a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="kw">import</span> org.<span class="fu">elasticsearch</span>.<span class="fu">client</span>.<span class="fu">RestClientBuilder</span></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="kw">import</span> javax.<span class="fu">net</span>.<span class="fu">ssl</span>.<span class="fu">SSLSession</span></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="kw">import</span> org.<span class="fu">apache</span>.<span class="fu">http</span>.<span class="fu">impl</span>.<span class="fu">nio</span>.<span class="fu">client</span>.<span class="fu">HttpAsyncClientBuilder</span></a>
+<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="kw">import</span> org.<span class="fu">apache</span>.<span class="fu">http</span>.<span class="fu">conn</span>.<span class="fu">ssl</span>.<span class="fu">TrustSelfSignedStrategy</span></a>
+<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="kw">import</span> org.<span class="fu">apache</span>.<span class="fu">http</span>.<span class="fu">nio</span>.<span class="fu">conn</span>.<span class="fu">ssl</span>.<span class="fu">SSLIOSessionStrategy</span></a>
+<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="kw">import</span> org.<span class="fu">apache</span>.<span class="fu">http</span>.<span class="fu">ssl</span>.<span class="fu">SSLContexts</span></a></code></pre></div>
+<p>Do suggest any changes which might improve the above solution. I have tried using <code>.setSSLContext</code> and <code>.setHostnameVerifier</code>, both fail when exposed to self-signed certificates.</p>
         </div>
         <!-- partial("templates/partials/article_footer.html") -->
     </div>
@@ -212,9 +266,9 @@
  var disqus_developer = 1;
  var disqus_shortname = 'acehack';
  var disqus_config = function () {
-     this.page.url = 'http://acehack.org/2015/10/ambition/index.html';
-     this.page.identifier = 'ambition-vs-life';
-     this.page.title = 'Ambition and choices';
+     this.page.url = 'http://acehack.org/2018/03/es-insecure-http/index.html';
+     this.page.identifier = 'es-insecure-http';
+     this.page.title = 'Using self-signed certificates with ElasticSearch on Scala/Java';
  };
  (function() {
      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

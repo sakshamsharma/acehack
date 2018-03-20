@@ -206,27 +206,27 @@ ls **/*.jpg</code></pre>
 <li>You can generate array of names of files very easily with <code>list=(**/*.mp3)</code> kind of syntax.</li>
 </ul>
 <h3 id="the-code">The code:</h3>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">function</span><span class="fu"> play()</span> <span class="kw">{</span>
-    <span class="va">EXT=</span><span class="st">&quot;mp3&quot;</span>
-    <span class="kw">while</span> <span class="bu">getopts</span> “ht:r:p:v” OPTION
-    <span class="kw">do</span>
-        <span class="kw">case</span> <span class="va">$OPTION</span><span class="kw"> in</span>
-            t<span class="kw">)</span>
-                <span class="va">EXT=$OPTARG</span>
-                <span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$EXT</span><span class="st"> extension&quot;</span>
-                <span class="bu">shift</span> 2
-                <span class="kw">;;</span>
-            ?<span class="kw">)</span>
-            <span class="ex">usage</span>
-            <span class="kw">;;</span>
-        <span class="kw">esac</span>
-    <span class="kw">done</span>
-
-    <span class="ex">setopt</span> extendedglob
-    <span class="va">pat=$(</span><span class="bu">echo</span> -n <span class="st">&quot;</span><span class="va">$@</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">sed</span> -E <span class="st">'s/\s+/\*/g'</span><span class="va">)</span>
-    <span class="va">list=(</span>(#i<span class="va">)</span>**/*$<span class="dt">{~pat}*.${EXT}</span>)
-    <span class="ex">vlc</span> <span class="va">$list</span>
-<span class="kw">}</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">function</span><span class="fu"> play()</span> <span class="kw">{</span></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">    <span class="va">EXT=</span><span class="st">&quot;mp3&quot;</span></a>
+<a class="sourceLine" id="cb3-3" data-line-number="3">    <span class="kw">while</span> <span class="bu">getopts</span> <span class="st">&quot;ht:r:p:v&quot;</span> OPTION</a>
+<a class="sourceLine" id="cb3-4" data-line-number="4">    <span class="kw">do</span></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5">        <span class="kw">case</span> <span class="va">$OPTION</span><span class="kw"> in</span></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6">            t<span class="kw">)</span></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7">                <span class="va">EXT=$OPTARG</span></a>
+<a class="sourceLine" id="cb3-8" data-line-number="8">                <span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$EXT</span><span class="st"> extension&quot;</span></a>
+<a class="sourceLine" id="cb3-9" data-line-number="9">                <span class="bu">shift</span> 2</a>
+<a class="sourceLine" id="cb3-10" data-line-number="10">                <span class="kw">;;</span></a>
+<a class="sourceLine" id="cb3-11" data-line-number="11">            ?<span class="kw">)</span></a>
+<a class="sourceLine" id="cb3-12" data-line-number="12">            <span class="ex">usage</span></a>
+<a class="sourceLine" id="cb3-13" data-line-number="13">            <span class="kw">;;</span></a>
+<a class="sourceLine" id="cb3-14" data-line-number="14">        <span class="kw">esac</span></a>
+<a class="sourceLine" id="cb3-15" data-line-number="15">    <span class="kw">done</span></a>
+<a class="sourceLine" id="cb3-16" data-line-number="16"></a>
+<a class="sourceLine" id="cb3-17" data-line-number="17">    <span class="ex">setopt</span> extendedglob</a>
+<a class="sourceLine" id="cb3-18" data-line-number="18">    <span class="va">pat=$(</span><span class="bu">echo</span> -n <span class="st">&quot;</span><span class="va">$@</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">sed</span> -E <span class="st">'s/\s+/\*/g'</span><span class="va">)</span></a>
+<a class="sourceLine" id="cb3-19" data-line-number="19">    <span class="va">list=(</span>(#i<span class="va">)</span>**/*$<span class="dt">{~pat}*.${EXT}</span>)</a>
+<a class="sourceLine" id="cb3-20" data-line-number="20">    <span class="ex">vlc</span> <span class="va">$list</span></a>
+<a class="sourceLine" id="cb3-21" data-line-number="21"><span class="kw">}</span></a></code></pre></div>
         </div>
         <!-- partial("templates/partials/article_footer.html") -->
     </div>
@@ -465,6 +465,13 @@ ls **/*.jpg</code></pre>
             </li>
             
             <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/elasticsearch.html">
+                  elasticsearch
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
                 <a class="category-list-link" href="../../../tags/emacs.html">
                   emacs
                 </a>
@@ -696,6 +703,13 @@ ls **/*.jpg</code></pre>
             </li>
             
             <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/scala.html">
+                  scala
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
                 <a class="category-list-link" href="../../../tags/shell.html">
                   shell
                 </a>
@@ -801,6 +815,34 @@ ls **/*.jpg</code></pre>
     <div class="widget">
         <ul id="recent-post">
             <!-- {{ range first 5 (where .Site.RegularPages "Type" "post") }} -->
+            
+            <li>
+                <div class="item-thumbnail">
+                    <a href="../../../2018/03/es-insecure-http/index.html" class="thumbnail">
+                    <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+                    <!--     <span style="background-image:url({{ .Params.banner | absURL }})" alt="{{ .Title }}" class="thumbnail-image"></span> -->
+                    <!-- {{else}} -->
+                        <span class="thumbnail-image thumbnail-none"></span>
+                    <!-- {{ end }} -->
+                    </a>
+                </div>
+                <div class="item-inner">
+                    <!-- {{ if isset .Params "categories" }} -->
+                    <!-- {{ if gt (len .Params.categories) 0 }} -->
+                    <!-- <p class="item-category"> -->
+                    <!--     {{ url := printf "%s/%s" "categories" (index .Params.categories 0 | urlize | lower)}} -->
+                    <!--     <a class="article-category-link" href="{{ url | absURL }}"> -->
+                    <!--     {{ index .Params.categories 0 }} -->
+                    <!--     </a> -->
+                    <!-- </p> -->
+                    <!-- {{ end }} -->
+                    <!-- {{ end }} -->
+                    <p class="item-title"><a href="../../../2018/03/es-insecure-http/index.html" class="title">Using self-signed certificates with ElasticSearch on Scala/Java</a></p>
+                    <p class="item-date">
+                        <time datetime="March 20, 2018" itemprop="datePublished">March 20, 2018</time>
+                    </p>
+                </div>
+            </li>
             
             <li>
                 <div class="item-thumbnail">
@@ -910,34 +952,6 @@ ls **/*.jpg</code></pre>
                     <p class="item-title"><a href="../../../2016/12/puppy3/index.html" class="title">Limiting 'likes' sent anonymously - Part 3</a></p>
                     <p class="item-date">
                         <time datetime="December 26, 2016" itemprop="datePublished">December 26, 2016</time>
-                    </p>
-                </div>
-            </li>
-            
-            <li>
-                <div class="item-thumbnail">
-                    <a href="../../../2016/12/internsaga/index.html" class="thumbnail">
-                    <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
-                    <!--     <span style="background-image:url({{ .Params.banner | absURL }})" alt="{{ .Title }}" class="thumbnail-image"></span> -->
-                    <!-- {{else}} -->
-                        <span class="thumbnail-image thumbnail-none"></span>
-                    <!-- {{ end }} -->
-                    </a>
-                </div>
-                <div class="item-inner">
-                    <!-- {{ if isset .Params "categories" }} -->
-                    <!-- {{ if gt (len .Params.categories) 0 }} -->
-                    <!-- <p class="item-category"> -->
-                    <!--     {{ url := printf "%s/%s" "categories" (index .Params.categories 0 | urlize | lower)}} -->
-                    <!--     <a class="article-category-link" href="{{ url | absURL }}"> -->
-                    <!--     {{ index .Params.categories 0 }} -->
-                    <!--     </a> -->
-                    <!-- </p> -->
-                    <!-- {{ end }} -->
-                    <!-- {{ end }} -->
-                    <p class="item-title"><a href="../../../2016/12/internsaga/index.html" class="title">My internship interview saga</a></p>
-                    <p class="item-date">
-                        <time datetime="December 21, 2016" itemprop="datePublished">December 21, 2016</time>
                     </p>
                 </div>
             </li>

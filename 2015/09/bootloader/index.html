@@ -187,7 +187,7 @@
 <p>Enough examples, the job of the bootloader is to load up the ‘core’ of your OS (techies, read: Kernel), and some more things (like initial RAM disk, no don’t get confused already) which allow the operating system to start.</p>
 <p>There are 2 types of booting, BIOS and UEFI, the latter being the newer one. They are considerably different, and thus, the bootloaders available vary. Most newer PCs boot via UEFI.</p>
 <p>Arch Linux, like all the ‘techie’ linux distributions, requires you to manually install your bootloader. This can be very daunting, because you can run into either of the following horrible situations (yes, to scare you):</p>
-<ol style="list-style-type: decimal">
+<ol type="1">
 <li>Instead of Windows or your default GRUB, your PC now loads up to a weird screen a command line you cannot type anything sane into.</li>
 <li>You cannot boot onto your Windows installation.</li>
 <li>You get a menu, but instead of opening your OS, the menu entries lead to errors.</li>
@@ -456,6 +456,13 @@ grub-mkconfig -o /boot/grub/grub.cfg</code></pre>
             </li>
             
             <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/elasticsearch.html">
+                  elasticsearch
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
                 <a class="category-list-link" href="../../../tags/emacs.html">
                   emacs
                 </a>
@@ -687,6 +694,13 @@ grub-mkconfig -o /boot/grub/grub.cfg</code></pre>
             </li>
             
             <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/scala.html">
+                  scala
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
                 <a class="category-list-link" href="../../../tags/shell.html">
                   shell
                 </a>
@@ -792,6 +806,34 @@ grub-mkconfig -o /boot/grub/grub.cfg</code></pre>
     <div class="widget">
         <ul id="recent-post">
             <!-- {{ range first 5 (where .Site.RegularPages "Type" "post") }} -->
+            
+            <li>
+                <div class="item-thumbnail">
+                    <a href="../../../2018/03/es-insecure-http/index.html" class="thumbnail">
+                    <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+                    <!--     <span style="background-image:url({{ .Params.banner | absURL }})" alt="{{ .Title }}" class="thumbnail-image"></span> -->
+                    <!-- {{else}} -->
+                        <span class="thumbnail-image thumbnail-none"></span>
+                    <!-- {{ end }} -->
+                    </a>
+                </div>
+                <div class="item-inner">
+                    <!-- {{ if isset .Params "categories" }} -->
+                    <!-- {{ if gt (len .Params.categories) 0 }} -->
+                    <!-- <p class="item-category"> -->
+                    <!--     {{ url := printf "%s/%s" "categories" (index .Params.categories 0 | urlize | lower)}} -->
+                    <!--     <a class="article-category-link" href="{{ url | absURL }}"> -->
+                    <!--     {{ index .Params.categories 0 }} -->
+                    <!--     </a> -->
+                    <!-- </p> -->
+                    <!-- {{ end }} -->
+                    <!-- {{ end }} -->
+                    <p class="item-title"><a href="../../../2018/03/es-insecure-http/index.html" class="title">Using self-signed certificates with ElasticSearch on Scala/Java</a></p>
+                    <p class="item-date">
+                        <time datetime="March 20, 2018" itemprop="datePublished">March 20, 2018</time>
+                    </p>
+                </div>
+            </li>
             
             <li>
                 <div class="item-thumbnail">
@@ -901,34 +943,6 @@ grub-mkconfig -o /boot/grub/grub.cfg</code></pre>
                     <p class="item-title"><a href="../../../2016/12/puppy3/index.html" class="title">Limiting 'likes' sent anonymously - Part 3</a></p>
                     <p class="item-date">
                         <time datetime="December 26, 2016" itemprop="datePublished">December 26, 2016</time>
-                    </p>
-                </div>
-            </li>
-            
-            <li>
-                <div class="item-thumbnail">
-                    <a href="../../../2016/12/internsaga/index.html" class="thumbnail">
-                    <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
-                    <!--     <span style="background-image:url({{ .Params.banner | absURL }})" alt="{{ .Title }}" class="thumbnail-image"></span> -->
-                    <!-- {{else}} -->
-                        <span class="thumbnail-image thumbnail-none"></span>
-                    <!-- {{ end }} -->
-                    </a>
-                </div>
-                <div class="item-inner">
-                    <!-- {{ if isset .Params "categories" }} -->
-                    <!-- {{ if gt (len .Params.categories) 0 }} -->
-                    <!-- <p class="item-category"> -->
-                    <!--     {{ url := printf "%s/%s" "categories" (index .Params.categories 0 | urlize | lower)}} -->
-                    <!--     <a class="article-category-link" href="{{ url | absURL }}"> -->
-                    <!--     {{ index .Params.categories 0 }} -->
-                    <!--     </a> -->
-                    <!-- </p> -->
-                    <!-- {{ end }} -->
-                    <!-- {{ end }} -->
-                    <p class="item-title"><a href="../../../2016/12/internsaga/index.html" class="title">My internship interview saga</a></p>
-                    <p class="item-date">
-                        <time datetime="December 21, 2016" itemprop="datePublished">December 21, 2016</time>
                     </p>
                 </div>
             </li>

@@ -185,7 +185,7 @@
         <div class="article-entry" itemprop="articleBody">
           <p>Vim is one of the two widely known text-based Text Editor cum IDEs, the other one being, ahem, Emacs. For people new to Vim, it might have be a big leap, it is markedely different from the usual text editors, it being modal (implying that the same keys do differnt things in different modes. Don’t worry, modes are awesome.)</p>
 <p>Some cool things to know about Vim:</p>
-<ol style="list-style-type: decimal">
+<ol type="1">
 <li>You don’t have to press any keys outside beyond the Return key. No need to stretch/move your hands to press the Home/End/PageUp/PageDown/Up/Down/Left/Right keys. There are much better ways to do that in Vim.</li>
 <li>Vim works even on the most basic and old Linux computer you can run into, it runs via SSH, and basically it works everywhere.</li>
 <li>Vim is yours, you make it do whatever you want. You don’t have to find workarounds to things you want to do everyday, someone must have made a plugin for it already.</li>
@@ -237,7 +237,7 @@
 <p>Now, say you want to copy 10 lines, go to the first line in normal mode. Press ‘0’ to get to the beginning of the current line. Enter Visual Mode. Press ‘$’ to select to the end of this line. Press j 10 times to go 10 lines down. See? You have 10 lines selected now (you can also use your mouse to do this, I’ll tell you how to enable mouse in a later section). Copy them with ‘y’, or if you want to paste them elsewhere, copy them with “+y.</p>
 <h3 id="the-colon-commands">The colon commands</h3>
 <p>Vim can do various other non-editing stuff with the colon-commands. You want to change your colour-scheme? Type <code>:colorscheme &lt;name&gt;</code> and you’re done (remember, Tab completion works here. Try experimenting with different schemes right now and choose one you like).</p>
-<p>Try typing <code>:set</code> and then try Tab completion, you’ll see the various settings you can play with.Of note, these commands stay active only till Vim is open. If you close it and re-open, these settings are gone. To keep them permanent, look at the section about the vimrc. Here is a simple setting: <code>:set nu</code>, this shows the line numbers on the left. Another thing (though not really recommended), you can enable mouse with <code>:set mouse=a</code>, where a stands for all. You can enable it for specific modes too, with n/i in place of a.</p>
+<p>Try typing <code>:set</code> and then try Tab completion, you’ll see the various settings you can play with. Of note, these commands stay active only till Vim is open. If you close it and re-open, these settings are gone. To keep them permanent, look at the section about the vimrc. Here is a simple setting: <code>:set nu</code>, this shows the line numbers on the left. Another thing (though not really recommended), you can enable mouse with <code>:set mouse=a</code>, where a stands for all. You can enable it for specific modes too, with n/i in place of a.</p>
 <h3 id="the-.vimrc">The .vimrc</h3>
 <p>So, I claimed Vim is yours to build. Here is the way you do that. You use the configuration file called vimrc. This is a file located in your home folder by the name <em>.vimrc</em>. If not there, create a new one and open it.</p>
 <p>Here, you can set commands to be executed whenever your Vim starts (mind it, it can slow it down a very little bit sometimes, still faster than everything out there though). So say for example you want to display line numbers all the time. You can simply write <code>set nu</code> in your vimrc and save it. Next time you open Vim, it will have line numbers from the start.</p>
@@ -500,6 +500,13 @@ filetype plugin indent on</code></pre>
             </li>
             
             <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/elasticsearch.html">
+                  elasticsearch
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
                 <a class="category-list-link" href="../../../tags/emacs.html">
                   emacs
                 </a>
@@ -731,6 +738,13 @@ filetype plugin indent on</code></pre>
             </li>
             
             <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/scala.html">
+                  scala
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
                 <a class="category-list-link" href="../../../tags/shell.html">
                   shell
                 </a>
@@ -836,6 +850,34 @@ filetype plugin indent on</code></pre>
     <div class="widget">
         <ul id="recent-post">
             <!-- {{ range first 5 (where .Site.RegularPages "Type" "post") }} -->
+            
+            <li>
+                <div class="item-thumbnail">
+                    <a href="../../../2018/03/es-insecure-http/index.html" class="thumbnail">
+                    <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+                    <!--     <span style="background-image:url({{ .Params.banner | absURL }})" alt="{{ .Title }}" class="thumbnail-image"></span> -->
+                    <!-- {{else}} -->
+                        <span class="thumbnail-image thumbnail-none"></span>
+                    <!-- {{ end }} -->
+                    </a>
+                </div>
+                <div class="item-inner">
+                    <!-- {{ if isset .Params "categories" }} -->
+                    <!-- {{ if gt (len .Params.categories) 0 }} -->
+                    <!-- <p class="item-category"> -->
+                    <!--     {{ url := printf "%s/%s" "categories" (index .Params.categories 0 | urlize | lower)}} -->
+                    <!--     <a class="article-category-link" href="{{ url | absURL }}"> -->
+                    <!--     {{ index .Params.categories 0 }} -->
+                    <!--     </a> -->
+                    <!-- </p> -->
+                    <!-- {{ end }} -->
+                    <!-- {{ end }} -->
+                    <p class="item-title"><a href="../../../2018/03/es-insecure-http/index.html" class="title">Using self-signed certificates with ElasticSearch on Scala/Java</a></p>
+                    <p class="item-date">
+                        <time datetime="March 20, 2018" itemprop="datePublished">March 20, 2018</time>
+                    </p>
+                </div>
+            </li>
             
             <li>
                 <div class="item-thumbnail">
@@ -945,34 +987,6 @@ filetype plugin indent on</code></pre>
                     <p class="item-title"><a href="../../../2016/12/puppy3/index.html" class="title">Limiting 'likes' sent anonymously - Part 3</a></p>
                     <p class="item-date">
                         <time datetime="December 26, 2016" itemprop="datePublished">December 26, 2016</time>
-                    </p>
-                </div>
-            </li>
-            
-            <li>
-                <div class="item-thumbnail">
-                    <a href="../../../2016/12/internsaga/index.html" class="thumbnail">
-                    <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
-                    <!--     <span style="background-image:url({{ .Params.banner | absURL }})" alt="{{ .Title }}" class="thumbnail-image"></span> -->
-                    <!-- {{else}} -->
-                        <span class="thumbnail-image thumbnail-none"></span>
-                    <!-- {{ end }} -->
-                    </a>
-                </div>
-                <div class="item-inner">
-                    <!-- {{ if isset .Params "categories" }} -->
-                    <!-- {{ if gt (len .Params.categories) 0 }} -->
-                    <!-- <p class="item-category"> -->
-                    <!--     {{ url := printf "%s/%s" "categories" (index .Params.categories 0 | urlize | lower)}} -->
-                    <!--     <a class="article-category-link" href="{{ url | absURL }}"> -->
-                    <!--     {{ index .Params.categories 0 }} -->
-                    <!--     </a> -->
-                    <!-- </p> -->
-                    <!-- {{ end }} -->
-                    <!-- {{ end }} -->
-                    <p class="item-title"><a href="../../../2016/12/internsaga/index.html" class="title">My internship interview saga</a></p>
-                    <p class="item-date">
-                        <time datetime="December 21, 2016" itemprop="datePublished">December 21, 2016</time>
                     </p>
                 </div>
             </li>

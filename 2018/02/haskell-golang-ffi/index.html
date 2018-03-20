@@ -209,22 +209,22 @@
 <li>Each function that has to be exported, has to have a comment <code>//export &lt;NameToExportAs&gt;</code> <em>exactly</em> above its definition.</li>
 </ul>
 <p>An example file looks like the following:</p>
-<div class="sourceCode"><pre class="sourceCode go"><code class="sourceCode go"><span class="kw">package</span> main
-
-<span class="kw">import</span> <span class="st">&quot;C&quot;</span>
-
-<span class="co">//export Testing</span>
-<span class="kw">func</span> Testing(a <span class="dt">int</span>) <span class="dt">int</span> {
-    <span class="kw">return</span> a<span class="dv">+1</span>
-}</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode go"><code class="sourceCode go"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">package</span> main</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw">import</span> <span class="st">&quot;C&quot;</span></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co">//export Testing</span></a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="kw">func</span> Testing(a <span class="dt">int</span>) <span class="dt">int</span> {</a>
+<a class="sourceLine" id="cb1-7" data-line-number="7">    <span class="kw">return</span> a+<span class="dv">1</span></a>
+<a class="sourceLine" id="cb1-8" data-line-number="8">}</a></code></pre></div>
 <p>Now, we need to get a library from this which can be used later. The following commands work: * Generate a shared object: <code>go build -buildmode=c-shared -o lib&lt;LIBNAME&gt;.so *.go</code> * Generate an archive file: <code>go build -buildmode=c-archive -o lib&lt;LIBNAME&gt;.a *.go</code></p>
 <h3 id="converting-golang-types-to-c-types">Converting Golang types to C types</h3>
 <p>This step is necessary because Haskell does not know about Golang types. The above program is very simple, but what if you had to use strings?</p>
 <p>A naive function:</p>
-<div class="sourceCode"><pre class="sourceCode go"><code class="sourceCode go"><span class="co">//export StrFxn</span>
-<span class="kw">func</span> StrFxn(input <span class="dt">string</span>) <span class="dt">string</span> {
-    <span class="kw">return</span> <span class="st">&quot;Hello &quot;</span> + input + <span class="st">&quot; World&quot;</span>
-}</code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode go"><code class="sourceCode go"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co">//export StrFxn</span></a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw">func</span> StrFxn(input <span class="dt">string</span>) <span class="dt">string</span> {</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3">    <span class="kw">return</span> <span class="st">&quot;Hello &quot;</span> + input + <span class="st">&quot; World&quot;</span></a>
+<a class="sourceLine" id="cb2-4" data-line-number="4">}</a></code></pre></div>
 <p>This would generate the following few lines in the file <code>lib&lt;LIBNAME&gt;.h</code>:</p>
 <pre><code>...
 typedef struct { const char *p; GoInt n; } GoString;
@@ -232,49 +232,49 @@ typedef struct { const char *p; GoInt n; } GoString;
 extern GoString StrFxn(GoString p0);
 ...</code></pre>
 <p>As you can see, there’s a magical type GoString being used here, which we won’t like later. So we modify the Go code as follows:</p>
-<div class="sourceCode"><pre class="sourceCode go"><code class="sourceCode go"><span class="kw">import</span> <span class="st">&quot;C&quot;</span>
-
-<span class="kw">func</span> strFxn(input <span class="dt">string</span>) <span class="dt">string</span> {
-    <span class="kw">return</span> <span class="st">&quot;Hello &quot;</span> + input + <span class="st">&quot; World&quot;</span>
-}
-
-<span class="co">//export StrFxn</span>
-<span class="kw">func</span> StrFxn(cinput *C.char) *C.char {
-    <span class="co">// C data needs to be manually managed in memory.</span>
-    <span class="co">// But we will do it from Haskell.</span>
-    input := C.GoString(cinput)
-    <span class="kw">return</span> C.CString(strFxn(input))
-}
-
-<span class="kw">func</span> main() {}</code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode go"><code class="sourceCode go"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">import</span> <span class="st">&quot;C&quot;</span></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="kw">func</span> strFxn(input <span class="dt">string</span>) <span class="dt">string</span> {</a>
+<a class="sourceLine" id="cb4-4" data-line-number="4">    <span class="kw">return</span> <span class="st">&quot;Hello &quot;</span> + input + <span class="st">&quot; World&quot;</span></a>
+<a class="sourceLine" id="cb4-5" data-line-number="5">}</a>
+<a class="sourceLine" id="cb4-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">//export StrFxn</span></a>
+<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="kw">func</span> StrFxn(cinput *C.char) *C.char {</a>
+<a class="sourceLine" id="cb4-9" data-line-number="9">    <span class="co">// C data needs to be manually managed in memory.</span></a>
+<a class="sourceLine" id="cb4-10" data-line-number="10">    <span class="co">// But we will do it from Haskell.</span></a>
+<a class="sourceLine" id="cb4-11" data-line-number="11">    input := C.GoString(cinput)</a>
+<a class="sourceLine" id="cb4-12" data-line-number="12">    <span class="kw">return</span> C.CString(strFxn(input))</a>
+<a class="sourceLine" id="cb4-13" data-line-number="13">}</a>
+<a class="sourceLine" id="cb4-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb4-15" data-line-number="15"><span class="kw">func</span> main() {}</a></code></pre></div>
 <p>Now the exported function would behave as if it is just a C function!</p>
 <h2 id="load-c-library-from-haskell">Load C library from Haskell</h2>
 <p>This is pretty straitforward. Assuming that the linker finds your built library, you write a file like the following:</p>
-<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">{-# LANGUAGE ForeignFunctionInterface #-}</span>
-<span class="co">-- The above PRAGMA used to be required for FFI, but the code</span>
-<span class="co">-- seems to work without it on recent GHC versions.</span>
-
-<span class="kw">import </span><span class="dt">Foreign.C.String</span>
-<span class="kw">import </span><span class="dt">Foreign.Marshal.Alloc</span>
-
-<span class="co">-- | The call which brings the Foreign function into scope, with manually</span>
-<span class="co">--   declared type. This type is not checked at compile time.</span>
-<span class="co">--   ccall means C-calling-convention, which is usually what you want.</span>
-foreign <span class="kw">import </span>ccall &quot;<span class="dt">StrFxn</span>&quot; go_StrFxn :: <span class="dt">CString</span> -&gt; <span class="dt">IO</span> <span class="dt">CString</span>
-
-<span class="co">-- | Custom function to make CString-based FFI functions user-friendly.</span>
-<span class="ot">runStrFxn ::</span> (<span class="dt">CString</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> <span class="dt">CString</span>) <span class="ot">-&gt;</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> <span class="dt">String</span>
-runStrFxn f input <span class="fu">=</span> <span class="kw">do</span>
-  cinput <span class="ot">&lt;-</span> newCString input
-  coutput <span class="ot">&lt;-</span> f cinput
-  res <span class="ot">&lt;-</span> peekCString coutput
-  _ <span class="ot">&lt;-</span> free cinput
-  _ <span class="ot">&lt;-</span> free coutput
-  return res
-
-<span class="co">-- | User friendly function for profit :)</span>
-<span class="ot">strFxn ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> <span class="dt">String</span>
-strFxn <span class="fu">=</span> runStrFxn go_StrFxn</code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="ot">{-# LANGUAGE ForeignFunctionInterface #-}</span></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="co">-- The above PRAGMA used to be required for FFI, but the code</span></a>
+<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="co">-- seems to work without it on recent GHC versions.</span></a>
+<a class="sourceLine" id="cb5-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="kw">import</span> <span class="dt">Foreign.C.String</span></a>
+<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="kw">import</span> <span class="dt">Foreign.Marshal.Alloc</span></a>
+<a class="sourceLine" id="cb5-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="co">-- | The call which brings the Foreign function into scope, with manually</span></a>
+<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">--   declared type. This type is not checked at compile time.</span></a>
+<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="co">--   ccall means C-calling-convention, which is usually what you want.</span></a>
+<a class="sourceLine" id="cb5-11" data-line-number="11">foreign <span class="kw">import</span> ccall &quot;<span class="dt">StrFxn</span>&quot; go_StrFxn :: <span class="dt">CString</span> -&gt; <span class="dt">IO</span> <span class="dt">CString</span></a>
+<a class="sourceLine" id="cb5-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb5-13" data-line-number="13"><span class="co">-- | Custom function to make CString-based FFI functions user-friendly.</span></a>
+<a class="sourceLine" id="cb5-14" data-line-number="14"><span class="ot">runStrFxn ::</span> (<span class="dt">CString</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> <span class="dt">CString</span>) <span class="ot">-&gt;</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> <span class="dt">String</span></a>
+<a class="sourceLine" id="cb5-15" data-line-number="15">runStrFxn f input <span class="fu">=</span> <span class="kw">do</span></a>
+<a class="sourceLine" id="cb5-16" data-line-number="16">  cinput <span class="ot">&lt;-</span> newCString input</a>
+<a class="sourceLine" id="cb5-17" data-line-number="17">  coutput <span class="ot">&lt;-</span> f cinput</a>
+<a class="sourceLine" id="cb5-18" data-line-number="18">  res <span class="ot">&lt;-</span> peekCString coutput</a>
+<a class="sourceLine" id="cb5-19" data-line-number="19">  _ <span class="ot">&lt;-</span> free cinput</a>
+<a class="sourceLine" id="cb5-20" data-line-number="20">  _ <span class="ot">&lt;-</span> free coutput</a>
+<a class="sourceLine" id="cb5-21" data-line-number="21">  return res</a>
+<a class="sourceLine" id="cb5-22" data-line-number="22"></a>
+<a class="sourceLine" id="cb5-23" data-line-number="23"><span class="co">-- | User friendly function for profit :)</span></a>
+<a class="sourceLine" id="cb5-24" data-line-number="24"><span class="ot">strFxn ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> <span class="dt">String</span></a>
+<a class="sourceLine" id="cb5-25" data-line-number="25">strFxn <span class="fu">=</span> runStrFxn go_StrFxn</a></code></pre></div>
 <p>This was pretty straighforward!</p>
 <h2 id="linking">Linking</h2>
 <p>The above part was pretty neat and simple. Alas, the linking part is not so. Since we’re trying to link a custom library, it would be nice to be able to link it at compile time, and then forget about it. Yet, some constraints may make it difficult to do.</p>
@@ -285,31 +285,31 @@ strFxn <span class="fu">=</span> runStrFxn go_StrFxn</code></pre></div>
 <h4 id="statically-linking-a-haskell-executable-with-an-archive-file">Statically Linking a Haskell executable with an Archive File</h4>
 <p>This is useful if you want your binary to be portable in terms of this Golang library at least.</p>
 <p>Your Cabal file would now see the following sections in the section called <code>executable &lt;executable-name&gt;</code>:</p>
-<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span class="fu">executables:</span>
-  <span class="fu">ffi-exe:</span>
-  ...
-  <span class="fu">extra-lib-dirs:</span>
-      golang
-  <span class="fu">extra-libraries:</span>
-      &lt;LIBNAME&gt;
-  <span class="fu">ghc-options:</span>
-  <span class="kw">-</span> -threaded
-  <span class="kw">-</span> -optl-static -optl-pthread
-  <span class="kw">-</span> ....</code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode yaml"><code class="sourceCode yaml"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="fu">executables:</span></a>
+<a class="sourceLine" id="cb6-2" data-line-number="2">  <span class="fu">ffi-exe:</span></a>
+<a class="sourceLine" id="cb6-3" data-line-number="3">  ...</a>
+<a class="sourceLine" id="cb6-4" data-line-number="4">  <span class="fu">extra-lib-dirs:</span></a>
+<a class="sourceLine" id="cb6-5" data-line-number="5">      golang</a>
+<a class="sourceLine" id="cb6-6" data-line-number="6">  <span class="fu">extra-libraries:</span></a>
+<a class="sourceLine" id="cb6-7" data-line-number="7">      &lt;LIBNAME&gt;</a>
+<a class="sourceLine" id="cb6-8" data-line-number="8">  <span class="fu">ghc-options:</span></a>
+<a class="sourceLine" id="cb6-9" data-line-number="9">  <span class="kw">-</span> -threaded</a>
+<a class="sourceLine" id="cb6-10" data-line-number="10">  <span class="kw">-</span> -optl-static -optl-pthread</a>
+<a class="sourceLine" id="cb6-11" data-line-number="11">  <span class="kw">-</span> ....</a></code></pre></div>
 <p>Note that there might be many other <code>ghc-options</code> already.</p>
 <h4 id="dynamically-linking-a-haskell-executable-with-a-shared-object-file">Dynamically Linking a Haskell executable with a Shared Object File</h4>
 <p>Your Cabal file would now see the following sections in the section called <code>executable &lt;executable-name&gt;</code>:</p>
-<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span class="fu">executables:</span>
-  <span class="fu">ffi-exe:</span>
-  ...
-  <span class="fu">extra-lib-dirs:</span>
-      golang
-  <span class="fu">extra-libraries:</span>
-      &lt;LIBNAME&gt;
-  <span class="fu">ghc-options:</span>
-  <span class="kw">-</span> -threaded
-  <span class="kw">-</span> -dynamic
-  <span class="kw">-</span> ....</code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode yaml"><code class="sourceCode yaml"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="fu">executables:</span></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2">  <span class="fu">ffi-exe:</span></a>
+<a class="sourceLine" id="cb7-3" data-line-number="3">  ...</a>
+<a class="sourceLine" id="cb7-4" data-line-number="4">  <span class="fu">extra-lib-dirs:</span></a>
+<a class="sourceLine" id="cb7-5" data-line-number="5">      golang</a>
+<a class="sourceLine" id="cb7-6" data-line-number="6">  <span class="fu">extra-libraries:</span></a>
+<a class="sourceLine" id="cb7-7" data-line-number="7">      &lt;LIBNAME&gt;</a>
+<a class="sourceLine" id="cb7-8" data-line-number="8">  <span class="fu">ghc-options:</span></a>
+<a class="sourceLine" id="cb7-9" data-line-number="9">  <span class="kw">-</span> -threaded</a>
+<a class="sourceLine" id="cb7-10" data-line-number="10">  <span class="kw">-</span> -dynamic</a>
+<a class="sourceLine" id="cb7-11" data-line-number="11">  <span class="kw">-</span> ....</a></code></pre></div>
 <p>This will allow the code to compile, but running poses an issue.</p>
 <pre class="shell"><code>$ stack exec ffi
 /home/saksham/code/ffi/.stack-work/install/x86_64-linux/lts-10.5/8.2.2/bin/ffi-exe: error while loading shared libraries: libmytest.so: cannot open shared object file: No such file or directory</code></pre>
@@ -570,6 +570,13 @@ strFxn <span class="fu">=</span> runStrFxn go_StrFxn</code></pre></div>
             </li>
             
             <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/elasticsearch.html">
+                  elasticsearch
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
                 <a class="category-list-link" href="../../../tags/emacs.html">
                   emacs
                 </a>
@@ -801,6 +808,13 @@ strFxn <span class="fu">=</span> runStrFxn go_StrFxn</code></pre></div>
             </li>
             
             <li class="category-list-item mydata">
+                <a class="category-list-link" href="../../../tags/scala.html">
+                  scala
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
                 <a class="category-list-link" href="../../../tags/shell.html">
                   shell
                 </a>
@@ -906,6 +920,34 @@ strFxn <span class="fu">=</span> runStrFxn go_StrFxn</code></pre></div>
     <div class="widget">
         <ul id="recent-post">
             <!-- {{ range first 5 (where .Site.RegularPages "Type" "post") }} -->
+            
+            <li>
+                <div class="item-thumbnail">
+                    <a href="../../../2018/03/es-insecure-http/index.html" class="thumbnail">
+                    <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+                    <!--     <span style="background-image:url({{ .Params.banner | absURL }})" alt="{{ .Title }}" class="thumbnail-image"></span> -->
+                    <!-- {{else}} -->
+                        <span class="thumbnail-image thumbnail-none"></span>
+                    <!-- {{ end }} -->
+                    </a>
+                </div>
+                <div class="item-inner">
+                    <!-- {{ if isset .Params "categories" }} -->
+                    <!-- {{ if gt (len .Params.categories) 0 }} -->
+                    <!-- <p class="item-category"> -->
+                    <!--     {{ url := printf "%s/%s" "categories" (index .Params.categories 0 | urlize | lower)}} -->
+                    <!--     <a class="article-category-link" href="{{ url | absURL }}"> -->
+                    <!--     {{ index .Params.categories 0 }} -->
+                    <!--     </a> -->
+                    <!-- </p> -->
+                    <!-- {{ end }} -->
+                    <!-- {{ end }} -->
+                    <p class="item-title"><a href="../../../2018/03/es-insecure-http/index.html" class="title">Using self-signed certificates with ElasticSearch on Scala/Java</a></p>
+                    <p class="item-date">
+                        <time datetime="March 20, 2018" itemprop="datePublished">March 20, 2018</time>
+                    </p>
+                </div>
+            </li>
             
             <li>
                 <div class="item-thumbnail">
@@ -1015,34 +1057,6 @@ strFxn <span class="fu">=</span> runStrFxn go_StrFxn</code></pre></div>
                     <p class="item-title"><a href="../../../2016/12/puppy3/index.html" class="title">Limiting 'likes' sent anonymously - Part 3</a></p>
                     <p class="item-date">
                         <time datetime="December 26, 2016" itemprop="datePublished">December 26, 2016</time>
-                    </p>
-                </div>
-            </li>
-            
-            <li>
-                <div class="item-thumbnail">
-                    <a href="../../../2016/12/internsaga/index.html" class="thumbnail">
-                    <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
-                    <!--     <span style="background-image:url({{ .Params.banner | absURL }})" alt="{{ .Title }}" class="thumbnail-image"></span> -->
-                    <!-- {{else}} -->
-                        <span class="thumbnail-image thumbnail-none"></span>
-                    <!-- {{ end }} -->
-                    </a>
-                </div>
-                <div class="item-inner">
-                    <!-- {{ if isset .Params "categories" }} -->
-                    <!-- {{ if gt (len .Params.categories) 0 }} -->
-                    <!-- <p class="item-category"> -->
-                    <!--     {{ url := printf "%s/%s" "categories" (index .Params.categories 0 | urlize | lower)}} -->
-                    <!--     <a class="article-category-link" href="{{ url | absURL }}"> -->
-                    <!--     {{ index .Params.categories 0 }} -->
-                    <!--     </a> -->
-                    <!-- </p> -->
-                    <!-- {{ end }} -->
-                    <!-- {{ end }} -->
-                    <p class="item-title"><a href="../../../2016/12/internsaga/index.html" class="title">My internship interview saga</a></p>
-                    <p class="item-date">
-                        <time datetime="December 21, 2016" itemprop="datePublished">December 21, 2016</time>
                     </p>
                 </div>
             </li>

@@ -7,8 +7,79 @@
         <description><![CDATA[Reveries of a programmer]]></description>
         <atom:link href="https://sakshamsharma.com/rss.xml" rel="self"
                    type="application/rss+xml" />
-        <lastBuildDate>Sat, 10 Feb 2018 00:00:00 UT</lastBuildDate>
+        <lastBuildDate>Tue, 20 Mar 2018 00:00:00 UT</lastBuildDate>
         <item>
+    <title>Using self-signed certificates with ElasticSearch on Scala/Java</title>
+    <link>https://sakshamsharma.com/2018/03/es-insecure-http/index.html</link>
+    <description><![CDATA[<h2 id="situation">Situation</h2>
+<p>If you’re using ElasticSearch, <a href="https://github.com/sksamuel/elastic4s">elastic4s</a> is among the most neat DSLs out there. Recently, ElasticSearch decided to deprecate the Transport client, and remove it from v7.0.0 onwards. This also meant that HTTP Client became the preferred client since v6.0.0.</p>
+<p>ElasticSearch also defaults to using SSL for the HTTP connections nowadays. It is also the (non-configurable) default when you’re using <a href="https://github.com/upmc-enterprises/ElasticSearch-operator">ElasticSearch-operator</a> for easy deployment on Kubernetes. What’s worse is that it generates certificates for ES automatically, but doesn’t export the Certificate Authority keys used for the same. Thus, communication with such an ElasticSearch node is only possible in the following methods:</p>
+<ul>
+<li>Provide your own certificate to the ElasticSearch docker, and trust that certificate’s signing authority manually on your ElasticSearch client.</li>
+<li>Use a certificate signed by a well-known CA (LetsEncrypt?).</li>
+<li>Somehow manage to configure your ElasticSearch client to allow insecure SSL (do not check for validity of the server certificate).</li>
+</ul>
+<p>Of course, the first two methods are obviously more secure in the general sense. But if your ES is inside an well-configured Kubernetes cluster, it may be acceptable to use plain HTTP, or use HTTPS with insecure SSL.</p>
+<h2 id="elastic4s-httpclient">Elastic4s HttpClient</h2>
+<p>Elastic4s provides a <code>HttpClient</code> which is pretty cool and allows you to enable/disable SSL easily.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">val</span> uri = <span class="fu">ElasticsearchClientUri</span>(s<span class="st">&quot;elasticsearch://${host}:${port}?ssl=${ssl}&quot;</span>)</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="fu">HttpClient</span>(uri)</a></code></pre></div>
+<p>Yet, there is no neat configuration for allowing insecure SSL available right now.</p>
+<p>On the bright side, it allows you to pass two other optional variables to the constructor. One of them is <code>httpClientConfigCallback</code>. This is a callback which is called on the HttpAsyncClient’s (underlying class) builder (<code>HttpAsyncClientBuilder</code>). The idea is to use this callback to override the low level socket’s configuration and allow all certificates.</p>
+<h2 id="the-code">The code</h2>
+<p>The following code can be used to create an ElasticSearch <code>HttpClient</code> which uses insecure SSL.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="kw">val</span> uri = <span class="fu">ElasticsearchClientUri</span>(s<span class="st">&quot;elasticsearch://${host}:${port}?ssl=${ssl}&quot;</span>)</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb2-3" data-line-number="3"><span class="kw">if</span> (!(ssl &amp;&amp; insecure)) {</a>
+<a class="sourceLine" id="cb2-4" data-line-number="4">  <span class="co">// No need to meddle with defaults if secure SSL.</span></a>
+<a class="sourceLine" id="cb2-5" data-line-number="5">  <span class="fu">HttpClient</span>(uri)</a>
+<a class="sourceLine" id="cb2-6" data-line-number="6">}</a>
+<a class="sourceLine" id="cb2-7" data-line-number="7"><span class="kw">else</span> {</a>
+<a class="sourceLine" id="cb2-8" data-line-number="8">  <span class="co">// We need an SSL context which trusts self signed certificates.</span></a>
+<a class="sourceLine" id="cb2-9" data-line-number="9">  <span class="co">// Somehow this alone is not enough and hostname verifier is needed.</span></a>
+<a class="sourceLine" id="cb2-10" data-line-number="10">  <span class="kw">val</span> sslContext = SSLContexts</a>
+<a class="sourceLine" id="cb2-11" data-line-number="11">    .<span class="fu">custom</span>()</a>
+<a class="sourceLine" id="cb2-12" data-line-number="12">    .<span class="fu">loadTrustMaterial</span>(<span class="kw">new</span> <span class="fu">TrustSelfSignedStrategy</span>())</a>
+<a class="sourceLine" id="cb2-13" data-line-number="13">    .<span class="fu">build</span>()</a>
+<a class="sourceLine" id="cb2-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb2-15" data-line-number="15">  <span class="co">// A hostname verifier which trusts all hostnames in all ssl sessions.</span></a>
+<a class="sourceLine" id="cb2-16" data-line-number="16">  <span class="kw">object</span> trustAllHostnameVerifier <span class="kw">extends</span> javax.<span class="fu">net</span>.<span class="fu">ssl</span>.<span class="fu">HostnameVerifier</span> {</a>
+<a class="sourceLine" id="cb2-17" data-line-number="17">    <span class="kw">def</span> <span class="fu">verify</span>(h: String, s: SSLSession) = <span class="kw">true</span></a>
+<a class="sourceLine" id="cb2-18" data-line-number="18">  }</a>
+<a class="sourceLine" id="cb2-19" data-line-number="19"></a>
+<a class="sourceLine" id="cb2-20" data-line-number="20">  <span class="co">// We cannot simply use the hostname verifier since the SSL strategy overrides</span></a>
+<a class="sourceLine" id="cb2-21" data-line-number="21">  <span class="co">// the hostname verifier when HttpAsyncClient is built.</span></a>
+<a class="sourceLine" id="cb2-22" data-line-number="22">  <span class="kw">val</span> sslSessionStrategy = <span class="kw">new</span> <span class="fu">SSLIOSessionStrategy</span>(</a>
+<a class="sourceLine" id="cb2-23" data-line-number="23">    sslContext,</a>
+<a class="sourceLine" id="cb2-24" data-line-number="24">    trustAllHostnameVerifier</a>
+<a class="sourceLine" id="cb2-25" data-line-number="25">  )</a>
+<a class="sourceLine" id="cb2-26" data-line-number="26"></a>
+<a class="sourceLine" id="cb2-27" data-line-number="27">  <span class="co">// Elasticsearch allows configuring the REST client using this form of callbacks.</span></a>
+<a class="sourceLine" id="cb2-28" data-line-number="28">  <span class="kw">val</span> myHttpAsyncClientCallback = <span class="kw">new</span> RestClientBuilder.<span class="fu">HttpClientConfigCallback</span>() {</a>
+<a class="sourceLine" id="cb2-29" data-line-number="29">    <span class="kw">override</span> <span class="kw">def</span> <span class="fu">customizeHttpClient</span>(httpClientBuilder: HttpAsyncClientBuilder) = {</a>
+<a class="sourceLine" id="cb2-30" data-line-number="30">      httpClientBuilder.<span class="fu">setSSLStrategy</span>(sslSessionStrategy)</a>
+<a class="sourceLine" id="cb2-31" data-line-number="31">    }</a>
+<a class="sourceLine" id="cb2-32" data-line-number="32">  }</a>
+<a class="sourceLine" id="cb2-33" data-line-number="33"></a>
+<a class="sourceLine" id="cb2-34" data-line-number="34">  <span class="fu">HttpClient</span>(uri, httpClientConfigCallback = myHttpAsyncClientCallback)</a>
+<a class="sourceLine" id="cb2-35" data-line-number="35">}</a></code></pre></div>
+<p>You would need the following imports for it (all packages are included with <code>elastic4s</code>):</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode scala"><code class="sourceCode scala"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">import</span> com.<span class="fu">sksamuel</span>.<span class="fu">elastic4s</span>.<span class="fu">ElasticsearchClientUri</span></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw">import</span> com.<span class="fu">sksamuel</span>.<span class="fu">elastic4s</span>.<span class="fu">http</span>.<span class="fu">settings</span>._</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="kw">import</span> com.<span class="fu">sksamuel</span>.<span class="fu">elastic4s</span>.<span class="fu">http</span>.<span class="fu">HttpClient</span></a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"><span class="kw">import</span> org.<span class="fu">elasticsearch</span>.<span class="fu">client</span>.<span class="fu">RestClientBuilder</span></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"><span class="kw">import</span> javax.<span class="fu">net</span>.<span class="fu">ssl</span>.<span class="fu">SSLSession</span></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7"><span class="kw">import</span> org.<span class="fu">apache</span>.<span class="fu">http</span>.<span class="fu">impl</span>.<span class="fu">nio</span>.<span class="fu">client</span>.<span class="fu">HttpAsyncClientBuilder</span></a>
+<a class="sourceLine" id="cb3-8" data-line-number="8"><span class="kw">import</span> org.<span class="fu">apache</span>.<span class="fu">http</span>.<span class="fu">conn</span>.<span class="fu">ssl</span>.<span class="fu">TrustSelfSignedStrategy</span></a>
+<a class="sourceLine" id="cb3-9" data-line-number="9"><span class="kw">import</span> org.<span class="fu">apache</span>.<span class="fu">http</span>.<span class="fu">nio</span>.<span class="fu">conn</span>.<span class="fu">ssl</span>.<span class="fu">SSLIOSessionStrategy</span></a>
+<a class="sourceLine" id="cb3-10" data-line-number="10"><span class="kw">import</span> org.<span class="fu">apache</span>.<span class="fu">http</span>.<span class="fu">ssl</span>.<span class="fu">SSLContexts</span></a></code></pre></div>
+<p>Do suggest any changes which might improve the above solution. I have tried using <code>.setSSLContext</code> and <code>.setHostnameVerifier</code>, both fail when exposed to self-signed certificates.</p>]]></description>
+    <pubDate>Tue, 20 Mar 2018 00:00:00 UT</pubDate>
+    <guid>https://sakshamsharma.com/2018/03/es-insecure-http/index.html</guid>
+    <dc:creator>Saksham Sharma</dc:creator>
+</item>
+<item>
     <title>Calling Golang functions from Haskell</title>
     <link>https://sakshamsharma.com/2018/02/haskell-golang-ffi/index.html</link>
     <description><![CDATA[<p>Calling C from Haskell is easy. Calling Golang from C is easy too. Then why should calling Golang from Haskell be tough? Yet, I could not find a single document / blog on this topic. While doing this, I also explored the possibility domain of library linking in Haskell.</p>
@@ -37,22 +108,22 @@
 <li>Each function that has to be exported, has to have a comment <code>//export &lt;NameToExportAs&gt;</code> <em>exactly</em> above its definition.</li>
 </ul>
 <p>An example file looks like the following:</p>
-<div class="sourceCode"><pre class="sourceCode go"><code class="sourceCode go"><span class="kw">package</span> main
-
-<span class="kw">import</span> <span class="st">&quot;C&quot;</span>
-
-<span class="co">//export Testing</span>
-<span class="kw">func</span> Testing(a <span class="dt">int</span>) <span class="dt">int</span> {
-    <span class="kw">return</span> a<span class="dv">+1</span>
-}</code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode go"><code class="sourceCode go"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">package</span> main</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"><span class="kw">import</span> <span class="st">&quot;C&quot;</span></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="co">//export Testing</span></a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="kw">func</span> Testing(a <span class="dt">int</span>) <span class="dt">int</span> {</a>
+<a class="sourceLine" id="cb1-7" data-line-number="7">    <span class="kw">return</span> a+<span class="dv">1</span></a>
+<a class="sourceLine" id="cb1-8" data-line-number="8">}</a></code></pre></div>
 <p>Now, we need to get a library from this which can be used later. The following commands work: * Generate a shared object: <code>go build -buildmode=c-shared -o lib&lt;LIBNAME&gt;.so *.go</code> * Generate an archive file: <code>go build -buildmode=c-archive -o lib&lt;LIBNAME&gt;.a *.go</code></p>
 <h3 id="converting-golang-types-to-c-types">Converting Golang types to C types</h3>
 <p>This step is necessary because Haskell does not know about Golang types. The above program is very simple, but what if you had to use strings?</p>
 <p>A naive function:</p>
-<div class="sourceCode"><pre class="sourceCode go"><code class="sourceCode go"><span class="co">//export StrFxn</span>
-<span class="kw">func</span> StrFxn(input <span class="dt">string</span>) <span class="dt">string</span> {
-    <span class="kw">return</span> <span class="st">&quot;Hello &quot;</span> + input + <span class="st">&quot; World&quot;</span>
-}</code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode go"><code class="sourceCode go"><a class="sourceLine" id="cb2-1" data-line-number="1"><span class="co">//export StrFxn</span></a>
+<a class="sourceLine" id="cb2-2" data-line-number="2"><span class="kw">func</span> StrFxn(input <span class="dt">string</span>) <span class="dt">string</span> {</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3">    <span class="kw">return</span> <span class="st">&quot;Hello &quot;</span> + input + <span class="st">&quot; World&quot;</span></a>
+<a class="sourceLine" id="cb2-4" data-line-number="4">}</a></code></pre></div>
 <p>This would generate the following few lines in the file <code>lib&lt;LIBNAME&gt;.h</code>:</p>
 <pre><code>...
 typedef struct { const char *p; GoInt n; } GoString;
@@ -60,49 +131,49 @@ typedef struct { const char *p; GoInt n; } GoString;
 extern GoString StrFxn(GoString p0);
 ...</code></pre>
 <p>As you can see, there’s a magical type GoString being used here, which we won’t like later. So we modify the Go code as follows:</p>
-<div class="sourceCode"><pre class="sourceCode go"><code class="sourceCode go"><span class="kw">import</span> <span class="st">&quot;C&quot;</span>
-
-<span class="kw">func</span> strFxn(input <span class="dt">string</span>) <span class="dt">string</span> {
-    <span class="kw">return</span> <span class="st">&quot;Hello &quot;</span> + input + <span class="st">&quot; World&quot;</span>
-}
-
-<span class="co">//export StrFxn</span>
-<span class="kw">func</span> StrFxn(cinput *C.char) *C.char {
-    <span class="co">// C data needs to be manually managed in memory.</span>
-    <span class="co">// But we will do it from Haskell.</span>
-    input := C.GoString(cinput)
-    <span class="kw">return</span> C.CString(strFxn(input))
-}
-
-<span class="kw">func</span> main() {}</code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode go"><code class="sourceCode go"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">import</span> <span class="st">&quot;C&quot;</span></a>
+<a class="sourceLine" id="cb4-2" data-line-number="2"></a>
+<a class="sourceLine" id="cb4-3" data-line-number="3"><span class="kw">func</span> strFxn(input <span class="dt">string</span>) <span class="dt">string</span> {</a>
+<a class="sourceLine" id="cb4-4" data-line-number="4">    <span class="kw">return</span> <span class="st">&quot;Hello &quot;</span> + input + <span class="st">&quot; World&quot;</span></a>
+<a class="sourceLine" id="cb4-5" data-line-number="5">}</a>
+<a class="sourceLine" id="cb4-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb4-7" data-line-number="7"><span class="co">//export StrFxn</span></a>
+<a class="sourceLine" id="cb4-8" data-line-number="8"><span class="kw">func</span> StrFxn(cinput *C.char) *C.char {</a>
+<a class="sourceLine" id="cb4-9" data-line-number="9">    <span class="co">// C data needs to be manually managed in memory.</span></a>
+<a class="sourceLine" id="cb4-10" data-line-number="10">    <span class="co">// But we will do it from Haskell.</span></a>
+<a class="sourceLine" id="cb4-11" data-line-number="11">    input := C.GoString(cinput)</a>
+<a class="sourceLine" id="cb4-12" data-line-number="12">    <span class="kw">return</span> C.CString(strFxn(input))</a>
+<a class="sourceLine" id="cb4-13" data-line-number="13">}</a>
+<a class="sourceLine" id="cb4-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb4-15" data-line-number="15"><span class="kw">func</span> main() {}</a></code></pre></div>
 <p>Now the exported function would behave as if it is just a C function!</p>
 <h2 id="load-c-library-from-haskell">Load C library from Haskell</h2>
 <p>This is pretty straitforward. Assuming that the linker finds your built library, you write a file like the following:</p>
-<div class="sourceCode"><pre class="sourceCode haskell"><code class="sourceCode haskell"><span class="ot">{-# LANGUAGE ForeignFunctionInterface #-}</span>
-<span class="co">-- The above PRAGMA used to be required for FFI, but the code</span>
-<span class="co">-- seems to work without it on recent GHC versions.</span>
-
-<span class="kw">import </span><span class="dt">Foreign.C.String</span>
-<span class="kw">import </span><span class="dt">Foreign.Marshal.Alloc</span>
-
-<span class="co">-- | The call which brings the Foreign function into scope, with manually</span>
-<span class="co">--   declared type. This type is not checked at compile time.</span>
-<span class="co">--   ccall means C-calling-convention, which is usually what you want.</span>
-foreign <span class="kw">import </span>ccall &quot;<span class="dt">StrFxn</span>&quot; go_StrFxn :: <span class="dt">CString</span> -&gt; <span class="dt">IO</span> <span class="dt">CString</span>
-
-<span class="co">-- | Custom function to make CString-based FFI functions user-friendly.</span>
-<span class="ot">runStrFxn ::</span> (<span class="dt">CString</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> <span class="dt">CString</span>) <span class="ot">-&gt;</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> <span class="dt">String</span>
-runStrFxn f input <span class="fu">=</span> <span class="kw">do</span>
-  cinput <span class="ot">&lt;-</span> newCString input
-  coutput <span class="ot">&lt;-</span> f cinput
-  res <span class="ot">&lt;-</span> peekCString coutput
-  _ <span class="ot">&lt;-</span> free cinput
-  _ <span class="ot">&lt;-</span> free coutput
-  return res
-
-<span class="co">-- | User friendly function for profit :)</span>
-<span class="ot">strFxn ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> <span class="dt">String</span>
-strFxn <span class="fu">=</span> runStrFxn go_StrFxn</code></pre></div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="ot">{-# LANGUAGE ForeignFunctionInterface #-}</span></a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="co">-- The above PRAGMA used to be required for FFI, but the code</span></a>
+<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="co">-- seems to work without it on recent GHC versions.</span></a>
+<a class="sourceLine" id="cb5-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb5-5" data-line-number="5"><span class="kw">import</span> <span class="dt">Foreign.C.String</span></a>
+<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="kw">import</span> <span class="dt">Foreign.Marshal.Alloc</span></a>
+<a class="sourceLine" id="cb5-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb5-8" data-line-number="8"><span class="co">-- | The call which brings the Foreign function into scope, with manually</span></a>
+<a class="sourceLine" id="cb5-9" data-line-number="9"><span class="co">--   declared type. This type is not checked at compile time.</span></a>
+<a class="sourceLine" id="cb5-10" data-line-number="10"><span class="co">--   ccall means C-calling-convention, which is usually what you want.</span></a>
+<a class="sourceLine" id="cb5-11" data-line-number="11">foreign <span class="kw">import</span> ccall &quot;<span class="dt">StrFxn</span>&quot; go_StrFxn :: <span class="dt">CString</span> -&gt; <span class="dt">IO</span> <span class="dt">CString</span></a>
+<a class="sourceLine" id="cb5-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb5-13" data-line-number="13"><span class="co">-- | Custom function to make CString-based FFI functions user-friendly.</span></a>
+<a class="sourceLine" id="cb5-14" data-line-number="14"><span class="ot">runStrFxn ::</span> (<span class="dt">CString</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> <span class="dt">CString</span>) <span class="ot">-&gt;</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> <span class="dt">String</span></a>
+<a class="sourceLine" id="cb5-15" data-line-number="15">runStrFxn f input <span class="fu">=</span> <span class="kw">do</span></a>
+<a class="sourceLine" id="cb5-16" data-line-number="16">  cinput <span class="ot">&lt;-</span> newCString input</a>
+<a class="sourceLine" id="cb5-17" data-line-number="17">  coutput <span class="ot">&lt;-</span> f cinput</a>
+<a class="sourceLine" id="cb5-18" data-line-number="18">  res <span class="ot">&lt;-</span> peekCString coutput</a>
+<a class="sourceLine" id="cb5-19" data-line-number="19">  _ <span class="ot">&lt;-</span> free cinput</a>
+<a class="sourceLine" id="cb5-20" data-line-number="20">  _ <span class="ot">&lt;-</span> free coutput</a>
+<a class="sourceLine" id="cb5-21" data-line-number="21">  return res</a>
+<a class="sourceLine" id="cb5-22" data-line-number="22"></a>
+<a class="sourceLine" id="cb5-23" data-line-number="23"><span class="co">-- | User friendly function for profit :)</span></a>
+<a class="sourceLine" id="cb5-24" data-line-number="24"><span class="ot">strFxn ::</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> <span class="dt">String</span></a>
+<a class="sourceLine" id="cb5-25" data-line-number="25">strFxn <span class="fu">=</span> runStrFxn go_StrFxn</a></code></pre></div>
 <p>This was pretty straighforward!</p>
 <h2 id="linking">Linking</h2>
 <p>The above part was pretty neat and simple. Alas, the linking part is not so. Since we’re trying to link a custom library, it would be nice to be able to link it at compile time, and then forget about it. Yet, some constraints may make it difficult to do.</p>
@@ -113,31 +184,31 @@ strFxn <span class="fu">=</span> runStrFxn go_StrFxn</code></pre></div>
 <h4 id="statically-linking-a-haskell-executable-with-an-archive-file">Statically Linking a Haskell executable with an Archive File</h4>
 <p>This is useful if you want your binary to be portable in terms of this Golang library at least.</p>
 <p>Your Cabal file would now see the following sections in the section called <code>executable &lt;executable-name&gt;</code>:</p>
-<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span class="fu">executables:</span>
-  <span class="fu">ffi-exe:</span>
-  ...
-  <span class="fu">extra-lib-dirs:</span>
-      golang
-  <span class="fu">extra-libraries:</span>
-      &lt;LIBNAME&gt;
-  <span class="fu">ghc-options:</span>
-  <span class="kw">-</span> -threaded
-  <span class="kw">-</span> -optl-static -optl-pthread
-  <span class="kw">-</span> ....</code></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode yaml"><code class="sourceCode yaml"><a class="sourceLine" id="cb6-1" data-line-number="1"><span class="fu">executables:</span></a>
+<a class="sourceLine" id="cb6-2" data-line-number="2">  <span class="fu">ffi-exe:</span></a>
+<a class="sourceLine" id="cb6-3" data-line-number="3">  ...</a>
+<a class="sourceLine" id="cb6-4" data-line-number="4">  <span class="fu">extra-lib-dirs:</span></a>
+<a class="sourceLine" id="cb6-5" data-line-number="5">      golang</a>
+<a class="sourceLine" id="cb6-6" data-line-number="6">  <span class="fu">extra-libraries:</span></a>
+<a class="sourceLine" id="cb6-7" data-line-number="7">      &lt;LIBNAME&gt;</a>
+<a class="sourceLine" id="cb6-8" data-line-number="8">  <span class="fu">ghc-options:</span></a>
+<a class="sourceLine" id="cb6-9" data-line-number="9">  <span class="kw">-</span> -threaded</a>
+<a class="sourceLine" id="cb6-10" data-line-number="10">  <span class="kw">-</span> -optl-static -optl-pthread</a>
+<a class="sourceLine" id="cb6-11" data-line-number="11">  <span class="kw">-</span> ....</a></code></pre></div>
 <p>Note that there might be many other <code>ghc-options</code> already.</p>
 <h4 id="dynamically-linking-a-haskell-executable-with-a-shared-object-file">Dynamically Linking a Haskell executable with a Shared Object File</h4>
 <p>Your Cabal file would now see the following sections in the section called <code>executable &lt;executable-name&gt;</code>:</p>
-<div class="sourceCode"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span class="fu">executables:</span>
-  <span class="fu">ffi-exe:</span>
-  ...
-  <span class="fu">extra-lib-dirs:</span>
-      golang
-  <span class="fu">extra-libraries:</span>
-      &lt;LIBNAME&gt;
-  <span class="fu">ghc-options:</span>
-  <span class="kw">-</span> -threaded
-  <span class="kw">-</span> -dynamic
-  <span class="kw">-</span> ....</code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode yaml"><code class="sourceCode yaml"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="fu">executables:</span></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2">  <span class="fu">ffi-exe:</span></a>
+<a class="sourceLine" id="cb7-3" data-line-number="3">  ...</a>
+<a class="sourceLine" id="cb7-4" data-line-number="4">  <span class="fu">extra-lib-dirs:</span></a>
+<a class="sourceLine" id="cb7-5" data-line-number="5">      golang</a>
+<a class="sourceLine" id="cb7-6" data-line-number="6">  <span class="fu">extra-libraries:</span></a>
+<a class="sourceLine" id="cb7-7" data-line-number="7">      &lt;LIBNAME&gt;</a>
+<a class="sourceLine" id="cb7-8" data-line-number="8">  <span class="fu">ghc-options:</span></a>
+<a class="sourceLine" id="cb7-9" data-line-number="9">  <span class="kw">-</span> -threaded</a>
+<a class="sourceLine" id="cb7-10" data-line-number="10">  <span class="kw">-</span> -dynamic</a>
+<a class="sourceLine" id="cb7-11" data-line-number="11">  <span class="kw">-</span> ....</a></code></pre></div>
 <p>This will allow the code to compile, but running poses an issue.</p>
 <pre class="shell"><code>$ stack exec ffi
 /home/saksham/code/ffi/.stack-work/install/x86_64-linux/lts-10.5/8.2.2/bin/ffi-exe: error while loading shared libraries: libmytest.so: cannot open shared object file: No such file or directory</code></pre>
@@ -181,13 +252,15 @@ strFxn <span class="fu">=</span> runStrFxn go_StrFxn</code></pre></div>
  &gt; linux /vmlinuz-4.10.4-generic root=/dev/sda6 init=/usr/lib/systemd/systemd
  &gt; boot</code></pre>
 <p>Let’s see some step by step explanations:</p>
-<ol style="list-style-type: decimal">
+<ol type="1">
 <li>We need to load the ext2 module for this (don’t ask me why).</li>
 <li>This <em>root</em> that we mention here, that’s the partition where <code>/boot</code> is often mounted. The strict requirement is that this partition should have the linux kernel (<code>vmlinuz-&lt;something&gt;</code>). It may be your root partition, or the one where you mount <code>/boot</code>.</li>
-<li>We specify the kernel we want to use. There are a couple of arguments:</li>
+<li>We specify the kernel we want to use. There are a couple of arguments:
+<ol type="1">
 <li>Notice how the path used is <code>/vmlinuz-...</code>. The path is relative to the root mentioned in step 2. It would’ve been <code>/boot/vmlinuz-...</code> if you don’t have a separate boot partition.</li>
 <li>The root variable (a different one, you say?) is now set to the location of your <strong>root</strong> partition.</li>
 <li>I chose to set <code>init</code> to systemd, since I use Gentoo and it defaults to OpenRC. You may not need this.</li>
+</ol></li>
 <li>Boot. Profit.</li>
 </ol>
 <p>The take-away is that the booting pretty much involves providing a kernel, and a root partition.</p>
@@ -355,11 +428,13 @@ Me at my desk
 <p>Here is a possible solution to this challenge. To explain that, I shall go over the needed part of the algorithm (taken from Part 2):</p>
 <ul>
 <li>Both parties have shared secret values A and B. These are not known to Eve by virtue of public key encryption.</li>
-<li>Parties agree to this protocol:</li>
+<li>Parties agree to this protocol:
+<ul>
 <li>Alice sends value <code>a = A</code> to Eve if she likes Bob.</li>
 <li>Alice sends value <code>a = random</code> to Eve if she does not like Bob.</li>
 <li>Bob sends value <code>b = B</code> to Eve if he likes Alice.</li>
 <li>Bob sends value <code>b = random</code> to Eve if he does not like Alice.</li>
+</ul></li>
 <li>Eve receives <code>a</code> and <code>b</code>. She stores <code>hash(a*b)</code> as result.</li>
 <li>Alice and Bob manually compute <code>hash(A * B)</code>, and send it to server (server can verify malicious behavior if they don’t match)</li>
 <li>It is a match only if the result and the expected value by both parties are the same.</li>
@@ -460,59 +535,59 @@ Me at my desk
 <p>So I went, and wrote a few classes (one for each algorithm):</p>
 <h2 id="the-algorithms">The algorithms</h2>
 <h3 id="dekkers-algorithm-2-thread">Dekker’s algorithm (2-thread)</h3>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="kw">class</span> Dekker:
-    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):
-        <span class="va">self</span>.flag <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">0</span>]
-        <span class="va">self</span>.turn <span class="op">=</span> <span class="dv">0</span>
-
-    <span class="kw">def</span> lock(<span class="va">self</span>, i):
-        j <span class="op">=</span> <span class="dv">1</span><span class="op">-</span>i
-        <span class="cf">while</span> <span class="va">self</span>.flag[j]:
-            <span class="cf">if</span> <span class="va">self</span>.turn <span class="op">==</span> j:
-                <span class="va">self</span>.flag[i] <span class="op">=</span> <span class="dv">0</span>
-                <span class="cf">while</span> <span class="va">self</span>.turn <span class="op">==</span> j:
-                    <span class="cf">pass</span>
-                <span class="va">self</span>.flag[i] <span class="op">=</span> <span class="dv">1</span>
-
-    <span class="kw">def</span> unlock(<span class="va">self</span>, i):
-        j <span class="op">=</span> <span class="dv">1</span><span class="op">-</span>i
-        <span class="va">self</span>.turn <span class="op">=</span> j
-        <span class="va">self</span>.flag[i] <span class="op">=</span> <span class="dv">0</span></code></pre></div>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="kw">class</span> Dekker:</a>
+<a class="sourceLine" id="cb1-2" data-line-number="2">    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</a>
+<a class="sourceLine" id="cb1-3" data-line-number="3">        <span class="va">self</span>.flag <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">0</span>]</a>
+<a class="sourceLine" id="cb1-4" data-line-number="4">        <span class="va">self</span>.turn <span class="op">=</span> <span class="dv">0</span></a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb1-6" data-line-number="6">    <span class="kw">def</span> lock(<span class="va">self</span>, i):</a>
+<a class="sourceLine" id="cb1-7" data-line-number="7">        j <span class="op">=</span> <span class="dv">1</span><span class="op">-</span>i</a>
+<a class="sourceLine" id="cb1-8" data-line-number="8">        <span class="cf">while</span> <span class="va">self</span>.flag[j]:</a>
+<a class="sourceLine" id="cb1-9" data-line-number="9">            <span class="cf">if</span> <span class="va">self</span>.turn <span class="op">==</span> j:</a>
+<a class="sourceLine" id="cb1-10" data-line-number="10">                <span class="va">self</span>.flag[i] <span class="op">=</span> <span class="dv">0</span></a>
+<a class="sourceLine" id="cb1-11" data-line-number="11">                <span class="cf">while</span> <span class="va">self</span>.turn <span class="op">==</span> j:</a>
+<a class="sourceLine" id="cb1-12" data-line-number="12">                    <span class="cf">pass</span></a>
+<a class="sourceLine" id="cb1-13" data-line-number="13">                <span class="va">self</span>.flag[i] <span class="op">=</span> <span class="dv">1</span></a>
+<a class="sourceLine" id="cb1-14" data-line-number="14"></a>
+<a class="sourceLine" id="cb1-15" data-line-number="15">    <span class="kw">def</span> unlock(<span class="va">self</span>, i):</a>
+<a class="sourceLine" id="cb1-16" data-line-number="16">        j <span class="op">=</span> <span class="dv">1</span><span class="op">-</span>i</a>
+<a class="sourceLine" id="cb1-17" data-line-number="17">        <span class="va">self</span>.turn <span class="op">=</span> j</a>
+<a class="sourceLine" id="cb1-18" data-line-number="18">        <span class="va">self</span>.flag[i] <span class="op">=</span> <span class="dv">0</span></a></code></pre></div>
 <h3 id="petersons-algorithm-2-thread">Peterson’s algorithm (2-thread)</h3>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python">Peterson:
-    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):
-        <span class="va">self</span>.flag <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">0</span>]
-        <span class="va">self</span>.turn <span class="op">=</span> <span class="dv">0</span>
-
-    <span class="kw">def</span> lock(<span class="va">self</span>, i):
-        j <span class="op">=</span> <span class="dv">1</span><span class="op">-</span>i
-        <span class="va">self</span>.flag[i] <span class="op">=</span> <span class="dv">1</span>
-        <span class="va">self</span>.turn <span class="op">=</span> j
-        <span class="cf">while</span> <span class="va">self</span>.flag[j] <span class="kw">and</span> <span class="va">self</span>.turn <span class="op">==</span> j:
-            <span class="cf">pass</span>
-
-    <span class="kw">def</span> unlock(<span class="va">self</span>, i):
-        <span class="va">self</span>.flag[i] <span class="op">=</span> <span class="dv">0</span></code></pre></div>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb2-1" data-line-number="1">Peterson:</a>
+<a class="sourceLine" id="cb2-2" data-line-number="2">    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>):</a>
+<a class="sourceLine" id="cb2-3" data-line-number="3">        <span class="va">self</span>.flag <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">0</span>]</a>
+<a class="sourceLine" id="cb2-4" data-line-number="4">        <span class="va">self</span>.turn <span class="op">=</span> <span class="dv">0</span></a>
+<a class="sourceLine" id="cb2-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb2-6" data-line-number="6">    <span class="kw">def</span> lock(<span class="va">self</span>, i):</a>
+<a class="sourceLine" id="cb2-7" data-line-number="7">        j <span class="op">=</span> <span class="dv">1</span><span class="op">-</span>i</a>
+<a class="sourceLine" id="cb2-8" data-line-number="8">        <span class="va">self</span>.flag[i] <span class="op">=</span> <span class="dv">1</span></a>
+<a class="sourceLine" id="cb2-9" data-line-number="9">        <span class="va">self</span>.turn <span class="op">=</span> j</a>
+<a class="sourceLine" id="cb2-10" data-line-number="10">        <span class="cf">while</span> <span class="va">self</span>.flag[j] <span class="kw">and</span> <span class="va">self</span>.turn <span class="op">==</span> j:</a>
+<a class="sourceLine" id="cb2-11" data-line-number="11">            <span class="cf">pass</span></a>
+<a class="sourceLine" id="cb2-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb2-13" data-line-number="13">    <span class="kw">def</span> unlock(<span class="va">self</span>, i):</a>
+<a class="sourceLine" id="cb2-14" data-line-number="14">        <span class="va">self</span>.flag[i] <span class="op">=</span> <span class="dv">0</span></a></code></pre></div>
 <h3 id="lamports-bakery-algorithm-n-thread">Lamport’s bakery algorithm (n-thread)</h3>
-<div class="sourceCode"><pre class="sourceCode python"><code class="sourceCode python"><span class="kw">class</span> Lamport:
-    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, c):
-        <span class="va">self</span>.count <span class="op">=</span> c
-        <span class="va">self</span>.ticket <span class="op">=</span> [<span class="dv">0</span>]<span class="op">*</span>c
-        <span class="va">self</span>.choosing <span class="op">=</span> [<span class="dv">0</span>]<span class="op">*</span>c
-
-    <span class="kw">def</span> lock(<span class="va">self</span>, i):
-        <span class="va">self</span>.choosing[i] <span class="op">=</span> <span class="dv">1</span>
-        <span class="va">self</span>.ticket[i] <span class="op">=</span> <span class="bu">max</span>(<span class="va">self</span>.ticket) <span class="op">+</span> <span class="dv">1</span>
-        <span class="va">self</span>.choosing[i] <span class="op">=</span> <span class="dv">0</span>
-        <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, <span class="va">self</span>.count):
-            <span class="cf">while</span> <span class="va">self</span>.choosing[j]:
-                <span class="cf">pass</span>
-            <span class="cf">while</span> (<span class="va">self</span>.ticket[j] <span class="kw">and</span>
-                   (<span class="va">self</span>.ticket[j], j) <span class="op">&lt;</span> (<span class="va">self</span>.ticket[i], i)):
-                <span class="cf">pass</span>
-
-    <span class="kw">def</span> unlock(<span class="va">self</span>, i):
-        <span class="va">self</span>.ticket[i] <span class="op">=</span> <span class="dv">0</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">class</span> Lamport:</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, c):</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3">        <span class="va">self</span>.count <span class="op">=</span> c</a>
+<a class="sourceLine" id="cb3-4" data-line-number="4">        <span class="va">self</span>.ticket <span class="op">=</span> [<span class="dv">0</span>]<span class="op">*</span>c</a>
+<a class="sourceLine" id="cb3-5" data-line-number="5">        <span class="va">self</span>.choosing <span class="op">=</span> [<span class="dv">0</span>]<span class="op">*</span>c</a>
+<a class="sourceLine" id="cb3-6" data-line-number="6"></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7">    <span class="kw">def</span> lock(<span class="va">self</span>, i):</a>
+<a class="sourceLine" id="cb3-8" data-line-number="8">        <span class="va">self</span>.choosing[i] <span class="op">=</span> <span class="dv">1</span></a>
+<a class="sourceLine" id="cb3-9" data-line-number="9">        <span class="va">self</span>.ticket[i] <span class="op">=</span> <span class="bu">max</span>(<span class="va">self</span>.ticket) <span class="op">+</span> <span class="dv">1</span></a>
+<a class="sourceLine" id="cb3-10" data-line-number="10">        <span class="va">self</span>.choosing[i] <span class="op">=</span> <span class="dv">0</span></a>
+<a class="sourceLine" id="cb3-11" data-line-number="11">        <span class="cf">for</span> j <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, <span class="va">self</span>.count):</a>
+<a class="sourceLine" id="cb3-12" data-line-number="12">            <span class="cf">while</span> <span class="va">self</span>.choosing[j]:</a>
+<a class="sourceLine" id="cb3-13" data-line-number="13">                <span class="cf">pass</span></a>
+<a class="sourceLine" id="cb3-14" data-line-number="14">            <span class="cf">while</span> (<span class="va">self</span>.ticket[j] <span class="kw">and</span></a>
+<a class="sourceLine" id="cb3-15" data-line-number="15">                   (<span class="va">self</span>.ticket[j], j) <span class="op">&lt;</span> (<span class="va">self</span>.ticket[i], i)):</a>
+<a class="sourceLine" id="cb3-16" data-line-number="16">                <span class="cf">pass</span></a>
+<a class="sourceLine" id="cb3-17" data-line-number="17"></a>
+<a class="sourceLine" id="cb3-18" data-line-number="18">    <span class="kw">def</span> unlock(<span class="va">self</span>, i):</a>
+<a class="sourceLine" id="cb3-19" data-line-number="19">        <span class="va">self</span>.ticket[i] <span class="op">=</span> <span class="dv">0</span></a></code></pre></div>
 <h2 id="testing-how">Testing, how?</h2>
 <p>So I made a simple function. It would grab the lock, increment the thread’s counter (globally placed), print the new total count for all threads, and release the lock.</p>
 <p>I wrote some clever python idioms, but that’s irrelevant. What is relevant is the rate at which the counter increases for each thread. That could be throught of as a metric to quantify the performance of the algorithms.</p>
@@ -575,11 +650,13 @@ Me at my desk
 <p>As a preface, I did read a couple of papers on this topic, but did not find a fair, secure and practical solution. This particular algorithm solves a weaker problem than most papers I found, which is: Computing AND of 2 secret bits in presence of an honest-but-curious server. This algorithm was designed originally as a modification of the one based on garbled circuits after I came to know of the violation of secrecy in that, and has been significantly simplied since then. Onto:</p>
 <ul>
 <li>Both parties have shared secret values A and B. These are not known to Eve by virtue of public key encryption.</li>
-<li>Parties agree to this protocol:</li>
+<li>Parties agree to this protocol:
+<ul>
 <li>Alice sends value <code>a = A</code> to Eve if she likes Bob.</li>
 <li>Alice sends value <code>a = random</code> to Eve if she does not like Bob.</li>
 <li>Bob sends value <code>b = B</code> to Eve if he likes Alice.</li>
 <li>Bob sends value <code>b = random</code> to Eve if he does not like Alice.</li>
+</ul></li>
 <li>Eve receives <code>a</code> and <code>b</code>. She stores <code>hash(a*b)</code> as result.</li>
 <li>Alice and Bob manually compute <code>hash(A * B)</code>, and send it to server (server can verify malicious behavior if they don’t match)</li>
 <li>It is a match only if the result and the expected value by both parties are the same.</li>
@@ -626,27 +703,27 @@ ls **/*.jpg</code></pre>
 <li>You can generate array of names of files very easily with <code>list=(**/*.mp3)</code> kind of syntax.</li>
 </ul>
 <h3 id="the-code">The code:</h3>
-<div class="sourceCode"><pre class="sourceCode bash"><code class="sourceCode bash"><span class="kw">function</span><span class="fu"> play()</span> <span class="kw">{</span>
-    <span class="va">EXT=</span><span class="st">&quot;mp3&quot;</span>
-    <span class="kw">while</span> <span class="bu">getopts</span> “ht:r:p:v” OPTION
-    <span class="kw">do</span>
-        <span class="kw">case</span> <span class="va">$OPTION</span><span class="kw"> in</span>
-            t<span class="kw">)</span>
-                <span class="va">EXT=$OPTARG</span>
-                <span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$EXT</span><span class="st"> extension&quot;</span>
-                <span class="bu">shift</span> 2
-                <span class="kw">;;</span>
-            ?<span class="kw">)</span>
-            <span class="ex">usage</span>
-            <span class="kw">;;</span>
-        <span class="kw">esac</span>
-    <span class="kw">done</span>
-
-    <span class="ex">setopt</span> extendedglob
-    <span class="va">pat=$(</span><span class="bu">echo</span> -n <span class="st">&quot;</span><span class="va">$@</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">sed</span> -E <span class="st">&#39;s/\s+/\*/g&#39;</span><span class="va">)</span>
-    <span class="va">list=(</span>(#i<span class="va">)</span>**/*$<span class="dt">{~pat}*.${EXT}</span>)
-    <span class="ex">vlc</span> <span class="va">$list</span>
-<span class="kw">}</span></code></pre></div>]]></description>
+<div class="sourceCode" id="cb3"><pre class="sourceCode bash"><code class="sourceCode bash"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">function</span><span class="fu"> play()</span> <span class="kw">{</span></a>
+<a class="sourceLine" id="cb3-2" data-line-number="2">    <span class="va">EXT=</span><span class="st">&quot;mp3&quot;</span></a>
+<a class="sourceLine" id="cb3-3" data-line-number="3">    <span class="kw">while</span> <span class="bu">getopts</span> <span class="st">&quot;ht:r:p:v&quot;</span> OPTION</a>
+<a class="sourceLine" id="cb3-4" data-line-number="4">    <span class="kw">do</span></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5">        <span class="kw">case</span> <span class="va">$OPTION</span><span class="kw"> in</span></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6">            t<span class="kw">)</span></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7">                <span class="va">EXT=$OPTARG</span></a>
+<a class="sourceLine" id="cb3-8" data-line-number="8">                <span class="bu">echo</span> <span class="st">&quot;</span><span class="va">$EXT</span><span class="st"> extension&quot;</span></a>
+<a class="sourceLine" id="cb3-9" data-line-number="9">                <span class="bu">shift</span> 2</a>
+<a class="sourceLine" id="cb3-10" data-line-number="10">                <span class="kw">;;</span></a>
+<a class="sourceLine" id="cb3-11" data-line-number="11">            ?<span class="kw">)</span></a>
+<a class="sourceLine" id="cb3-12" data-line-number="12">            <span class="ex">usage</span></a>
+<a class="sourceLine" id="cb3-13" data-line-number="13">            <span class="kw">;;</span></a>
+<a class="sourceLine" id="cb3-14" data-line-number="14">        <span class="kw">esac</span></a>
+<a class="sourceLine" id="cb3-15" data-line-number="15">    <span class="kw">done</span></a>
+<a class="sourceLine" id="cb3-16" data-line-number="16"></a>
+<a class="sourceLine" id="cb3-17" data-line-number="17">    <span class="ex">setopt</span> extendedglob</a>
+<a class="sourceLine" id="cb3-18" data-line-number="18">    <span class="va">pat=$(</span><span class="bu">echo</span> -n <span class="st">&quot;</span><span class="va">$@</span><span class="st">&quot;</span> <span class="kw">|</span> <span class="fu">sed</span> -E <span class="st">&#39;s/\s+/\*/g&#39;</span><span class="va">)</span></a>
+<a class="sourceLine" id="cb3-19" data-line-number="19">    <span class="va">list=(</span>(#i<span class="va">)</span>**/*$<span class="dt">{~pat}*.${EXT}</span>)</a>
+<a class="sourceLine" id="cb3-20" data-line-number="20">    <span class="ex">vlc</span> <span class="va">$list</span></a>
+<a class="sourceLine" id="cb3-21" data-line-number="21"><span class="kw">}</span></a></code></pre></div>]]></description>
     <pubDate>Sat, 29 Oct 2016 00:00:00 UT</pubDate>
     <guid>https://sakshamsharma.com/2016/10/cliplay/index.html</guid>
     <dc:creator>Saksham Sharma</dc:creator>
@@ -696,42 +773,6 @@ MathJax.Hub.Config({
 </script>]]></description>
     <pubDate>Tue, 25 Oct 2016 00:00:00 UT</pubDate>
     <guid>https://sakshamsharma.com/2016/10/puppy1/index.html</guid>
-    <dc:creator>Saksham Sharma</dc:creator>
-</item>
-<item>
-    <title>moVi - Mobile video protocol (Part 1)</title>
-    <link>https://sakshamsharma.com/2016/10/movi/index.html</link>
-    <description><![CDATA[<p>After a really late start to my undergraduate project (UGP) this semester, I finally started working on something we call <a href="https://github.com/netsecIITK/moVi">moVi</a>.</p>
-<p>First off, if the idea reminds you of <a href="https://mosh.org">mosh - Mobile Shell</a> by Keith Winstein and Hari Balakrishnan of MIT, it is not a coincidence. I’d loved their paper called <em>Mosh: An Interactive Remote Shell for Mobile Clients</em>, and moVi is in a way taking their idea forward<!--more-->. We’re 2 undergraduates working on this project, me and Ayush Agarwal, under the guidance of Prof. Sandeep Shukla of IIT Kanpur (previously at Virginia Tech).</p>
-<p>I’ve been working on moVi since around 20 (regular semester) days now; here’s what all <strong>I</strong> know about moVi by now :)</p>
-<h2 id="introduction">Introduction</h2>
-<p>The core idea is simple. How do you make a protocol robust to network, IP, and location changes? A conventional solution might be DDNS (Dynamic DNS). Some idealized scenarios let DDNS do real-time updates of IP of its clients. That way, both the clients can continue their communication, whatever that might be, despite changes in IP of one or both clients. But is there another, cleaner way?</p>
-<h2 id="what-mosh-does---ideas">What Mosh does - Ideas</h2>
-<p>Winstein, Balakrishnan propose in the above paper, a much simpler technique. Instead of using a global directory for such clients, they instead rely on the connectionless state of UDP. Both parties share a secret key, and send a signature of their message (or an encrypted version of the message) signed with that secret key. When one of the sides receives a <em>valid</em> packet from some other IP, it can safely assume that the other side has changed its IP.</p>
-<p>Apart from that, another thing which they use is what they call <em>State Synchronization Protocol</em>. This is essentially noting the fact that to ensure both people see the same version of an object (state), you do not need to share all past states. Mosh, in some sense, <em>renders</em> the terminal view on the SSH server side, and sends the view, limited by the frame rate, to the person who has SSHed into the machine from a mobile channel.</p>
-<h2 id="what-movi-does">What moVi does</h2>
-<p>We use the idea of connectionless signed UDP channels between 2 parties for UDP based communication. But what communication? Why not video?</p>
-<p>Real time (and non-replayable) video is an ideal candidate for using UDP. One does not really care what traffic is lost, since the communication has to be real time, and <em>better late than never</em> is not really valid for a real-time packet now :)</p>
-<p>So here are the things we’ve done, or are planning to do:</p>
-<h3 id="robust-to-ip-changes">Robust to IP changes</h3>
-<p>This simply implements the idea used by Mosh, without any modifications. We rely on UDP and a secret key shared between the parties beforehand. For now, we let the parties share the secret key over an initial TCP connection, which is then torn down when the UDP connection starts. The TCP connection is also used to communicate the UDP ports to be used for video communication from each side.</p>
-<h3 id="robust-to-data-losses">Robust to data losses</h3>
-<p>Packets are fickle things. They could get lost due to full queues and congestion, or because of intermediate network issues (especially WiFi). But do we need all packets to reach reliably?</p>
-<p>Instead of using a reliable TCP connection, or a ack-all-packets kind of implementation, we instead use a different approach tailored for slow networks. We divide the whole video into small regions of a pre-decided size (geometrically for now, but we’re planning to use regions in the Fourier transform as well). The sender first retreives the current frame from the camera, and divides it into regions. Each region is separately compressed using JPEG. This is now sent over the network, with a header specifying the region number / location. Some points to note, design choices and variations:</p>
-<ul>
-<li>The chances of a region reaching the other side quickly relies on the size of the packet. IP fragmentation can handle packet loss for packets having size a small multiple of the MTU (Maximum transfer unit), which is most often set to 1500 bytes (including the headers). We’ve noticed that using regions of size 150x150, using JPEG compression with quality set to 50, each region has an approximate size of 2-3 kilobytes. This should offer sufficient reliability, though we’re yet to test it on bad networks.</li>
-<li>Why specifically JPEG? Why not some video compression methods? The reason we had (as people utterly unfamiliar to video encoding) is that the video compression protocols work on the principle that each state of the video is available, either as a diff, or as a normal full frame. We do not have that luxury. We never know whether a region has reached or not.</li>
-<li>We implement our own optimizations to improve the image encoding method for our particular use case of real time videos. The receiver keeps a small buffer of states of the video (per region). Let this number be 100 for now. Since this is a 2 way communication, the receiver himself is sending updates for the same region. In those packets, it would embed ACKs for the last state received. This way, each sender knows each region’s latest state received, modulo packet losses on sending and ACKing side. Each sender, instead of sending a frame separately, instead sends the diffs of the region with the last ACKed state of that region. If somehow the sender has already sent a 100 diffs, and yet has not received another ACK, it will assume that something is wrong, and will conservatively send a non-diff packet instead. There shall be a header flag which signifies if it is a diff, and if yes, from which state.</li>
-<li>Another possible optimization is that regions having no change are not sent at all. This is useful for stable camera situations. But to ensure that states still get ACKed, we ensure that at least one region is sent from each row, and that region contains the ID of the regions in that row which did not get sent because of no changes.</li>
-</ul>
-<h3 id="robust-to-varying-network-speed-and-reliability">Robust to varying network speed and reliability</h3>
-<p>Note that using this technique, if the reliability of the network is too low (but UDP queues are not too small), one can ideally send smaller regions of the frame, increasing the number of packets by a significant amount but bringing the packet size below the MTU size. Plus, the JPEG encoding quality can be varied in real time as well, reducing the packet size further.</p>
-<h3 id="synchronization-of-regions-joining-together-to-form-a-frame">Synchronization of regions joining together to form a frame</h3>
-<p>The above idea seems coherent, but in practice it shows a big issue. If there are a large number of regions (seen with 50x50 regions in an image of 600x400 pixels), there is a small delay in the regions getting <em>pasted</em> onto the displayed frame. This causes an effect such that the image is never fully synchronized. To avoid this, we bunch together updates for regions, and only when we have all the regions in the latest state, or there is a timeout (approximately the desired frame rate), whichever is earlier, do we update the frame and display it to the client.</p>
-<h2 id="conclusion">Conclusion</h2>
-<p>The code is <a href="https://github.com/netsecIITK/moVi">here (moVi)</a> on Github. It is still in progress, but we do hope this comes out to be something interesting! We’ve still got a quarter of the semester left with us.</p>]]></description>
-    <pubDate>Sat, 08 Oct 2016 00:00:00 UT</pubDate>
-    <guid>https://sakshamsharma.com/2016/10/movi/index.html</guid>
     <dc:creator>Saksham Sharma</dc:creator>
 </item>
 
