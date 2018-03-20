@@ -1,0 +1,92 @@
+------
+title: Using self-signed certificates with ElasticSearch on Scala/Java
+summary: Definitely not trivial
+tags: scala, elasticsearch
+category: programming
+id: es-insecure-http
+author: Saksham Sharma
+------
+
+** Situation
+
+If you're using ElasticSearch, [[https://github.com/sksamuel/elastic4s][elastic4s]] is among the most neat DSLs out there. Recently, ElasticSearch decided to deprecate the Transport client, and remove it from v7.0.0 onwards. This also meant that HTTP Client became the preferred client since v6.0.0.
+
+ElasticSearch also defaults to using SSL for the HTTP connections nowadays. It is also the (non-configurable) default when you're using [[https://github.com/upmc-enterprises/ElasticSearch-operator][ElasticSearch-operator]] for easy deployment on Kubernetes. What's worse is that it generates certificates for ES automatically, but doesn't export the Certificate Authority keys used for the same. Thus, communication with such an ElasticSearch node is only possible in the following methods:
+
+- Provide your own certificate to the ElasticSearch docker, and trust that certificate's signing authority manually on your ElasticSearch client.
+- Use a certificate signed by a well-known CA (LetsEncrypt?).
+- Somehow manage to configure your ElasticSearch client to allow insecure SSL (do not check for validity of the server certificate).
+
+Of course, the first two methods are obviously more secure in the general sense. But if your ES is inside an well-configured Kubernetes cluster, it may be acceptable to use plain HTTP, or use HTTPS with insecure SSL.
+
+** Elastic4s HttpClient
+
+Elastic4s provides a ~HttpClient~ which is pretty cool and allows you to enable/disable SSL easily.
+
+#+BEGIN_SRC scala
+val uri = ElasticsearchClientUri(s"elasticsearch://${host}:${port}?ssl=${ssl}")
+HttpClient(uri)
+#+END_SRC
+
+Yet, there is no neat configuration for allowing insecure SSL available right now.
+
+On the bright side, it allows you to pass two other optional variables to the constructor.
+One of them is ~httpClientConfigCallback~. This is a callback which is called on the HttpAsyncClient's (underlying class) builder (~HttpAsyncClientBuilder~). The idea is to use this callback to override the low level socket's configuration and allow all certificates.
+
+** The code
+
+The following code can be used to create an ElasticSearch ~HttpClient~ which uses insecure SSL.
+
+#+BEGIN_SRC scala
+  val uri = ElasticsearchClientUri(s"elasticsearch://${host}:${port}?ssl=${ssl}")
+
+  if (!(ssl && insecure)) {
+    // No need to meddle with defaults if secure SSL.
+    HttpClient(uri)
+  }
+  else {
+    // We need an SSL context which trusts self signed certificates.
+    // Somehow this alone is not enough and hostname verifier is needed.
+    val sslContext = SSLContexts
+      .custom()
+      .loadTrustMaterial(new TrustSelfSignedStrategy())
+      .build()
+
+    // A hostname verifier which trusts all hostnames in all ssl sessions.
+    object trustAllHostnameVerifier extends javax.net.ssl.HostnameVerifier {
+      def verify(h: String, s: SSLSession) = true
+    }
+
+    // We cannot simply use the hostname verifier since the SSL strategy overrides
+    // the hostname verifier when HttpAsyncClient is built.
+    val sslSessionStrategy = new SSLIOSessionStrategy(
+      sslContext,
+      trustAllHostnameVerifier
+    )
+
+    // Elasticsearch allows configuring the REST client using this form of callbacks.
+    val myHttpAsyncClientCallback = new RestClientBuilder.HttpClientConfigCallback() {
+      override def customizeHttpClient(httpClientBuilder: HttpAsyncClientBuilder) = {
+        httpClientBuilder.setSSLStrategy(sslSessionStrategy)
+      }
+    }
+
+    HttpClient(uri, httpClientConfigCallback = myHttpAsyncClientCallback)
+  }
+#+END_SRC
+
+You would need the following imports for it (all packages are included with ~elastic4s~):
+#+BEGIN_SRC scala
+import com.sksamuel.elastic4s.ElasticsearchClientUri
+import com.sksamuel.elastic4s.http.settings._
+import com.sksamuel.elastic4s.http.HttpClient
+import org.elasticsearch.client.RestClientBuilder
+
+import javax.net.ssl.SSLSession
+import org.apache.http.impl.nio.client.HttpAsyncClientBuilder
+import org.apache.http.conn.ssl.TrustSelfSignedStrategy
+import org.apache.http.nio.conn.ssl.SSLIOSessionStrategy
+import org.apache.http.ssl.SSLContexts
+#+END_SRC
+
+Do suggest any changes which might improve the above solution. I have tried using ~.setSSLContext~ and ~.setHostnameVerifier~, both fail when exposed to self-signed certificates.
