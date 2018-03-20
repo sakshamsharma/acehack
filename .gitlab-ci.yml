@@ -11,7 +11,7 @@ pages:
       - .stack-work
   before_script:
     - apt-get update
-    - bash -c "yes | apt-get install git xz-utils make"
+    - bash -c "yes | apt-get install git xz-utils make unzip"
     - stack upgrade
     - $HOME/.local/bin/stack install --only-dependencies --install-ghc
     - $HOME/.local/bin/stack build
