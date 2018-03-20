@@ -2,7 +2,7 @@
 {-# LANGUAGE OverloadedStrings #-}
 import           Data.Char
 import qualified Data.Map              ()
-import           Data.Monoid           (mconcat, (<>))
+import           Data.Monoid           ((<>))
 import           Data.Text             (empty, pack, replace, unpack)
 import qualified GHC.IO.Encoding       as E
 import           Hakyll
