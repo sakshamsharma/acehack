@@ -7,8 +7,6 @@ id: es-insecure-http
 author: Saksham Sharma
 ------
 
-** Situation
-
 If you're using ElasticSearch, [[https://github.com/sksamuel/elastic4s][elastic4s]] is among the most neat DSLs out there. Recently, ElasticSearch decided to deprecate the Transport client, and remove it from v7.0.0 onwards. This also meant that HTTP Client became the preferred client since v6.0.0.
 
 ElasticSearch also defaults to using SSL for the HTTP connections nowadays. It is also the (non-configurable) default when you're using [[https://github.com/upmc-enterprises/ElasticSearch-operator][ElasticSearch-operator]] for easy deployment on Kubernetes. What's worse is that it generates certificates for ES automatically, but doesn't export the Certificate Authority keys used for the same. elastic4s does not allow using insecure SSL easily right now.

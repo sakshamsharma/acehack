@@ -340,6 +340,21 @@ code {
 .widget dt {
   font-weight: bold;
 }
+
+
+.article-teaser h1 {
+  font-size: 1.5em;
+}
+.article-entry h2 {
+  font-size: 1.3em;
+}
+.article-entry h3 {
+  font-size: 1.2em;
+}
+.article-entry h4 {
+  font-size: 1.1em;
+}
+
 #header {
   background: #fff;
   position: relative;
