@@ -3,7 +3,6 @@
 import           Data.Char
 import qualified Data.Map              ()
 import           Data.Monoid           ((<>))
-import           Data.Text             (empty, pack, replace, unpack)
 import qualified GHC.IO.Encoding       as E
 import           Hakyll
 import           Hakyll.Web.Tags       ()
@@ -146,7 +145,7 @@ main = do
              route postRoute
              compile pandocCompiler
 
-       let tagPageGen = \pagetitle pat -> do
+       let tagPageGen pagetitle pat = do
              lessPosts <- recentFirst =<< loadAll pat
              simplePageCtx <- ctxWithInfo staticPosts
              let pageCtx = simplePageCtx <>
