@@ -94,7 +94,7 @@ main = do
        let recentPosts = fmap (take 5) staticPosts
 
        tags <- buildTags postPattern (fromCapture "tags/*.html")
-       cats <- buildCategoriesNew "posts/**" (fromCapture "categories/*.html")
+       cats <- buildCategoriesNew postPattern (fromCapture "categories/*.html")
 
        let postCtx = dateField "date" "%B %e, %Y" <>
              constField "baseURL" (protocol config ++ "://" ++ root config) <> -- Need this here so we can access it inside for(posts)
@@ -195,7 +195,7 @@ main = do
                simplePageCtx <- ctxWithInfo staticPosts
                let feedCtx = postCtx <> simplePageCtx <> bodyField "description"
                pPosts <- fmap (take 10) . recentFirst =<<
-                   loadAllSnapshots ("posts/**" .&&. hasNoVersion) "content"
+                   loadAllSnapshots (postPattern .&&. hasNoVersion) "content"
                renderRss myFeedConfiguration feedCtx pPosts
 
 --------------------------------------------------------------------------------
@@ -206,7 +206,7 @@ linkCtx = field "linkname" (return . name . itemBody) <>
 collectTags tags = map (\(t, _) -> Item (tagsMakeId tags t) t) (tagsMap tags)
 
 postPattern :: Pattern
-postPattern = "posts/**.md" .||. "posts/**.org"
+postPattern = "posts/*.md" .||. "posts/*.org"
 
 cleanIndexHtmls :: Item String -> Compiler (Item String)
 cleanIndexHtmls = return . fmap (replaceAll pat replacement)
