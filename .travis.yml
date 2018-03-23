@@ -1,22 +1,12 @@
-language: haskell
-branches:
-  only:
-    - master
-cache:
-  directories:
-  - $HOME/.stack
-  - .stack-work
+sudo: required
+language: generic
+services:
+  - docker
 before_install:
-  - echo "override before_install"
-install:
-  - wget https://github.com/commercialhaskell/stack/releases/download/v1.6.5/stack-1.6.5-linux-x86_64-static.tar.gz -O stack.gz
-  - tar xvf stack.gz
-  - chmod +x stack-1.6.5-linux-x86_64-static/stack
-  - stack-1.6.5-linux-x86_64-static/stack setup
-  - stack-1.6.5-linux-x86_64-static/stack build
-before_script:
-  - echo "override before_script"
+  - docker pull sakshamsharma/docker-hakyll:v2
 script:
+  - docker run -it -v $PWD:/root/proj --entrypoint "/bin/bash" sakshamsharma/docker-hakyll:v2 -c 'cd /root/proj; stack --allow-different-user build && stack --allow-different-user exec site build'
+after_success:
   - bash ./build.sh
 env:
   global:
