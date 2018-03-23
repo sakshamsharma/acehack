@@ -1,0 +1,294 @@
+------
+title: Practical Monad Transformers
+summary: Real-code examples of usages.
+tags: haskell, monads, monad-transformers
+category: programming
+id: monadt
+author: Saksham Sharma
+------
+
+* Introduction
+
+This post will attempt to convey some real-life examples and tricks, which may serve as a quick and dirty primer to monad transformers. In any real-life software written in Haskell or related languages, Monad Transformers are necessary, if you want to take advantage of the various non-IO monads available.
+
+This post will draw heavily from my recent experience while implementing a blockchain protocol in Haskell.
+#+BEGIN_EXPORT html
+<!--more-->
+#+END_EXPORT
+
+For a more in-depth approach, I would recommend [[http://book.realworldhaskell.org/read/monad-transformers.html][the chapter on Monad Transformers in Real World Haskell]].
+
+To run the examples in this post, refer to the [[subsechow-to-run][section at the end of this post]]. You will also find a quick primer on monads at the end, in a section named [[subsecmonads][monads]].
+
+* Introduction to Monad Transformers
+
+Consider the scenario where you are writing a software which:
+- Interacts with the outside world (network, files, console)
+- Contains a state which modifies the interactions
+
+One would easily note that the State monad would be a useful monad to use here. But it does not allow IO actions, which seem to be necessary here too. Monad transformers allow you to combine multiple monad and use them together in the same ~do~ block.
+
+Most of these monads transformers are available inside the ~mtl~ or the ~transformers~ packages.
+
+#+BEGIN_SRC haskell
+  # If you're using the mtl package
+  # import Control.Monad.State.Lazy
+
+  # If you're using the transformers package
+  # We will use this in our examples.
+  import Control.Monad.Trans.Class (lift)
+  import Control.Monad.Trans.State.Lazy
+
+  fxnWithStateAndIO :: StateT Int IO Int
+  fxnWithStateAndIO = do
+    st <- get
+    lift $ putStrLn ("State is " ++ show st)
+    return st
+#+END_SRC
+
+Ignore the ~lift~ for now, and observe how, in a single ~do~ block, we are able to use the ~get~ function (which requires the State monad) and the ~putStrLn~ function which requires the IO monad. One could use any other monad in place of IO as well.
+
+Basically, ~StateT s m a~ has three type parameters:
+- s: The type of the state being carried
+- m: The underlying monad (IO, in the above example)
+- a: The type of the value returned from the computation
+
+For now, simply remember that when inside a Monad transformer's ~do~ block, you can access functions of the top level monad (State here) as well as the underlying monad (IO here).
+
+** Running these monadic computations
+To get the result from a term of type ~StateT s IO a~, you need to use ~runStateT yourFxn initState~. This should be familiar if you have used the state monad.
+
+To run the above in ~ghci~, put it into a file, load it with ~ghci <file>.hs~ (ensure you have the ~transformers~ package available). The following command will run the computation:
+#+BEGIN_SRC haskell
+runStateT fxnWithStateAndIO 5
+#+END_SRC
+
+Here, ~5~ is the initial state provided to the computation.
+
+** Lift?
+
+Remember how we used a ~lift~ to run the ~putStrLn~ command? ~lift~ is a function, which lets you, in our above example, convert an ~IO ()~ to a ~StateT Int IO ()~. Think of it as, lifting an operation in one monad, to a monad which subsumes the first monad. If you look at ~StateT Int IO a~, you can see that it subsumes IO. Thus, ~lift~ is suited for running ~putStrLn~, ~readLn~ or any other IO action in this example.
+
+Try to understand the following example:
+
+#+BEGIN_SRC haskell
+  import           Control.Monad                  (when)
+  import           Control.Monad.Trans.Class      (lift)
+  import           Control.Monad.Trans.State.Lazy
+
+  testFxn :: StateT Int Maybe Bool
+  testFxn = do
+    v <- get
+    x <- lift $ Just True
+    when x (put 2)
+    return False
+#+END_SRC
+
+The resultant state is 2, and the returned value is False. The ~when~ function is just a fun addition, it will execute its second argument if the first argument is true. Otherwise, it will result in a value of type ~StateT Int Maybe ()~ (Unit of this monad) in this case.
+
+* Combining multiple transformers
+
+The above is all well and good, but what if you want to use three monads instead of two? Let us say that we want to use the ~Except~ monad as well. Which is to say, we need a function which can:
+- Throw custom exceptions
+- Maintain a state
+- Interact with the outside world
+
+This is easily possible in the realm of monad transformers. Observe the following:
+- ~ExceptT~ monad transformer is available in the ~transformers~ package.
+- ~ExceptT e m a~ is its signature. Here, ~m~ must be a monad.
+- ~StateT s m~ is a monad (how? this is off topic for this article).
+- ~StateT s IO~ is a monad.
+- Using the above, ~ExceptT e (StateT s IO)~ is a monad.
+- ~ExceptT e (StateT s IO) a~ is a computation in the ~ExceptT e (StateT s IO)~ monad, which returns a monadic/wrapped value of type ~a~.
+
+Now we have, what we can think of, as a stack of monads. Monad transformers make such a stack possible. You can pile up as many monads as possible.
+
+** Lifting when you have multiple monads
+
+This is something that often confuses people. Remember the ~lift~ function? Let us rethink it.
+
+Let us assume we have a monad stack like this (disregard the return value, and note that ~monad_d~ is not a transformer):
+#+BEGIN_SRC haskell
+type MSTACKTYPE ret = monad_aT a (monad_bT b (monad_cT c monad_d)) ret
+#+END_SRC
+
+What if you have a computation of the type ~monad_d ret~? How would you execute it inside a do block of the type ~MSTACKTYPE x~?
+
+Think of ~lift~ as a function, which lifts a computation in a _lower_ monad to a computation in a _higher_ monad (_lower_ and _higher_ refer to the position in the monad transformer stack). Thus, a computation of the type ~monad_d ret~ can be converted to a computation of type ~MSTACKTYPE ret~ using the function ~lift $ lift $ lift~ (three times, because three layers have to be crossed).
+
+** Running a computation which has multiple monad transformers
+
+Let us try to run the following computation:
+#+BEGIN_SRC haskell
+  import           Control.Monad                  (when)
+  import           Control.Monad.Trans.Class      (lift)
+  import           Control.Monad.Trans.State.Lazy
+  import           Control.Monad.Trans.Except
+
+  realLifeFunction :: Int -> ExceptT String (StateT Int IO) Int
+  realLifeFunction input = do
+    x <- lift $ get
+    lift $ lift $ putStrLn $ "The original state is" ++ (show x)
+    lift $ put input
+    return x
+#+END_SRC
+
+This is slightly complicated, but you can easily do this with some thought and concentration :) We run each layer of the monad stack one by one, taking care to pass the proper arguments.
+
+#+BEGIN_SRC haskell
+runExceptT (runStateT (realLifeFunction 5) 2) :: IO Int
+#+END_SRC
+
+This is a computation of type ~IO Int~. The value will be printed when this IO computation is executed.
+
+* <<secabstraction>>Abstraction
+
+This section will focus on some common abstraction patterns seen in programs which use monad transformers. The subsections appear long-ish, but that's because they contain repeated code. Please read the comments in the codes for the complete explanation.
+
+** <<subsecmonadtypeclass>>Monad typeclass
+
+What if you have a computation running in the ~StateT Int (ExceptT String IO)~ monad, but, it needs to due a purely state operation? (An operation which does not do any operation in the Except or IO monad). Can we make this explicit at the type level?
+
+It turns out that we can. We list three possible ways to do this, where the final one is the solution.
+
+#+BEGIN_SRC haskell
+  mainFxn :: StateT Int (ExceptT String IO) Bool
+  mainFxn = do
+    lift $ lift $ putStrLn "Running function"
+    doubleTheState
+    st <- get
+    let ret = if (st > 3) then True else False
+    return ret
+
+  -- This will NOT work, because 'StateT Int ()' cannot be run
+  -- inside a 'StateT Int (ExceptT String IO) Bool'
+  doubleTheState' :: State Int ()
+  doubleTheState' = do
+    x <- get
+    put (2*x)
+    return ()
+
+  -- This will work, but our type is superfluous.
+  -- We do not want the extra monads to stay in scope.
+  doubleTheState'' :: StateT Int (ExceptT String IO) ()
+  doubleTheState'' = do
+    x <- get
+    put (2*x)
+    return ()
+
+  -- This WILL WORK.
+  doubleTheState :: Monad m => StateT Int m ()
+  doubleTheState = do
+    x <- get
+    put (2*x)
+    return ()
+#+END_SRC
+
+** Using lift to abstract
+
+The above section showed how you can abstract out the middle layers of the monad stack. What if you want to execute an action in a monad which is somewhere in the middle of the stack, without bothering about any other monads?
+
+We can use a combination of ~lift~ and ~Monad~ typeclass.
+
+#+BEGIN_SRC haskell
+  -- NOTE: The monads order is flipped from the previous section.
+  mainFxn :: ExceptT Int (StateT String IO) Bool
+  mainFxn = do
+    -- Functions in the monad at the bottom of the stack (IO here)
+    -- can be run without any changes.
+    lift $ lift $ putStrLn "Running function"
+
+    lift doubleTheState -- We can use lift to run this StateT computation
+
+    st <- lift get -- This requires a lift since StateT is buried one level deep.
+    let ret = if (st > 3) then True else False
+    return ret
+
+  -- Functions using monads in the middle of the stack need to use the
+  -- (Monad m) type constraint.
+  doubleTheState :: Monad m => StateT Int m ()
+  doubleTheState = do
+    x <- get
+    put (2*x)
+    return ()
+#+END_SRC
+
+** MonadIO
+
+This is often the most used abstraction in codes heavy on IO. Imagine if you have to do something like ~doubleTheState~ in [[subsecmonadtypeclass][the section on Monad typeclass]], but you also need to do IO in that function. Basically, what if you want to do IO without bothering about other enclosing monads?
+
+[[https://www.stackage.org/haddock/lts-11.1/base-4.10.1.0/Control-Monad-IO-Class.html][MonadIO]] is a type constraint which is satisfied by all monads which contain IO somewhere in their monad stack. Thus, ~StateT Int (ExceptT String IO)~ satisfies MonadIO, but ~ExceptT String (State Int)~ does not.
+
+This package also provides a helper function ~liftIO~, which applies however many ~lift s~ are necessary to execute an IO action in the current monad.
+
+All this is best explained through examples.
+
+#+BEGIN_SRC haskell
+  import           Control.Monad.IO.Class         (MonadIO, liftIO)
+  import           Control.Monad.Trans.Class      (lift)
+  import           Control.Monad.Trans.Except
+  import           Control.Monad.Trans.State.Lazy
+
+  -- liftIO allows executing IO operations
+  -- inside any monad which satisfies MonadIO.
+  printer :: MonadIO m => Int -> m Int
+  printer input = do
+    liftIO $ print input -- liftIO can do IO actions
+    return $ input + 1
+
+  complexPrinter :: MonadIO m => ExceptT String (StateT Int m) ()
+  complexPrinter = do
+    x <- lift get
+    printer x   -- This can be run normally
+    liftIO $ putStrLn "This works normally"
+    return ()
+
+#+END_SRC
+
+Note that with MonadIO, you can write very abstract functions which can be used in other monads without any need of ~liftIO~ (for instance, our ~printer~ function here).
+
+* Appendix
+** <<subsecmonads>>Monads
+
+As a quick review, monads are a functional abstraction, developed to help write imperative-style code in Haskell. If you are familiar with monads, feel free to skip this section.
+
+Some of the things that a monad does are:
+
+- Enforces ordering of statements
+- Provides a syntax sugar for carrying a state across functional calls
+- Easy short-circuit failure in program blocks which may throw an error
+
+An example of such a monadic code is:
+#+BEGIN_SRC haskell
+  aFxnWhichFails :: Maybe Int
+  aFxnWhichFails = do
+    goodValue <- Just 1
+    thisWillShortCircuit <- Nothing
+    thisStatementWillNotRun <- Just 1
+    return $ Just 2
+#+END_SRC
+
+Here, we are executing inside the ~Maybe~ monad. The execution breaks-out when it encounters a ~Nothing~ value. Similarly, each monad implements a failure case, and a success case.
+
+Some available monads are:
+- Maybe
+- Either
+- Reader
+- State
+- Writer
+- IO
+
+IO is a special monad. It basically treats the whole program state as its underlying state, and lets you mutate it. Thus, all impure actions happen inside the IO monad. Printing values, reading values from console, network calls, reading or writing files, all these actions mutate the global state (repeating any of these actions twice may not show the same behaviour). Thus, all these actions are executed inside the IO monad.
+
+** <<subsechow-to-run>>How to run the examples
+
+The examples given in this post can be run in any recent ~ghci~ easily. I prefer to run them using ~stack ghci --package transformers~. You can also run them by installing the package ~transformers~ with cabal, and then using ~ghci~. The examples should also work if placed in a file and run with ~runhaskell~ like a regular haskell file.
+
+** Performance
+
+Sadly, the performance of monad transformers is not very good. There can be a significant performance hit at times, but it should be noted that most scenarios will have an underlying IO call to the network / file-system, which would often be the bottleneck. When it is not so, and the bottleneck is a non-IO computation refer to the [[secabstraction][abstraction section]] and convert your computation to a small monadic stack or a pure function.
+
+The following links contain more information, and may be helpful if you ever run into performance issues due to monad transformers, although it is quite unlikely.
+- https://wiki.haskell.org/Performance/Monads
+- https://www.reddit.com/r/haskell/comments/1z3d2k/highperformance_monad_transformers_or_equivalent/
+- https://www.reddit.com/r/haskell/comments/5qpi15/expected_performance_drop_while_using_monad/
