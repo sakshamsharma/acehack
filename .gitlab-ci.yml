@@ -1,22 +1,9 @@
-image: haskell:8.2.1
-
-variables:
-  STACK_ROOT: "${CI_PROJECT_DIR}/.stack"
+image: sakshamsharma/docker-hakyll:v2
 
 pages:
-  cache:
-    key: ${CI_BUILD_REF_NAME}
-    paths:
-      - .stack
-      - .stack-work
-  before_script:
-    - apt-get update
-    - bash -c "yes | apt-get install git xz-utils make unzip"
-    - stack upgrade
-    - $HOME/.local/bin/stack build
   script:
-    - $HOME/.local/bin/stack exec site clean
-    - $HOME/.local/bin/stack exec site build
+    - stack build
+    - stack exec site build
   after_script:
     - mv _site public
   artifacts:
