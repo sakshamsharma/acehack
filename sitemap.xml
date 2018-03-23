@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
     <url>
+      <loc>https://sakshamsharma.com/2018/03/monadt/</loc>
+        <changefreq>weekly</changefreq>
+        <lastmod>2018-03-23</lastmod>
+        <priority>0.8</priority>
+    </url>
+
+    <url>
       <loc>https://sakshamsharma.com/2018/03/es-insecure-http/</loc>
         <changefreq>weekly</changefreq>
         <lastmod>2018-03-20</lastmod>

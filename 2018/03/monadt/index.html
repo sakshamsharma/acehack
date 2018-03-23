@@ -4,7 +4,7 @@
     <!-- <title>{{ if .IsHome }}{{ .Site.Title }}{{ else }}{{ .Title }} &middot; {{ .Site.Title }}{{ end }}</title> -->
 <!-- {{ .Hugo.Generator }} -->
 
-<title>AceHack-TTY Tricks in Linux</title>
+<title>AceHack-Practical Monad Transformers</title>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <!-- {{ with .Site.Params.author }}<meta name="author" content="{{ . }}">{{ end }} -->
@@ -144,8 +144,8 @@
         <!-- {{ end }} -->
 
         <header class="article-header">
-  <a href="../../../2015/07/tty/index.html">
-    <h1 class="article-title" itemprop="name">TTY Tricks in Linux</h1>
+  <a href="../../../2018/03/monadt/index.html">
+    <h1 class="article-title" itemprop="name">Practical Monad Transformers</h1>
   </a>
   <div class="article-meta">
     <!-- {{ if not .Params.nodateline }} -->
@@ -166,7 +166,7 @@
     
     <div class="article-category">
       <i class="fa fa-folder"></i>
-      linux
+      programming
     </div>
     
     <!-- {{ end }} -->
@@ -178,31 +178,231 @@
     
     <div class="article-category">
       <i class="fa fa-tags"></i>
-      <a href="../../../tags/tty.html">tty</a>, <a href="../../../tags/short.html">short</a>
+      <a href="../../../tags/haskell.html">haskell</a>, <a href="../../../tags/monads.html">monads</a>, <a href="../../../tags/monad-transformers.html">monad-transformers</a>
     </div>
     
 
-    <p style="float:right;">July  1, 2015</p>
+    <p style="float:right;">March 23, 2018</p>
     <!-- {{ end }} -->
     <!-- {{ end }} -->
   </div>
 </header>
 
         <div class="article-entry" itemprop="articleBody">
-          <p>I learnt some new things out of curiosity today, regarding working with multiple TTYs. Thought I’d write them down.</p>
-<p>Firstly, multiple TTYs, why would you need them? I for once use them to keep processes running independent of my X session, things like my Wifi Hotspot, things whose output I keep on needing to inspect at times, but don’t want it to hang around inside my X session, incase I close it.</p>
-<p>Also, when experimenting with different Desktop Environments, its actually very useful, because I can have processes running (even Music, thanks MPlayer) and yet close my X session.</p>
-<p>Anyhow, getting down to business:</p>
-<h3 id="chvt">chvt</h3>
-<p>This is something you might need if you want to change your TTY from within a script. Usage goes <code>sudo chvt N</code> where N is the one you want to shift to.</p>
-<h3 id="openvt">openvt</h3>
-<p>A utility to run a command in another TTY from the current terminal. Example: <code>sudo openvt /home/saksham/start_hotspot.sh</code></p>
-<h3 id="using-another-tty-right-inside-the-current-one">Using another TTY right inside the current one</h3>
-<p>Well, the answer happens to be SSH. You can log-in to another TTY from your current TTY with SSH. This might seem of no use, but it is very helpful with remote terminals, and obviously when you want processes in separate TTYs.</p>
-<p>Then, now that your user’s key is set up, you can login with this <code>ssh -n -ttt user@localhost &amp;</code>. This logs your user in the next available TTY, and forks that SSH process to the background.</p>
-<h3 id="using-tmux-or-screen">Using TMUX or Screen</h3>
-<p>Well, you can also have a TMUX or a Screen session running in another TTY, and send over the command you want to run there by sending it via TMUX/Screen.</p>
-<p>This is it, try out having multiple TTYs if you ever get the need. And keep these tips in mind.</p>
+          <h1 id="introduction">Introduction</h1>
+<p>This post will attempt to convey some real-life examples and tricks, which may serve as a quick and dirty primer to monad transformers. In any real-life software written in Haskell or related languages, Monad Transformers are necessary, if you want to take advantage of the various non-IO monads available.</p>
+<p>This post will draw heavily from my recent experience while implementing a blockchain protocol in Haskell.</p>
+<!--more-->
+
+<p>For a more in-depth approach, I would recommend <a href="http://book.realworldhaskell.org/read/monad-transformers.html">the chapter on Monad Transformers in Real World Haskell</a>.</p>
+<p>To run the examples in this post, refer to the <a href="#subsechow-to-run">section at the end of this post</a>. You will also find a quick primer on monads at the end, in a section named <a href="#subsecmonads">monads</a>.</p>
+<h1 id="introduction-to-monad-transformers">Introduction to Monad Transformers</h1>
+<p>Consider the scenario where you are writing a software which:</p>
+<ul>
+<li>Interacts with the outside world (network, files, console)</li>
+<li>Contains a state which modifies the interactions</li>
+</ul>
+<p>One would easily note that the State monad would be a useful monad to use here. But it does not allow IO actions, which seem to be necessary here too. Monad transformers allow you to combine multiple monad and use them together in the same <code>do</code> block.</p>
+<p>Most of these monads transformers are available inside the <code>mtl</code> or the <code>transformers</code> packages.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb1-1" data-line-number="1"><span class="ot"># If you're using the mtl package</span></a>
+<a class="sourceLine" id="cb1-2" data-line-number="2"><span class="ot"># import Control.Monad.State.Lazy</span></a>
+<a class="sourceLine" id="cb1-3" data-line-number="3"></a>
+<a class="sourceLine" id="cb1-4" data-line-number="4"><span class="ot"># If you're using the transformers package</span></a>
+<a class="sourceLine" id="cb1-5" data-line-number="5"><span class="ot"># We will use this in our examples.</span></a>
+<a class="sourceLine" id="cb1-6" data-line-number="6"><span class="kw">import</span> <span class="dt">Control.Monad.Trans.Class</span> (lift)</a>
+<a class="sourceLine" id="cb1-7" data-line-number="7"><span class="kw">import</span> <span class="dt">Control.Monad.Trans.State.Lazy</span></a>
+<a class="sourceLine" id="cb1-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb1-9" data-line-number="9"><span class="ot">fxnWithStateAndIO ::</span> <span class="dt">StateT</span> <span class="dt">Int</span> <span class="dt">IO</span> <span class="dt">Int</span></a>
+<a class="sourceLine" id="cb1-10" data-line-number="10">fxnWithStateAndIO <span class="fu">=</span> <span class="kw">do</span></a>
+<a class="sourceLine" id="cb1-11" data-line-number="11">  st <span class="ot">&lt;-</span> get</a>
+<a class="sourceLine" id="cb1-12" data-line-number="12">  lift <span class="fu">$</span> putStrLn (<span class="st">&quot;State is &quot;</span> <span class="fu">++</span> show st)</a>
+<a class="sourceLine" id="cb1-13" data-line-number="13">  return st</a></code></pre></div>
+<p>Ignore the <code>lift</code> for now, and observe how, in a single <code>do</code> block, we are able to use the <code>get</code> function (which requires the State monad) and the <code>putStrLn</code> function which requires the IO monad. One could use any other monad in place of IO as well.</p>
+<p>Basically, <code>StateT s m a</code> has three type parameters:</p>
+<ul>
+<li>s: The type of the state being carried</li>
+<li>m: The underlying monad (IO, in the above example)</li>
+<li>a: The type of the value returned from the computation</li>
+</ul>
+<p>For now, simply remember that when inside a Monad transformer’s <code>do</code> block, you can access functions of the top level monad (State here) as well as the underlying monad (IO here).</p>
+<h2 id="running-these-monadic-computations">Running these monadic computations</h2>
+<p>To get the result from a term of type <code>StateT s IO a</code>, you need to use <code>runStateT yourFxn initState</code>. This should be familiar if you have used the state monad.</p>
+<p>To run the above in <code>ghci</code>, put it into a file, load it with <code>ghci &lt;file&gt;.hs</code> (ensure you have the <code>transformers</code> package available). The following command will run the computation:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb2-1" data-line-number="1">runStateT fxnWithStateAndIO <span class="dv">5</span></a></code></pre></div>
+<p>Here, <code>5</code> is the initial state provided to the computation.</p>
+<h2 id="lift">Lift?</h2>
+<p>Remember how we used a <code>lift</code> to run the <code>putStrLn</code> command? <code>lift</code> is a function, which lets you, in our above example, convert an <code>IO ()</code> to a <code>StateT Int IO ()</code>. Think of it as, lifting an operation in one monad, to a monad which subsumes the first monad. If you look at <code>StateT Int IO a</code>, you can see that it subsumes IO. Thus, <code>lift</code> is suited for running <code>putStrLn</code>, <code>readLn</code> or any other IO action in this example.</p>
+<p>Try to understand the following example:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb3-1" data-line-number="1"><span class="kw">import</span>           <span class="dt">Control.Monad</span>                  (when)</a>
+<a class="sourceLine" id="cb3-2" data-line-number="2"><span class="kw">import</span>           <span class="dt">Control.Monad.Trans.Class</span>      (lift)</a>
+<a class="sourceLine" id="cb3-3" data-line-number="3"><span class="kw">import</span>           <span class="dt">Control.Monad.Trans.State.Lazy</span></a>
+<a class="sourceLine" id="cb3-4" data-line-number="4"></a>
+<a class="sourceLine" id="cb3-5" data-line-number="5"><span class="ot">testFxn ::</span> <span class="dt">StateT</span> <span class="dt">Int</span> <span class="dt">Maybe</span> <span class="dt">Bool</span></a>
+<a class="sourceLine" id="cb3-6" data-line-number="6">testFxn <span class="fu">=</span> <span class="kw">do</span></a>
+<a class="sourceLine" id="cb3-7" data-line-number="7">  v <span class="ot">&lt;-</span> get</a>
+<a class="sourceLine" id="cb3-8" data-line-number="8">  x <span class="ot">&lt;-</span> lift <span class="fu">$</span> <span class="dt">Just</span> <span class="dt">True</span></a>
+<a class="sourceLine" id="cb3-9" data-line-number="9">  when x (put <span class="dv">2</span>)</a>
+<a class="sourceLine" id="cb3-10" data-line-number="10">  return <span class="dt">False</span></a></code></pre></div>
+<p>The resultant state is 2, and the returned value is False. The <code>when</code> function is just a fun addition, it will execute its second argument if the first argument is true. Otherwise, it will result in a value of type <code>StateT Int Maybe ()</code> (Unit of this monad) in this case.</p>
+<h1 id="combining-multiple-transformers">Combining multiple transformers</h1>
+<p>The above is all well and good, but what if you want to use three monads instead of two? Let us say that we want to use the <code>Except</code> monad as well. Which is to say, we need a function which can:</p>
+<ul>
+<li>Throw custom exceptions</li>
+<li>Maintain a state</li>
+<li>Interact with the outside world</li>
+</ul>
+<p>This is easily possible in the realm of monad transformers. Observe the following:</p>
+<ul>
+<li><code>ExceptT</code> monad transformer is available in the <code>transformers</code> package.</li>
+<li><code>ExceptT e m a</code> is its signature. Here, <code>m</code> must be a monad.</li>
+<li><code>StateT s m</code> is a monad (how? this is off topic for this article).</li>
+<li><code>StateT s IO</code> is a monad.</li>
+<li>Using the above, <code>ExceptT e (StateT s IO)</code> is a monad.</li>
+<li><code>ExceptT e (StateT s IO) a</code> is a computation in the <code>ExceptT e (StateT s IO)</code> monad, which returns a monadic/wrapped value of type <code>a</code>.</li>
+</ul>
+<p>Now we have, what we can think of, as a stack of monads. Monad transformers make such a stack possible. You can pile up as many monads as possible.</p>
+<h2 id="lifting-when-you-have-multiple-monads">Lifting when you have multiple monads</h2>
+<p>This is something that often confuses people. Remember the <code>lift</code> function? Let us rethink it.</p>
+<p>Let us assume we have a monad stack like this (disregard the return value, and note that <code>monad_d</code> is not a transformer):</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb4-1" data-line-number="1"><span class="kw">type</span> <span class="dt">MSTACKTYPE</span> ret <span class="fu">=</span> monad_aT a (monad_bT b (monad_cT c monad_d)) ret</a></code></pre></div>
+<p>What if you have a computation of the type <code>monad_d ret</code>? How would you execute it inside a do block of the type <code>MSTACKTYPE x</code>?</p>
+<p>Think of <code>lift</code> as a function, which lifts a computation in a <span class="underline">lower</span> monad to a computation in a <span class="underline">higher</span> monad (<span class="underline">lower</span> and <span class="underline">higher</span> refer to the position in the monad transformer stack). Thus, a computation of the type <code>monad_d ret</code> can be converted to a computation of type <code>MSTACKTYPE ret</code> using the function <code>lift $ lift $ lift</code> (three times, because three layers have to be crossed).</p>
+<h2 id="running-a-computation-which-has-multiple-monad-transformers">Running a computation which has multiple monad transformers</h2>
+<p>Let us try to run the following computation:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb5-1" data-line-number="1"><span class="kw">import</span>           <span class="dt">Control.Monad</span>                  (when)</a>
+<a class="sourceLine" id="cb5-2" data-line-number="2"><span class="kw">import</span>           <span class="dt">Control.Monad.Trans.Class</span>      (lift)</a>
+<a class="sourceLine" id="cb5-3" data-line-number="3"><span class="kw">import</span>           <span class="dt">Control.Monad.Trans.State.Lazy</span></a>
+<a class="sourceLine" id="cb5-4" data-line-number="4"><span class="kw">import</span>           <span class="dt">Control.Monad.Trans.Except</span></a>
+<a class="sourceLine" id="cb5-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb5-6" data-line-number="6"><span class="ot">realLifeFunction ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">ExceptT</span> <span class="dt">String</span> (<span class="dt">StateT</span> <span class="dt">Int</span> <span class="dt">IO</span>) <span class="dt">Int</span></a>
+<a class="sourceLine" id="cb5-7" data-line-number="7">realLifeFunction input <span class="fu">=</span> <span class="kw">do</span></a>
+<a class="sourceLine" id="cb5-8" data-line-number="8">  x <span class="ot">&lt;-</span> lift <span class="fu">$</span> get</a>
+<a class="sourceLine" id="cb5-9" data-line-number="9">  lift <span class="fu">$</span> lift <span class="fu">$</span> putStrLn <span class="fu">$</span> <span class="st">&quot;The original state is&quot;</span> <span class="fu">++</span> (show x)</a>
+<a class="sourceLine" id="cb5-10" data-line-number="10">  lift <span class="fu">$</span> put input</a>
+<a class="sourceLine" id="cb5-11" data-line-number="11">  return x</a></code></pre></div>
+<p>This is slightly complicated, but you can easily do this with some thought and concentration :) We run each layer of the monad stack one by one, taking care to pass the proper arguments.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb6-1" data-line-number="1">runExceptT (runStateT (realLifeFunction <span class="dv">5</span>) <span class="dv">2</span>)<span class="ot"> ::</span> <span class="dt">IO</span> <span class="dt">Int</span></a></code></pre></div>
+<p>This is a computation of type <code>IO Int</code>. The value will be printed when this IO computation is executed.</p>
+<h1 id="abstraction"><span id="secabstraction"></span>Abstraction</h1>
+<p>This section will focus on some common abstraction patterns seen in programs which use monad transformers. The subsections appear long-ish, but that’s because they contain repeated code. Please read the comments in the codes for the complete explanation.</p>
+<h2 id="monad-typeclass"><span id="subsecmonadtypeclass"></span>Monad typeclass</h2>
+<p>What if you have a computation running in the <code>StateT Int (ExceptT String IO)</code> monad, but, it needs to due a purely state operation? (An operation which does not do any operation in the Except or IO monad). Can we make this explicit at the type level?</p>
+<p>It turns out that we can. We list three possible ways to do this, where the final one is the solution.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb7-1" data-line-number="1"><span class="ot">mainFxn ::</span> <span class="dt">StateT</span> <span class="dt">Int</span> (<span class="dt">ExceptT</span> <span class="dt">String</span> <span class="dt">IO</span>) <span class="dt">Bool</span></a>
+<a class="sourceLine" id="cb7-2" data-line-number="2">mainFxn <span class="fu">=</span> <span class="kw">do</span></a>
+<a class="sourceLine" id="cb7-3" data-line-number="3">  lift <span class="fu">$</span> lift <span class="fu">$</span> putStrLn <span class="st">&quot;Running function&quot;</span></a>
+<a class="sourceLine" id="cb7-4" data-line-number="4">  doubleTheState</a>
+<a class="sourceLine" id="cb7-5" data-line-number="5">  st <span class="ot">&lt;-</span> get</a>
+<a class="sourceLine" id="cb7-6" data-line-number="6">  <span class="kw">let</span> ret <span class="fu">=</span> <span class="kw">if</span> (st <span class="fu">&gt;</span> <span class="dv">3</span>) <span class="kw">then</span> <span class="dt">True</span> <span class="kw">else</span> <span class="dt">False</span></a>
+<a class="sourceLine" id="cb7-7" data-line-number="7">  return ret</a>
+<a class="sourceLine" id="cb7-8" data-line-number="8"></a>
+<a class="sourceLine" id="cb7-9" data-line-number="9"><span class="co">-- This will NOT work, because 'StateT Int ()' cannot be run</span></a>
+<a class="sourceLine" id="cb7-10" data-line-number="10"><span class="co">-- inside a 'StateT Int (ExceptT String IO) Bool'</span></a>
+<a class="sourceLine" id="cb7-11" data-line-number="11"><span class="ot">doubleTheState' ::</span> <span class="dt">State</span> <span class="dt">Int</span> ()</a>
+<a class="sourceLine" id="cb7-12" data-line-number="12">doubleTheState' <span class="fu">=</span> <span class="kw">do</span></a>
+<a class="sourceLine" id="cb7-13" data-line-number="13">  x <span class="ot">&lt;-</span> get</a>
+<a class="sourceLine" id="cb7-14" data-line-number="14">  put (<span class="dv">2</span><span class="fu">*</span>x)</a>
+<a class="sourceLine" id="cb7-15" data-line-number="15">  return ()</a>
+<a class="sourceLine" id="cb7-16" data-line-number="16"></a>
+<a class="sourceLine" id="cb7-17" data-line-number="17"><span class="co">-- This will work, but our type is superfluous.</span></a>
+<a class="sourceLine" id="cb7-18" data-line-number="18"><span class="co">-- We do not want the extra monads to stay in scope.</span></a>
+<a class="sourceLine" id="cb7-19" data-line-number="19"><span class="ot">doubleTheState'' ::</span> <span class="dt">StateT</span> <span class="dt">Int</span> (<span class="dt">ExceptT</span> <span class="dt">String</span> <span class="dt">IO</span>) ()</a>
+<a class="sourceLine" id="cb7-20" data-line-number="20">doubleTheState'' <span class="fu">=</span> <span class="kw">do</span></a>
+<a class="sourceLine" id="cb7-21" data-line-number="21">  x <span class="ot">&lt;-</span> get</a>
+<a class="sourceLine" id="cb7-22" data-line-number="22">  put (<span class="dv">2</span><span class="fu">*</span>x)</a>
+<a class="sourceLine" id="cb7-23" data-line-number="23">  return ()</a>
+<a class="sourceLine" id="cb7-24" data-line-number="24"></a>
+<a class="sourceLine" id="cb7-25" data-line-number="25"><span class="co">-- This WILL WORK.</span></a>
+<a class="sourceLine" id="cb7-26" data-line-number="26"><span class="ot">doubleTheState ::</span> <span class="dt">Monad</span> m <span class="ot">=&gt;</span> <span class="dt">StateT</span> <span class="dt">Int</span> m ()</a>
+<a class="sourceLine" id="cb7-27" data-line-number="27">doubleTheState <span class="fu">=</span> <span class="kw">do</span></a>
+<a class="sourceLine" id="cb7-28" data-line-number="28">  x <span class="ot">&lt;-</span> get</a>
+<a class="sourceLine" id="cb7-29" data-line-number="29">  put (<span class="dv">2</span><span class="fu">*</span>x)</a>
+<a class="sourceLine" id="cb7-30" data-line-number="30">  return ()</a></code></pre></div>
+<h2 id="using-lift-to-abstract">Using lift to abstract</h2>
+<p>The above section showed how you can abstract out the middle layers of the monad stack. What if you want to execute an action in a monad which is somewhere in the middle of the stack, without bothering about any other monads?</p>
+<p>We can use a combination of <code>lift</code> and <code>Monad</code> typeclass.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb8-1" data-line-number="1"><span class="co">-- NOTE: The monads order is flipped from the previous section.</span></a>
+<a class="sourceLine" id="cb8-2" data-line-number="2"><span class="ot">mainFxn ::</span> <span class="dt">ExceptT</span> <span class="dt">Int</span> (<span class="dt">StateT</span> <span class="dt">String</span> <span class="dt">IO</span>) <span class="dt">Bool</span></a>
+<a class="sourceLine" id="cb8-3" data-line-number="3">mainFxn <span class="fu">=</span> <span class="kw">do</span></a>
+<a class="sourceLine" id="cb8-4" data-line-number="4">  <span class="co">-- Functions in the monad at the bottom of the stack (IO here)</span></a>
+<a class="sourceLine" id="cb8-5" data-line-number="5">  <span class="co">-- can be run without any changes.</span></a>
+<a class="sourceLine" id="cb8-6" data-line-number="6">  lift <span class="fu">$</span> lift <span class="fu">$</span> putStrLn <span class="st">&quot;Running function&quot;</span></a>
+<a class="sourceLine" id="cb8-7" data-line-number="7"></a>
+<a class="sourceLine" id="cb8-8" data-line-number="8">  lift doubleTheState <span class="co">-- We can use lift to run this StateT computation</span></a>
+<a class="sourceLine" id="cb8-9" data-line-number="9"></a>
+<a class="sourceLine" id="cb8-10" data-line-number="10">  st <span class="ot">&lt;-</span> lift get <span class="co">-- This requires a lift since StateT is buried one level deep.</span></a>
+<a class="sourceLine" id="cb8-11" data-line-number="11">  <span class="kw">let</span> ret <span class="fu">=</span> <span class="kw">if</span> (st <span class="fu">&gt;</span> <span class="dv">3</span>) <span class="kw">then</span> <span class="dt">True</span> <span class="kw">else</span> <span class="dt">False</span></a>
+<a class="sourceLine" id="cb8-12" data-line-number="12">  return ret</a>
+<a class="sourceLine" id="cb8-13" data-line-number="13"></a>
+<a class="sourceLine" id="cb8-14" data-line-number="14"><span class="co">-- Functions using monads in the middle of the stack need to use the</span></a>
+<a class="sourceLine" id="cb8-15" data-line-number="15"><span class="co">-- (Monad m) type constraint.</span></a>
+<a class="sourceLine" id="cb8-16" data-line-number="16"><span class="ot">doubleTheState ::</span> <span class="dt">Monad</span> m <span class="ot">=&gt;</span> <span class="dt">StateT</span> <span class="dt">Int</span> m ()</a>
+<a class="sourceLine" id="cb8-17" data-line-number="17">doubleTheState <span class="fu">=</span> <span class="kw">do</span></a>
+<a class="sourceLine" id="cb8-18" data-line-number="18">  x <span class="ot">&lt;-</span> get</a>
+<a class="sourceLine" id="cb8-19" data-line-number="19">  put (<span class="dv">2</span><span class="fu">*</span>x)</a>
+<a class="sourceLine" id="cb8-20" data-line-number="20">  return ()</a></code></pre></div>
+<h2 id="monadio">MonadIO</h2>
+<p>This is often the most used abstraction in codes heavy on IO. Imagine if you have to do something like <code>doubleTheState</code> in <a href="#subsecmonadtypeclass">the section on Monad typeclass</a>, but you also need to do IO in that function. Basically, what if you want to do IO without bothering about other enclosing monads?</p>
+<p><a href="https://www.stackage.org/haddock/lts-11.1/base-4.10.1.0/Control-Monad-IO-Class.html">MonadIO</a> is a type constraint which is satisfied by all monads which contain IO somewhere in their monad stack. Thus, <code>StateT Int (ExceptT String IO)</code> satisfies MonadIO, but <code>ExceptT String (State Int)</code> does not.</p>
+<p>This package also provides a helper function <code>liftIO</code>, which applies however many <code>lift s</code> are necessary to execute an IO action in the current monad.</p>
+<p>All this is best explained through examples.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb9-1" data-line-number="1"><span class="kw">import</span>           <span class="dt">Control.Monad.IO.Class</span>         (<span class="dt">MonadIO</span>, liftIO)</a>
+<a class="sourceLine" id="cb9-2" data-line-number="2"><span class="kw">import</span>           <span class="dt">Control.Monad.Trans.Class</span>      (lift)</a>
+<a class="sourceLine" id="cb9-3" data-line-number="3"><span class="kw">import</span>           <span class="dt">Control.Monad.Trans.Except</span></a>
+<a class="sourceLine" id="cb9-4" data-line-number="4"><span class="kw">import</span>           <span class="dt">Control.Monad.Trans.State.Lazy</span></a>
+<a class="sourceLine" id="cb9-5" data-line-number="5"></a>
+<a class="sourceLine" id="cb9-6" data-line-number="6"><span class="co">-- liftIO allows executing IO operations</span></a>
+<a class="sourceLine" id="cb9-7" data-line-number="7"><span class="co">-- inside any monad which satisfies MonadIO.</span></a>
+<a class="sourceLine" id="cb9-8" data-line-number="8"><span class="ot">printer ::</span> <span class="dt">MonadIO</span> m <span class="ot">=&gt;</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> m <span class="dt">Int</span></a>
+<a class="sourceLine" id="cb9-9" data-line-number="9">printer input <span class="fu">=</span> <span class="kw">do</span></a>
+<a class="sourceLine" id="cb9-10" data-line-number="10">  liftIO <span class="fu">$</span> print input <span class="co">-- liftIO can do IO actions</span></a>
+<a class="sourceLine" id="cb9-11" data-line-number="11">  return <span class="fu">$</span> input <span class="fu">+</span> <span class="dv">1</span></a>
+<a class="sourceLine" id="cb9-12" data-line-number="12"></a>
+<a class="sourceLine" id="cb9-13" data-line-number="13"><span class="ot">complexPrinter ::</span> <span class="dt">MonadIO</span> m <span class="ot">=&gt;</span> <span class="dt">ExceptT</span> <span class="dt">String</span> (<span class="dt">StateT</span> <span class="dt">Int</span> m) ()</a>
+<a class="sourceLine" id="cb9-14" data-line-number="14">complexPrinter <span class="fu">=</span> <span class="kw">do</span></a>
+<a class="sourceLine" id="cb9-15" data-line-number="15">  x <span class="ot">&lt;-</span> lift get</a>
+<a class="sourceLine" id="cb9-16" data-line-number="16">  printer x   <span class="co">-- This can be run normally</span></a>
+<a class="sourceLine" id="cb9-17" data-line-number="17">  liftIO <span class="fu">$</span> putStrLn <span class="st">&quot;This works normally&quot;</span></a>
+<a class="sourceLine" id="cb9-18" data-line-number="18">  return ()</a>
+<a class="sourceLine" id="cb9-19" data-line-number="19"></a></code></pre></div>
+<p>Note that with MonadIO, you can write very abstract functions which can be used in other monads without any need of <code>liftIO</code> (for instance, our <code>printer</code> function here).</p>
+<h1 id="appendix">Appendix</h1>
+<h2 id="monads"><span id="subsecmonads"></span>Monads</h2>
+<p>As a quick review, monads are a functional abstraction, developed to help write imperative-style code in Haskell. If you are familiar with monads, feel free to skip this section.</p>
+<p>Some of the things that a monad does are:</p>
+<ul>
+<li>Enforces ordering of statements</li>
+<li>Provides a syntax sugar for carrying a state across functional calls</li>
+<li>Easy short-circuit failure in program blocks which may throw an error</li>
+</ul>
+<p>An example of such a monadic code is:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode haskell"><code class="sourceCode haskell"><a class="sourceLine" id="cb10-1" data-line-number="1"><span class="ot">aFxnWhichFails ::</span> <span class="dt">Maybe</span> <span class="dt">Int</span></a>
+<a class="sourceLine" id="cb10-2" data-line-number="2">aFxnWhichFails <span class="fu">=</span> <span class="kw">do</span></a>
+<a class="sourceLine" id="cb10-3" data-line-number="3">  goodValue <span class="ot">&lt;-</span> <span class="dt">Just</span> <span class="dv">1</span></a>
+<a class="sourceLine" id="cb10-4" data-line-number="4">  thisWillShortCircuit <span class="ot">&lt;-</span> <span class="dt">Nothing</span></a>
+<a class="sourceLine" id="cb10-5" data-line-number="5">  thisStatementWillNotRun <span class="ot">&lt;-</span> <span class="dt">Just</span> <span class="dv">1</span></a>
+<a class="sourceLine" id="cb10-6" data-line-number="6">  return <span class="fu">$</span> <span class="dt">Just</span> <span class="dv">2</span></a></code></pre></div>
+<p>Here, we are executing inside the <code>Maybe</code> monad. The execution breaks-out when it encounters a <code>Nothing</code> value. Similarly, each monad implements a failure case, and a success case.</p>
+<p>Some available monads are:</p>
+<ul>
+<li>Maybe</li>
+<li>Either</li>
+<li>Reader</li>
+<li>State</li>
+<li>Writer</li>
+<li>IO</li>
+</ul>
+<p>IO is a special monad. It basically treats the whole program state as its underlying state, and lets you mutate it. Thus, all impure actions happen inside the IO monad. Printing values, reading values from console, network calls, reading or writing files, all these actions mutate the global state (repeating any of these actions twice may not show the same behaviour). Thus, all these actions are executed inside the IO monad.</p>
+<h2 id="how-to-run-the-examples"><span id="subsechow-to-run"></span>How to run the examples</h2>
+<p>The examples given in this post can be run in any recent <code>ghci</code> easily. I prefer to run them using <code>stack ghci --package transformers</code>. You can also run them by installing the package <code>transformers</code> with cabal, and then using <code>ghci</code>. The examples should also work if placed in a file and run with <code>runhaskell</code> like a regular haskell file.</p>
+<h2 id="performance">Performance</h2>
+<p>Sadly, the performance of monad transformers is not very good. There can be a significant performance hit at times, but it should be noted that most scenarios will have an underlying IO call to the network / file-system, which would often be the bottleneck. When it is not so, and the bottleneck is a non-IO computation refer to the <a href="#secabstraction">abstraction section</a> and convert your computation to a small monadic stack or a pure function.</p>
+<p>The following links contain more information, and may be helpful if you ever run into performance issues due to monad transformers, although it is quite unlikely.</p>
+<ul>
+<li><a href="https://wiki.haskell.org/Performance/Monads" class="uri">https://wiki.haskell.org/Performance/Monads</a></li>
+<li><a href="https://www.reddit.com/r/haskell/comments/1z3d2k/highperformance_monad_transformers_or_equivalent/" class="uri">https://www.reddit.com/r/haskell/comments/1z3d2k/highperformance_monad_transformers_or_equivalent/</a></li>
+<li><a href="https://www.reddit.com/r/haskell/comments/5qpi15/expected_performance_drop_while_using_monad/" class="uri">https://www.reddit.com/r/haskell/comments/5qpi15/expected_performance_drop_while_using_monad/</a></li>
+</ul>
         </div>
         <!-- partial("templates/partials/article_footer.html") -->
     </div>
@@ -222,9 +422,9 @@
  var disqus_developer = 1;
  var disqus_shortname = 'acehack';
  var disqus_config = function () {
-     this.page.url = 'http://acehack.org/2015/07/tty/index.html';
-     this.page.identifier = 'tty-tricks';
-     this.page.title = 'TTY Tricks in Linux';
+     this.page.url = 'http://acehack.org/2018/03/monadt/index.html';
+     this.page.identifier = 'monadt';
+     this.page.title = 'Practical Monad Transformers';
  };
  (function() {
      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;

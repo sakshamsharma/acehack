@@ -145,7 +145,7 @@
   </div>
   <div class="article-info profile-block">
     <div class="article-info-block">
-      <p>38</p>
+      <p>39</p>
       <span>Posts</span>
     </div>
     <div class="article-info-block">
@@ -205,7 +205,7 @@
   </div>
   <div class="article-info profile-block">
     <div class="article-info-block">
-      <p>38</p>
+      <p>39</p>
       <span>Posts</span>
     </div>
     <div class="article-info-block">
@@ -347,7 +347,7 @@ figure {
   </div>
   <div class="article-info profile-block">
     <div class="article-info-block">
-      <p>38</p>
+      <p>39</p>
       <span>Posts</span>
     </div>
     <div class="article-info-block">
@@ -753,6 +753,20 @@ figure {
             </li>
             
             <li class="category-list-item mydata">
+                <a class="category-list-link" href="../tags/monad-transformers.html">
+                  monad-transformers
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../tags/monads.html">
+                  monads
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
                 <a class="category-list-link" href="../tags/mpi.html">
                   mpi
                 </a>
@@ -924,6 +938,34 @@ figure {
             
             <li>
                 <div class="item-thumbnail">
+                    <a href="../2018/03/monadt/index.html" class="thumbnail">
+                    <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+                    <!--     <span style="background-image:url({{ .Params.banner | absURL }})" alt="{{ .Title }}" class="thumbnail-image"></span> -->
+                    <!-- {{else}} -->
+                        <span class="thumbnail-image thumbnail-none"></span>
+                    <!-- {{ end }} -->
+                    </a>
+                </div>
+                <div class="item-inner">
+                    <!-- {{ if isset .Params "categories" }} -->
+                    <!-- {{ if gt (len .Params.categories) 0 }} -->
+                    <!-- <p class="item-category"> -->
+                    <!--     {{ url := printf "%s/%s" "categories" (index .Params.categories 0 | urlize | lower)}} -->
+                    <!--     <a class="article-category-link" href="{{ url | absURL }}"> -->
+                    <!--     {{ index .Params.categories 0 }} -->
+                    <!--     </a> -->
+                    <!-- </p> -->
+                    <!-- {{ end }} -->
+                    <!-- {{ end }} -->
+                    <p class="item-title"><a href="../2018/03/monadt/index.html" class="title">Practical Monad Transformers</a></p>
+                    <p class="item-date">
+                        <time datetime="March 23, 2018" itemprop="datePublished">March 23, 2018</time>
+                    </p>
+                </div>
+            </li>
+            
+            <li>
+                <div class="item-thumbnail">
                     <a href="../2018/03/es-insecure-http/index.html" class="thumbnail">
                     <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
                     <!--     <span style="background-image:url({{ .Params.banner | absURL }})" alt="{{ .Title }}" class="thumbnail-image"></span> -->
@@ -1030,34 +1072,6 @@ figure {
                     <p class="item-title"><a href="../2017/08/googleintern17/index.html" class="title">Interning at Google Seattle</a></p>
                     <p class="item-date">
                         <time datetime="August  5, 2017" itemprop="datePublished">August  5, 2017</time>
-                    </p>
-                </div>
-            </li>
-            
-            <li>
-                <div class="item-thumbnail">
-                    <a href="../2016/12/puppy3/index.html" class="thumbnail">
-                    <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
-                    <!--     <span style="background-image:url({{ .Params.banner | absURL }})" alt="{{ .Title }}" class="thumbnail-image"></span> -->
-                    <!-- {{else}} -->
-                        <span class="thumbnail-image thumbnail-none"></span>
-                    <!-- {{ end }} -->
-                    </a>
-                </div>
-                <div class="item-inner">
-                    <!-- {{ if isset .Params "categories" }} -->
-                    <!-- {{ if gt (len .Params.categories) 0 }} -->
-                    <!-- <p class="item-category"> -->
-                    <!--     {{ url := printf "%s/%s" "categories" (index .Params.categories 0 | urlize | lower)}} -->
-                    <!--     <a class="article-category-link" href="{{ url | absURL }}"> -->
-                    <!--     {{ index .Params.categories 0 }} -->
-                    <!--     </a> -->
-                    <!-- </p> -->
-                    <!-- {{ end }} -->
-                    <!-- {{ end }} -->
-                    <p class="item-title"><a href="../2016/12/puppy3/index.html" class="title">Limiting 'likes' sent anonymously - Part 3</a></p>
-                    <p class="item-date">
-                        <time datetime="December 26, 2016" itemprop="datePublished">December 26, 2016</time>
                     </p>
                 </div>
             </li>

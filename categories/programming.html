@@ -145,7 +145,7 @@
   </div>
   <div class="article-info profile-block">
     <div class="article-info-block">
-      <p>38</p>
+      <p>39</p>
       <span>Posts</span>
     </div>
     <div class="article-info-block">
@@ -205,7 +205,7 @@
   </div>
   <div class="article-info profile-block">
     <div class="article-info-block">
-      <p>38</p>
+      <p>39</p>
       <span>Posts</span>
     </div>
     <div class="article-info-block">
@@ -236,6 +236,81 @@
 </article>
 
 
+
+<article class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+        <!-- <a href="{{ .Permalink }}" itemprop="url"> -->
+        <!--     <img src="{{ .Params.banner | absURL }}" class="article-banner"> -->
+        <!-- {{ end }} -->
+        <!-- </a> -->
+
+        <header class="article-header">
+  <a href="../2018/03/monadt/index.html">
+    <h1 class="article-title" itemprop="name">Practical Monad Transformers</h1>
+  </a>
+  <div class="article-meta">
+    <!-- {{ if not .Params.nodateline }} -->
+    <!-- <div class="article-date"> -->
+    <!--   <i class="fa fa-calendar"></i> -->
+    <!--   <time datetime="{{ .Date }}" itemprop="datePublished">{{ .Date.Format .Site.Params.date_format }}</time> -->
+    <!--   &middot; -->
+    <!--   {{ .WordCount }} -->
+    <!--   {{ with .Site.Data.l10n.articles.words }}{{.}}{{end}} -->
+    <!--   &middot; -->
+    <!--   {{ .ReadingTime }} -->
+    <!--   {{ with .Site.Data.l10n.articles.readingtime }}{{.}}{{end}} -->
+    <!-- </div> -->
+    <!-- {{ end }} -->
+    <!-- {{ if isset .Params "categories" }} -->
+    <!-- {{ categoriesLen := len .Params.categories }} -->
+    <!-- {{ if gt categoriesLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-folder"></i>
+      programming
+    </div>
+    
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
+
+    <!-- {{ if isset .Params "tags" }} -->
+    <!-- {{ tagsLen := len .Params.tags }} -->
+    <!-- {{ if gt tagsLen 0 }} -->
+    
+    <div class="article-category">
+      <i class="fa fa-tags"></i>
+      <a href="../tags/haskell.html">haskell</a>, <a href="../tags/monads.html">monads</a>, <a href="../tags/monad-transformers.html">monad-transformers</a>
+    </div>
+    
+
+    <p style="float:right;">March 23, 2018</p>
+    <!-- {{ end }} -->
+    <!-- {{ end }} -->
+  </div>
+</header>
+
+        <div class="article-entry" itemprop="articleBody">
+            <p>
+                
+                    <h1 id="introduction">Introduction</h1>
+<p>This post will attempt to convey some real-life examples and tricks, which may serve as a quick and dirty primer to monad transformers. In any real-life software written in Haskell or related languages, Monad Transformers are necessary, if you want to take advantage of the various non-IO monads available.</p>
+<p>This post will draw heavily from my recent experience while implementing a blockchain protocol in Haskell.</p>
+...
+                
+            </p>
+            <p class="article-more-link">
+                <a href="../2018/03/monadt/index.html"> Read more </a>
+            </p>
+        </div>
+
+        <footer class="article-footer">
+          
+              Real-code examples of usages.
+          
+        </footer>
+    </div>
+</article>
 
 <article class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
@@ -473,7 +548,7 @@
   </div>
   <div class="article-info profile-block">
     <div class="article-info-block">
-      <p>38</p>
+      <p>39</p>
       <span>Posts</span>
     </div>
     <div class="article-info-block">
@@ -879,6 +954,20 @@
             </li>
             
             <li class="category-list-item mydata">
+                <a class="category-list-link" href="../tags/monad-transformers.html">
+                  monad-transformers
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
+                <a class="category-list-link" href="../tags/monads.html">
+                  monads
+                </a>
+                <!-- <span class="category-list-count">{{ len items }}</span> -->
+            </li>
+            
+            <li class="category-list-item mydata">
                 <a class="category-list-link" href="../tags/mpi.html">
                   mpi
                 </a>
@@ -1050,6 +1139,34 @@
             
             <li>
                 <div class="item-thumbnail">
+                    <a href="../2018/03/monadt/index.html" class="thumbnail">
+                    <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
+                    <!--     <span style="background-image:url({{ .Params.banner | absURL }})" alt="{{ .Title }}" class="thumbnail-image"></span> -->
+                    <!-- {{else}} -->
+                        <span class="thumbnail-image thumbnail-none"></span>
+                    <!-- {{ end }} -->
+                    </a>
+                </div>
+                <div class="item-inner">
+                    <!-- {{ if isset .Params "categories" }} -->
+                    <!-- {{ if gt (len .Params.categories) 0 }} -->
+                    <!-- <p class="item-category"> -->
+                    <!--     {{ url := printf "%s/%s" "categories" (index .Params.categories 0 | urlize | lower)}} -->
+                    <!--     <a class="article-category-link" href="{{ url | absURL }}"> -->
+                    <!--     {{ index .Params.categories 0 }} -->
+                    <!--     </a> -->
+                    <!-- </p> -->
+                    <!-- {{ end }} -->
+                    <!-- {{ end }} -->
+                    <p class="item-title"><a href="../2018/03/monadt/index.html" class="title">Practical Monad Transformers</a></p>
+                    <p class="item-date">
+                        <time datetime="March 23, 2018" itemprop="datePublished">March 23, 2018</time>
+                    </p>
+                </div>
+            </li>
+            
+            <li>
+                <div class="item-thumbnail">
                     <a href="../2018/03/es-insecure-http/index.html" class="thumbnail">
                     <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
                     <!--     <span style="background-image:url({{ .Params.banner | absURL }})" alt="{{ .Title }}" class="thumbnail-image"></span> -->
@@ -1156,34 +1273,6 @@
                     <p class="item-title"><a href="../2017/08/googleintern17/index.html" class="title">Interning at Google Seattle</a></p>
                     <p class="item-date">
                         <time datetime="August  5, 2017" itemprop="datePublished">August  5, 2017</time>
-                    </p>
-                </div>
-            </li>
-            
-            <li>
-                <div class="item-thumbnail">
-                    <a href="../2016/12/puppy3/index.html" class="thumbnail">
-                    <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
-                    <!--     <span style="background-image:url({{ .Params.banner | absURL }})" alt="{{ .Title }}" class="thumbnail-image"></span> -->
-                    <!-- {{else}} -->
-                        <span class="thumbnail-image thumbnail-none"></span>
-                    <!-- {{ end }} -->
-                    </a>
-                </div>
-                <div class="item-inner">
-                    <!-- {{ if isset .Params "categories" }} -->
-                    <!-- {{ if gt (len .Params.categories) 0 }} -->
-                    <!-- <p class="item-category"> -->
-                    <!--     {{ url := printf "%s/%s" "categories" (index .Params.categories 0 | urlize | lower)}} -->
-                    <!--     <a class="article-category-link" href="{{ url | absURL }}"> -->
-                    <!--     {{ index .Params.categories 0 }} -->
-                    <!--     </a> -->
-                    <!-- </p> -->
-                    <!-- {{ end }} -->
-                    <!-- {{ end }} -->
-                    <p class="item-title"><a href="../2016/12/puppy3/index.html" class="title">Limiting 'likes' sent anonymously - Part 3</a></p>
-                    <p class="item-date">
-                        <time datetime="December 26, 2016" itemprop="datePublished">December 26, 2016</time>
                     </p>
                 </div>
             </li>
