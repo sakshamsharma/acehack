@@ -38,7 +38,7 @@ NOTE: These steps are *one time only*.
 
 The above steps yield a docker, which, not only has stack available, but also contains the dependencies of your project pre-built. What's more, if your project choses to use a new version of some dependencies, the builds will not break, they will simply slow down.
 
-Such a docker has been built and pushed to gitlab, under the image name: ~[[https://hub.docker.com/r/sakshamsharma/docker-hakyll/][sakshamsharma/docker-hakyll:v2]]~.
+Such a docker has been built and pushed to dockerhub, under the image name: [[https://hub.docker.com/r/sakshamsharma/docker-hakyll/][sakshamsharma/docker-hakyll:v2]].
 
 ** Implementation: Gitlab CI
 
