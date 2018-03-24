@@ -1,0 +1,53 @@
+------
+title: Speeding up Haskell CI builds with Nix and Docker
+summary: Build required haskell packages in advance for CI
+tags: haskell, docker, nix, CI, devops, hakyll
+category: programming
+id: docker-hakyll-builds
+author: Saksham Sharma
+------
+
+If you've tried to do CI builds of Haskell projects using Travis/Gitlab/Jenkins, you would know the pain of long build times. Haskell builds are infamously slow, and if you require pandoc or gtk or other such large packages, your build may often even timeout on some of the free CIs. Caching makes this better, of course, but it is sometimes difficult to set up, and sometimes it is simply not available/possible.
+
+This is especially irritating if your static blog is written in Hakyll, and is built with CIs (like this one). Hakyll requires pandoc, and most builds end up taking somewhere near an hour. This post will demonstrate a way to massively speed up time-consuming haskell builds like that in a neat way.
+#+BEGIN_EXPORT html
+<!--more-->
+#+END_EXPORT
+
+The answer is, of course, Nix.
+
+** Nix
+
+For those who do not know, [[https://nixos.org/nix][Nix]] is a functional package manager, just like stack for Haskell. It manages dependencies in an immutable region, and links them together as per the versions required. In fact, the stack build tool for Haskell was inspired by Nix.
+
+We do not need to know much about the package manager as such, other than the fact that stack has integration with Nix. This means that stack uses the package manager to manage dependencies, rather than install dependencies inside the project local directory.
+
+** The idea
+
+What if you could pre-build the required dependencies, and reuse them for your actual build? Here are the steps which are executed during the pre-CI phase.
+- Create a docker (base image is irrelevant) which has the ~nix-env~ command for installations.
+- Install stack with the nix package manager.
+- Create a fake haskell / stack project in this docker.
+- Use the same version of stack LTS in this project that you want for your actual CI builds.
+- Let the dependencies to be pre-built be X. Add X to the dependencies of this fake project.
+- Make stack use ~--nix~ by default. This can be done by writing ~nix:\n enable: true~ in ~$HOME/.stack.config.yaml~.
+- Run stack build in this fake project.
+- Push this docker to dockerhub.
+
+NOTE: These steps are *one time only*.
+
+The above steps yield a docker, which, not only has stack available, but also contains the dependencies of your project pre-built. What's more, if your project choses to use a new version of some dependencies, the builds will not break, they will simply slow down.
+
+Such a docker has been built and pushed to gitlab, under the image name: ~[[https://hub.docker.com/r/sakshamsharma/docker-hakyll/][sakshamsharma/docker-hakyll:v2]]~.
+
+** Implementation: Gitlab CI
+
+I have hosted a sample minimal Hakyll project which builds with this technique on Gitlab. The (very short) configuration can be seen [[https://gitlab.com/sakshamsharma/test-hakyll-docker-build/blob/master/.gitlab-ci.yml][here]].
+
+The configuration here is very simple and straighforward, since Gitlab runs all builds inside a docker, and the docker image used can be customized. Since the docker-hakyll image provides ~stack~, the actual build is simply ~stack build && stack site exec build~.
+
+** Implementation: Github and Travis CI
+
+An alternative hosting of my blog builds on Travis using this method, and its configuration is hosted [[https://github.com/sakshamsharma/acehack/blob/4ffb8f359fce94503808aa12ce8d373b86550f19/.travis.yml][here]].
+
+The configuration in this case is (very) slightly trickier, since Github does not allow choosing a docker image to build inside. So we enable docker in the build, mount the project source into the docker, build inside the docker, and then deploy the code (using Github encryption keys et cetera, the usual deploy method to use for building websites on Github).
