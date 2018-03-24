@@ -11,6 +11,8 @@ Calling C from Haskell is easy. Calling Golang from C is easy too. Then why shou
 
 My latest project (in Haskell) required a cryptographic protocol (Verifiable Random Function), whose implementation I could only find in Golang and C. The Golang ones seemed better maintained, self-contained, and understandable. So, I took the easy way out, and wrote a binary using that source code, allowing me to call the binary from Haskell (taking care to marshall the input and output binary data as base64 strings). Of course, this was ugly, and I got a (mostly) satisfying solution working, which did not have to launch a separate process for this simple task.<!--more-->
 
+This post describes the four different ways to link Golang code from Haskell. The code for all four of them, with instructions on how to compile, is available at [github.com/sakshamsharma/ffi-hs-testing](https://github.com/sakshamsharma/ffi-hs-testing). The disqus comments on this post may also be useful.
+
 ## Types of linking
 There are only a handful of ways to link to a library on Linux systems. The major ones are:
 
@@ -186,7 +188,7 @@ $ stack exec ffi
 There is an extra step involved in this case. The generated binary somehow does not want to look in the `golang` folder, and you need to bring the library into the current folder. You could either move it to the project root, or you could run `ln -sf mytest.so .` to create a soft link to the library in the project root.
 
 ### FFI in the Haskell Library: The difficult scenario
-What if you want to do a FFI call inside a Haskell library you're writing? This gets tricky, since `ghc-pkg` does not like relative paths in `extra-lib-dirs`, but this is only when those paths are in the `library` section. Using them in `executables` seems to work just fine, as we saw in the section above.
+What if you want to do a FFI call inside a Haskell library you're writing? This gets tricky, since `ghc-pkg` does not like relative paths in `extra-lib-dirs`, but this is only when those paths are in the `library` section. This is because inserting `.a` files into other `.a` files is not really acceptable in the x86 binary standards. Using them in `executables` seems to work just fine, as we saw in the section above.
 
 #### Dynamically Linking a Haskell Library with a Shared Object File
 This seems to work in almost the same manner as the Linking-a-Haskell-Executable-with-A-Shared-Object. See the above section for details on how to do this.
@@ -206,6 +208,6 @@ Anyhow, this is what I could understand about this:
 * The above behavior is different in the cases of building a haskell executable and a haskell library. This makes me think that this behavior is buggy.
 * IMHO, relative build-time library paths should be allowed, because of such a use case for FFI.
 
-So, currently, I could not find a way to statically link an archive placed in the project folder, to a haskell library. Things may change in the future, as I plan to pursue this as a bug. If you know of a way to get this done, do point it out in the comments below.
+So, currently, I could not find a way to statically link an archive placed in the project folder, to a haskell library. ~~Things may change in the future, as I plan to pursue this as a bug~~. This does not seem to be possible, according to a discussion I had on IRC.
 
 A very relevant (but old) discussion can be found [here](https://github.com/haskell/cabal/issues/1317).
