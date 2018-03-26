@@ -282,6 +282,12 @@ IO is a special monad. It basically treats the whole program state as its underl
 
 The examples given in this post can be run in any recent ~ghci~ easily. I prefer to run them using ~stack ghci --package transformers~. You can also run them by installing the package ~transformers~ with cabal, and then using ~ghci~. The examples should also work if placed in a file and run with ~runhaskell~ like a regular haskell file.
 
+** Conversions between types
+
+One conversion that we have seen till now is ~runStateT~, which converts a computation in a monad transformer to a computation of the underlying monad.
+
+There are various other such conversions, like ~evalStateT~, ~execStateT~, ~mapStateT~, ~withStateT~, and similar ones for other monad transformers. You can look them up on hackage, in the documentation of the package. For instance, the documentation of StateT is available [[https://hackage.haskell.org/package/transformers-0.5.5.0/docs/Control-Monad-Trans-State-Lazy.html][here]].
+
 ** Performance
 
 Sadly, the performance of monad transformers is not very good. There can be a significant performance hit at times, but it should be noted that most scenarios will have an underlying IO call to the network / file-system, which would often be the bottleneck. When it is not so, and the bottleneck is a non-IO computation refer to the [[secabstraction][abstraction section]] and convert your computation to a small monadic stack or a pure function.
