@@ -30,7 +30,7 @@ What if you could pre-build the required dependencies, and reuse them for your a
 - Create a fake haskell / stack project in this docker.
 - Use the same version of stack LTS in this project that you want for your actual CI builds.
 - Let the dependencies to be pre-built be X. Add X to the dependencies of this fake project.
-- Make stack use ~--nix~ by default. This can be done by writing ~nix:\n enable: true~ in ~$HOME/.stack.config.yaml~.
+- Make stack use ~--nix~ by default. This can be done by writing ~nix:\n enable: true~ in ~$HOME/.stack/config.yaml~.
 - Run stack build in this fake project.
 - Push this docker to dockerhub.
 
