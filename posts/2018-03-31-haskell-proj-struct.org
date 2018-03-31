@@ -1,0 +1,146 @@
+------
+title: Structuring your first Haskell project
+summary: Code structure, Toolchain, dependencies, the whole nine yards
+tags: haskell
+category: programming
+id: haskell-proj-struct
+author: Saksham Sharma
+------
+
+Haskell is a tricky language to begin with, with a learning curve somewhat like this:
+#+BEGIN_EXPORT html
+<figure><img src="/images/articles/hs-learn-curve.png" style="width:60%;"/>
+<figcaption style="color: #666666; margin-top:0px;">Source: github.com/Dobiasd/articles</figcaption>
+</figure><br/>
+#+END_EXPORT
+
+There are dozens of really great Haskell tutorials, which teach functional thinking, haskell syntax, type theory. I repeat, they're great. And you can spend hours playing with functional concepts, types et cetera, even when you've gone through only a small subset of the language.
+
+If you read such blogs, you would have been told that ~ghci~ is your best friend. This article will attempt to change that.
+#+BEGIN_EXPORT html
+<!--more-->
+#+END_EXPORT
+
+* The Haskell build system
+
+This article assumes you are already familiar with using GHCi interpreter, and can run simple programs well enough using ghci, or even ~runhaskell~ command. Haskell's compiler (*not* interpreter) is called GHC, which behaves somewhat similarly to GCC when compiling simple programs. Unlike ghci, it is a full fledged compiler, and can be used to build production ready software binaries. Once you know how to create haskell projects, the scope of your haskell programs will increase exponentially. It is also important to understand these concepts, in order to understand pre-existing haskell projects.
+
+** Basic compilation
+
+As an example, save the following code into ~t.hs~ and run the command ~ghc t.hs~
+#+BEGIN_SRC haskell
+  main = do
+    name <- getLine
+    putStrLn $ "Hello " ++ name
+#+END_SRC
+
+This will create a few files: ~[t t.hi t.o]~ apart from the original ~t.hs~ file. You do not need to worry about the ~.o~ and ~.hi~ files. You can run ~./t~ to run your shiny new program. Type your name, and it will greet you.
+
+You now ask, why can't you just do ~runhaskell t.hs~? It behaves similarly, and that's what most people use for toy examples. It basically compiles and runs the program in a single command, and does not create any ugly ~.o~ or ~.hi~ files.
+
+** Build tools
+
+Wait, now we need tools on top of the compiler?
+
+Haskell's build system provides a lot of functionality, and build tools standardize some of it. In C++ world, CMake can be considered a build tool, albeit it is quite free-form as well.
+
+Haskell has two major build tools:
+- [[https://github.com/haskell/cabal][cabal]]: Old and reliable workhorse. It is quite possible that every single post-2010 haskell project uses cabal.
+- [[https://github.com/commercialhaskell/stack][stack]]: New, fancier, and somewhat backwards compatible. Many haskell projects added stack support, thanks to functional / reproduceable builds, and better dependency management.
+
+Stack was developed as a replacement for cabal, although it is almost completely backwards compatible. Both provide similar functionality, but stack was the first to add a clean non-system-level dependency management. Cabal has since added a similar functionality, but we will focus on stack in this article.
+
+To install stack, you can refer to [[https://docs.haskellstack.org/en/stable/README/][their website]], which describes the following command (at the time of writing) for installation:
+#+BEGIN_SRC bash
+wget -qO- https://get.haskellstack.org/ | sh
+#+END_SRC
+
+* Creating your first stack project
+
+Let us now create a fancy new project, which prints different messages depending on the time of the day. Navigate to a folder where you want to create your new project (do not create the folder for the project). Run:
+#+BEGIN_SRC bash
+stack new my-cool-project
+#+END_SRC
+
+This would take some time, the first time around. This is because stack is downloading its own version of GHC (so that it does not conflict with your system installations).
+
+Once it is finished, you should see a new folder of the name ~my-cool-project~. If you enter it, you may see the following folder structure.
+
+#+BEGIN_SRC
+.
+├── app
+│   └── Main.hs
+├── ChangeLog.md
+├── LICENSE
+├── my-cool-project.cabal
+├── package.yaml
+├── README.md
+├── Setup.hs
+├── src
+│   └── Lib.hs
+├── stack.yaml
+└── test
+    └── Spec.hs
+#+END_SRC
+
+Haskell projects conventionally have project names comprising of one word, or two/three small words separated by hyphens.
+
+** File description
+
+Let's talk about these files one by one:
+
+- README.md: The main readme of your project. Make sure you put a nice description of your project in this file.
+
+- stack.yaml: Configuration for stack. Contains instructions about where to download dependencies from, what sort of versions to select etc.
+
+- package.yaml: Your project's build configuration. It lists dependencies of your project, the binaries to build, the libraries to link, runtime commands, build commands etc. More on this in the [[subsecdeps][section on dependencies]]. You should *definitely* edit this file's initial few lines, since they describe your project, and you (its maintainer) in more detail.
+
+- my-cool-project.cabal: File generated from package.yaml by stack, for backwards compatibility. *DO NOT EDIT THIS MANUALLY*. Stack will ignore ~package.yaml~ and use this file, if you edit it manually. It is safe to delete this file, stack will regenerate it automatically.
+
+- LICENSE: The license your project is available under. Remember to write your name inside thie file.
+
+- ChangeLog.md: An optional changelog that you can maintain for your project, to help users during version upgrades.
+
+- Setup.hs: This file can be ignored for now. It allows for very complex build configurations, although is not required in almost all cases.
+
+- app folder: This folder contains your ~main~ function, among other code from your project that will not be useful for people who may import your project as a library. This folder often contains a single file, which launches some function placed inside ~src~, although you are free to put any Haskell code here and use it as it is.
+
+- src folder: This folder often contains the major code of a project. See ~src/Lib.hs~ for an example file. The main function is present in ~app/Main.hs~, which calls the ~someFunc~ function in ~src/Lib.hs~.
+
+- test folder: This folder contains tests for your code. More on this in the [[subsectests][section on writing tests]].
+
+** Running your test project
+
+Before we do this, you should look at the files ~app/Main.hs~ and ~src/Lib.hs~, if you haven't already done so.
+
+Also note, stack does not use anything from your system installation of haskell/ghc/cabal. Thus, we will build and run our program in a slightly different fashion than before.
+
+#+BEGIN_SRC bash
+cd my-cool-project
+stack configure      # This has to be done only once
+stack build
+stack exec my-cool-project-exe
+#+END_SRC
+
+Note that ~my-cool-project-exe~ is the name of your project's executable, which stack will run in the correct environment, where all the configured dependencies etc are available. You can modify some of the code (go do it!), run ~stack build~ and then ~stack exec my-cool-project-exe~ to re-run it.
+
+Quick note: If your project requires CLI arguments to run, you can pass them in this manner: ~stack exec my-cool-project-exe -- arg1 arg2 arg3 ...~. The arguments before ~--~ are interpreted by stack, and the ones after it are passed directly to your binary's environment.
+
+
+*MORE SECTIONS INCOMING*
+
+# * Structuring your code
+
+# ** Modules
+
+# ** Nested Modules
+
+# ** Exports
+
+# * Libraries, tests, and dependency management
+
+# ** <<subsecdeps>> Dependencies
+
+# ** Stackage
+
+# ** <<subsectests>> Writing tests
