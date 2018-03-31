@@ -7,7 +7,7 @@ id: monadt
 author: Saksham Sharma
 ------
 
-This post will attempt to convey some real-life examples and tricks, which may serve as a quick and dirty primer to monad transformers. In any real-life software written in Haskell or related languages, Monad Transformers are necessary, if you want to take advantage of the various non-IO monads available.
+This post will attempt to convey some real-life examples and tricks, which may serve as a quick and dirty primer to monad transformers. In any real-life software written in Haskell or related languages, Monad Transformers are priceless if you want to take advantage of the various non-IO monads available.
 
 This post will draw heavily from my recent experience while implementing a blockchain protocol in Haskell.
 #+BEGIN_EXPORT html
