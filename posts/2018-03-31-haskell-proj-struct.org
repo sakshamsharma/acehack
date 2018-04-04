@@ -1,7 +1,7 @@
 ------
-title: Structuring your first Haskell project
-summary: Code structure, Toolchain, dependencies, the whole nine yards
-tags: haskell
+title: Structuring your first Haskell project with Stack
+summary: Stack 101. Code structure, Toolchain, dependencies, the whole nine yards
+tags: haskell, stack, functional
 category: programming
 id: haskell-proj-struct
 author: Saksham Sharma
@@ -126,21 +126,139 @@ Note that ~my-cool-project-exe~ is the name of your project's executable, which 
 
 Quick note: If your project requires CLI arguments to run, you can pass them in this manner: ~stack exec my-cool-project-exe -- arg1 arg2 arg3 ...~. The arguments before ~--~ are interpreted by stack, and the ones after it are passed directly to your binary's environment.
 
+* Structuring your code
+
+Now that the basics are out of the way, let us look at how to structure Haskell project source code.
+
+** Modules
+
+You write your code in files whose names start with capital letters. Each of these files is called a module. If you have a file ~src/MyFile.hs~, it must look (in the simplest case) like:
+
+#+BEGIN_SRC haskell
+  module MyFile where
+
+  import Data.Text
+  import qualified Control.Monad as M
+
+  fancyFxn :: String -> Bool
+  fancyFxn _ = False
+#+END_SRC
+
+Note that the file name and the module name match exactly, except for the ~.hs~. If they do not match, your code won't build.
+
+Modules are a neat way to organize your code. You can keep related functionality in a single module, which makes it easy to search for functionality around your code.
+
+You can import ~fancyFxn~ in any other file of your project (or any project which depends on your code) by importing it as:
+#+BEGIN_SRC haskell
+  import MyFile                -- Import all exported items in this module
+                               -- or
+  import MyFile (fancyFxn)     -- Only import fancyFxn
+                               -- or
+  import qualified MyFile as M -- Imports fancyFxn as M.fancyFxn and so on
+#+END_SRC
+
+** Nested Modules
+
+What if you want a deeper nesting level? Or, have you wondered how they made a module of the name ~Data.Text~?
+
+Let's say you want a module named ~MyLib.MyFancyLogic~. You need to create a file ~src/MyLib/MyFancyLogic.hs~ with the following as its first line:
+#+BEGIN_SRC haskell
+  module MyLib.MyFancyLogic where
+#+END_SRC
+
+This can be imported in any file using ~import MyLib.MyFancyLogic~ and its variants.
+
+** Exports
+
+The above is all well and good, until you start running into frequent name conflicts. In the format shown above, all modules export all the functions and types defined in them. This is not just annoying, but it also prevents the compiler from optimizing things further. This is because more optimizations are possible while compiling the module, if the compiler knows which functions will not be used in any other external context.
+
+Let's see some exports examples:
+
+#+BEGIN_SRC haskell
+  module MyExports ( SomeTypeWithoutItsFxns
+                   , SomeOtherType(..)
+                   , something
+                   , module MyMinorExports
+                   , MyMajorExports.SomeType(..)
+                   , MyMinorExports.fxnToHandleType
+                   ) where
+
+  import MyMinorExports
+  import MyMajorExports
+
+  data SomeTypeWithoutItsFxns = SomeTypeWithoutItsFxns { unexportedMember1 :: Int
+                                                       , unexportedMember2 :: Bool
+                                                       }
+
+  data SomeOtherType = SomeOtherType { member1 :: Int
+                                     , member2 :: Bool
+                                     }
+
+  something :: Int -> Bool -> SomeTypeWithoutItsFxns
+  something i b = SomeTypeWithoutItsFxns { unexportedMember1 = i
+                                         , unexportedMember2 = b
+                                         }
+#+END_SRC
+
+The items in the bracket (before the ~where~) are the exports. Let's analyze each one of them one by one:
+
+*** SomeTypeWithoutItsFxns
+Notice the definition of ~SomeTypeWithoutItsFxns~. Exporting this will allow other modules to use this type in their type signatures. But remember, the *data constructor* SomeTypeWithoutItsFxns will *not* be available for use. In addition, ~unexportedMember1~ and ~unexportedMember2~ will also not be available. They are called accessor functions, see below.
+
+*** SomeOtherType(..)
+As opposed to the above description, exporting a type/data constructor in this manner will allow using its data constructor, as well as its accessor functions. They allow you to do things like:
+#+BEGIN_SRC haskell
+  f :: SomeOtherType -> Int
+  f myObj = member1 myObj   -- Not the best code, but shows what member1 does.
+#+END_SRC
+
+This is somewhat like ~myObj.member1~ if you are coming from an object oriented background.
+
+*** something
+This will export whatever is defined as ~something~ in this module. It can be a plain value or a function (they're technically the same :smile:).
+
+*** module MyMinorExports
+Writing this in your exports will export *everything exported by MyMinorExports*. That means, if ~MyMinorExports~ exports ~myVal~, everyone who imports ~MyExports~ can also access ~myVal~.
+
+*** MyMajorExports.SomeType(..)
+If ~MyMajorExports~ exports a type ~SomeType~ with its accessor functions, these will all be exported to modules which import ~MyExports~.
+
+*** MyMinorExports.fxnToHandleType
+This is very similar to the export of ~someFxn~, but in this case this function is exported from another module.
 
 *MORE SECTIONS INCOMING*
 
-# * Structuring your code
+* Libraries, tests, and dependency management
 
-# ** Modules
+The haskell language has a very small set of built in functionality. Most other functionality is imported from modules made available through dependencies (external packages). Stack handles that for you very neatly, but it still requires a small amount of effort.
 
-# ** Nested Modules
+** Stackage / Hackage
 
-# ** Exports
+First, let's see how to find functionality which has already been implemented. Let's say we want to generate a random integer. Go to ~stackage.org~ (or ~hackage.org~), and search for random in the search box. The first link says ~package random~. A package is a haskell library / project, which can be used as a dependency. Note the URL of the page after clicking on this link. It should look like: ~https://www.stackage.org/lts-11.3/package/random-1.1~. Here, ~random~ is the name of the package, and ~1.1~ is the version whose documentation is shown here.
 
-# * Libraries, tests, and dependency management
+Before we move on to importing this package, let's take a quick look at a nifty feature of Stackage. Let's say you have a computation in the STM monad (no need to know what it is), and you want to convert it to a computation in the IO monad. A quick though reveals that there should be some function of the type ~STM a -> IO a~. Put this query in the search box of stackage (main page), and it will show something like this:
 
-# ** <<subsecdeps>> Dependencies
+#+BEGIN_SRC haskell
+atomically :: STM a -> IO a
+base    GHC.Conc
+#+END_SRC
 
-# ** Stackage
+Pretty cool!
 
-# ** <<subsectests>> Writing tests
+** <<subsecdeps>> Dependencies
+
+Adding a package as a dependency is very easy. You just go to ~package.yaml~, and add a new line in the ~dependencies~ section. An example of that section is:
+#+BEGIN_SRC yaml
+dependencies:
+- base >= 4.7 && < 5
+- bytestring
+- hspec
+- random
+- unordered-containers
+#+END_SRC
+
+After this, you need to run ~stack build~, and it will automagically download the required dependencies with appropriate versions.
+
+** <<subsectests>> Writing tests
+
+[[https://github.com/sakshamsharma/abstract-network/blob/master/test/Spec.hs][Here is a test I wrote for a project of mine]], for example. You need the ~hspec~ package to write tests in this format. Tests can be run using ~stack test~. Describing the syntax of ~hspec~ is out of the scope of this article, so I urge you to visit the documentation / examples on hspec's website and play with it.
