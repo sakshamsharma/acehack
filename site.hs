@@ -8,6 +8,7 @@ import           Hakyll
 import           Hakyll.Web.Tags       ()
 import qualified System.FilePath.Posix as F
 import           System.IO.Unsafe
+import           Text.Pandoc
 
 data BlogConfig = BlogConfig { root        :: String
                              , protocol    :: String
@@ -134,7 +135,7 @@ main = do
              compile $ do
                simplePageCtx <- ctxWithInfo staticPosts
                let pageCtx = teaserField "teaser" "content" <> postCtx <> simplePageCtx
-               pandocCompiler
+               pandocCompilerWith defaultHakyllReaderOptions withToc
                      >>= saveSnapshot "content"
                      >>= loadAndApplyTemplate "templates/post.html"           pageCtx
                      >>= loadAndApplyTemplate "templates/default.html"        pageCtx
@@ -259,3 +260,9 @@ projectRoute =
 -- | Do not judge me :) I needed these one time.
 debugIO msg result = putStrLn msg >> return result
 debug s r = unsafePerformIO $ debugIO s r
+
+withToc = defaultHakyllWriterOptions
+          { writerTableOfContents = True
+          , writerTemplate        = Just "<div class=\"toc\">$toc$</div>\n$body$"
+          , writerTOCDepth        = 2
+          }
