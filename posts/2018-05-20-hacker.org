@@ -1,0 +1,214 @@
+------
+title: The hacker mentality
+summary: Becoming a hacker while at IITK
+tags: hacking, experience, musings
+category: programming
+id: hacker
+author: Saksham Sharma
+------
+
+#+BEGIN_SRC haskell
+  case (what_are_you_here_for) of
+    HackWhatsApp -> "be gone!"
+    HackFacebook -> "go away!"
+    Else         -> "Hi!"
+#+END_SRC
+
+As I'm about to graduate with a Computer Science and Engineering degree from IIT Kanpur, I have noticed the lack of awareness and direction among many students who could otherwise have become valuable members of the programming and hacker communities. This document should serve the purpose of providing hints and potentially-interesting pursuits, in the general direction of becoming better programmers, coders and hackers.
+#+BEGIN_EXPORT html
+<!--more-->
+#+END_EXPORT
+
+Do note that this article is not intended as a single-read piece. Rather, treat it as a reference for ideas, inspiration, and perhaps as a list of things to read up on. Some sections of this article are definitely intended to be a high level list of subtopics in a particular field, and feel free to skip those parts and come back to them later when required/interested.
+
+* <<sechtbah>> How to become a hacker
+
+** Essential historical citation
+Not mentioning [[http://www.catb.org/esr/faqs/hacker-howto.html#nerd_connection][How To Become A Hacker]] (henceforth: HTBAH article) will be sacrilege in the hacking community. It is incredibly well written, time tested, and is considered the definitive article on the topic. *Read it*, and come back here if you find that you identify with the hacker subculture, or would like to identify with it.
+
+Still here? You should probably bookmark that article for another read a few months later. It deserves it.
+
+** Who is a hacker?
+
+Just in case you've already forgotten what hacker mentality is, I'll take this moment to politely shout loud expletives at you to go back and read the [[sechtbah][the previous section]] again.
+
+Since HTBAH does a great job of explaining what a general hacker is, my own definition of a hacker would be slightly more specific for programmers. A hacker is:
+- A I-can-do-anything person
+- Passionate about programming / computers / related topics
+- Someone unfazed on seeing large pieces of code
+- Not afraid to break things in order to learn more
+- Always trying to build things to simplify tasks
+- Loves learning new things often, and quickly
+
+Some of the above ideas may be acceptable in smaller proportions, but the gist is the passion to build things fearlessly.
+
+Remember, *a hacker is not someone who hacks facebook/whatsapp/someone else's computer*. Those who do those things are *NOT* hackers, we will refer to them as crackers. In this article, we will talk about the real hackers, those who build things from scratch/scraps and those who are passionate about technology.
+
+* Basics
+
+The basics of thinking in the hacker-way can be broken down into the following few items:
+- Learn to program
+- Learn to abstract
+- Use an Open Source Unix distribution (Linux)
+- Improve your English
+
+** Learn to program
+
+Students of most Engineering universities would already know programming in at least one language, thanks to introductory courses in the first year. In my case it was C. But, knowing one language severely limits your ability to think in an abstract fashion (see [[seclearn-to-abstract][the section about abstraction]]).
+
+It is quinessential to know a handful of programming languages. This is a loaded and potentially confusing statement, so let us dive into this.
+
+*** <<sechow-many-langs>> How many languages should you know?
+
+
+There is no need to learn two dozen programming languages. But I strongly believe everyone should be familiar with a few languages. This is so because knowledge of multiple programming languages / paradigms may actually help you program better. In addition, there are languages specialized for certain tasks. Being familiar with more languages implies the ability to choose a better suited language for some task, and being able to read code (written by others) from that domain as well.
+
+Here's a list of languages I find useful:
+- C/C++: Essentially the backbone of the whole systems programming domain. Highly performant, very low level, significant number of possible abstractions. Make it very easy to shoot yourself in the foot.
+- Python: Scripting. Nothing else. Writing small disposable programs, or simple programs which are not performance sensitive. Easy-to-use networking libraries.
+- Haskell: Functional programming at its best. Essentially changes the way you think about programming.
+- JavaScript: However much it pains me to list it here, some basic JS is helpful if you want to read code written by others (too many people write JS), or write almost any meaningful frontend code.
+- Go: Not an essential. Very easy to pick up. Incredibly easy-to-use for cloud/networking/systems code. Much of today's cloud/container revolution is based on open source projects written in Go.
+- Java: If you do not know object oriented programming, you are missing out big time. I do not write Java at all (I write Scala), but I can read it, and it has helped me visualize object oriented concepts very well. I often use these concepts in C++.
+
+*** How much time should you put into a language?
+
+Do not, I repeat, *do not* sit down and read full books on /how to program in X in Y days/, unless you are new to programming. Once you have grasped your first one or two languages well, it is often very easy to move onto a new language. It is embarassingly easy to start writing code in languages like Go, Python or JavaScript if you can program in C/C++.
+
+It may sometimes be difficult to start a new language, especially if you are trying to learn Haskell and the likes. This is because of a major paradigm shift from C in that case. If you are planning to start a small new project, read a bit of Go and then start hacking! You can pick up required ideas as and when you progress through your code and need new features.
+
+I have noticed people spending days reading documentation / books on a particular language / technology for side projects, and thus they never even get to the actual code writing part. It is important to understand that for side-projects, you only need to get a bird's-eye-view of the language's features/style/syntax. The details of these things can be learnt when the need arises. For instance, if you are writing a website-scraper in Python, it makes no sense to learn concurrency or graphics in the beginning. Later on, when you want to speed it up, you can look into threads and concurrency as needed.
+
+Another benefit of this learning-on-the-go style shows up when you're starting to contribute to someone else's code. In that case, there will already be a large volume of code ready for you, and you need to spend time learning syntax of obscure ideas, if your initial aim is only to write a few lines.
+
+All this being said, I do recommend learning a few languages of your choice *in depth*. This means, at some point, you will want to read some blog series or even books (too verbose for me :/ ) on that language to gain a deeper appreciation and to become capable of writing idiomatic and performant code.
+
+*** How can you learn languages without getting confused?
+
+Take a look at this:
+#+NAME: hs-read-fstab
+#+BEGIN_SRC haskell
+  main = do
+    contents <- readFile "/etc/fstab"
+    putStrLn (concat (lines contents))
+#+END_SRC
+
+Can you guess the meaning of the above Haskell program? Being able to understand code from a language you're not familiar with is something that comes with experience. Programming languages are not all that different, and it takes a while to realize that. But do not let that stop you from learning new languages, refer to [[sechow-many-langs][the section about this]] for more details. This skill also comes with the parallel skill of learning to abstract (see [[the learning to abstract section][learn to abstract section]]).
+
+** <<seclearn-to-abstract>> Learn to abstract
+
+A particular skill makes hackers very versatile, whatever be the job. This is generalization or abstraction.
+
+#+BEGIN_QUOTE
+UNIX is very simple, it just needs a genius to understand its simplicity.
+
+-- Dennis Ritchie, created the C language and the UNIX operating system
+#+END_QUOTE
+
+Generalization provides you with a sort of _pattern matching_ skill in real life. It does not require you to be incredibly smart, it comprises of imagination and experience. The idea is to view challenges as puzzles, and your existing / potential skills as pieces which combine to solve the task. The reason I quote Dennis Ritchie above is his philosophy for Unix. Unix has tools which do small tasks well. You combine them together to do great things.
+
+#+BEGIN_SRC sh
+read IN1; echo $IN | tr '[:lower:]' '[:upper:]'
+#+END_SRC
+
+The above command converts a user input string to upper case. It comprises of 3 tools, one to read user input into a variable, one to print that variable, and one to translate characters (in this case, from lower to upper).
+
+Let's take another example. Here we combine a for loop, a find command, a pattern replacement command and a move command, to rename all '.md' files to '.markdown', using just bash:
+#+BEGIN_SRC sh
+  for file in $(find . -name '*.md'); do
+      NEWNAME=$(echo $file | sed 's/\.md/.markdown/g');
+      mv $file $NEWNAME;
+  done
+#+END_SRC
+
+** Use an Open Source Unix distribution (Linux)
+
+I cannot stress this enough. You *have* to use a free and open source distribution to effectively imbibe the hacker mentality. I'll list a few reasons for the same:
+
+- Linux and other UNIX based systems have a lot of low level /knobs and switches/ exposed to the user. This means, you have more to play with.
+- These systems are scripting-friendly. Every software is made with scripting in mind, which means you can automate almost any task. On Windows, most software keep GUI as the primary goal, which makes it very hard to automate, unless the developer has provided that particular automation functionality already.
+- Software development is a first class citizen. This is not so in Windows, where installing libraries is a mammoth task in itself.
+- *nix will make you work on your operating system for various functionality. There are friendlier distributions available as well, but eventually you would want to try something like Arch or Gentoo, and you will realize myriads of hidden layers pertaining to networks, drivers, graphics and so on. This increases your general awareness about what is happening on your machine when you do something, which in turn helps you whenever you need to fiddle with such concepts.
+
+** Improve your English
+
+This may sound out of place, but when you are asking for help / collaborating with others in the programming community (see section on [[seccommunityinter][Community Interaction]]), your language may play the role of an initial first impression. On a related note, it is very helpful to be polite, and also helpful to be understanding about etiquettes. Somehow, English is the de-facto language of the international programming community, and it helps if you can write grammatical sentences. How to achieve that is beyond the scope of this article.
+
+* Specific topics to explore
+
+This section will list down a lot of topics, with lots of subtopics in them. If you feel overwhelmed, skip this section and return to it later and one by one. This section is intended as a reference and not as a story.
+
+** Linux skills / OS knowledge
+
+This is probably a meta topic, which means that it basically encompasses the following two topics as well as some more. You should look at (a random list of topics which come to mind): Scripting, syscalls, what the kernel is (the job of kernel, some terminology), userspace-vs-kernel-space, file systems (mounting, sshfs, FUSE filesystems), window managers (i3/XMonad etc), process management, virtualization (virtualbox for instance), memory management of processes. This is not intended to be an exhaustive list, but the intention is to offer a wide variety of topics to read up on.
+** Scripting skills and knowledge of shell tools
+
+We looked at an example of bash scripting in the section on [[seclearn-to-abstract][learning to abstract]]. Bash scripting is very useful in automating and simplifying regular mundane tasks. For instance, if you are developing a web application and have to repeatedely make HTTP requests of a certain type, you can make a bash function to automatically create the request, given the required parameters ($i is the i'th argument to the function). Example:
+
+#+BEGIN_SRC sh
+  function makereq() {
+      export COOKIE="something"
+      http $1 "localhost:8080$2" $COOKIE ${@:3}
+  }
+#+END_SRC
+
+Now you can use this as ~makereq /health data=hello~, which is much cleaner than writing all the common parts every time. You can write scripts to alert you when your battery is low. If you are monitoring some changes, you can use the ~watch~ command to repeat a command every second or so which could tell you whether your job has finished or not.
+
+Learn how to write some bash. Seriously.
+
+** Networks knowledge
+
+This is something that every programmer should know about, but very few actually do. Some essential topics (read up on them) are: The 4/7 layer OSI model of the internet, IP layer/IP packet, TCP, UDP?, NAT (Network Address Translation), Network Proxies, HTTP, Address allocation (DHCP, static etc), DNS (Domain Name Service).
+
+You may find this link useful (for some other topics as well): [[https://github.com/alex/what-happens-when][what-happens-when]].
+
+** Web development
+
+This, apart from increasing your employability, is also essential for understanding everything going on in the internet / tech industry. What happens when you search for something on Google? It is essential to understand the REST architecture for making websites (web server and frontend separate). Some topics to read: REST, load balancing, HTML templating, difference between PHP-style and REST-style web development, CSS, JavaScript, DOM, web browsers, HTTP request types, HTTP response codes.
+
+Read the [[https://github.com/alex/what-happens-when][what-happens-when]] article as well.
+
+** Programming toolchain
+
+Even though programming is important, the toolchain is important in its own right. The toolchain is basically the set of softwares which convert your program into binaries which can run on your machine. It involves the compiler, linker, assembler, along with extra tools like debuggers (read about GDB). It is helpful to know the jobs of each of them, since that coupled with OS knowledge (syscalls, process management) will give you the full knowledge of how programs run. Having an insight into how exactly a particular piece of code will interact with the system happens to be very useful in various scenarios.
+
+# ** Database knowledge
+# ** Programming paradigms
+# ** Compiler knowledge
+
+* Example tasks
+
+When it comes to hacking, nothing compares to actually punching out code and making things. It is recommended that you find something to build by looking at things you want to have but do not have (in terms of software). Very recently, I gave this advice to a person who promptly came up with an idea to write a scraper for a website he uses, and package that scraper as a chatbot for the telegram chat app.
+
+I'll list a few broad ideas which should help you run your imagination wild. These are just for inspiration, feel free to think of something yourself.
+
+- A simple game. I often recommend making the snake game (snake in a 2D box, move it around, do not hit walls and do not bite the snake's body) in Python, with and without graphics. Making it without graphics is quite difficult too, since then you have to figure out how to draw dynamic images in the terminal.
+- Make a screensaver in a shell (do not use bash, it would be very slow). You could make some fancy animation. Again requires you to find out how to display an 'image' in the terminal.
+- Scrape your favorite website, and use its information somehow (perhaps send an email every time something changes). A friend once made a scraper for a cricket score website, which would send him notifications whenever some special events happened.
+- A simple web service. Who knows, it may be the next facebook.
+- A interpreter/compiler for a simple language. It is very satisfying; writing a compiler often opens new horizons of thinking about programming languages.
+- A social platform, where people could sign up and interact in some manner (keep in mind security and privacy concerns).
+- A package manager (!?) to install, manage and remove packages. Take care not to cause conflicts with your system's own package manager.
+- A specialized file system which can display files in a certain manner (maybe organize music files automatically), or perhaps sync your files to a remote server.
+
+You could also read up on topics like video streaming, graphics, sound/video drivers, and find some more contrived thinigs to build.
+
+* Cyber-Security / Hacking
+
+Interestingly, the skills we have talked about in the above few sections are also very relevant for cyber security applications. Most people who enjoy breaking and building things would also enjoy finding vulnerabilities and flaws in systems. If you find it to be an interesting avenue, you should explore white-hat hacking. White-hat hacking is a legal (in most places) way to combine the fun of hacking with community benefit. It involves finding bugs in web services and applications, and exposing them to the relevant channels. If the organization behind the software runs a 'Bug-bounty' program, you may be rewarded for the bug report. In many cases, the rewards are significant.
+
+Of course, when you are venturing into security applications, keep in mind not to indulge in anything which may be considered illegal, or even playfully wrong. For instance, you are *NOT* allowed to blog about the bug until a certain honest-disclosure period is up. You ought to give the organization a chance to fix the bug before writing about it, or exposing it to the world in any form. If you do that, you will not only forfeit the trust in you but will also expose yourself to legal trouble.
+
+If the above sounds scary, another thing you can look into are CTFs. CTFs, or Capture The Flag contests are hacking contests run online (at least the initial rounds) where participants have to gain access to test services which have bugs left in them, and have to find a flag (a special string) to prove that they obtained the answer. These contests are very intersting and challenging, and help you exercise all the topics mentioned in this article. You can find out about running and upcoming contests at [[https://ctftime.org][ctftime]]. There are lots of websites which can offer practice for such contests as well.
+
+* <<seccommunityinter>> Community interaction
+
+Community interaction is the backbone of the hacker subculture. Many hackers (especially old-school ones) use IRC to communicate, which is short for Internet Relay Chat. It has been around since forever, and it comprises of channels (whose names start with a '#') dedicated to something. For instance, if you are trying to learn Haskell, your first guess for the channel name ~#haskell~ would probably be correct. The easiest way to talk on IRC is to visit [[http://webchat.freenode.net/?nick][freenode's web UI]], where you can join whichever channel you like and talk to people.
+
+IRC does not inherently store messages, so once you log out, you cannot retrieve the logs of the channel. Many channels keep their logs public, and you could perhaps refer to them. This also helps in reading up on past chats in the channel.
+
+Modern alternatives to IRC exist, viz Slack, Gitter etc. Mailing list is another old school alternative. If you are stuck with a project, or need help with a certain topic, you could look up their website to find out where their developers are more likely to respond. Believe me, they do.
+
+As long as you try to phrase your question well, do not beat around the bush, and are not asking help in a homework, IRC / other channels should prove to be very friendly in most cases. They comprise of people who value the project in question, and want to help out users.
+
+In fact, once you gain sufficient experience in a certain field/topic, one way to contribute to the hacker community is to help out fellow hackers on these channels, and by blogging about things which may be helpful for the community.
