@@ -1,6 +1,6 @@
 ------
 title: The hacker mentality
-summary: Becoming a hacker while at IITK
+summary: The good ones. The ones who build stuff, not break them.
 tags: hacking, experience, musings
 category: programming
 id: hacker
