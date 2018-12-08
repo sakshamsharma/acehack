@@ -1,0 +1,173 @@
+------
+title: Templating your class hierarchy partially for testing in C++
+summary: Using basic type-level programming to add templates to only some classes.
+tags: c++, generics
+category: programming
+id: templating-cpp-partial
+author: Saksham Sharma
+------
+
+This article shows how to solve a seemingly tough C++ hierarchy problem with some simple ideas using templates. In short, we will discover the need for ~functions~ which consume and return *types* (obviously such functions only matter at compile time), and see how such functions can be implemented. Basically, the very basics of type level programming.
+
+Such functions can be useful where ~enable_if~ etc do not work, for instance while deciding what class to inherit from.
+
+* The problem
+
+You find yourself with a type hierarchy like this:
+
+#+BEGIN_SRC c++
+  class Cookie {
+    // class with lots of runtime information,
+    // cannot be mocked for unit tests.
+  };
+
+  // This class is forward declared and used all over your codebase.
+  // You cannot modify its interface, or make it an alias since
+  // that will require modifying all your codebase.
+  class CookieMaker {
+   protected:
+    Cookie *cookie = nullptr;
+   public:
+    virtual Cookie* returnItem() = 0;
+  };
+
+  class FancyCookieMaker : public CookieMaker {
+   public:
+    virtual Cookie* returnItem() {
+      if (cookie == nullptr) cookie = new Cookie(...);
+      return cookie;
+    }
+  };
+#+END_SRC
+
+The usage of this happens somewhat like this right now:
+#+BEGIN_SRC c++
+  CookieMaker * maker = static_cast<CookieMaker*>(new FancyCookieMaker());
+#+END_SRC
+
+One day, you decide you need to unit-test your ~FancyCookieMaker~ class. But the fact that it isn't templated, and that ~Cookie~ class is not easily mockable poses a restriction.
+
+* Attempt 1
+
+As mentioned before, adding a template onto CookieMaker isn't an acceptable solution. So let's try avoiding it.
+
+#+BEGIN_SRC c++
+  template<typename CookieT>
+  class FancyCookieMaker : public CookieMaker {
+   public:
+    virtual CookieT* returnItem() {
+      if (cookie == nullptr) cookie = new CookieT();
+      return cookie;
+    }
+  };
+#+END_SRC
+
+Alas, this won't work since the base class has an explicit member of type ~Cookie*~. We can still partially template the returnItem method in the base class, but there's no way to have members declared according to type.
+
+* Attempt 2
+
+Note that we cannot do this:
+
+#+BEGIN_SRC c++
+ using CookieMaker = CookieMakerImpl<Cookie>;
+#+END_SRC
+
+This is because aliases are tough to forward declare and doing this will involve modifying hundreds of files which assume CookieMaker is a class.
+
+I thought of a neat way to fix this issue. It is unsafe, but kinda works.
+
+#+BEGIN_SRC c++
+  template<typename T>
+  class CookieMakerImpl {
+   protected:
+    T *cookie;
+   public:
+    virtual T* returnItem() = 0;
+  };
+
+  class CookieMaker : public CookieMakerImpl<Cookie> {};
+
+  template<typename T>
+  class FancyCookieMaker : public CookieMakerImpl<T> {
+    using CookieMakerImpl<T>::cookie;
+   public:
+    virtual T* returnItem() {
+      if (!cookie) cookie = new T();
+      return cookie;
+    }
+  };
+#+END_SRC
+
+But now, to use this, you need to do either of the following:
+#+BEGIN_SRC c++
+  CookieMaker * maker = reinterpret_cast<CookieMaker*>(new FancyCookieMaker());
+  // or
+  CookieMaker * maker = (CookieMaker*)(new FancyCookieMaker());
+#+END_SRC
+
+This is because ~FancyCookieMaker<Cookie>~ is no longer a derived class of CookieMaker. In fact, these classes are now sibling classes!
+
+Both of them are technically unsafe here. C style case is unsafe by definition, and reinterpret_cast is just a fancy way of doing the same here. The spec of reinterpret_cast does not say that casts like this are allowed.
+
+* Revisiting the problem and writing a type-level function
+
+Notice that what we're trying to achieve here is to decide what class will FancyCookieMaker inherit from. If the type parameter is Cookie, we want to inherit from the CookieMaker class, else we want to inherit from ~CookieMakerImpl<T>~.
+
+In short, we need a function which consumes T, returns ~CookieMaker~ if T is ~Cookie~, else we need to return ~CookieMakerImpl<T>~.
+
+To write a type level function, remember that structs and classes can have typedefs in them. Combining them with template specialization, we have our solution:
+
+#+BEGIN_SRC c++
+  template<typename T>
+  struct ParentClassChooser {
+    typedef CookieMakerImpl<T> ret_type;
+  };
+
+  template<>
+  struct ParentClassChooser<Cookie> {
+    typedef CookieMaker ret_type;
+  };
+#+END_SRC
+
+* Final solution with type level function
+
+#+BEGIN_SRC c++
+  class Cookie {};
+  class MockCookie {};
+
+  template<typename T>
+  class CookieMakerImpl {
+   protected:
+    T *cookie;
+   public:
+    virtual T* returnItem() = 0;
+  };
+
+  class CookieMaker : public CookieMakerImpl<Cookie> {};
+
+  template<typename T> struct ParentClassChooser {
+    typedef CookieMakerImpl<T> ret_type;
+  };
+  template<> struct ParentClassChooser<Cookie> {
+    typedef CookieMaker ret_type;
+  };
+
+  template<typename T>
+  class FancyCookieMaker : public ParentClassChooser<T>::ret_type {
+    using ParentClassChooser<T>::ret_type::cookie;
+   public:
+    virtual T* returnItem() {
+      if (!cookie) cookie = new T();
+      return cookie;
+    }
+  };
+
+  int main() {
+    // To use in your actual code:
+    CookieMaker* x = static_cast<CookieMaker*>(new FancyCookieMaker<Cookie>());
+    // To use in your unit tests of FancyCookieMaker.
+    FancyCookieMaker<MockCookie>* y = new FancyCookieMaker<MockCookie>();
+  }
+#+END_SRC
+
+Notice that now ~static_cast<CookieMaker*>(new FancyCookieMaker())~ will work. In addition, you managed to add a template parameter to your ~FancyCookieMaker~ class without changing the fact that ~CookieMaker~ is still a class and not an alias.
