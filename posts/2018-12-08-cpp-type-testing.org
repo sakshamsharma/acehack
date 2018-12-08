@@ -9,6 +9,10 @@ author: Saksham Sharma
 
 This article shows how to solve a seemingly tough C++ hierarchy problem with some simple ideas using templates. In short, we will discover the need for ~functions~ which consume and return *types* (obviously such functions only matter at compile time), and see how such functions can be implemented. Basically, the very basics of type level programming.
 
+#+BEGIN_EXPORT html
+<!--more-->
+#+END_EXPORT
+
 Such functions can be useful where ~enable_if~ etc do not work, for instance while deciding what class to inherit from.
 
 * The problem
