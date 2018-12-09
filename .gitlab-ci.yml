@@ -1,4 +1,4 @@
-image: sakshamsharma/docker-hakyll:v2
+image: sakshamsharma/docker-hakyll:v3
 
 pages:
   script:

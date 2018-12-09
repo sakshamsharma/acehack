@@ -5,7 +5,7 @@ services:
 before_install:
   - docker pull sakshamsharma/docker-hakyll:v2
 script:
-  - docker run -it -v $PWD:/root/proj --entrypoint "/bin/bash" sakshamsharma/docker-hakyll:v2 -c 'cd /root/proj; stack --allow-different-user build && stack --allow-different-user exec site build'
+  - docker run -it -v $PWD:/root/proj --entrypoint "/bin/bash" sakshamsharma/docker-hakyll:v3 -c 'cd /root/proj; stack --allow-different-user build && stack --allow-different-user exec site build'
   - bash ./build.sh
 env:
   global:

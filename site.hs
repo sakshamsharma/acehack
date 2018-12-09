@@ -1,6 +1,7 @@
 --------------------------------------------------------------------------------
 {-# LANGUAGE OverloadedStrings #-}
 import           Data.Char
+import           Data.List (intersperse)
 import qualified Data.Map              ()
 import           Data.Monoid           ((<>))
 import qualified GHC.IO.Encoding       as E
@@ -8,6 +9,8 @@ import           Hakyll
 import           Hakyll.Web.Tags       ()
 import qualified System.FilePath.Posix as F
 import           System.IO.Unsafe
+import qualified Text.Blaze.Html5                as H
+import qualified Text.Blaze.Html5.Attributes     as A
 import           Text.Pandoc
 
 data BlogConfig = BlogConfig { root        :: String
@@ -101,6 +104,7 @@ main = do
              constField "baseURL" (protocol config ++ "://" ++ root config) <> -- Need this here so we can access it inside for(posts)
              dateField "dateMap" "%Y-%m-%d" <>
              tagsField "tags" tags <>
+             categoryFieldNew "category" cats <>
              teaserField "teaser" "content" <>
              defaultContext
 
@@ -122,6 +126,7 @@ main = do
          compile $ do
            simplePageCtx <- ctxWithInfo staticPosts
            let pageCtx = simplePageCtx <>
+                         categoryFieldNew "category" cats <>
                          constField "showProfile" "" <>
                          listField "posts" postCtx posts
            makeItem ""
@@ -250,6 +255,13 @@ getCustomCat identifier = do
 
 buildCategoriesNew :: MonadMetadata m => Pattern -> (String -> Identifier) -> m Tags
 buildCategoriesNew = buildTagsWith getCustomCat
+
+simpleRenderLink :: String -> (Maybe FilePath) -> Maybe H.Html
+simpleRenderLink _   Nothing         = Nothing
+simpleRenderLink tag (Just filePath) =
+  Just $ H.a H.! A.href (H.toValue $ toUrl filePath) $ H.toHtml tag
+
+categoryFieldNew = tagsFieldWith getCustomCat simpleRenderLink (mconcat . intersperse ", ")
 
 projectRoute :: Routes
 projectRoute =
