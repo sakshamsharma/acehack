@@ -1,0 +1,84 @@
+------
+title: Running i3wm inside Windows Subsystem for Linux (WSL), and other great things
+summary: Good things can run inside evil environments :)
+tags: i3wm, linux, windows
+category: linux
+id: i3-wsl
+author: Saksham Sharma
+------
+
+So yes, this is the first post on this blog with the tag "windows". I happened to buy the Surface Book 2 laptop last year, and somehow felt like giving Windows a try after all this while.
+
+It's been a few months with this setup, and I am surprised at how well it has worked out for someone who once swore by Linux, and never considered using any other distribution. The primary credit for that goes to Windows Subsystem for Linux, and the fact that I can run a full fledged i3wm inside it.
+
+#+BEGIN_EXPORT html
+<!--more-->
+#+END_EXPORT
+
+It is a sort-of software installable on the latest Windows 10, which let's you open up a bash shell in an environment which behaves the same as a Linux system, with all the syscalls, /sys/ or /proc/ mounts we are familiar with (some aren't available). No, it is not a VM. For something so hackish-sounding, it works surprisingly well and is very nearly complete.
+
+* A taster
+Here's something that demonstrates this completeness in a way little else can:
+#+BEGIN_EXPORT html
+<figure><img src="/images/articles/i3-wsl.png" style="width:100%;"/>
+</figure><br/>
+#+END_EXPORT
+
+Yes, this is i3 (with no tweaks to my configuration), and a regular Emacs session running on Windows. And it doesn't even take much effort.
+
+* Steps to get this running
+1. First you need to install a software called MobaXterm on Windows. It lets you open up a Window which can be used as an independent display. The config looks like this:
+   #+BEGIN_EXPORT html
+   <figure><img src="/images/articles/mobaxterm-config.png" style="width:100%;"/>
+   </figure><br/>
+   #+END_EXPORT
+
+2. Now, you need to set up WSL on your Windows box, and install Ubuntu in it (or whichever distro you need, there's quite a few).
+
+3. Open MobaXterm (after the above configuration) and open up a X11 blank window (it should open automatically). If it didn't open up, use the "X server" button in the top right corner. Side note: Things like this is why I hate software with graphical configuration.
+
+4. Open your distro's shell from Windows. In my case, it was Ubuntu. Run the following (or add it to your .bashrc and source it):
+   #+BEGIN_SRC bash
+   export DISPLAY=localhost:0
+   #+END_SRC
+
+5. Install i3 using your distro's installation command. For Ubuntu, it is ~sudo apt install i3~.
+
+6. Run i3 and switch to that (previously blank black) MobaXterm window. I usually start i3 using the following in my shell:
+   #+BEGIN_SRC bash
+   nohup i3 &
+   #+END_SRC
+
+You should now have an i3wm running. You might want to configure Alt to be your primary modifier key instead of the Super key because Windows uses the Super key for a lot of internal shortcuts.
+
+Impressive, isn't it? The performance isn't too bad either. [[https://www.reddit.com/r/bashonubuntuonwindows/comments/92eufd/wsl_performance_compare_to_windows_binary/][It is actually as fast as native Linux]] when doing raw computation, but is a bit slow when doing file operations. There's a few ways online that can speed up the file operations a bit as well.
+
+* Experience
+
+** Things that work
+
+Most of the things you are used to in Linux will work seamlessly without any hiccups. Here's a randomly curated list of things whose correct functioning was a surprise to me:
+
+1. Network ports, SSH port forwarding, and everything else related to hosting web services. You can also access these ports outside the WSL sandbox (from your Chrome running inside Windows).
+
+2. A full fledged X-server alongside a window manager, as we already discussed.
+
+3. Docker. Well some people have managed to make it work natively, I didn't spend enough time doing that. Instead, I launched Docker from Windows, made it listen to TCP, and made my local docker client binary connect to it over TCP. Works well enough, but now your docker is really just a VM. Good enough for me.
+
+4. JVM + Scala, Haskell's GHC, compiling clang from scratch, compiling llvm based tools, GDB, things C++ developers love to do.
+
+5. Tmux and persisting background processes.
+
+6. Emacs / Vim, in all their glory, with no issues whatsoever. Haven't tried any other editors yet.
+
+7. Easy access to files placed in Windows folders.
+
+** Things that don't work
+
+1. Can't run ~nmap~ because some functionality of AF\_SOCKET isn't yet implemented.
+
+2. VPN-provided DNS servers don't refresh reliably when you connect to a VPN. This is a tracked bug, but has its workarounds.
+
+3. Maybe some bugs on the edges I've read about, haven't run into any yet though.
+
+4. That's all I can remember as of now.
