@@ -4,7 +4,9 @@
     $partial("templates/partials/head.html")$
     <script>
       var loc = window.location.href+'';
-      if ((loc.indexOf('http://')==0 && loc.indexOf('localhost') == -1) {
+      if (loc.indexOf('http://')==0 &&
+          (loc.indexOf('sakshamsharma.com') != -1 ||
+           loc.indexOf('acehack.org') != -1)) {
         window.location.href = loc.replace('http://','https://');
       }
     </script>
@@ -13,15 +15,11 @@
     $partial("templates/partials/header.html")$
     <div class="container">
       <div class="outer">
-        $if(showProfile)$
+        $if(showProfile)-$
         $partial("templates/partials/profile.html")$
-        <section id="main">
-          $body$
-        </section>
-        $else$
-        <section id="widemain">
-          $body$
-        </section>
+        <section id="main">$body$</section>
+        $else-$
+        <section id="widemain">$body$</section>
         $endif$
         $partial("templates/partials/sidebar.html")$
       </div>

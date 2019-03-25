@@ -1,6 +1,6 @@
 ------
 title: Running i3wm inside Windows Subsystem for Linux (WSL), and other great things
-summary: Good things can run inside evil environments :)
+summary: Good things can run inside evil environments. Long time Linux user shifting to Windows.
 tags: i3wm, linux, windows
 category: linux
 id: i3-wsl

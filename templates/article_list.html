@@ -5,7 +5,6 @@ $if(showProfile)$
     </div>
 </article>
 $endif$
-
 <style>
   .toc {
     visibility: hidden;
@@ -13,18 +12,18 @@ $endif$
   }
 </style>
 
-$for(posts)$
-<article class="article article-type-post" itemscope="">
+$for(posts)-$
+<article class="article article-type-post">
     <div class="article-inner">
         $partial("templates/partials/article_header.html")$
         <div class="article-entry">
           <div class="article-teaser">
             <p>
-              $if(teaser)$
+              $-if(teaser)-$
                 $teaser$...
-              $else$
+              $-else-$
                 $summary$
-              $endif$
+              $-endif-$
             </p>
           </div>
           <p class="article-more-link">
@@ -33,10 +32,9 @@ $for(posts)$
         </div>
 
         <footer class="article-footer">
-          $if(teaser)$
+          $if(teaser)-$
             $summary$
-          $endif$
-        </footer>
+          $endif$</footer>
     </div>
 </article>
 $endfor$

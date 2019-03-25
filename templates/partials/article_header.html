@@ -3,18 +3,18 @@
     <h1 class="article-title">$title$</h1>
   </a>
   <div class="article-meta">
-    $if(category)$
+    $if(category)-$
     <div class="article-category">
       <i class="fa fa-folder"></i>
       $category$
     </div>
-    $endif$
-    $if(tags)$
+    $endif-$
+    $if(tags)-$
     <div class="article-category">
       <i class="fa fa-tags"></i>
       $tags$
     </div>
-    $endif$
+    $endif-$
     <p style="float:right;"><time datetime="$w3cDate$">$date$</time></p>
   </div>
 </header>
