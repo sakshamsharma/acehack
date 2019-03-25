@@ -125,8 +125,8 @@ main = do
          route idRoute
          compile $ do
            simplePageCtx <- ctxWithInfo staticPosts
-           let pageCtx = simplePageCtx <>
-                         constField "title" "Home" <>
+           let pageCtx = constField "title" "Home" <>
+                         simplePageCtx <>
                          constField "summary" "Saksham Sharma's Blog" <>
                          categoryFieldNew "category" cats <>
                          constField "showProfile" "" <>
