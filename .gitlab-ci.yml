@@ -4,6 +4,7 @@ pages:
   script:
     - stack build
     - stack exec site build
+    - gzip -k -6 $(find public -type f)
   after_script:
     - mv _site public
   artifacts:
