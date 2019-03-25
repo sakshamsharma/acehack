@@ -7,10 +7,32 @@ id: haskell-proj-struct
 author: Saksham Sharma
 ------
 
+#+BEGIN_EXPORT html
+<style>
+#container {
+    text-align: center;
+}
+a, figure {
+    display: inline-block;
+}
+figcaption {
+    margin: 10px 0 0 0;
+    font-variant: small-caps;
+    font-family: Arial;
+    font-weight: bold;
+    color: #bb3333;
+    text-align: center;
+}
+figure {
+    padding: 5px;
+}
+</style>
+#+END_EXPORT
+
 Haskell is a tricky language to begin with, with a learning curve somewhat like this:
 #+BEGIN_EXPORT html
-<figure><img src="/images/articles/hs-learn-curve.png" style="width:60%;"/>
-<figcaption style="color: #666666; margin-top:0px;">Source: github.com/Dobiasd/articles</figcaption>
+<figure><img src="/images/articles/hs-learn-curve.png" style="width:60%;" alt="A funny take on how every Haskell programmer progresses through the language."/>
+<figcaption>Source: github.com/Dobiasd/articles</figcaption>
 </figure><br/>
 #+END_EXPORT
 

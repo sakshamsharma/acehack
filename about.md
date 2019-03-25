@@ -2,9 +2,10 @@
 title: About
 name: About
 image: /images/me2.jpg
+summary: About the author
 ---
 
-I'm Saksham Sharma as is obvious. A pre-final year undergrad armed with a Laptop; Tall, Lanky and over-energetic punjabi guy, that's me.
+I'm Saksham Sharma, a graduate in Computer Science and Engineering from IIT Kanpur, class of 2018. I'm currently working as a Low Latency Software Developer in the Limestone trading team at Tower Research Capital. Much of the subsequent text is out of date on this particular page though :)
 
 I used to be a super studious guy till class 12, and cleared my JEE (yes, THE exam in India), with national ranks of 10 and 138 in Mains and Advanced respectively, though I would've loved the opposite pair. Anyhow, that landed me at IIT Kanpur, a decision I'll never regret.
 

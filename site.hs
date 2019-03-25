@@ -126,6 +126,8 @@ main = do
          compile $ do
            simplePageCtx <- ctxWithInfo staticPosts
            let pageCtx = simplePageCtx <>
+                         constField "title" "Home" <>
+                         constField "summary" "Saksham Sharma's Blog" <>
                          categoryFieldNew "category" cats <>
                          constField "showProfile" "" <>
                          listField "posts" postCtx posts
@@ -157,6 +159,7 @@ main = do
              let pageCtx = simplePageCtx <>
                            constField "showProfile" "lala" <>
                            constField "title" pagetitle <>
+                           constField "summary" ("Filtered items, " ++ pagetitle) <>
                            constField "pagetitle" pagetitle <>
                            listField "posts" (postCtx <> constField "pagetitle" pagetitle) (return lessPosts)
              makeItem ""

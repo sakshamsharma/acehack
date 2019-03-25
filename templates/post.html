@@ -1,14 +1,9 @@
 <article id="page-undefined" class="article article-type-page" itemscope="" itemprop="blogPost">
     <div class="article-inner">
-        <!-- {{ if and (isset .Params "banner") (not (eq .Params.banner "")) }} -->
-        <!--     <img src="{{ .Params.banner | absURL }}" class="article-banner"> -->
-        <!-- {{ end }} -->
-
         $partial("templates/partials/article_header.html")$
         <div class="article-entry" itemprop="articleBody">
           $body$
         </div>
-        <!-- partial("templates/partials/article_footer.html") -->
     </div>
 
     <!-- {{ partial "prev_next_post" . }} -->
