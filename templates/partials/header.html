@@ -10,9 +10,7 @@
       <nav id="main-nav">
         <a class="main-nav-link" href="/">Home</a>
         <a class="main-nav-link" href="/about">About</a>
-        $for(links)$
-        <a class="main-nav-link" href="$linkurl$">$linkname$</a>
-        $endfor$
+        $for(links)$<a class="main-nav-link" href="$linkurl$">$linkname$</a>$endfor$
       </nav>
       <div id="search-form-wrap">
         <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form">
@@ -30,21 +28,6 @@
           <tr>
           <td><a class="main-nav-link" href="/">Home</a></td>
           <td><a class="main-nav-link" href="/about">About</a></td>
-        <!--   {{ range .Site.Params.menu }} -->
-        <!--   {{ if .before }} -->
-        <!--   <td><a class="main-nav-link" href="{{ .link | absURL }}">{{ .label }}</a></td> -->
-        <!--   {{ end }} -->
-        <!--   {{ end }} -->
-
-        <!--   {{ range .Site.Menus.main }} -->
-        <!--   <td><a class="main-nav-link" href="{{ .URL }}">{{ .Name }}</a></td> -->
-        <!--   {{ end }} -->
-
-        <!--   {{ range .Site.Params.menu }} -->
-        <!--   {{ if not .before }} -->
-        <!--   <td><a class="main-nav-link" href="{{ .link  | absURL }}">{{ .label }}</a></td> -->
-        <!--   {{ end }} -->
-        <!--   {{ end }} -->
           <td>
           <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form">
           <input type="search" name="q" class="search-form-input" placeholder="Search">

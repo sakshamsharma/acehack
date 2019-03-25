@@ -13,28 +13,19 @@
     $partial("templates/partials/header.html")$
     <div class="container">
       <div class="outer">
-
         $if(showProfile)$
-
         $partial("templates/partials/profile.html")$
         <section id="main">
           $body$
         </section>
-
         $else$
-
         <section id="widemain">
           $body$
         </section>
-
         $endif$
-
         $partial("templates/partials/sidebar.html")$
-
       </div>
     </div>
     $partial("templates/partials/footer.html")$
-<!-- {{ partial "footer_js" . }} -->
-<!-- {{ partial "footer_custom_js" . }} -->
   </body>
 </html>

@@ -7,26 +7,6 @@ id: google-intern-17
 author: Saksham Sharma
 ------
 
-<style>
-#container {
-    text-align: center;
-}
-a, figure {
-    display: inline-block;
-}
-figcaption {
-    margin: 10px 0 0 0;
-    font-variant: small-caps;
-    font-family: Arial;
-    font-weight: bold;
-    color: #bb3333;
-    text-align: center;
-}
-figure {
-    padding: 5px;
-}
-</style>
-
 Now that I'm back from the US, the extravaganza that is Google, reminiscing back to those days has made me finally decide to pen down my experience in the Cloud city, working on Cloud.
 
 For context, I interned at Google Seattle, the third largest Google office in the US. The Seattle <!--more--> area is home to Amazon and Microsoft's sprawling offices. Microsoft, Amazon and Google (in that order) being the biggest players in the cloud market these days, Seattle has somehow become, what you could call, "the cloud city".

@@ -1,7 +1,7 @@
 --------------------------------------------------------------------------------
 {-# LANGUAGE OverloadedStrings #-}
 import           Data.Char
-import           Data.List (intersperse)
+import           Data.List (intersperse, isSuffixOf)
 import qualified Data.Map              ()
 import           Data.Monoid           ((<>))
 import qualified GHC.IO.Encoding       as E
@@ -38,7 +38,7 @@ config = BlogConfig
   , bio = "Programmer."
   , author = "Saksham Sharma"
   , email = "saksham0808@gmail.com"
-  , description = "Reveries of a programmer"
+  , description = "Saksham Sharma's blog on programming, linux, and computer science."
   , profilePic = "https://avatars3.githubusercontent.com/u/10418596?v=3&s=460"
   }
 
@@ -101,12 +101,13 @@ main = do
        cats <- buildCategoriesNew postPattern (fromCapture "categories/*.html")
 
        let postCtx = dateField "date" "%B %e, %Y" <>
+             dateField "w3cDate" "%Y-%m-%d" <>
              constField "baseURL" (protocol config ++ "://" ++ root config) <> -- Need this here so we can access it inside for(posts)
              dateField "dateMap" "%Y-%m-%d" <>
              tagsField "tags" tags <>
              categoryFieldNew "category" cats <>
              teaserField "teaser" "content" <>
-             defaultContext
+             customDefaultContext
 
        let ctxWithInfo = fmap $ \rawposts ->
              constField "blogTitle" (title config) <>
@@ -119,7 +120,7 @@ main = do
              listField "recentPosts" postCtx recentPosts <>
              listField "links" linkCtx (mapM makeItem links) <>
              constField "postCount" (show $ length rawposts) <>
-             defaultContext
+             customDefaultContext
 
        create ["index.html"] $ do
          route idRoute
@@ -127,7 +128,7 @@ main = do
            simplePageCtx <- ctxWithInfo staticPosts
            let pageCtx = constField "title" "Home" <>
                          simplePageCtx <>
-                         constField "summary" "Saksham Sharma's Blog" <>
+                         constField "summary" (description config) <>
                          categoryFieldNew "category" cats <>
                          constField "showProfile" "" <>
                          listField "posts" postCtx posts
@@ -281,3 +282,14 @@ withToc = defaultHakyllWriterOptions
           , writerTemplate        = Just "<div class=\"toc\">$toc$</div>\n$body$"
           , writerTOCDepth        = 2
           }
+
+customDefaultContext :: Context String
+customDefaultContext =
+  (field "strip_url" $ fmap (maybe "" (removeIndexHtml . toUrl)) . getRoute . itemIdentifier) <>
+  defaultContext
+  where removeIndexHtml :: String -> String
+        removeIndexHtml url_in =
+          if (strToRemove `isSuffixOf` url_in) then
+            take (length url_in - length strToRemove) url_in
+          else url_in
+        strToRemove = "index.html"

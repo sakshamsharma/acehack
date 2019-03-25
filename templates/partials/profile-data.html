@@ -2,7 +2,8 @@
   <div class="base-info profile-block">
     <h2 id="name">$author$</h2>
     <h3 id="title">$bio$</h3>
-    <img id="avatar" style="border-radius: 1000px;" src="$profilePic$"/>
+    <img id="avatar" style="border-radius: 1000px;"
+         src="$profilePic$" alt="Saksham Sharma"/>
   </div>
   <div class="article-info profile-block">
     <div class="article-info-block">
@@ -17,9 +18,7 @@
   <div class="profile-block social-links">
     <table>
       <tr>
-        $for(links)$
-        <td><a href="$linkurl$" target="_blank" title="$linkname$"><i class="fa $linkicon$"></i></a></td>
-        $endfor$
+        $for(links)$<td><a href="$linkurl$" target="_blank" title="$linkname$"><i class="fa $linkicon$"></i></a></td>$endfor$
       </tr>
     </table>
   </div>

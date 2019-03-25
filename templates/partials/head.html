@@ -8,25 +8,32 @@
       content="$if(summary)$$summary$$else$$title$$endif$">
 
 <meta name="author" content="Saksham Sharma">
-<meta name="keywords" content="acehack, coding, programming, linux, webdev, hakyll">
+<meta name="copyright" content="Copyright owner" />
+<meta name="robots" content="follow"/>
+<meta name="keywords" content="acehack, coding, programming, linux, webdev, hakyll, haskell, cpp, c++, google, internship, saksham, iitk, iit kanpur, saksham sharma">
 <meta name="google-site-verification" content="IzcD_RchrwbcaGV-YUVFLe4XKgSze1wi_WzHVQawcZA" />
 
-<!-- <link rel="canonical" href="{{ .Permalink }}"/> -->
+<link rel="canonical" href="$baseURL$$strip_url$"/>
 <link href="/rss.xml" rel="alternate" type="application/rss+xml" title="AceHack: Saksham Sharma's Blog" />
 <link rel="icon" href="/favicon.ico">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
 <link rel="stylesheet" href="/css/style.css">
 <link rel="stylesheet" href="/css/font-awesome.min.css">
-<link rel="stylesheet" href="/css/monokai.css">
 <link rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/solarized-light.min.css">
 
-<script src="/js/highlight/highlight.pack.js"></script>
+<script async src="/js/highlight/highlight.pack.js"></script>
 <script>hljs.initHighlightingOnLoad();</script>
+
 <link href='https://fonts.googleapis.com/css?family=Open+Sans:400italic,400,600' rel='stylesheet' type='text/css'>
 <link href='https://fonts.googleapis.com/css?family=Source+Code+Pro' rel='stylesheet' type='text/css'>
 
-$partial("templates/partials/head_custom.html")$
+<script async src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 
-<!-- needs to be loaded first for following scripts -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-88802609-2"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'UA-88802609-2');
+</script>

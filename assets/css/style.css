@@ -2216,3 +2216,22 @@ ol.toc {
 .highlight .code .selector-id {
   font-weight: bold;
 }
+
+/* Custom styles */
+#container {
+    text-align: center;
+}
+a, figure {
+    display: inline-block;
+}
+figcaption {
+    margin: 10px 0 0 0;
+    font-variant: small-caps;
+    font-family: Arial;
+    font-weight: bold;
+    color: #bb3333;
+    text-align: center;
+}
+figure {
+    padding: 5px;
+}

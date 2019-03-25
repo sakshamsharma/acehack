@@ -1,44 +1,20 @@
 <header class="article-header">
   <a href="$url$">
-    <h1 class="article-title" itemprop="name">$title$</h1>
+    <h1 class="article-title">$title$</h1>
   </a>
   <div class="article-meta">
-    <!-- {{ if not .Params.nodateline }} -->
-    <!-- <div class="article-date"> -->
-    <!--   <i class="fa fa-calendar"></i> -->
-    <!--   <time datetime="{{ .Date }}" itemprop="datePublished">{{ .Date.Format .Site.Params.date_format }}</time> -->
-    <!--   &middot; -->
-    <!--   {{ .WordCount }} -->
-    <!--   {{ with .Site.Data.l10n.articles.words }}{{.}}{{end}} -->
-    <!--   &middot; -->
-    <!--   {{ .ReadingTime }} -->
-    <!--   {{ with .Site.Data.l10n.articles.readingtime }}{{.}}{{end}} -->
-    <!-- </div> -->
-    <!-- {{ end }} -->
-    <!-- {{ if isset .Params "categories" }} -->
-    <!-- {{ categoriesLen := len .Params.categories }} -->
-    <!-- {{ if gt categoriesLen 0 }} -->
     $if(category)$
     <div class="article-category">
       <i class="fa fa-folder"></i>
       $category$
     </div>
     $endif$
-    <!-- {{ end }} -->
-    <!-- {{ end }} -->
-
-    <!-- {{ if isset .Params "tags" }} -->
-    <!-- {{ tagsLen := len .Params.tags }} -->
-    <!-- {{ if gt tagsLen 0 }} -->
     $if(tags)$
     <div class="article-category">
       <i class="fa fa-tags"></i>
       $tags$
     </div>
     $endif$
-
-    <p style="float:right;">$date$</p>
-    <!-- {{ end }} -->
-    <!-- {{ end }} -->
+    <p style="float:right;"><time datetime="$w3cDate$">$date$</time></p>
   </div>
 </header>
